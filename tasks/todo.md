@@ -1,3 +1,18 @@
+# User readiness continuation — 2026-10-15
+
+- [x] Rename owner repository Machine-Learning-Based-System-for-Cardiopulmonary-Sound-Separation to StethoFuse; update local remotes and current operational links.
+- [x] Match the public home page to the approved Frost/Midnight dashboard theme and correct obsolete public capability copy.
+- [x] Resume genuine owl arrival, wing motion, landing, and handoff to approved pointer following; verify accessibility, lifecycle, and asset quality.
+- [x] Persist private profile photos, actual metadata export and confirmed permanent owned-data deletion; document provider/restore dependencies.
+- [x] Connect in-app processing, review and sharing updates, per-account read receipts and notification preferences. Owner selected in-app delivery only.
+- [x] Verify production/UX builds, 195 backend tests plus 26 subtests, 8 account browser flows, 5 owl groups, 8 client checks and both-theme mobile/desktop layouts.
+- [ ] Qualify exact API/web images and coordinate the StethoFuse recovery-profile update, isolated application cutover and refreshed verified snapshot. Host freeze is released.
+
+See `docs/USER_READINESS_20261015.md` and its machine-readable evidence. These
+current results supersede the dated avatar/lifecycle/notification/flight gates below.
+Handle login, provider linking and physical microphone/clinical qualification remain
+separate work. Full audio ZIP export is not claimed by the metadata download.
+
 # Frost Studio completion and release — owner continuation2October2026
 
 - [x] Recheck permissions, clean nested HEADs, GitHub ASHRAF-2004, existing PR9/2.

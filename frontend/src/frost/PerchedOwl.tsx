@@ -1,11 +1,14 @@
 import { useEffect, useRef } from "react";
 import { createOwlSurface } from "../components/owlSurface";
 import { OwlEyeMaterial } from "./OwlEyeMaterial";
+import {isOwlArriving,useOwlArrival} from '../components/owlArrival';
 
 /** Reuses the approved connected-neck renderer without the live auth provider. */
 export function PerchedOwl({reducedMotion=false}:{reducedMotion?:boolean}) {
   const ref = useRef<HTMLDivElement>(null),
     canvas = useRef<HTMLCanvasElement>(null);
+  const arrival=useRef<HTMLCanvasElement>(null);
+  useOwlArrival(ref,arrival,!reducedMotion);
   useEffect(() => {
     const element = ref.current!,
       layer = canvas.current!;
@@ -42,6 +45,7 @@ export function PerchedOwl({reducedMotion=false}:{reducedMotion?:boolean}) {
         frame = requestAnimationFrame(tick);
     };
     const pointer = (event: PointerEvent) => {
+      if(isOwlArriving(element))return;
       const bounds = element.getBoundingClientRect();
       let x =
           (event.clientX - bounds.left - bounds.width * 0.428) /
@@ -87,6 +91,7 @@ export function PerchedOwl({reducedMotion=false}:{reducedMotion?:boolean}) {
     window.addEventListener("pointermove", pointer, { passive: true });
     document.addEventListener("pointerleave", leave);
     motion.addEventListener("change", changed);
+    element.addEventListener('sf-owl-arrived',wake);
     return () => {
       disposed = true;
       abort.abort();
@@ -95,6 +100,7 @@ export function PerchedOwl({reducedMotion=false}:{reducedMotion?:boolean}) {
       window.removeEventListener("pointermove", pointer);
       document.removeEventListener("pointerleave", leave);
       motion.removeEventListener("change", changed);
+      element.removeEventListener('sf-owl-arrived',wake);
     };
   }, [reducedMotion]);
   return (
@@ -113,6 +119,7 @@ export function PerchedOwl({reducedMotion=false}:{reducedMotion?:boolean}) {
         height={1353}
       />
       <canvas ref={canvas} width={336} height={391} />
+      <canvas className="owl-arrival" ref={arrival} width={1} height={1} hidden/>
     </div>
   );
 }

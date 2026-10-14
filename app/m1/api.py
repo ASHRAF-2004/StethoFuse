@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from contextlib import asynccontextmanager
-from typing import Literal
+from typing import Annotated, Literal
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request, Response
 from fastapi.responses import JSONResponse, StreamingResponse
@@ -82,10 +82,22 @@ class PreferencesBody(StrictBody):
     preferences: dict = Field(default_factory=dict)
 
 
-def envelope(user, separation=False):
+class DeleteAccountBody(StrictBody):
+    confirmation: Literal["DELETE"]
+    confirmed_account_reference: str = Field(min_length=1,max_length=32)
+
+
+class NotificationReadBody(StrictBody):
+    ids: list[Annotated[str, Field(min_length=1,max_length=200)]] = Field(max_length=30)
+
+
+def envelope(user, separation=False, deletion=False):
     return {"user": user, "mode": "live", "capabilities": {
         "recordings": True, "sharing": True, "reviews": user["role"] == "audio_analyst",
         "admin": user["role"] == "admin", "ensemble": False, "separation": separation,
+        "profile_avatar": True, "account_metadata_export": True,
+        "account_deletion": deletion,
+        "in_app_notifications": True,
     }}
 
 
@@ -105,6 +117,13 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
             store = M1Store(settings.database)
             store.initialize()
             app.state.store = store
+            # Resume only already confirmed, journalled removals after a restart.
+            # Provider credentials are never journalled or replayed.
+            for user_id in store.pending_account_deletions():
+                try:
+                    store.finish_account_deletion(user_id,settings.private_storage)
+                except HTTPException:
+                    pass
             if verifier is None:
                 try:
                     app.state.verifier = configured_verifier(settings)
@@ -205,19 +224,62 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     @app.post("/api/auth/session")
     def session(_body: SessionBody, who=Depends(identity), store=Depends(database)):
         store.register_verified_identity(who)
-        return envelope(store.me(who), settings.separation_enabled)
+        return envelope(store.me(who), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)))
 
     @app.get("/api/auth/me")
     def me(who=Depends(principal), store=Depends(database)):
-        return envelope(store.me(who), settings.separation_enabled)
+        return envelope(store.me(who), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)))
 
     @app.patch("/api/auth/me")
     def profile(body: ProfileBody, who=Depends(principal), store=Depends(database)):
-        return envelope(store.update_profile(who, body.display_name, body.handle), settings.separation_enabled)
+        return envelope(store.update_profile(who, body.display_name, body.handle), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)))
 
     @app.get("/api/preferences")
     def preferences(who=Depends(principal), store=Depends(database)):
         return {"preferences": store.preferences(who)}
+
+    @app.get("/api/auth/me/avatar")
+    def avatar(who=Depends(principal), store=Depends(database)):
+        return {"avatar": store.avatar(who)}
+
+    @app.put("/api/auth/me/avatar")
+    async def save_avatar(request: Request, who=Depends(principal), store=Depends(database)):
+        if request.headers.get("content-type", "").split(";")[0] != "image/png":
+            raise failure(415, "invalid_avatar", "Use a cropped PNG profile picture.")
+        data=bytearray()
+        async for chunk in request.stream():
+            data.extend(chunk)
+            if len(data)>300_000:
+                raise failure(413, "avatar_too_large", "The profile picture is too large.")
+        return {"avatar": store.avatar(who, bytes(data))}
+
+    @app.delete("/api/auth/me/avatar", status_code=204)
+    def remove_avatar(who=Depends(principal), store=Depends(database)):
+        store.avatar(who, remove=True)
+        return Response(status_code=204)
+
+    @app.get("/api/account/export")
+    def export_account(who=Depends(principal), store=Depends(database)):
+        return JSONResponse(store.export_metadata(who), headers={"Content-Disposition": 'attachment; filename="stethofuse-account-metadata.json"'})
+
+    @app.post("/api/account/delete")
+    def delete_account(body: DeleteAccountBody,request:Request,who=Depends(principal),store=Depends(database)):
+        remove=getattr(request.app.state.verifier,"delete_self",None)
+        if not callable(remove):
+            raise failure(503,"deletion_unavailable","Account deletion is not configured on this server.")
+        user_id=store.request_account_deletion(who,body.confirmed_account_reference)
+        store.finish_account_deletion(user_id,settings.private_storage)
+        confirmed=False
+        try:
+            token=request.headers["authorization"].partition(" ")[2]
+            remove(token,confirmed_uid=who.uid)
+            confirmed=True
+        except (AuthenticationDenied,ProviderUnavailable):
+            # Live data is gone and UID access remains closed. Be explicit about
+            # independent provider removal rather than claiming remote success.
+            pass
+        store.record_provider_deletion(user_id,confirmed)
+        return {"live_data_deleted":True,"provider_account_deleted":confirmed,"backup_copies":"expire_under_existing_backup_retention"}
 
     @app.patch("/api/preferences")
     def update_preferences(body: PreferencesBody, who=Depends(principal), store=Depends(database)):
@@ -229,6 +291,14 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     @app.get("/api/recordings")
     def recordings(who=Depends(principal), store=Depends(database)):
         return {"items": store.recordings(who)}
+
+    @app.get("/api/notifications")
+    def notifications(who=Depends(principal),store=Depends(database)):
+        return store.notifications(who)
+
+    @app.post("/api/notifications/read")
+    def read_notifications(body:NotificationReadBody,who=Depends(principal),store=Depends(database)):
+        return store.notifications(who,read_ids=body.ids)
 
     @app.post("/api/recordings", status_code=201)
     async def upload(request: Request, who=Depends(principal), store=Depends(database)):

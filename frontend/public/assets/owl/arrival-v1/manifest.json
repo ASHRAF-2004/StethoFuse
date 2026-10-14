@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "tool": "built-in image_gen",
+  "originalsUnchanged": true,
+  "rejectedAtlasFrames": [
+    1,
+    5
+  ],
+  "poses": {
+    "atlas-0": {
+      "asset": "atlas",
+      "rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "eyes": [
+        253.6744695898161,
+        245.74978783592644
+      ],
+      "eyeSpan": 54.27963224893915,
+      "bounds": [
+        53,
+        75,
+        461,
+        441
+      ]
+    },
+    "atlas-2": {
+      "asset": "atlas",
+      "rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "eyes": [
+        249.77973145780052,
+        244.7797314578005
+      ],
+      "eyeSpan": 54.14641943734017,
+      "bounds": [
+        54,
+        193,
+        443,
+        463
+      ]
+    },
+    "atlas-3": {
+      "asset": "atlas",
+      "rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "eyes": [
+        254.50593372145096,
+        196.29970891177788
+      ],
+      "eyeSpan": 54.49462606359157,
+      "bounds": [
+        60,
+        41,
+        453,
+        395
+      ]
+    },
+    "atlas-4": {
+      "asset": "atlas",
+      "rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "eyes": [
+        254.4380733944954,
+        186.1844372342806
+      ],
+      "eyeSpan": 54.12385321100916,
+      "bounds": [
+        79,
+        133,
+        434,
+        386
+      ]
+    },
+    "midstroke-0": {
+      "asset": "midstroke",
+      "rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "eyes": [
+        626.7368884618464,
+        549.7259388261671
+      ],
+      "eyeSpan": 82.46825206181438,
+      "bounds": [
+        16,
+        390,
+        1237,
+        859
+      ]
+    }
+  },
+  "assets": {
+    "atlas": {
+      "url": "/assets/owl/arrival-v1/atlas.webp",
+      "bytes": 263804,
+      "sha256": "719aa1a1c8ec8cb05e7b023beffa947514158cf7db68450d0deec60bb7a26d87",
+      "width": 1536,
+      "height": 1024,
+      "sourceSha256": "35bd34b14809f29e146026d1c4976194b35cf7e873111ab394277a2dc73fea58"
+    },
+    "midstroke": {
+      "url": "/assets/owl/arrival-v1/midstroke.webp",
+      "bytes": 111572,
+      "sha256": "18e99a2fafaa8780d371dbcb59ecd2a6d7f0591d04c72bbcfeb23dd27c3159d6",
+      "width": 1254,
+      "height": 1254,
+      "sourceSha256": "8c9e375234f9b290b240500df7d93b3ec20193874f10544711f19571de001b5f"
+    }
+  }
+}

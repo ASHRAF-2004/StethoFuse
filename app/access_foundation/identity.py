@@ -8,7 +8,7 @@ server code; no live provider is configured by this preparation package.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Protocol
 
 
@@ -36,6 +36,7 @@ class VerifiedIdentity:
     email: str
     email_verified: bool
     disabled: bool = False
+    auth_time: int | float | None = None
 
 
 def require_verified(identity: VerifiedIdentity) -> None:
@@ -139,7 +140,7 @@ class FirebaseIdentityAdapter:
             if claims.get("email_verified") is not True:
                 raise EmailVerificationRequired("Email verification required.")
             # Current provider record also checks disabled/deleted/unverified state.
-            return self.lookup_existing(claims["uid"])
+            return replace(self.lookup_existing(claims["uid"]), auth_time=claims.get("auth_time"))
         except AuthenticationDenied:
             raise
         except Exception as error:

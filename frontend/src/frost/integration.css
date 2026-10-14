@@ -1,5 +1,9 @@
 /* The approved material/type system; only real-data wrapping and legacy bridges. */
 .sf-live { --ink: var(--text-primary); --secondary: var(--text-secondary); --line: var(--glass-border); --serif: var(--font-display); color-scheme: light; }
+.sf-photo-input { position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer; }
+.sf-avatar-actions>label { position:relative;overflow:hidden;cursor:pointer; }
+.sf-avatar-actions>label:focus-within { outline:3px solid var(--focus);outline-offset:3px; }
+.sf-header-avatar>img,.sf-sidebar-account .sf-avatar>img { width:100%;height:100%;object-fit:cover;border-radius:inherit; }
 .sf-live[data-theme="midnight"] { color-scheme: dark; }
 .sf-live h1, .sf-live h2, .sf-live h3, .sf-live p { margin-bottom: 0; }
 .sf-live h1 { overflow-wrap: anywhere; }
@@ -250,3 +254,17 @@
   .sf-review-status { white-space: normal; }
   .sf-review-save > div { width: 100%; justify-content: flex-end; }
 }
+.sf-notification-bell { position: relative; text-decoration: none; }
+.sf-notification-count { position: absolute; right: -2px; top: -2px; min-width: 17px; height: 17px; padding: 0 3px; display: grid; place-items: center; border-radius: 9px; background: var(--accent); color: var(--on-accent); font-size: 10px; line-height: 1; }
+.sf-notifications { padding: 28px; }
+.sf-notification-tools { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+.sf-notification-list { list-style: none; padding: 0; margin: 0; }
+.sf-notification-list > li { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 16px; border-top: 1px solid var(--glass-border); padding: 20px 0; }
+.sf-notification-list > li > svg { color: var(--accent); }
+.sf-notification-list a { color: var(--text-primary); text-underline-offset: 4px; }
+.sf-notification-list [data-unread="true"] a { font-weight: 650; }
+.sf-notification-list time { display: block; color: var(--text-secondary); font-size: 12px; margin-top: 6px; }
+.sf-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.sf-notifications-empty { padding: 32px 8px; text-align: center; color: var(--text-secondary); }
+.sf-notifications-empty h3 { color: var(--text-primary); }
+@media (max-width:760px) { .sf-notifications { padding: 20px; } .sf-notification-list > li { gap: 12px; } }

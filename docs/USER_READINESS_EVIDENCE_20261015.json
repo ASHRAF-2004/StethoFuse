@@ -1,0 +1,175 @@
+{
+    "utc":  "2026-10-14T21:57:20.8591688Z",
+    "scope":  "Isolated user-readiness qualification; production data not mutated",
+    "backend":  {
+                    "subtests_passed":  26,
+                    "platform":  "Shared Linux guest isolated test venv and temporary database/private storage",
+                    "warning":  "Existing Starlette/httpx TestClient deprecation",
+                    "warnings":  1,
+                    "passed":  195
+                },
+    "builds":  {
+                   "independent_ux":  "PASS",
+                   "production":  "PASS"
+               },
+    "account_browser":  [
+                            {
+                                "name":  "Private profile photo uses approved crop and persists through reload",
+                                "status":  "PASS"
+                            },
+                            {
+                                "name":  "Another account receives no saved photo or metadata from the owner",
+                                "status":  "PASS"
+                            },
+                            {
+                                "name":  "Frost/Midnight preference carries from workspace to home without identity data",
+                                "status":  "PASS"
+                            },
+                            {
+                                "name":  "Account metadata export is an actual private JSON download",
+                                "status":  "PASS"
+                            },
+                            {
+                                "name":  "Removing the photo clears every profile and shell view",
+                                "status":  "PASS"
+                            },
+                            {
+                                "name":  "Real saved jobs and sharing produce scoped in-app updates and persisted read state",
+                                "status":  "PASS"
+                            },
+                            {
+                                "name":  "In-app preferences filter saved updates and revoked sharing stays generic",
+                                "status":  "PASS"
+                            },
+                            {
+                                "name":  "Deletion requires a typed confirmation, then closes the real temporary account",
+                                "status":  "PASS"
+                            }
+                        ],
+    "owl_browser":  [
+                        {
+                            "name":  "Real winged approach, landing, settling and approved gaze handoff",
+                            "status":  "PASS"
+                        },
+                        {
+                            "name":  "Offscreen arrival pauses, resumes and finishes without a permanent hidden owl",
+                            "status":  "PASS"
+                        },
+                        {
+                            "name":  "Motion preference changed during flight restores the approved static fallback",
+                            "status":  "PASS"
+                        },
+                        {
+                            "name":  "Reduced motion and touch do not download or animate flight assets",
+                            "status":  "PASS"
+                        },
+                        {
+                            "name":  "Missing flight assets fail to the approved owl without blocking the page",
+                            "status":  "PASS"
+                        }
+                    ],
+    "home":  [
+                 {
+                     "theme":  "frost",
+                     "status":  "PASS",
+                     "styles":  {
+                                    "font":  "\"SF UI\", system-ui, sans-serif",
+                                    "accent":  "#245d4c",
+                                    "button":  [
+                                                   36,
+                                                   93,
+                                                   76
+                                               ],
+                                    "buttonInk":  [
+                                                      255,
+                                                      255,
+                                                      255
+                                                  ],
+                                    "faq":  [
+                                                250,
+                                                252,
+                                                249
+                                            ],
+                                    "faqInk":  [
+                                                   25,
+                                                   55,
+                                                   47
+                                               ]
+                                }
+                 },
+                 {
+                     "theme":  "midnight",
+                     "status":  "PASS",
+                     "styles":  {
+                                    "font":  "\"SF UI\", system-ui, sans-serif",
+                                    "accent":  "#9bd5ba",
+                                    "button":  [
+                                                   155,
+                                                   213,
+                                                   186
+                                               ],
+                                    "buttonInk":  [
+                                                      22,
+                                                      51,
+                                                      41
+                                                  ],
+                                    "faq":  [
+                                                29,
+                                                45,
+                                                48
+                                            ],
+                                    "faqInk":  [
+                                                   237,
+                                                   245,
+                                                   238
+                                               ]
+                                }
+                 }
+             ],
+    "client":  [
+                   {
+                       "name":  "Bearer-only fixed same-origin API: no cookies, cache, redirects or referrer",
+                       "status":  "PASS"
+                   },
+                   {
+                       "name":  "Absolute, protocol-relative, traversal, query and encoded paths rejected before token lookup",
+                       "status":  "PASS"
+                   },
+                   {
+                       "name":  "Owner feedback and saved history use bounded numeric pages; raw URLs/tokens remain rejected",
+                       "status":  "PASS"
+                   },
+                   {
+                       "name":  "One SDK force-refresh retry on 401 then clear session, redact backend details",
+                       "status":  "PASS"
+                   },
+                   {
+                       "name":  "Recovered 401 retry returns actual response without expiring",
+                       "status":  "PASS"
+                   },
+                   {
+                       "name":  "403/422/503 details are sanitized without privilege fallbacks",
+                       "status":  "PASS"
+                   },
+                   {
+                       "name":  "Protected media accepts safe blob MIME, rejects HTML/SVG; no public URL path",
+                       "status":  "PASS"
+                   },
+                   {
+                       "name":  "Account change abort does not expire the replacement account",
+                       "status":  "PASS"
+                   }
+               ],
+    "design":  {
+                   "independent_human_review":  "Not performed: Pingfusi login unavailable",
+                   "draft_id":  "a30108cd-9094-4c1a-9bfa-5ac977d35862",
+                   "version":  3,
+                   "canvas":  "https://superdesign.dev/teams/20b7af7e-903c-4ffc-bbea-97c989354856/projects/92993d86-7e38-42a2-9f53-0e29029640d6"
+               },
+    "model_checkpoint_sha256":  "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+    "model_spec_sha256":  "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b",
+    "approved_asset_changes":  [
+
+                               ],
+    "release_gate":  "Exact images and StethoFuse-only shared backup profile must be qualified before cutover"
+}
