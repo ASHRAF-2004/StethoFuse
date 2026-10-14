@@ -6,8 +6,11 @@ A cardiopulmonary sound-separation application for research and education, with 
 winter workspace for recordings, separation runs and explicitly shared audio review.
 **Not a diagnostic system.** The M1 application is deployed at
 [stethofuse.ashraf-alsaloul.com](https://stethofuse.ashraf-alsaloul.com).
-Ensemble execution is not yet connected. See the bounded
-[production verification receipt](deploy/PRODUCTION_2026-09-27.md).
+The 15 October user-readiness release includes the Frost/Midnight public home,
+genuine owl arrival, private profile photos, metadata export, confirmed account
+deletion and in-app updates. Read the [current live release evidence](docs/USER_READINESS_LIVE_20261015.md).
+The frozen CPU separator is connected; ensemble execution remains unavailable.
+The [27 September receipt](deploy/PRODUCTION_2026-09-27.md) is historical evidence.
 
 Academic project: **Machine Learning-Based System for Cardiopulmonary Sound Separation**.
 The application and FYP report remain separate Git repositories. Submitted FYP1 evidence

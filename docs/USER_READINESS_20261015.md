@@ -1,5 +1,8 @@
 # User readiness release — 15 October 2026
 
+**Now deployed.** See the [live cutover and recovery receipt](USER_READINESS_LIVE_20261015.md).
+The preparation and qualification record below is preserved as dated evidence.
+
 This release connects the remaining supported account flows and the owl arrival,
 and makes the public home use the approved Frost/Midnight dashboard materials.
 The owner selected permanent removal of owned recordings/results after explicit

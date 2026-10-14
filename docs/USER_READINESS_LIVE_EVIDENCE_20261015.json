@@ -1,0 +1,244 @@
+{
+    "status":  "PASS_LIVE_RECOVERY_VERIFIED",
+    "utc":  "2026-10-14T22:52:31.9862468Z",
+    "public_url":  "https://stethofuse.ashraf-alsaloul.com",
+    "source_commit":  "ffea2a2da753aed6fd784cf43a5b2da005bab1ab",
+    "repository":  "https://github.com/ASHRAF-2004/StethoFuse",
+    "original_repository_id_preserved":  1216239101,
+    "reviewed_source_pr":  "https://github.com/ASHRAF-2004/StethoFuse/pull/10",
+    "images":  {
+                   "api":  "sha256:33b257a5dbacebe7776326732ce88f596058694bbdf24410b095644171150f56",
+                   "web":  "sha256:f082f7419e5c90065eb0d148734727ca4760122474b653e47c533b5c89838325",
+                   "ml-worker":  "sha256:df4b5cfec7ef525c599c52773ed2c6cf5c26753b13f0e6c4d5962ab0af4dfde4"
+               },
+    "isolated_runtime":  {
+                             "project":  "stethofuse-production",
+                             "guest_origin":  "http://127.0.0.1:8088",
+                             "windows_managed_loopback":  "http://127.0.0.1:18088",
+                             "storage":  "/srv/stethofuse",
+                             "configuration":  "/etc/stethofuse",
+                             "network":  "172.26.0.0/16",
+                             "worker_network":  "none"
+                         },
+    "cutover":  {
+                    "status":  "PASS",
+                    "started_utc":  "2026-10-14T22:32:03.857809+00:00",
+                    "completed_utc":  "2026-10-14T22:32:19.390773+00:00",
+                    "exclusive_shared_deployment_lock":  true,
+                    "worker_drained_before_stop":  true,
+                    "overlapping_old_and_new_production_workers":  false,
+                    "final_consistent_copy_verified":  true,
+                    "database_integrity":  "ok",
+                    "foreign_key_errors":  0,
+                    "sqlite_rows_preserved":  {
+                                                  "af_users":  3,
+                                                  "af_recordings":  7,
+                                                  "af_resources":  19,
+                                                  "af_grants":  5,
+                                                  "af_audit":  46,
+                                                  "m1_jobs":  4,
+                                                  "m1_results":  4,
+                                                  "m1_reviews":  2,
+                                                  "m1_preferences":  1
+                                              },
+                    "private_files_preserved":  15,
+                    "private_model_configuration_tunnel_permissions_preserved":  true,
+                    "other_application_container_ids_preserved":  12,
+                    "only_recovery_policy_field_changed":  "shared_applications.stethofuse-production.image_ids"
+                },
+    "pre_release_recovery":  {
+                                 "snapshot_id":  "383b6bbb1e1bdd7603a1ff9cc8c44487297e4347ceacfb8c1b4deef4c09f4648",
+                                 "native_encrypted_and_independent_windows_restore":  "PASS",
+                                 "historical_snapshot_superseded_by_current":  true
+                             },
+    "post_release_recovery":  {
+                                  "snapshot_id":  "5b0f88d86e83f2139464d7956ae154851b92df7ab8ba89c0816e50bfb830dbea",
+                                  "created_utc":  "2026-10-14T22:44:58.588313+00:00",
+                                  "guest_verified_utc":  "2026-10-14T22:47:03.971612+00:00",
+                                  "windows_completed_utc":  "2026-10-14T22:48:39.6248570Z",
+                                  "native_all_three_restore":  "PASS",
+                                  "axora_databases_verified":  8,
+                                  "axora_disabled_databases_preserved":  3,
+                                  "stethofuse_native_restore":  {
+                                                                    "application_or_tunnel_started":  false,
+                                                                    "files_verified":  4143,
+                                                                    "image_ids":  [
+                                                                                      "sha256:33b257a5dbacebe7776326732ce88f596058694bbdf24410b095644171150f56",
+                                                                                      "sha256:df4b5cfec7ef525c599c52773ed2c6cf5c26753b13f0e6c4d5962ab0af4dfde4",
+                                                                                      "sha256:f082f7419e5c90065eb0d148734727ca4760122474b653e47c533b5c89838325"
+                                                                                  ],
+                                                                    "native_sqlite_integrity":  "PASS",
+                                                                    "paths":  [
+                                                                                  "/opt/stethofuse",
+                                                                                  "/srv/stethofuse",
+                                                                                  "/etc/stethofuse",
+                                                                                  "/etc/cloudflared/stethofuse-production.token",
+                                                                                  "/usr/local/libexec/stethofuse",
+                                                                                  "/etc/systemd/system/stethofuse-stack.service",
+                                                                                  "/etc/systemd/system/cloudflared-stethofuse.service",
+                                                                                  "/etc/systemd/system/stethofuse-backup.service",
+                                                                                  "/etc/systemd/system/stethofuse-backup.timer",
+                                                                                  "/etc/systemd/system/stethofuse-backup.timer.d"
+                                                                              ],
+                                                                    "sqlite_databases_verified":  23,
+                                                                    "status":  "PASS"
+                                                                },
+                                  "stethofuse_encrypted_restore":  {
+                                                                       "application_or_tunnel_started":  false,
+                                                                       "files_verified":  4143,
+                                                                       "image_ids":  [
+                                                                                         "sha256:33b257a5dbacebe7776326732ce88f596058694bbdf24410b095644171150f56",
+                                                                                         "sha256:df4b5cfec7ef525c599c52773ed2c6cf5c26753b13f0e6c4d5962ab0af4dfde4",
+                                                                                         "sha256:f082f7419e5c90065eb0d148734727ca4760122474b653e47c533b5c89838325"
+                                                                                     ],
+                                                                       "native_sqlite_integrity":  "PASS",
+                                                                       "paths":  [
+                                                                                     "/opt/stethofuse",
+                                                                                     "/srv/stethofuse",
+                                                                                     "/etc/stethofuse",
+                                                                                     "/etc/cloudflared/stethofuse-production.token",
+                                                                                     "/usr/local/libexec/stethofuse",
+                                                                                     "/etc/systemd/system/stethofuse-stack.service",
+                                                                                     "/etc/systemd/system/cloudflared-stethofuse.service",
+                                                                                     "/etc/systemd/system/stethofuse-backup.service",
+                                                                                     "/etc/systemd/system/stethofuse-backup.timer",
+                                                                                     "/etc/systemd/system/stethofuse-backup.timer.d"
+                                                                                 ],
+                                                                       "sqlite_databases_verified":  23,
+                                                                       "status":  "PASS"
+                                                                   },
+                                  "portfolio_native_restore_status":  "PASS",
+                                  "portfolio_encrypted_restore_status":  "PASS",
+                                  "encrypted_full_data_check":  "PASS",
+                                  "encrypted_full_restore_hashes":  "PASS",
+                                  "windows_full_encrypted_data_check":  "PASS",
+                                  "windows_full_artifact_restore":  "PASS",
+                                  "windows_artifact_hashes":  14,
+                                  "independent_key_retrieval":  "PASS",
+                                  "paused_writers_resumed":  true,
+                                  "retained_snapshots":  1,
+                                  "compression":  "max",
+                                  "stored_bytes":  2561231777,
+                                  "uncompressed_artifact_bytes":  4277341165,
+                                  "copy_outside_vm":  true,
+                                  "copy_outside_physical_pc":  false,
+                                  "coordinator_freeze_released":  true
+                              },
+    "runtime_and_startup":  {
+                                "utc":  "2026-10-14T22:47:44.595763+00:00",
+                                "status":  "PASS",
+                                "current_release":  "/opt/stethofuse/releases/ffea2a2da753aed6fd784cf43a5b2da005bab1ab",
+                                "production_images":  {
+                                                          "api":  "sha256:33b257a5dbacebe7776326732ce88f596058694bbdf24410b095644171150f56",
+                                                          "web":  "sha256:f082f7419e5c90065eb0d148734727ca4760122474b653e47c533b5c89838325",
+                                                          "ml-worker":  "sha256:df4b5cfec7ef525c599c52773ed2c6cf5c26753b13f0e6c4d5962ab0af4dfde4"
+                                                      },
+                                "autostart_units":  {
+                                                        "stethofuse-stack.service":  {
+                                                                                         "enabled":  "enabled",
+                                                                                         "active":  "active"
+                                                                                     },
+                                                        "cloudflared-stethofuse.service":  {
+                                                                                               "enabled":  "enabled",
+                                                                                               "active":  "active"
+                                                                                           },
+                                                        "stethofuse-backup.timer":  {
+                                                                                        "enabled":  "enabled",
+                                                                                        "active":  "active"
+                                                                                    }
+                                                    },
+                                "credential_permissions":  "PASS_VALUES_NOT_EMITTED",
+                                "model_hashes":  {
+                                                     "endpoint.pt":  "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+                                                     "final_separator_v2.json":  "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b"
+                                                 },
+                                "isolated_networks":  [
+                                                          "172.26.0.0/16"
+                                                      ],
+                                "backup_inactive":  true,
+                                "new_release_deployed":  true,
+                                "windows_cold_boot":  "NOT_PERFORMED"
+                            },
+    "windows_and_public_health":  [
+                                      {
+                                          "url":  "http://127.0.0.1:18088/health",
+                                          "http":  200,
+                                          "storage_configured":  true,
+                                          "provider_configured":  true
+                                      },
+                                      {
+                                          "url":  "https://stethofuse.ashraf-alsaloul.com/health",
+                                          "http":  200,
+                                          "storage_configured":  true,
+                                          "provider_configured":  true
+                                      }
+                                  ],
+    "worker_ready":  {
+                         "status":  "ready",
+                         "parameter_count":  171313,
+                         "observed_model_load_seconds":  2.818997968000076,
+                         "model_load_is_not_an_inference_sla":  true
+                     },
+    "final_database_integrity":  "ok",
+    "final_foreign_key_errors":  0,
+    "public_browser":  {
+                           "utc":  "2026-10-14T22:47:44.686Z",
+                           "origin":  "https://stethofuse.ashraf-alsaloul.com",
+                           "scope":  "Actual public HTTPS; normal production SDK; anonymous only; no fixture, token extraction or live data mutations",
+                           "checks":  [
+                                          {
+                                              "name":  "Public production owl really approaches, lands and hands off to continuous gaze",
+                                              "status":  "PASS"
+                                          },
+                                          {
+                                              "name":  "Real public flight assets match the qualified image hashes",
+                                              "status":  "PASS"
+                                          },
+                                          {
+                                              "name":  "Public Frost/Midnight controls persist and remain within mobile layouts",
+                                              "status":  "PASS"
+                                          },
+                                          {
+                                              "name":  "Normal Firebase sign-in and registration render without setup errors or demo controls",
+                                              "status":  "PASS"
+                                          },
+                                          {
+                                              "name":  "Public API and private account/media endpoints enforce real authentication",
+                                              "status":  "PASS"
+                                          },
+                                          {
+                                              "name":  "Touch and reduced-motion users retain the approved static owl on public HTTPS",
+                                              "status":  "PASS"
+                                          }
+                                      ],
+                           "errors":  [
+
+                                      ],
+                           "status":  "PASS",
+                           "unfinishedPages":  [
+
+                                               ]
+                       },
+    "cleanup":  {
+                    "status":  "PASS",
+                    "utc":  "2026-10-14T22:51:11.034471+00:00",
+                    "source_commit":  "ffea2a2da753aed6fd784cf43a5b2da005bab1ab",
+                    "snapshot_id":  "5b0f88d86e83f2139464d7956ae154851b92df7ab8ba89c0816e50bfb830dbea",
+                    "removed_files":  29,
+                    "removed_bytes":  5232728,
+                    "backup_directory":  "/var/backups/stethofuse/pre-user-readiness-20261014T223205Z-ffea2a2",
+                    "manifest_retained":  true,
+                    "scope":  "Only redundant verified final-copy payloads removed",
+                    "source_disk_current_data_models_config_secrets_repositories_preserved":  true
+                },
+    "earlier_verified_transfer_duplicates_removed_bytes":  83294208,
+    "qualification_evidence":  "USER_READINESS_EVIDENCE_20261015.json",
+    "scope_limits":  [
+                         "Actual production browser run was anonymous with normal SDK; no fixture or token extraction",
+                         "No new credentialed real-account sign-in or production deletion claimed",
+                         "Account flows used real isolated SQLite/private files with explicitly fictional provider",
+                         "Windows cold boot not performed; enabled startup and prior shared warm-restart proof retained",
+                         "Clinical qualification, microphone device testing, handle login, provider linking, other-device sessions and full media ZIP remain separate",
+                         "Notifications are in-app only for this release"
+                     ]
+}
