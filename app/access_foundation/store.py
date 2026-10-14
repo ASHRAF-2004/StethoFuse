@@ -136,6 +136,10 @@ class DevelopmentAccessStore:
             raise AccessDenied("Access denied.")
         return actor
 
+    def _account_change_allowed(self,db,target):
+        """Extension point for durable application lifecycle restrictions."""
+        return None
+
     @staticmethod
     def _audit(db: sqlite3.Connection, actor: str, action: str, target: str) -> None:
         # No free-form payloads: never tokens, email, reset URLs, audio or notes.
@@ -217,6 +221,7 @@ class DevelopmentAccessStore:
             target = db.execute("SELECT * FROM af_users WHERE id=?", (target_id,)).fetchone()
             if target is None:
                 raise AccessDenied("Access denied.")
+            self._account_change_allowed(db,target)
             if actor["id"] == target["id"] and (role is not None or status is not None):
                 raise AccessDenied("Administrators cannot change their own role or status.")
             if role is not None and target["email_verified"] != 1:

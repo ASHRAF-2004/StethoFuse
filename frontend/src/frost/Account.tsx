@@ -11,6 +11,9 @@ import {useFrostPreferences} from './preferences';
 import {canonicalHandle,handleProblem} from './identity';
 import {errorMessage} from './data';
 import type {Theme} from './contracts';
+import {AvatarCrop,readAvatar} from './AvatarCrop';
+import {AccountData} from './AccountData';
+import {NotificationSettings} from './Notifications';
 
 type Section = 'profile'|'appearance'|'audio'|'notifications'|'privacy'|'security';
 const sections = [
@@ -43,26 +46,16 @@ function AccountSection({section}:{section:Section}) {
     case 'appearance': return <Appearance/>;
     case 'audio': return <AudioSettings/>;
     case 'security': return <Security/>;
-    case 'notifications': return <>
-      <SectionHeading title="Notifications" description="Stay in step with your workspace."/>
-      <Notice>Email and workflow notifications are not connected yet. Processing status is saved in your Library; no notification delivery is simulated.</Notice>
-    </>;
-    case 'privacy': return <>
-      <SectionHeading title="Your data, under your control" description="Your recordings remain private and available only through authorized access."/>
-      <div className="sf-setting-row">
-        <div><h3>Export my data</h3><p>Private account exports are planned, but are not available in this version.</p></div>
-        <Button variant="secondary" disabled>Not available yet</Button>
-      </div>
-      <div className="sf-setting-row sf-danger-row">
-        <div><h3>Delete account</h3><p>This will require a recent sign-in and explicit confirmation. The deletion service is not connected.</p></div>
-        <Button variant="danger" disabled>Not available yet</Button>
-      </div>
-    </>;
+    case 'notifications': return <NotificationSettings/>;
+    case 'privacy': return <AccountData/>;
   }
 }
 
 function Profile() {
-  const {session,api,refreshAccount}=useLive(),user=session!.user;
+  const {session,api,refreshAccount,avatar}=useLive(),user=session!.user;
+  const [crop,setCrop]=useState<ImageBitmap|null>(null),[photoError,setPhotoError]=useState('');
+  const photoActive=useRef(true);
+  useEffect(()=>{photoActive.current=true;return()=>{photoActive.current=false;};},[]);
   const [name,setName]=useState(user.display_name),[handle,setHandle]=useState(user.handle||'');
   const [busy,setBusy]=useState(false),[error,setError]=useState(''),[saved,setSaved]=useState(false),[confirm,setConfirm]=useState(false);
   const request=useRef<AbortController|null>(null);
@@ -86,7 +79,10 @@ function Profile() {
   function submit(event:FormEvent) {event.preventDefault();if(!valid)return;handleChanged?setConfirm(true):void save();}
   return <>
     <SectionHeading title="Your profile" description="A familiar name, a handle of your own."/>
-    <div className="sf-profile-summary"><ProfileIdentity name={user.display_name||'Your account'} handle={user.handle}/><span className="sf-account-role">{liveRoleLabel(user.role)}</span></div>
+    <div className="sf-profile-summary"><ProfileIdentity name={user.display_name||'Your account'} handle={user.handle} photo={avatar?'data:image/png;base64,'+avatar.base64:undefined}/><span className="sf-account-role">{liveRoleLabel(user.role)}</span></div>
+    {session!.capabilities.profile_avatar&&<div className="sf-avatar-actions"><label className="sf-button sf-button--secondary">Choose photo<input className="sf-photo-input" type="file" aria-label="Choose profile photo" accept="image/png,image/jpeg,image/webp" onChange={async event=>{const file=event.target.files?.[0];event.target.value='';if(!file)return;setPhotoError('');try{const image=await readAvatar(file);if(photoActive.current)setCrop(image);else image.close();}catch(failure){if(photoActive.current)setPhotoError(failure instanceof Error?failure.message:'The image could not be opened.');}}}/></label>{avatar&&<Button variant="ghost" disabled={busy} onClick={async()=>{setBusy(true);setPhotoError('');try{await api.json('/auth/me/avatar',{method:'DELETE'});await refreshAccount();}catch(failure){setPhotoError(errorMessage(failure));}finally{setBusy(false);}}}>Remove photo</Button>}<small>PNG, JPEG or WebP · up to 2 MiB</small></div>}
+    {photoError&&<Notice danger>{photoError}</Notice>}
+    {crop&&<AvatarCrop image={crop} onClose={()=>setCrop(null)} onSave={async blob=>{await api.json('/auth/me/avatar',{method:'PUT',headers:{'Content-Type':'image/png'},body:blob});if(photoActive.current)await refreshAccount();}}/>}
     <form onSubmit={submit}>
       <div className="sf-profile-fields">
         <label className="sf-field"><span>Display name</span><input required aria-label="Display name" maxLength={200} autoComplete="name" value={name} disabled={busy} onChange={event=>{setName(event.target.value);setSaved(false);}}/><small>Your display name can be edited whenever you need.</small></label>

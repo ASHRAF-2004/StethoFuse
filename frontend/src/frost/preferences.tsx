@@ -1,5 +1,6 @@
 import {createContext,useContext,useEffect,useState,type ReactNode} from 'react';
 import type {Theme} from './contracts';
+import {rememberPublicTheme} from './publicTheme';
 
 function read(key:string,fallback:string){try{return localStorage.getItem(key)||fallback;}catch{return fallback;}}
 function write(key:string,value:string){try{localStorage.setItem(key,value);}catch{/* Non-sensitive device preference can remain in memory. */}}
@@ -14,7 +15,7 @@ export function FrostPreferences({uid,children}:{uid:string;children:ReactNode})
   const [systemDark,setSystemDark]=useState(()=>matchMedia('(prefers-color-scheme: dark)').matches);
   const resolved=theme==='system'?systemDark?'midnight':'frost':theme;
   useEffect(()=>{const q=matchMedia('(prefers-color-scheme: dark)');const change=()=>setSystemDark(q.matches);q.addEventListener('change',change);return()=>q.removeEventListener('change',change);},[]);
-  useEffect(()=>{write(prefix+'theme',theme);window.dispatchEvent(new Event('sf-theme-change'));},[prefix,theme,resolved]);
+  useEffect(()=>{write(prefix+'theme',theme);rememberPublicTheme(theme);},[prefix,theme,resolved]);
   useEffect(()=>write(prefix+'gain',String(gain)),[prefix,gain]);
   return <Preferences.Provider value={{theme,resolved,setTheme,gain,setGain}}>{children}</Preferences.Provider>;
 }

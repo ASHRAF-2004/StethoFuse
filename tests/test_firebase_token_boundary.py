@@ -191,3 +191,48 @@ def test_rest_verifier_provider_failures_fail_closed_and_suppress_secret_diagnos
     captured = capsys.readouterr()
     rendered = "\n".join([str(caplog.text), captured.out, captured.err])
     assert secret_diagnostic not in rendered
+
+
+def test_rest_delete_is_bound_to_reverified_current_user_and_fixed_provider_endpoint():
+    import httpx
+
+    calls=[]
+    def provider(request):
+        calls.append(request)
+        if request.url.path.endswith('accounts:lookup'):
+            return httpx.Response(200,json=rest_user())
+        assert request.url.host=='identitytoolkit.googleapis.com'
+        assert request.url.path=='/v1/accounts:delete'
+        assert request.method=='POST' and json.loads(request.content)=={'idToken':'signed-token'}
+        assert 'Authorization' not in request.headers
+        return httpx.Response(200,json={})
+    with httpx.Client(transport=httpx.MockTransport(provider)) as client:
+        verifier=rest_verifier(client)
+        assert verifier.verify('signed-token').auth_time==claims()['auth_time']
+        verifier.delete_self('signed-token',confirmed_uid='firebase-uid')
+        assert len(calls)==3
+        with pytest.raises(AuthenticationDenied):
+            verifier.delete_self('signed-token',confirmed_uid='another-account')
+        assert calls[-1].url.path.endswith('accounts:lookup')
+        assert sum(request.url.path.endswith('accounts:delete') for request in calls)==1
+
+
+@pytest.mark.parametrize('failure',['timeout','oversized','upstream','invalid_token'])
+def test_rest_delete_fails_closed_without_echoing_credentials(failure,caplog,capsys):
+    import httpx
+
+    def provider(request):
+        if request.url.path.endswith('accounts:lookup'):
+            return httpx.Response(200,json=rest_user())
+        if failure=='timeout':
+            raise httpx.ReadTimeout('signed-token public-test-api-key')
+        if failure=='oversized':
+            return httpx.Response(200,content=b'x'*5000)
+        if failure=='invalid_token':
+            return httpx.Response(400,json={'error':{'message':'INVALID_ID_TOKEN'}})
+        return httpx.Response(503,content=b'signed-token public-test-api-key')
+    with httpx.Client(transport=httpx.MockTransport(provider)) as client:
+        with pytest.raises(AuthenticationDenied if failure=='invalid_token' else ProviderUnavailable):
+            rest_verifier(client).delete_self('signed-token',confirmed_uid='firebase-uid')
+    output=capsys.readouterr()
+    assert 'signed-token' not in caplog.text+output.out+output.err

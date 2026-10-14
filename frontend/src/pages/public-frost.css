@@ -1,0 +1,89 @@
+/* Public home shares the approved workspace tokens, never a second palette. */
+.sf-app.sf-public {
+  --ink: var(--text-primary); --secondary: var(--text-secondary);
+  --line: var(--glass-border); --serif: var(--font-display);
+  color: var(--text-primary); background: var(--background);
+  font: var(--type-body)/1.6 var(--font-ui); color-scheme: light;
+}
+.sf-public[data-theme="midnight"] { color-scheme: dark; }
+.sf-app.sf-public .winter-hero {
+  background-image: linear-gradient(100deg,rgba(238,242,237,.88),rgba(238,242,237,.18) 74%),url('/assets/background-1800.webp');
+  border-bottom: 1px solid var(--glass-border);
+}
+.sf-app.sf-public[data-theme="midnight"] .winter-hero {
+  background-image: linear-gradient(100deg,rgba(16,30,33,.96),rgba(16,30,33,.65) 74%),url('/assets/background-1800.webp');
+}
+.sf-public .public-nav { padding-block: 24px; gap: 20px; }
+.sf-public .public-nav-links { font: 600 13px/1.5 var(--font-ui); color: var(--text-primary); gap: 24px; }
+.sf-public .public-nav-links>a:hover { color: var(--accent); }
+.sf-public[data-theme="midnight"] .brand-logo img { filter: brightness(0) invert(1); }
+.sf-public .hero-copy .eyebrow { color: var(--text-secondary); font: 700 11px/1.6 var(--font-ui); letter-spacing: .16em; }
+.sf-public .hero-copy h1 { color: var(--text-primary); font-family: var(--font-display); font-weight: 500; letter-spacing: -.035em; }
+.sf-public .hero-copy h1 em { background: none; -webkit-text-fill-color: currentColor; color: var(--accent); filter: none; text-shadow: none; }
+.sf-public .hero-copy>p:not(.eyebrow) { color: var(--text-secondary); font: 500 16px/1.85 var(--font-ui); }
+.sf-public .button {
+  color: var(--text-primary); font: 650 14px/1.5 var(--font-ui);
+  border: 1px solid var(--control-border); border-radius: var(--radius-control);
+  background: var(--glass-strong); box-shadow: inset 0 1px var(--glass-highlight);
+  backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
+  transition: background var(--motion-micro),border-color var(--motion-micro);
+}
+.sf-public .button::before,.sf-public .button::after { display: none; }
+.sf-app.sf-public .hero-actions .button-primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); box-shadow: var(--shadow); }
+.sf-app.sf-public .hero-actions .button-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.sf-app.sf-public :is(.hero-actions,.public-nav) .button-secondary { background: var(--glass-strong); color: var(--text-primary); border-color: var(--control-border); box-shadow: inset 0 1px var(--glass-highlight); }
+.sf-app.sf-public :is(.hero-actions,.public-nav) .button-secondary:hover { background: var(--glass-2); }
+.sf-public .hero-actions .button { min-height: 52px; padding: 12px 25px; border-radius: var(--radius-control); }
+.sf-public .home-theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 44px; height: 44px; padding: 0; border: 1px solid var(--glass-border);
+  border-radius: var(--radius-control); color: var(--text-primary); background: var(--glass-1); cursor: pointer;
+}
+.sf-public :is(a,button,summary):focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+.sf-public .owl-art img,.sf-public .owl-art canvas,.sf-public .owl-flight-image { filter: url(#sf-pine-irises); }
+.sf-public .public-section { background: transparent; }
+.sf-public .public-section h2 { color: var(--text-primary); font: 500 44px/1.12 var(--font-display); letter-spacing: -.025em; }
+.sf-public .public-section h3 { color: var(--text-primary); font: 650 16px/1.4 var(--font-ui); }
+.sf-public :is(.public-section,.public-band) p { color: var(--text-secondary); font: 400 14px/1.85 var(--font-ui); }
+.sf-public .workflow-grid,.sf-public .scope-principles {
+  background: var(--glass-1); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-panel); box-shadow: var(--shadow); backdrop-filter: blur(var(--blur));
+}
+.sf-public .workflow-step>svg { background: var(--accent-soft); border-color: var(--glass-border); color: var(--accent); }
+.sf-public .workflow-step:not(:last-child)::after { background: var(--glass-border); }
+.sf-public .public-band { background: var(--glass-2); border-block: 1px solid var(--glass-border); }
+.sf-public .scope-principles>div>svg { color: var(--accent); }
+.sf-public .inline-link { color: var(--accent); font-weight: 600; }
+.sf-public .welcome-help { background: transparent; }
+.sf-app.sf-public .welcome-help details { background: var(--glass-1); border-color: var(--glass-border); box-shadow: var(--shadow); }
+.sf-public .welcome-help summary { color: var(--text-primary); font: 600 14px/1.6 var(--font-ui); }
+.sf-public .public-footer { color: var(--text-secondary); background: transparent; border-color: var(--glass-border); font: 400 12px/1.7 var(--font-ui); }
+.sf-public .snow-drift { opacity: .45; }
+.sf-public .sf-owl-material { position: absolute; overflow: hidden; pointer-events: none; }
+.sf-public :is(.winter-signalFine,.winter-feather) { mask-image: radial-gradient(ellipse,#000 30%,transparent 74%); }
+.sf-public[data-theme="midnight"] :is(.winter-signalFine,.winter-feather) { opacity: .18; }
+@media(max-width:760px) {
+  .sf-public .public-nav { padding: 20px 24px; gap: 10px; }
+  .sf-public .public-nav-links { gap: 10px; }
+  .sf-public .public-nav .button { padding-inline: 14px; min-height: 44px; }
+  .sf-public .public-nav img { width: 160px; }
+  .sf-public .hero-copy>p:not(.eyebrow) { font-size: 14px; }
+  .sf-public .hero-copy .eyebrow { font-size: 10px; }
+  .sf-public .public-section h2 { font-size: 38px; }
+}
+@media(max-width:600px) {
+  .sf-app.sf-public .winter-hero { background-image: linear-gradient(180deg,rgba(238,242,237,.92),rgba(238,242,237,.3) 72%),url('/assets/background-800.webp'); }
+  .sf-app.sf-public[data-theme="midnight"] .winter-hero { background-image: linear-gradient(180deg,rgba(16,30,33,.98),rgba(16,30,33,.65) 72%),url('/assets/background-800.webp'); }
+  .sf-public .hero-actions .button { padding-inline: 21px; }
+  .sf-public .hero-copy h1 { font-size: clamp(46px,14.6vw,61px); }
+}
+@media(prefers-reduced-motion:reduce) { .sf-public .button { transition: none; } }
+@media(prefers-reduced-transparency:reduce) {
+  .sf-public :is(.button,.workflow-grid,.scope-principles) { backdrop-filter: none; background: var(--glass-2); }
+  .sf-public .button-primary { background: var(--accent); }
+}
+@media(forced-colors:active) {
+  .sf-public .winter-hero { background: Canvas; }
+  .sf-public .hero-copy h1 em { color: CanvasText; }
+  .sf-public .button { border: 1px solid ButtonText; }
+}

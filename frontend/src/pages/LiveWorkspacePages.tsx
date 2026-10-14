@@ -11,6 +11,7 @@ import {SharedWorkspace} from '../frost/SharedReviews';
 import {AssignedReview} from '../frost/AssignedReview';
 import {ReviewHistory} from '../frost/ReviewHistory';
 import {Insights} from '../frost/Insights';
+import {Notifications} from '../frost/Notifications';
 import {Badge,Button,CopyId,Empty,ErrorState,Field,Notice,PageHeading,Panel,Skeleton,StatStrip,Status,Table,UnsavedGuard} from '../components/ui';
 import {useLive} from '../data/live';
 import {useApp} from '../data/store';
@@ -70,6 +71,7 @@ function LiveRoute(){
  if(/^\/app\/audio\/[^/]+$/.test(pathname))return <MediaDetail id={pathname.split('/')[3]}/>;
  if(['/app/review-queue','/app/assigned'].includes(pathname))return <Navigate replace to="/app/shared?view=assigned"/>;
  if(pathname==='/app/review-history')return <ReviewHistory/>;
+ if(pathname==='/app/notifications')return <Notifications/>;
  if(/^\/app\/reviews\/[^/]+$/.test(pathname))return <AssignedReview id={pathname.split('/')[3]}/>;
  if(pathname==='/app/profile'||pathname==='/app/settings')return <FrostAccount/>;
  if(pathname==='/app/admin')return <AdminOverview/>;

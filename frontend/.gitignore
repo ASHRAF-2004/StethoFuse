@@ -20,3 +20,7 @@ public/assets/owl/continuous-field/
 *service-account*.json
 *.pem
 *.key
+
+# Reproducible design discovery and review-only HTML.
+.superdesign/init/
+.superdesign/tmp/

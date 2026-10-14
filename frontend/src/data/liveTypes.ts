@@ -1,7 +1,10 @@
 export type LiveRole = 'healthcare_staff' | 'audio_analyst' | 'admin';
 export type LiveStatus = 'active' | 'suspended' | 'disabled';
 export interface LiveUser {id:string;uid:string;email:string;display_name:string;role:LiveRole;status:LiveStatus;email_verified:boolean;public_id?:string;handle?:string;handle_change_count?:number;handle_changed_at?:number|null}
-export interface SessionEnvelope {user:LiveUser;mode:'live';capabilities:{recordings:boolean;sharing:boolean;reviews:boolean;admin:boolean;ensemble:boolean;separation?:boolean}}
+export interface SessionEnvelope {user:LiveUser;mode:'live';capabilities:{recordings:boolean;sharing:boolean;reviews:boolean;admin:boolean;ensemble:boolean;separation?:boolean;profile_avatar?:boolean;account_metadata_export?:boolean;account_deletion?:boolean;in_app_notifications?:boolean}}
+export interface ProtectedAvatar {mime:'image/png';base64:string;revision:string}
+export interface WorkflowUpdate {id:string;kind:'processing'|'review'|'sharing';title:string;occurred_at:number;href:string;unread:boolean}
+export interface WorkflowUpdateFeed {items:WorkflowUpdate[];unread:number;limit:30;scope:'current_account_recent_updates'}
 export interface MediaResource {id:string;public_id?:string;kind:string;media_type:string|null;url:string|null}
 export interface LiveRecording {id:string;public_id?:string;owner_id:string;title:string;original_filename:string|null;created_at:number;duration_sec:number;sample_rate_hz:number;channels:number;file_size_bytes:number;original_resource_id:string|null;resources:MediaResource[];is_owner:boolean}
 export interface LiveJob {id:string;public_id?:string;recording_id:string;requester_id:string;status:string;created_at:number;started_at:number|null;completed_at:number|null;error_code:string|null;result_id:string|null}

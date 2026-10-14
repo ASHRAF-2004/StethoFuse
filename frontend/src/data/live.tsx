@@ -3,13 +3,14 @@ import {liveAuth} from '../auth/firebase';
 import {firebaseConfigurationError} from '../config/runtime';
 import {Context,type AppContextValue} from './store';
 import {ApiError,createApiClient,type ApiClient} from './api';
-import {validateSession,type SessionEnvelope,type LivePreferences} from './liveTypes';
+import {validateSession,type SessionEnvelope,type LivePreferences,type ProtectedAvatar} from './liveTypes';
 import type {DemoState,User,UserPreferences} from './types';
 
 type AuthStatus='loading'|'signed-out'|'unverified'|'ready'|'disabled'|'expired'|'error';
 interface LiveContextValue {
   status:AuthStatus;error:string;session:SessionEnvelope|null;api:ApiClient;
-  preferences:LivePreferences;refreshAccount:()=>Promise<void>;refreshIdentity:()=>Promise<void>;
+  preferences:LivePreferences;avatar:ProtectedAvatar|null;refreshAccount:()=>Promise<void>;refreshIdentity:()=>Promise<void>;
+  accountDeletion:{providerCleanupPending:boolean}|null;recordAccountDeletion:(providerRemoved:boolean)=>void;
   savePreferences:(value:LivePreferences)=>Promise<void>;logout:()=>Promise<void>;
 }
 const LiveContext=createContext<LiveContextValue|null>(null);
@@ -25,8 +26,10 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
   const [status,setStatus]=useState<AuthStatus>(firebaseConfigurationError?'error':'loading');
   const [error,setError]=useState(firebaseConfigurationError),[session,setSession]=useState<SessionEnvelope|null>(null);
   const [uid,setUid]=useState<string|null>(null),[prefs,setPrefs]=useState<LivePreferences>({}),[toast,setToast]=useState('');
+  const [avatar,setAvatar]=useState<ProtectedAvatar|null>(null);
+  const [accountDeletion,setAccountDeletion]=useState<{providerCleanupPending:boolean}|null>(null);
   const epoch=useRef(0),currentUid=useRef<string|null>(null),expired=useRef(false);
-  const clear=useCallback(()=>{setSession(null);setPrefs({});setToast('');},[]);
+  const clear=useCallback(()=>{setSession(null);setPrefs({});setAvatar(null);setToast('');},[]);
   const logout=useCallback(async()=>{epoch.current++;currentUid.current=null;setUid(null);clear();setStatus('signed-out');expired.current=false;await liveAuth.logout();},[clear]);
   const expire=useCallback(()=>{epoch.current++;expired.current=true;currentUid.current=null;setUid(null);clear();setStatus('expired');void liveAuth.logout().catch(()=>{});},[clear]);
   const api=useMemo(()=>createApiClient(async force=>{
@@ -40,9 +43,11 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
     if(epoch.current!==version||checked.user.uid!==currentUid.current)return;
     if(checked.user.status!=='active'){clear();setStatus('disabled');return;}
     if(!checked.user.email_verified){clear();setStatus('unverified');return;}
-    setSession(checked);setStatus('ready');setError('');
+    setSession(checked);setStatus('ready');setError('');setAccountDeletion(null);
     const settings=await client.json<{preferences:LivePreferences}>('/preferences').catch(()=>null);
     if(epoch.current===version&&settings)setPrefs(settings.preferences||{});
+    const picture=checked.capabilities.profile_avatar?await client.json<{avatar:ProtectedAvatar|null}>('/auth/me/avatar').catch(()=>null):null;
+    if(epoch.current===version){const value=picture?.avatar;setAvatar(value?.mime==='image/png'&&/^[a-f0-9]{64}$/.test(value.revision)&&value.base64.length<=400000&&/^[A-Za-z0-9+/]*={0,2}$/.test(value.base64)?value:null);}
   },[clear]);
   const fail=useCallback((failure:unknown,version:number)=>{
     if(epoch.current!==version)return;
@@ -91,7 +96,7 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
     return()=>{window.removeEventListener('focus',refresh);document.removeEventListener('visibilitychange',refresh);clearInterval(timer);};
   },[status,refreshAccount]);
   useEffect(()=>{if(!toast)return;const timer=setTimeout(()=>setToast(''),5500);return()=>clearTimeout(timer);},[toast]);
-  const value:LiveContextValue={status,error,session,api,preferences:prefs,refreshAccount,
+  const value:LiveContextValue={status,error,session,api,preferences:prefs,avatar,accountDeletion,recordAccountDeletion:providerRemoved=>setAccountDeletion({providerCleanupPending:!providerRemoved}),refreshAccount,
     refreshIdentity:async()=>{await liveAuth.reload();await syncIdentity();},logout,
     savePreferences:async patch=>{const version=epoch.current;const response=await api.json<{preferences:LivePreferences}>('/preferences',{method:'PATCH',body:JSON.stringify({preferences:patch})});if(version===epoch.current)setPrefs(response.preferences);},
   };

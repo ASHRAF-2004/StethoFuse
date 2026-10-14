@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 // Explicit local review build only. The normal application build never includes it.
 export default defineConfig({
+  cacheDir: "node_modules/.vite-ux-preview",
   plugins: [react()],
   define: { "import.meta.env.DEV": "true" },
   server: {

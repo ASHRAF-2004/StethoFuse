@@ -17,12 +17,19 @@ from .processing_store import ProcessingStore
 from .public_identity_store import PublicIdentityStore
 from .sharing_store import HandleSharingStore
 from .workspace_store import WorkspaceStore
+from .profile_store import ProfileStore, PRIVATE_PREFERENCES
+from .account_lifecycle import AccountLifecycleStore
+from .notifications import NotificationStore
 
 M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
              "m1_result_files", "m1_reviews", "m1_preferences"}
 
 
-class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProcessingStore, DevelopmentAccessStore):
+class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProfileStore, AccountLifecycleStore, NotificationStore, ProcessingStore, DevelopmentAccessStore):
+    def _account_change_allowed(self,db,target):
+        if self._settings(db,target["id"]).get("account_lifecycle"):
+            raise AccessDenied("Deleted accounts cannot be reactivated.")
+
     @staticmethod
     def _check_schema(db, *, allow_v1=False):
         names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
@@ -100,7 +107,7 @@ class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, Processin
                 preferences.update(changes)
                 db.execute("INSERT INTO m1_preferences VALUES (?,?) ON CONFLICT(user_id) DO UPDATE SET preferences_json=excluded.preferences_json", (actor["id"], json.dumps(preferences)))
                 self._audit(db, actor["id"], "preferences.changed", actor["id"])
-            return preferences
+            return {key:value for key,value in preferences.items() if key not in PRIVATE_PREFERENCES}
 
     def add_upload(self, identity, *, title, original_filename, relative_path, duration_sec, sample_rate_hz, channels, file_size_bytes, sha256=None):
         with self._connection(write=True) as db:

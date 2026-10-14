@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "targets": {
+    "/": {
+      "targetKind": "existing-ui",
+      "projectId": "92993d86-7e38-42a2-9f53-0e29029640d6",
+      "baselineDraftId": "a30108cd-9094-4c1a-9bfa-5ac977d35862",
+      "baselineVersion": 1,
+      "activeDraftId": "a30108cd-9094-4c1a-9bfa-5ac977d35862",
+      "designSystemPath": ".superdesign/design-system.md",
+      "referenceIds": [
+        "public-assets-logo.svg"
+      ],
+      "brandAssets": {
+        "logo": {
+          "assetKey": "public-assets-logo.svg",
+          "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/92993d86-7e38-42a2-9f53-0e29029640d6/brand-assets/public-assets-logo.svg/logo.svg",
+          "sourcePath": "public/assets/logo.svg"
+        }
+      },
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "src/pages/PublicPages.tsx:39:76",
+        "src/pages/public-pages.css",
+        "src/pages/public-reference.css",
+        "src/pages/public-frost.css",
+        "src/frost/tokens.css",
+        "src/components/Owl.tsx",
+        "src/components/ui.tsx"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "cd93b02914a1d5c7f215b4e91ead3f9ce9f1fa460462141f0c8ca311ef5ec3ad",
+        "src/pages/PublicPages.tsx": "c3a251f34afec8b575e1b725360e0a4c0f4f61b09247faea33eccac934871ca6",
+        "src/pages/public-pages.css": "d33987b747dc0ae8429878c44f498bda05275ca33742668577374886131b59ea",
+        "src/pages/public-reference.css": "b6f330e33f38998906cc9057d38312000beb95942043add43c65c570fff1bca5",
+        "src/pages/public-frost.css": "8078b2ead8af8e663dbd190b15e4d317d4d487472361446ebc5221a78608eb66",
+        "src/frost/tokens.css": "0a29572d93101575008f246365a41c1935ff1c36981052068c67beb80a45ad7c",
+        "src/components/Owl.tsx": "f38beb4ff1f0987d0d35f602ce73652789e23e9825e841ef12edf943277c41b2",
+        "src/components/ui.tsx": "194b02aa8f270c6f0288e6b05b2f9a6f47c682f8e4bb6b3381b80af250ffd0a0"
+      },
+      "components": [],
+      "drafts": {
+        "a30108cd-9094-4c1a-9bfa-5ac977d35862": {
+          "title": "Home hero — approved Frost parity",
+          "visualDirection": "Existing winter composition with approved dashboard typography and pine controls",
+          "currentVersion": 3
+        }
+      },
+      "review": {
+        "renderedLocal": "PASS Frost/Midnight controls, contrast, persistence and mobile; owl lifecycle tested separately",
+        "independentHumanReview": "Unavailable: Pingfusi reviewer login is not configured"
+      }
+    }
+  }
+}

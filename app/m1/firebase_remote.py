@@ -14,6 +14,7 @@ from app.access_foundation.identity import (
 from app.access_foundation.firebase_token import FirebaseIdTokenVerifier
 
 _LOOKUP_URL = "https://identitytoolkit.googleapis.com/v1/accounts:lookup"
+_DELETE_URL = "https://identitytoolkit.googleapis.com/v1/accounts:delete"
 _MAX_RESPONSE_BYTES = 4096
 _INVALID_TOKEN_ERRORS = {
     "INVALID_ID_TOKEN", "TOKEN_EXPIRED", "USER_NOT_FOUND", "USER_DISABLED",
@@ -27,7 +28,8 @@ class FirebaseRestIdentityVerifier:
 
     The API key identifies the Firebase project; it is not an authorization
     credential. The same user ID token is sent in the body over HTTPS. No role,
-    account listing, or Firebase mutation API is exposed by this adapter.
+    account listing, or privileged Firebase mutation API is exposed. The sole
+    mutation is explicitly confirmed deletion of the same authenticated user.
     """
 
     def __init__(self, *, project_id: str, api_key: str, client=None,
@@ -134,4 +136,22 @@ class FirebaseRestIdentityVerifier:
             raise AuthenticationDenied("Identity could not be verified.")
         if not email_verified:
             raise EmailVerificationRequired("Email verification required.")
-        return VerifiedIdentity(uid, email, True, False)
+        return VerifiedIdentity(uid, email, True, False, claims.get("auth_time"))
+
+    def delete_self(self, token, *, confirmed_uid):
+        """Firebase deletes only the exact currently authenticated account."""
+        if self.verify(token).uid != confirmed_uid:
+            raise AuthenticationDenied("Identity mismatch.")
+        try:
+            with self._client.stream("POST", _DELETE_URL, params={"key": self._api_key}, json={"idToken": token}) as response:
+                body=bytearray()
+                for chunk in response.iter_bytes():
+                    body.extend(chunk)
+                    if len(body)>_MAX_RESPONSE_BYTES:
+                        raise ProviderUnavailable("Account removal response is unavailable.")
+                if response.status_code != 200:
+                    self._provider_error(response.status_code, bytes(body))
+        except AuthenticationDenied:
+            raise
+        except Exception:
+            raise ProviderUnavailable("Provider account removal is not confirmed.") from None
