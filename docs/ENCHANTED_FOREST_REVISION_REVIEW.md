@@ -1,3 +1,7 @@
+> **29 October owner decision:** composition and deer artwork approved, with four
+> requested refinements. Read [the current follow-up](ENCHANTED_FOREST_APPROVED_FOLLOWUP.md).
+> The independent final owl-flight gate remains open.
+
 # Corrective forest prototype — 28 October 2026
 
 **ENCHANTED FOREST PROTOTYPE PARTIALLY COMPLETE — ASSETS OR ANIMATION REQUIRE REVIEW**

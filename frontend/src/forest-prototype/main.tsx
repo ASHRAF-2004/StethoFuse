@@ -4,6 +4,8 @@ import {ArrowRight,Headphones,UploadSimple,Waveform,ShieldCheck,LockKey,Sun,Moon
 import {createOwlSurface,type Surface} from '../components/owlSurface';
 import {OwlEyeMaterial} from '../frost/OwlEyeMaterial';
 import './world.css';
+import {ForestCursor as CursorDust} from './ForestCursor';
+import {ForestDeer as Deer} from './ForestDeer';
 
 const A='/assets/forest-world/';
 type Theme='day'|'night';
@@ -32,36 +34,6 @@ function ApprovedOwl(){
  return <div ref={root} className="forest-owl" data-flight="unapproved-disabled" data-pointer-scope="page" aria-hidden="true"><OwlEyeMaterial/><img src="/assets/owl-poster-1163.webp" width="1163" height="1353" alt="" fetchPriority="high"/><canvas ref={canvas}/><i className="claw-anchor" data-anchor="owl-claws"/></div>;
 }
 
-/** Scanline mesh: only torso/head/ears deform. Terrain and hooves are never translated. */
-function Deer(){
- const ref=useRef<HTMLElement>(null),canvas=useRef<HTMLCanvasElement>(null);
- useEffect(()=>{
-  const el=ref.current!,node=canvas.current!,ctx=node.getContext('2d');if(!ctx)return;
-  const motion=matchMedia('(prefers-reduced-motion: reduce)');const image=new Image();
-  let disposed=false,visible=false,frame=0,previous=0;
-  const paint=(time:number)=>{frame=0;if(disposed||!visible||document.hidden||motion.matches||!image.complete||!image.naturalWidth)return;if(time-previous>=1000/24){previous=time;const w=node.width,h=node.height;ctx.clearRect(0,0,w,h);for(let y=0;y<h;y+=4){const n=y/h,head=Math.exp(-(((n-.24)/.17)**2)),body=Math.exp(-(((n-.51)/.12)**2)),fixed=n>.7?0:1;const dx=Math.sin(time*.00052)*w*.002*head*fixed,breath=1+Math.sin(time*.001)*.006*body*fixed;const dw=w*breath;ctx.drawImage(image,0,y*image.height/h,image.width,4*image.height/h,(w-dw)/2+dx,y,dw,4.4);}el.classList.add('art-ready');el.dataset.idle='torso-breath-head-ear-deformation-fixed-hooves';}frame=requestAnimationFrame(paint);};
-  const wake=()=>{if(!frame&&visible&&!disposed&&!motion.matches)frame=requestAnimationFrame(paint);};
-  image.onload=()=>{node.width=512;node.height=768;wake();};
-  const io=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible){if(!image.src)image.src=A+'deer-clearing.webp';wake();}else{cancelAnimationFrame(frame);frame=0;}},{rootMargin:'300px'});io.observe(el);
-  const changed=()=>{if(motion.matches){cancelAnimationFrame(frame);frame=0;el.classList.remove('art-ready');}else{if(image.complete)el.classList.add('art-ready');wake();}};motion.addEventListener('change',changed);document.addEventListener('visibilitychange',changed);
-  return()=>{disposed=true;cancelAnimationFrame(frame);io.disconnect();motion.removeEventListener('change',changed);document.removeEventListener('visibilitychange',changed);image.onload=null;};
- },[]);
- return <figure ref={ref} className="deer-clearing" aria-hidden="true"><img src={A+'deer-clearing.webp'} alt="" width="1024" height="1536" loading="lazy"/><canvas ref={canvas}/><i className="hoof-anchor" data-anchor="deer-ground"/></figure>;
-}
-
-function CursorDust({theme}:{theme:Theme}){
- const canvas=useRef<HTMLCanvasElement>(null);
- useEffect(()=>{
-  const node=canvas.current!,ctx=node.getContext('2d');if(!ctx)return;const allowed=matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)');
-  type P={x:number;y:number;vx:number;vy:number;age:number;life:number;r:number;phase:number};const particles:P[]=[];let frame=0,previous=0,emitted=0;
-  const resize=()=>{const d=Math.min(devicePixelRatio,1.5);node.width=innerWidth*d;node.height=innerHeight*d;ctx.setTransform(d,0,0,d,0,0);};resize();
-  const tick=(now:number)=>{frame=0;const dt=previous?Math.min(.05,(now-previous)/1000):1/60;previous=now;ctx.clearRect(0,0,innerWidth,innerHeight);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.age+=dt;if(p.age>=p.life){particles.splice(i,1);continue;}p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy-=3*dt;const fade=(1-p.age/p.life)**2;ctx.globalAlpha=fade*(.65+.35*Math.sin(now*.008+p.phase))*(theme==='night'?.85:.5);ctx.fillStyle=i%3?'#f3dda5':'#e3ffd8';ctx.shadowColor='#f9dd99';ctx.shadowBlur=p.r*4;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;ctx.shadowBlur=0;node.dataset.particles=String(particles.length);if(particles.length)frame=requestAnimationFrame(tick);else previous=0;};
-  const move=(e:PointerEvent)=>{if(!allowed.matches||e.pointerType==='touch'||document.hidden)return;const now=performance.now();if(now-emitted<(theme==='night'?35:65))return;emitted=now;if(particles.length>=(theme==='night'?44:20))return;particles.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*19,vy:-10-Math.random()*10,age:0,life:.6+Math.random()*.8,r:.6+Math.random()*.9,phase:Math.random()*6.28});if(!frame)frame=requestAnimationFrame(tick);};
-  const clear=()=>{if(!allowed.matches||document.hidden){cancelAnimationFrame(frame);frame=0;previous=0;particles.length=0;ctx.clearRect(0,0,innerWidth,innerHeight);}};
-  window.addEventListener('pointermove',move,{passive:true});window.addEventListener('resize',resize);document.addEventListener('visibilitychange',clear);allowed.addEventListener('change',clear);
-  return()=>{cancelAnimationFrame(frame);window.removeEventListener('pointermove',move);window.removeEventListener('resize',resize);document.removeEventListener('visibilitychange',clear);allowed.removeEventListener('change',clear);};
- },[theme]);return <canvas ref={canvas} className="cursor-dust" aria-hidden="true"/>;
-}
 
 function Brand(){return <a className="world-brand" href="/forest-prototype.html" aria-label="StethoFuse home"><img className="brand-symbol" src={A+'owl-mark.svg'} width="419" height="360" alt=""/><span>StethoFuse</span></a>;}
 

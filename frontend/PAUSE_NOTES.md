@@ -1,3 +1,22 @@
+# Current: approved forest composition; four refinements, 2026-10-29
+
+The owner approved the composition and deer artwork at local commit `9433865`.
+Their four exceptions are footer-link visibility, typography, deer play/running
+motion and cursor-effect visibility. Those refinements are now implemented in the
+local prototype. Read `../docs/ENCHANTED_FOREST_APPROVED_FOLLOWUP.md`.
+
+Preview: `http://127.0.0.1:4192/forest-review.html`. Fraunces/DM Sans, readable
+footer navigation, a texture-preserving deer play sequence and distinct Night
+fireflies / Day birds are the new review candidates. Preserve the approved world
+and exact owl identity. Final owl flight remains independently unapproved.
+
+Production is untouched. No merge, release or coordinator replay occurred. Await
+owner review of these four refinements; do not restart a broad forest redesign.
+
+Historical checkpoints follow.
+
+---
+
 # Current: corrected local forest prototype, 2026-10-28
 
 The first local prototype was rejected by the owner. Its composition and approval
