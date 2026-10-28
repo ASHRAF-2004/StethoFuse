@@ -1,3 +1,7 @@
+> **REJECTED / SUPERSEDED.** The owner rejected this first prototype. Its former
+> readiness wording and marker checks do not establish visual acceptance. Read
+> [the corrective revision](ENCHANTED_FOREST_REVISION_REVIEW.md) for the current state.
+
 # Enchanted forest prototype review
 
 **ENCHANTED FOREST PROTOTYPE PARTIALLY COMPLETE — ASSETS OR ANIMATION REQUIRE REVIEW**

@@ -107,3 +107,49 @@ in the scene. The good perched owl remains available for composition review.
 
 Neither a build nor automated checks grant visual acceptance. Owner must explicitly
 approve both gates before any landing replacement or production release.
+
+## Owner rejection of the first local prototype
+
+The first local prototype is rejected, including its review claim. Its marker
+checks proved only the coordinates assigned to the markers, not painted contact.
+The exposed strip beside the tree, stretched footer texture and clipped brand
+were visible defects that should have prevented handoff.
+
+Revision decisions, before implementation:
+
+- The trunk's right crop is the master coordinate. Crown, perch, trunk and root
+  crown share it at every breakpoint. No connected part receives parallax.
+- The approved owl is unchanged. Its toe bases, rather than its lowest claw tips,
+  meet the sloping branch. A registered copy of the actual moss provides foreground
+  occlusion; inspect the resulting pixels, not just a synthetic anchor.
+- Footer soil uses an SVG texture window and one aspect-preserving root crown.
+  Width and height are never assigned independently to the natural artwork.
+- Extract the seven existing owl-mark contours into a padded standalone SVG.
+  Do not crop the full wordmark using CSS overflow.
+- Mobile reserves a perch row immediately after the hero copy. Content determines
+  the row position; remove the successive fixed 500/760px offsets and 960/1160px
+  hero overrides. Desktop keeps scenery and content inside the same composition.
+- Preserve the existing photographic owl and its gaze renderer. The schematic
+  flight blockout remains an archived, unapproved study, never a character asset.
+
+Taste v2 and daisyUI guidance are reference material, not permission to replace
+the owner's art direction or migrate UI frameworks. The subject inventory is:
+snowy-owl listening identity; cardiopulmonary recordings; original/heart/lung
+comparison; private history; explicit sharing; non-diagnostic research boundary;
+forest Day/Night pair; one old tree; warm antler light; surface-to-soil ending.
+On this page, the listening owl's tree becomes the continuous frame of the journey.
+Hero proves purpose; workflow explains the recording lifecycle; purpose explains
+access limits; FAQ answers actual account/data questions; the earth ends the scene.
+
+From the owner's portfolio: quick object feedback, rolling action labels,
+pointer-reactive artwork, short reveals and useful controls. From itsflxkzy:
+code-authored motion serving a real object and clear action hierarchy. Neither
+site's imagery, commercial copy or personal content is copied. Interaction stays
+subordinate to reading and retains keyboard/touch/reduced-motion alternatives.
+
+The revision's visual pass also caught the hero branch crossing supporting copy
+at tablet widths. Owl-only bounding-box checks missed it. Smaller tablets now use
+the reserved perch row (up to 900 CSS pixels); the remaining compact desktop
+range gives the paragraph a clear measure left of the painted branch. A new
+test samples the actual crown alpha beneath hero character positions. It is a
+composition guard, independent of the synthetic branch/claw anchor check.

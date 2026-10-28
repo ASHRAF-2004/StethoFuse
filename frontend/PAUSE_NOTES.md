@@ -1,3 +1,22 @@
+# Current: corrected local forest prototype, 2026-10-28
+
+The first local prototype was rejected by the owner. Its composition and approval
+claims are superseded. The corrective revision is on `feature/forest-world-prototype`.
+Read `../docs/ENCHANTED_FOREST_REVISION_REVIEW.md` before continuing.
+
+Local entry: `http://127.0.0.1:4192/forest-review.html`. The built prototype was
+checked separately at port 4193. Both bind loopback only. Production is untouched.
+The approved photographic owl/renderer is preserved. The drawn flight blockout is
+archived, absent from the review hub, unapproved and disabled in the actual scene.
+The final 24 fps identity-matched flight and handoff remain an independent blocker.
+
+Do not merge or deploy. Owner approval of the scene AND final animation is still
+required. Do not replay old Axora/release handoffs or change other applications.
+
+Historical checkpoints follow.
+
+---
+
 # Current: local continuous-forest prototype, 2026-10-28
 
 The owner rejected the deployed forest design and requested a layered Day/Night
