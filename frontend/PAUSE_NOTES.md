@@ -1,4 +1,27 @@
-# Current: approved forest composition; four refinements, 2026-10-29
+# Current: deer motion rejected; generated-frame rebuild, 2026-10-29
+
+The owner rejected the foreleg deformation in the deer animation. The approved
+composition and original deer artwork remain intact. `ForestDeer.tsx` now renders
+only that unchanged still; the old mesh rig is historical and must not be imported
+back into the scene. Its numerical checks did not validate the limb silhouette.
+
+Read `../docs/DEER_FRAME_ANIMATION_STUDY.md`. Local research and frame viewer:
+`http://127.0.0.1:4192/deer-frame-study.html`. The first 24 generated drawings and
+two full-resolution key poses are study material, not accepted motion. The owner
+explicitly authorized one free Higgsfield continuity test; job
+`797daa7b-3f49-4f00-bac0-24062ec99758` completed and is REJECTED: hard pose cuts at
+35→36 and 62→63. The owner caught the first cut before the complete adjacent-frame
+inspection. The guide used discrete held poses; the generator did not create valid
+continuous in-betweens. Stabilization cannot fix that. No replacement motion is
+accepted, and no further generation was submitted. No paid fallback is authorized.
+Preserve original owl, typography/footer/cursor refinements, production
+and all protected app/data/model resources. No push, merge or deploy.
+
+Historical checkpoints follow.
+
+---
+
+# Previous: approved forest composition; four refinements, 2026-10-29
 
 The owner approved the composition and deer artwork at local commit `9433865`.
 Their four exceptions are footer-link visibility, typography, deer play/running

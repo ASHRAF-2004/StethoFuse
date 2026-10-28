@@ -1,3 +1,5 @@
+// HISTORICAL ONLY: owner rejected the visible limb on 2026-10-29.
+// These geometric measurements cannot establish anatomical or visual acceptance.
 import fs from 'node:fs/promises';import {sampleDeerPose,deformDeerPoint,hip,knee,hoof} from '../src/forest-prototype/deerRig.ts';
 const support=[{x:466,y:1294},{x:636,y:1247},{x:888,y:1308}];let drift=0,maxLift=0,upperError=0;const seen=new Set();
 for(let i=0;i<=222;i++){const t=i/30,p=sampleDeerPose(t,t);maxLift=Math.max(maxLift,p.lift);for(const s of support){const d=deformDeerPoint(s,p);drift=Math.max(drift,Math.hypot(d.x-s.x,d.y-s.y));}const h=deformDeerPoint(hip,p),k=deformDeerPoint(knee,p);upperError=Math.max(upperError,Math.abs(Math.hypot(h.x-k.x,h.y-k.y)-Math.hypot(hip.x-knee.x,hip.y-knee.y)));seen.add(JSON.stringify([p.head,p.ear,p.lift,p.reach]));}

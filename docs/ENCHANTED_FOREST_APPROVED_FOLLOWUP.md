@@ -1,5 +1,11 @@
 # Approved forest: four owner follow-ups — 29 October 2026
 
+**SUPERSEDED DEER-MOTION VERDICT, 29 October:** the owner rejected the visible
+foreleg. The mesh is disabled and the unchanged approved still is active. The
+deer-motion claims, recordings and measurements below are historical evidence,
+not acceptance. Read [the generated-frame rebuild](DEER_FRAME_ANIMATION_STUDY.md).
+The approved composition and unrelated footer/type/cursor refinements are retained.
+
 The owner approved the forest composition and deer artwork based on local commit
 `9433865d3d5c490b559b28fdb9f855464cd07485`, with four exceptions: footer-link
 visibility, typography, deer playfulness and cursor-effect visibility. This is a

@@ -1,0 +1,9 @@
+# Research diagnostics only. No production or character activation.
+import cv2,numpy as np,json,subprocess
+from pathlib import Path
+root=Path(__file__).resolve().parents[2]/'evidence/deer-frame-study/continuity-test';src=sorted((root/'generated-frames').glob('frame-*.png'));out=root/'stabilized-frames';out.mkdir(exist_ok=True);sift=cv2.SIFT_create(nfeatures=5000);first=cv2.imread(str(src[0]));h,w=first.shape[:2];mask=np.zeros((h,w),np.uint8);mask[int(h*.74):]=255;k0,d0=sift.detectAndCompute(first,mask);matcher=cv2.BFMatcher();mats=[]
+for i,path in enumerate(src):
+ im=cv2.imread(str(path));k1,d1=sift.detectAndCompute(im,mask);good=[a for a,b in matcher.knnMatch(d0,d1,k=2) if a.distance<.68*b.distance];a=np.float32([k0[m.queryIdx].pt for m in good]);b=np.float32([k1[m.trainIdx].pt for m in good]);mat,inliers=cv2.estimateAffinePartial2D(a,b,method=cv2.RANSAC,ransacReprojThreshold=2.5);inverse=cv2.invertAffineTransform(mat);stable=cv2.warpAffine(im,inverse,(w,h),flags=cv2.INTER_LANCZOS4,borderMode=cv2.BORDER_CONSTANT,borderValue=(59,71,41));cv2.imwrite(str(out/f'frame-{i+1:03d}.png'),stable);mats.append({'frame':i+1,'inverse_whole_frame_similarity':inverse.tolist(),'determinant':float(np.linalg.det(inverse[:,:2])),'anatomical_mesh':False})
+(root/'stabilization-transforms.json').write_text(json.dumps({'method':'one global similarity matrix per frame, terrain anchored; no local deformation, no optical flow, no generated in-betweens','frames':mats},indent=2)+'\n')
+subprocess.run(['ffmpeg','-y','-hide_banner','-loglevel','error','-framerate','24','-i',str(out/'frame-%03d.png'),'-c:v','libx264','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart',str(root/'stabilized-candidate.mp4')],check=True)
+print('Stabilized',len(src),'whole frames; original generator output preserved.')

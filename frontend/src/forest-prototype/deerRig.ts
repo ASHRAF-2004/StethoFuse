@@ -1,3 +1,5 @@
+// REJECTED 2026-10-29: photographed foreleg bends into an implausible shape.
+// Historical study only; never import this rig into the forest scene.
 // Texture-preserving two-bone foreleg rig. Coordinates refer to the approved 1024×1536 art.
 export type Point={x:number;y:number};
 export type DeerPose={head:number;ear:number;lift:number;reach:number;breath:number;playing:boolean;time:number};
