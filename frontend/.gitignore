@@ -24,3 +24,5 @@ public/assets/owl/continuous-field/
 # Reproducible design discovery and review-only HTML.
 .superdesign/init/
 .superdesign/tmp/
+.pingfusi/
+targets/

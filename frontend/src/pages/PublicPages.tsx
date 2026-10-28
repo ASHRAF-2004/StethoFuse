@@ -12,11 +12,13 @@ import {authAdapter} from '../data/adapters';
 import LiveAuthPages,{isLiveAuthPath} from './LiveAuthPages';
 import {usePublicTheme} from '../frost/publicTheme';
 import {OwlEyeMaterial} from '../frost/OwlEyeMaterial';
+import ForestPointer from '../components/ForestPointer';
 import {firebaseConfigurationError} from '../config/runtime';
 import '../frost/tokens.css';
 import './public-pages.css';
 import './public-reference.css';
 import './public-frost.css';
+import '../woodland.css';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const delay = () => new Promise(resolve => setTimeout(resolve, 450));
@@ -34,7 +36,7 @@ export function safeReturn(value: string | null, fallback = '/app/dashboard') {
 }
 
 function Logo() {
-  return <Link to="/" className="brand-logo" aria-label={`${brand.name} home`}><img src={brand.logo} alt={brand.name} width="215" height="48"/></Link>;
+  return <Link to="/" className="brand-logo" aria-label={`${brand.name} home`}><span className="brand-mark" aria-hidden="true"><img src={brand.logo} alt="" width="203" height="48"/></span><span className="brand-wordmark">{brand.name}</span></Link>;
 }
 function PublicNav({theme,onThemeChange}:{theme?:'frost'|'midnight';onThemeChange?:()=>void}={}) {
   return <header className="public-nav"><Logo/><nav className="public-nav-links" aria-label="Public navigation"><a href="/#how-it-works">How it works</a><a href="/#research-scope">Our purpose</a><Button to="/login" variant="secondary">Sign in</Button>{onThemeChange&&<button type="button" className="home-theme-toggle" aria-label={theme==='midnight'?'Switch to Frost theme':'Switch to Midnight theme'} onClick={onThemeChange}>{theme==='midnight'?<Sun size={20}/>:<Moon size={20}/>}</button>}</nav></header>;
@@ -60,7 +62,7 @@ function Welcome() {
       <article className="workflow-step"><Waveform size={29} weight="light"/><h3>Separate the components</h3><p>Request sound separation and keep working while the job runs. Each result stays linked to its source and processing version.</p></article>
       <article className="workflow-step"><Headphones size={29} weight="light"/><h3>Listen with context</h3><p>Compare original, heart and lung signals. Inspect waveforms and share a recording with an explicitly assigned analyst.</p></article>
     </div></section>
-    <section className="public-band" id="research-scope" aria-labelledby="scope-title"><div className="public-section welcome-scope"><div><h2 id="scope-title">A focused tool.<br/>A thoughtful boundary.</h2><p>{brand.name} is a university research application for recording management and cardiopulmonary sound separation. It does not diagnose conditions, recommend treatment or replace professional judgment.</p><InlineLink to="/privacy">How access is intended to work</InlineLink></div><div className="scope-principles"><div><ShieldCheck size={23}/><div><h3>Your workspace, your recordings</h3><p>Each account has its own history. Sharing is explicit and can be revoked.</p></div></div><div><LockKey size={23}/><div><h3>Access follows permission</h3><p>Analysts review assigned files. Administration does not automatically grant access to private audio.</p></div></div>{DEMO_ENABLED && <Notice title="You are viewing a demonstration"><p>Fictional accounts, synthetic audio and simulated processing. No clinical recordings, authentication or model inference.</p><Link className="inline-link" to="/login#demo-personas">Explore the demo <ArrowRight size={16}/></Link></Notice>}</div></div></section>
+    <section className="public-band" id="research-scope" aria-labelledby="scope-title"><div className="public-section welcome-scope"><div><h2 id="scope-title">A focused tool.<br/>A thoughtful boundary.</h2><p>{brand.name} is a university research application for recording management and cardiopulmonary sound separation. It does not diagnose conditions, recommend treatment or replace professional judgment.</p><InlineLink to="/privacy">How access is intended to work</InlineLink></div><div className="scope-principles"><div><ShieldCheck size={23}/><div><h3>Your workspace, your recordings</h3><p>Each account has its own history. Sharing is explicit and can be revoked.</p></div></div><div><LockKey size={23}/><div><h3>Access follows permission</h3><p>Analysts review assigned files. Administration does not automatically grant access to private audio.</p></div></div>{DEMO_ENABLED && <Notice title="You are viewing a demonstration"><p>Fictional accounts, synthetic audio and simulated processing. No clinical recordings, authentication or model inference.</p><Link className="inline-link" to="/login#demo-personas">Explore the demo <ArrowRight size={16}/></Link></Notice>}</div><figure className="forest-deer" aria-hidden="true"><img src="/assets/enchanted-forest/glowing-deer-v1.webp" alt="" width="512" height="768" loading="lazy" decoding="async"/><span/></figure></div></section>
     <section className="public-section welcome-help" id="support" aria-labelledby="support-title"><div><h2 id="support-title">Before you begin.</h2><p>A few practical details about this research workspace.</p><WinterArt kind="feather"/></div><div>
       <details><summary>Can I use this for diagnosis?</summary><p>No. This is a research and educational prototype for sound separation, recording organization and audio review. Outputs are not diagnostic findings or treatment advice.</p></details>
       {DEMO_ENABLED ? <details><summary>What can I try in the demonstration?</summary><p>Choose one of the clearly labelled fictional personas on the sign-in page. Explore separate staff workspaces, analyst assignments and administrative metadata. Only non-sensitive demonstration state is saved in this browser.</p><InlineLink to="/login#demo-personas">Choose a demo account</InlineLink></details> : <details><summary>How do I access my workspace?</summary><p>{firebaseConfigurationError?'Sign-in is unavailable in this build. Open the sign-in page for configuration guidance.':'Sign in with your email and password or Google account. Verify your email before opening the private workspace. Your handle is used for sharing, not for signing in.'}</p><InlineLink to="/login">Sign in to your workspace</InlineLink></details>}
@@ -279,20 +281,22 @@ function Utility({path}: {path: string}) {
 
 export default function PublicPages() {
   const {pathname} = useLocation();
-  if(!DEMO_ENABLED&&isLiveAuthPath(pathname))return <LiveAuthPages key={pathname} path={pathname}/>;
-  switch (pathname.replace(/\/$/, '') || '/') {
-    case '/': return <Welcome/>;
-    case '/login': return <Login/>;
-    case '/register': return <Register/>;
-    case '/forgot-password': return <ForgotPassword/>;
-    case '/reset-password': return <ResetPassword/>;
-    case '/verify-email': return <VerifyEmail/>;
-    case '/auth/action': return <AuthAction/>;
-    case '/auth/callback': return <GoogleCallback/>;
-    case '/account-disabled': return <AccountState/>;
-    case '/session-expired': return <AccountState session/>;
-    case '/privacy': return <Legal/>;
-    case '/terms': return <Legal terms/>;
-    default: return <Utility path={pathname}/>;
-  }
+  const page = !DEMO_ENABLED&&isLiveAuthPath(pathname) ? <LiveAuthPages key={pathname} path={pathname}/> : (() => {
+    switch (pathname.replace(/\/$/, '') || '/') {
+      case '/': return <Welcome/>;
+      case '/login': return <Login/>;
+      case '/register': return <Register/>;
+      case '/forgot-password': return <ForgotPassword/>;
+      case '/reset-password': return <ResetPassword/>;
+      case '/verify-email': return <VerifyEmail/>;
+      case '/auth/action': return <AuthAction/>;
+      case '/auth/callback': return <GoogleCallback/>;
+      case '/account-disabled': return <AccountState/>;
+      case '/session-expired': return <AccountState session/>;
+      case '/privacy': return <Legal/>;
+      case '/terms': return <Legal terms/>;
+      default: return <Utility path={pathname}/>;
+    }
+  })();
+  return <><ForestPointer/>{page}</>;
 }

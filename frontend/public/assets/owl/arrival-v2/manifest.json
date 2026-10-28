@@ -1,0 +1,173 @@
+{
+  "version": 2,
+  "frameSource": "two registered 2x2 whole-owl atlases; eye centers measured from blue-iris pixels; poses ordered by outer-wing vertical centroids",
+  "flightCycle": [
+    "flight-00",
+    "flight-01",
+    "flight-02",
+    "flight-03",
+    "flight-04",
+    "flight-05",
+    "flight-06",
+    "flight-07",
+    "flight-06",
+    "flight-05",
+    "flight-04",
+    "flight-03",
+    "flight-02",
+    "flight-01"
+  ],
+  "poses": {
+    "flight-00": {
+      "asset": "raised",
+      "rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "eyes": [
+        320.05,
+        397.8
+      ],
+      "eyeSpan": 64.9
+    },
+    "flight-01": {
+      "asset": "raised",
+      "rect": [
+        0,
+        627,
+        627,
+        627
+      ],
+      "eyes": [
+        320.2,
+        276.85
+      ],
+      "eyeSpan": 64.41
+    },
+    "flight-02": {
+      "asset": "recovery",
+      "rect": [
+        627,
+        627,
+        627,
+        627
+      ],
+      "eyes": [
+        312.35,
+        281.9
+      ],
+      "eyeSpan": 59.71
+    },
+    "flight-03": {
+      "asset": "raised",
+      "rect": [
+        627,
+        0,
+        627,
+        627
+      ],
+      "eyes": [
+        311.15,
+        397.95
+      ],
+      "eyeSpan": 64.5
+    },
+    "flight-04": {
+      "asset": "recovery",
+      "rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "eyes": [
+        312.75,
+        332
+      ],
+      "eyeSpan": 59.72
+    },
+    "flight-05": {
+      "asset": "raised",
+      "rect": [
+        627,
+        627,
+        627,
+        627
+      ],
+      "eyes": [
+        310.95,
+        277
+      ],
+      "eyeSpan": 64.5
+    },
+    "flight-06": {
+      "asset": "recovery",
+      "rect": [
+        627,
+        0,
+        627,
+        627
+      ],
+      "eyes": [
+        311.85,
+        332.05
+      ],
+      "eyeSpan": 60.13
+    },
+    "flight-07": {
+      "asset": "recovery",
+      "rect": [
+        0,
+        627,
+        627,
+        627
+      ],
+      "eyes": [
+        313.35,
+        282
+      ],
+      "eyeSpan": 59.53
+    },
+    "landing-upstroke": {
+      "asset": "landing",
+      "rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "eyes": [
+        254.5059,
+        196.2997
+      ],
+      "eyeSpan": 54.4946
+    },
+    "landing-perch": {
+      "asset": "landing",
+      "rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "eyes": [
+        254.4381,
+        186.1844
+      ],
+      "eyeSpan": 54.1239
+    }
+  },
+  "assets": {
+    "raised": {
+      "url": "/assets/owl/arrival-v2/flight-atlas-hires.webp"
+    },
+    "recovery": {
+      "url": "/assets/owl/arrival-v2/flight-atlas-recovery.webp"
+    },
+    "landing": {
+      "url": "/assets/owl/arrival-v1/atlas.webp"
+    }
+  }
+}
