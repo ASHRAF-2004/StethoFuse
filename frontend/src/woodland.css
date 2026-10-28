@@ -248,6 +248,21 @@
 .utility-page .utility-inner>p,.legal-page .legal-content p,.legal-page .legal-content li { color:#53675a; }
 .utility-page .utility-code { color:#588369; }
 .utility-page .public-footer,.legal-page .public-footer { background:linear-gradient(180deg,#21392e,#12291f); }
+.legal-page .public-nav { color:#f1f4e8; }
+.legal-page .public-nav .brand-logo { color:#f1f4e8; }
+.legal-page .public-nav .brand-logo img { filter:brightness(0) invert(1); }
+.legal-page .public-nav-links,.legal-page .public-nav-links a { color:#edf3e6; }
+.legal-page .public-nav-links a:hover { color:#c6edca; }
+.legal-page .public-nav .button-secondary { color:#f1f4e8; background:rgba(15,42,34,.56); border-color:#d6ebd080; box-shadow:inset 0 1px #ffffff30; }
+.legal-page .public-nav .button-secondary:hover { background:rgba(32,74,53,.72); }
+.legal-page .legal-content { background:linear-gradient(120deg,rgba(248,250,239,.97),rgba(234,241,229,.95)); border-color:#d5e1cf; }
+.legal-page .legal-content .eyebrow { color:#60795f; }
+.legal-page .legal-content .notice-info { color:#405b48; background:#e7eee1; border-color:#a8bda2; }
+.legal-page .legal-content .notice-info p { color:#526752; }
+.legal-page .legal-content .toolbar .button-secondary { color:#f2f5e9; background:linear-gradient(135deg,#477b5a,#315f46); border-color:#789b78; }
+.legal-page .legal-content .toolbar .inline-link { color:#2f704f; }
+.legal-page .public-footer { color:#d7e3d1; }
+.legal-page .public-footer a { color:#d7e3d1; }
 .sf-public :is(a,button,summary,input,select):focus-visible { outline:3px solid #9bd1a3; outline-offset:4px; }
 
 @media(max-width:900px) {
