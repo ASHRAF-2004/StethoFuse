@@ -47,8 +47,8 @@ def main():
               'anchors':{'crown_axis':[.88,1],'perch':[.54,.562], 'owl_claw_source':[.445,.925],
                          'trunk_axis':.5,'earth_root_crown':[.88,.12], 'deer_hoof_plane':.85},
               'flight':'UNAPPROVED_SEPARATE_KINEMATIC_STUDY_NOT_ENABLED_IN_SCENE'}
-    (PUBLIC/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
-    (SOURCE.parent/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+    (PUBLIC/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8',newline='\n')
+    (SOURCE.parent/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8',newline='\n')
     print(json.dumps({'assets':len(inventory),'runtime_bytes':sum(a['bytes'] for a in inventory),'source_bytes':sum((SOURCE/f'{n}.png').stat().st_size for n in ASSETS)},indent=2))
 
 if __name__=='__main__':main()
