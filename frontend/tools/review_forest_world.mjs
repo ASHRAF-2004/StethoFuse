@@ -1,0 +1,38 @@
+import {chromium} from 'playwright-core';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const OUT='evidence/forest-world/final';await fs.mkdir(OUT,{recursive:true});
+const URL='http://127.0.0.1:4192/forest-prototype.html';
+const widths=[360,390,768,1024,1280,1440,1920,2560],themes=['night','day'];
+const errors=[],requests=new Set(),normal=[],zoom=[];
+function captureEvents(p){p.on('pageerror',e=>errors.push(String(e)));p.on('request',r=>requests.add(r.url()));}
+async function settle(p){await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(120);}
+async function metrics(p){return p.evaluate(()=>{
+ const rect=s=>document.querySelector(s).getBoundingClientRect();const b=rect('[data-anchor=branch]'),c=rect('[data-anchor=owl-claws]'),t=rect('.trunk-spine'),r=rect('[data-anchor=root-crown]'),d=rect('.deer-clearing');
+ const intersect=(a,b)=>Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left))*Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
+ const owl=rect('.owl-stage');const owlBody={left:owl.left+owl.width*.12,right:owl.right-owl.width*.07,top:owl.top+owl.height*.04,bottom:owl.bottom};
+ let textOwlOverlap=0;const walker=document.createTreeWalker(document.querySelector('.hero-words'),NodeFilter.SHOW_TEXT);let n;
+ while(n=walker.nextNode()){if(!n.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(n);for(const box of range.getClientRects())textOwlOverlap+=intersect(box,owlBody);}
+ const card=rect('.purpose-glass'),deerBody={left:d.left+d.width*.15,right:d.right-d.width*.1,top:d.top+d.height*.09,bottom:d.bottom-d.height*.09};
+ return {innerWidth,innerHeight,dpr:devicePixelRatio,outerWidth,overflow:document.documentElement.scrollWidth>innerWidth+1,branchClawDelta:Math.hypot(b.left-c.left,b.top-c.top),trunkRootDelta:Math.abs(t.left+t.width/2-r.left),textOwlOverlap:Math.round(textOwlOverlap),cardDeerOverlap:Math.round(intersect(card,deerBody)),sectionsTransparent:[...document.querySelectorAll('main>section')].every(s=>getComputedStyle(s).backgroundColor==='rgba(0, 0, 0, 0)'),owl:owl.toJSON(),deer:d.toJSON(),treeAxis:r.left,bodyHeight:document.documentElement.scrollHeight};
+ });}
+async function prime(p){for(let y=0;y<await p.evaluate(()=>document.documentElement.scrollHeight);y+=700){await p.evaluate(y=>scrollTo(0,y),y);await p.waitForTimeout(35);}await p.evaluate(()=>scrollTo(0,0));await p.waitForTimeout(80);}
+const browser=await chromium.launch();
+const context=await browser.newContext({reducedMotion:'reduce'});const page=await context.newPage();captureEvents(page);
+for(const theme of themes)for(const width of widths){await page.setViewportSize({width,height:width<700?844:1000});await page.goto(URL+'?theme='+theme,{waitUntil:'networkidle'});await settle(page);await prime(page);const result=await metrics(page);normal.push({theme,width,...result});await page.screenshot({path:`${OUT}/${theme}-${width}.png`,fullPage:true});}
+// Theme switch keeps all master geometry unchanged at the same viewport.
+await page.setViewportSize({width:1440,height:1000});await page.goto(URL+'?theme=night',{waitUntil:'networkidle'});const before=await metrics(page);await page.getByRole('button',{name:'Switch to day theme'}).click();await settle(page);const after=await metrics(page);
+const themeGeometryUnchanged=JSON.stringify([before.owl,before.deer,before.treeAxis,before.bodyHeight])===JSON.stringify([after.owl,after.deer,after.treeAxis,after.bodyHeight]);
+await page.getByText('Can I use this for diagnosis?',{exact:true}).click();const faqWorks=await page.locator('details').first().getAttribute('open')!==null;
+await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Open menu'}).click();const mobileMenuWorks=await page.locator('.world-nav>nav').isVisible();await page.locator('.world-nav>nav a[href="#how"]').click();
+await page.emulateMedia({reducedMotion:'reduce'});await page.mouse.move(160,200);const reducedMotion={flightDisabled:await page.locator('.forest-owl').getAttribute('data-flight'),cursorHidden:await page.locator('.cursor-dust').evaluate(el=>getComputedStyle(el).display==='none')};
+await context.close();await browser.close();
+// Real Chromium Page zoom via its Settings UI, NOT CSS zoom or pinch/pageScaleFactor.
+const real=await chromium.launchPersistentContext('C:/Users/thalt/StethoFuseDeployment/ForestPrototypeReview/zoom-profile',{channel:'chromium',headless:true,viewport:null,args:['--window-size=1456,1095']});
+const settings=await real.newPage();await settings.goto('chrome://settings/appearance');const actual=await real.newPage();captureEvents(actual);const cdp=await real.newCDPSession(actual);const {windowId}=await cdp.send('Browser.getWindowForTarget');
+await actual.emulateMedia({reducedMotion:'reduce'});await actual.goto(URL,{waitUntil:'networkidle'});
+for(const width of widths){await cdp.send('Browser.setWindowBounds',{windowId,bounds:{width:width+16,height:1095}});for(const z of [2/3,.8,1,1.25,1.5,2]){await settings.locator('#zoomLevel').selectOption(String(z));await actual.bringToFront();await settle(actual);for(const theme of themes){await actual.evaluate(t=>{document.querySelector('.forest-world').setAttribute('data-theme',t);document.documentElement.dataset.forestTheme=t;document.querySelector('.valley-layer img').src='/assets/forest-world/valley-'+t+'.webp';document.querySelector('.valley-layer source').srcset='/assets/forest-world/valley-'+t+'-640.webp';},theme);await actual.waitForTimeout(45);zoom.push({requestedBaselineWidth:width,zoom:z,theme,...await metrics(actual)});}if(width===1440&&z===2/3){await actual.evaluate(()=>document.querySelector('.forest-world').setAttribute('data-theme','night'));await prime(actual);await actual.screenshot({path:OUT+'/night-actual-browser-zoom-67.png',fullPage:true});}}}
+await settings.locator('#zoomLevel').selectOption('1');await real.close();
+const summary={normalCases:normal.length,realBrowserZoomCases:zoom.length,zoomMechanism:'Chromium chrome://settings/appearance #zoomLevel; viewport:null, native window bounds, verified devicePixelRatio changes; no CSS/pinch zoom',themeGeometryUnchanged,faqWorks,mobileMenuWorks,reducedMotion,pageErrors:errors,unexpectedNetwork:[...requests].filter(u=>!u.startsWith('http://127.0.0.1:4192/')),normalFailures:normal.filter(x=>x.overflow||x.branchClawDelta>1||x.trunkRootDelta>1||x.textOwlOverlap>30||x.cardDeerOverlap>30||!x.sectionsTransparent),zoomFailures:zoom.filter(x=>x.overflow||x.branchClawDelta>1||x.trunkRootDelta>1||x.textOwlOverlap>30||x.cardDeerOverlap>30||Math.abs(x.dpr-x.zoom)>.02),normal,zoom};
+await fs.writeFile(OUT+'/responsive-results.json',JSON.stringify(summary,null,2));
+console.log(JSON.stringify({...summary,normal:undefined,zoom:undefined,normalFailures:summary.normalFailures.map(x=>({width:x.width,theme:x.theme,overflow:x.overflow,textOwlOverlap:x.textOwlOverlap,cardDeerOverlap:x.cardDeerOverlap,branch:x.branchClawDelta,root:x.trunkRootDelta})),zoomFailures:summary.zoomFailures.map(x=>({width:x.requestedBaselineWidth,zoom:x.zoom,actualWidth:x.innerWidth,theme:x.theme,overflow:x.overflow,textOwlOverlap:x.textOwlOverlap,cardDeerOverlap:x.cardDeerOverlap,branch:x.branchClawDelta,root:x.trunkRootDelta,dpr:x.dpr}))}));

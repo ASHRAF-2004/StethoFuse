@@ -1,3 +1,28 @@
+# Current: local continuous-forest prototype, 2026-10-28
+
+The owner rejected the deployed forest design and requested a layered Day/Night
+prototype before any replacement. Branch `feature/forest-world-prototype`, based
+on `e848bb17f9fb1141990bf8079dad635684f0620f`. Production is untouched.
+
+Open `http://127.0.0.1:4192/forest-review.html`. The isolated Vite config is
+`forest-prototype.vite.config.ts`; start with
+`node node_modules/vite/bin/vite.js --config forest-prototype.vite.config.ts`.
+It binds loopback only and has no API proxy.
+
+Read `../docs/ENCHANTED_FOREST_PROTOTYPE_REVIEW.md`, the design postmortem and owl
+study there. Seven independent artwork sources form a continuous valley, tree,
+deer clearing and earth footer. Existing approved owl renderer/assets are unchanged.
+The separate 24 fps/96-pose anatomical study is **NOT final flight artwork**. Final
+flight and its idle handoff remain unapproved and disabled in the forest scene.
+
+Owner visual approval of composition AND final animation is required before any
+landing replacement, main merge or deployment. Do not resume the rejected design
+or replay old production/coordinator handoffs. Stop for owner review at this gate.
+
+Historical checkpoints below remain as history, not current design instructions.
+
+---
+
 # M1 authentication continuation — 2026-09-26
 
 The newer frontend is preserved in pre-M1 commit `c681839`. M1 now adds official

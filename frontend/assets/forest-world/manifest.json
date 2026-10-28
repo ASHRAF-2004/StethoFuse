@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "status": "PROTOTYPE_ART_REQUIRES_OWNER_REVIEW",
+  "reference_mapping": {
+    "visible_day": "C:/Users/thalt/Pictures/Forest-night.png",
+    "visible_night": "C:/Users/thalt/Pictures/Forest-morning.png"
+  },
+  "lighting_geometry": "Night valley is an edit of day valley; tree, deer and earth geometry are shared in both themes.",
+  "assets": [
+    {
+      "id": "valley-day",
+      "source": "assets/forest-world/source/valley-day.png",
+      "url": "/assets/forest-world/valley-day.webp",
+      "width": 1024,
+      "height": 1536,
+      "source_sha256": "b8f65a8128a790b58becc50dd590edf4615465f4198ba2f89645352ad0c9e436",
+      "runtime_sha256": "9ee8f6de035fad5cce1c7744722a3565d9fc367be5de6aebe8db101b3928d71c",
+      "bytes": 604530,
+      "alpha": false,
+      "transparent_pixel_fraction": 0,
+      "mobile_url": "/assets/forest-world/valley-day-640.webp"
+    },
+    {
+      "id": "valley-night",
+      "source": "assets/forest-world/source/valley-night.png",
+      "url": "/assets/forest-world/valley-night.webp",
+      "width": 1024,
+      "height": 1536,
+      "source_sha256": "256d503290b39aeb2852fc70b6be9c1773c5e35ffb315447a914d8cb8a58dc95",
+      "runtime_sha256": "565ab4b4363a29da33b0e0686c3e058aaac29a1c825d70805d8b65988ba7322f",
+      "bytes": 460576,
+      "alpha": false,
+      "transparent_pixel_fraction": 0,
+      "mobile_url": "/assets/forest-world/valley-night-640.webp"
+    },
+    {
+      "id": "tree-crown",
+      "source": "assets/forest-world/source/tree-crown.png",
+      "url": "/assets/forest-world/tree-crown.webp",
+      "width": 1254,
+      "height": 1254,
+      "source_sha256": "d55058f1395b537141681bd3fe1b090e14e4a8bdb5b534788834a1cdc498269b",
+      "runtime_sha256": "97d652aa4db73fd5b83dde94f44a60fb93b5f1e4d31e67cbe101996f9895af32",
+      "bytes": 636090,
+      "alpha": true,
+      "transparent_pixel_fraction": 0.4966
+    },
+    {
+      "id": "tree-trunk",
+      "source": "assets/forest-world/source/tree-trunk.png",
+      "url": "/assets/forest-world/tree-trunk.webp",
+      "width": 724,
+      "height": 2172,
+      "source_sha256": "443cc9887e8a6899d8e721e18940cbded1ac892014a91842de79b9e5b12f469c",
+      "runtime_sha256": "806cca8646e3d247864fa0d6db6927d06ddacca36826c79d6ed7699f09e764ab",
+      "bytes": 676004,
+      "alpha": true,
+      "transparent_pixel_fraction": 0.2989
+    },
+    {
+      "id": "earth-roots",
+      "source": "assets/forest-world/source/earth-roots.png",
+      "url": "/assets/forest-world/earth-roots.webp",
+      "width": 2172,
+      "height": 724,
+      "source_sha256": "541ca65f97732793249968b5700c9b179245c21f1fb3e293a325a77a6b96ba62",
+      "runtime_sha256": "10bed0285ee4ad8fed68249c67f0f07276876b9cda8c6a4051c72c61842d01b2",
+      "bytes": 878712,
+      "alpha": true,
+      "transparent_pixel_fraction": 0.167
+    },
+    {
+      "id": "deer-clearing",
+      "source": "assets/forest-world/source/deer-clearing.png",
+      "url": "/assets/forest-world/deer-clearing.webp",
+      "width": 1024,
+      "height": 1536,
+      "source_sha256": "dcb219c963da5dbd711e0f821f39e96e4202791af5456b9ed043b2627c162cd2",
+      "runtime_sha256": "76d545e864c02b419e4430b0b2ef8a312c8dff888e5c0bf0ee8e475caad11567",
+      "bytes": 486036,
+      "alpha": true,
+      "transparent_pixel_fraction": 0.483
+    },
+    {
+      "id": "clearing-bank",
+      "source": "assets/forest-world/source/clearing-bank.png",
+      "url": "/assets/forest-world/clearing-bank.webp",
+      "width": 2164,
+      "height": 727,
+      "source_sha256": "0776d6c6b606f466cdb571716c5298ee9376cc544fef8d910cb5bf901e030448",
+      "runtime_sha256": "4f1e5598b0a9919a47aaacccfd80280711f2deac6ac318fc0b4c3df1389c6288",
+      "bytes": 677024,
+      "alpha": true,
+      "transparent_pixel_fraction": 0.442
+    }
+  ],
+  "anchors": {
+    "crown_axis": [
+      0.88,
+      1
+    ],
+    "perch": [
+      0.54,
+      0.562
+    ],
+    "owl_claw_source": [
+      0.445,
+      0.925
+    ],
+    "trunk_axis": 0.5,
+    "earth_root_crown": [
+      0.88,
+      0.12
+    ],
+    "deer_hoof_plane": 0.85
+  },
+  "flight": "UNAPPROVED_SEPARATE_KINEMATIC_STUDY_NOT_ENABLED_IN_SCENE"
+}

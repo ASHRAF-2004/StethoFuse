@@ -1,0 +1,92 @@
+import React,{useEffect,useRef,useState,lazy,Suspense} from 'react';
+import {createRoot} from 'react-dom/client';
+import {ArrowRight,Headphones,UploadSimple,Waveform,ShieldCheck,LockKey,Sun,Moon,List,X,Plus,ArrowUpRight} from '@phosphor-icons/react';
+import {createOwlSurface,type Surface} from '../components/owlSurface';
+import {OwlEyeMaterial} from '../frost/OwlEyeMaterial';
+import './world.css';
+
+const A='/assets/forest-world/';
+type Theme='day'|'night';
+
+/** Prototype-only adapter. The approved renderer, textures and displacement meshes are unchanged. */
+function ApprovedOwl(){
+ const root=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null);
+ useEffect(()=>{
+  const el=root.current!,node=canvas.current!,abort=new AbortController(),work=document.createElement('canvas'),display=node.getContext('2d')!;
+  const motion=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(pointer:fine)');
+  let surface:Surface|null=null,loading=false,disposed=false,visible=true,frame=0,previous=0,yaw=0,pitch=0,ty=0,tp=0;
+  const resize=()=>{const r=el.getBoundingClientRect(),width=Math.min(900,Math.round(r.width*Math.min(devicePixelRatio,1.5)));if(work.width!==width){work.width=node.width=width;work.height=node.height=Math.round(width*1353/1163);surface?.resize();}wake();};
+  // Snapshot the unchanged WebGL surface immediately into a persistent display canvas.
+  // This avoids CSS SVG-filter compositing losing a non-preserved GL back buffer at rest.
+  const draw=(time:number)=>{frame=0;if(!surface||disposed||!visible||document.hidden||motion.matches)return;const dt=previous?Math.min(.05,(time-previous)/1000):1/60;previous=time;const gain=-Math.expm1(-dt*13);yaw+=(ty-yaw)*gain;pitch+=(tp-pitch)*gain;surface.draw(yaw,pitch);display.clearRect(0,0,node.width,node.height);display.drawImage(work,0,0);el.classList.add('is-ready');el.dataset.yaw=yaw.toFixed(3);el.dataset.pitch=pitch.toFixed(3);if(Math.abs(ty-yaw)+Math.abs(tp-pitch)>.001)wake();};
+  function wake(){if(surface&&!frame&&visible&&!document.hidden&&!motion.matches)frame=requestAnimationFrame(draw);}
+  const start=()=>{if(surface||loading||motion.matches||!fine.matches)return;loading=true;resize();void createOwlSurface(work,abort.signal).then(s=>{if(disposed){s.dispose();return;}surface=s;el.dataset.renderer='approved-connected-neck';resize();wake();}).catch(()=>{el.dataset.renderer='approved-poster-fallback';});};
+  const move=(e:PointerEvent)=>{if(e.pointerType==='touch'||!visible||motion.matches)return;start();const b=el.getBoundingClientRect();let x=(e.clientX-b.left-b.width*.428)/Math.max(280,innerWidth*.55),y=(b.top+b.height*.192-e.clientY)/Math.max(180,innerHeight*.6);const l=Math.hypot(x,y);if(l>1){x/=l;y/=l;}ty=x*30;tp=y*18;wake();};
+  const leave=()=>{ty=tp=0;wake();};
+  const change=()=>{if(motion.matches){cancelAnimationFrame(frame);frame=0;el.classList.remove('is-ready');}else wake();};
+  const io=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)wake();else{cancelAnimationFrame(frame);frame=0;previous=0;} });io.observe(el);
+  const ro=new ResizeObserver(resize);ro.observe(el);
+  window.addEventListener('pointermove',move,{passive:true});document.addEventListener('pointerleave',leave);motion.addEventListener('change',change);document.addEventListener('visibilitychange',change);
+  return()=>{disposed=true;abort.abort();cancelAnimationFrame(frame);surface?.dispose();io.disconnect();ro.disconnect();window.removeEventListener('pointermove',move);document.removeEventListener('pointerleave',leave);motion.removeEventListener('change',change);document.removeEventListener('visibilitychange',change);};
+ },[]);
+ return <div ref={root} className="forest-owl" data-flight="unapproved-disabled" data-pointer-scope="page" aria-hidden="true"><OwlEyeMaterial/><img src="/assets/owl-poster-1163.webp" width="1163" height="1353" alt="" fetchPriority="high"/><canvas ref={canvas}/><i className="claw-anchor" data-anchor="owl-claws"/></div>;
+}
+
+/** Scanline mesh: only torso/head/ears deform. Terrain and hooves are never translated. */
+function Deer(){
+ const ref=useRef<HTMLElement>(null),canvas=useRef<HTMLCanvasElement>(null);
+ useEffect(()=>{
+  const el=ref.current!,node=canvas.current!,ctx=node.getContext('2d');if(!ctx)return;
+  const motion=matchMedia('(prefers-reduced-motion: reduce)');const image=new Image();
+  let disposed=false,visible=false,frame=0,previous=0;
+  const paint=(time:number)=>{frame=0;if(disposed||!visible||document.hidden||motion.matches||!image.complete||!image.naturalWidth)return;if(time-previous>=1000/24){previous=time;const w=node.width,h=node.height;ctx.clearRect(0,0,w,h);for(let y=0;y<h;y+=4){const n=y/h,head=Math.exp(-(((n-.24)/.17)**2)),body=Math.exp(-(((n-.51)/.12)**2)),fixed=n>.7?0:1;const dx=Math.sin(time*.00052)*w*.002*head*fixed,breath=1+Math.sin(time*.001)*.006*body*fixed;const dw=w*breath;ctx.drawImage(image,0,y*image.height/h,image.width,4*image.height/h,(w-dw)/2+dx,y,dw,4.4);}el.classList.add('art-ready');el.dataset.idle='torso-breath-head-ear-deformation-fixed-hooves';}frame=requestAnimationFrame(paint);};
+  const wake=()=>{if(!frame&&visible&&!disposed&&!motion.matches)frame=requestAnimationFrame(paint);};
+  image.onload=()=>{node.width=512;node.height=768;wake();};
+  const io=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible){if(!image.src)image.src=A+'deer-clearing.webp';wake();}else{cancelAnimationFrame(frame);frame=0;}},{rootMargin:'300px'});io.observe(el);
+  const changed=()=>{if(motion.matches){cancelAnimationFrame(frame);frame=0;el.classList.remove('art-ready');}else{if(image.complete)el.classList.add('art-ready');wake();}};motion.addEventListener('change',changed);document.addEventListener('visibilitychange',changed);
+  return()=>{disposed=true;cancelAnimationFrame(frame);io.disconnect();motion.removeEventListener('change',changed);document.removeEventListener('visibilitychange',changed);image.onload=null;};
+ },[]);
+ return <figure ref={ref} className="deer-clearing" aria-hidden="true"><img src={A+'deer-clearing.webp'} alt="" width="1024" height="1536" loading="lazy"/><canvas ref={canvas}/><i className="hoof-anchor" data-anchor="deer-ground"/></figure>;
+}
+
+function CursorDust({theme}:{theme:Theme}){
+ const canvas=useRef<HTMLCanvasElement>(null);
+ useEffect(()=>{
+  const node=canvas.current!,ctx=node.getContext('2d');if(!ctx)return;const allowed=matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)');
+  type P={x:number;y:number;vx:number;vy:number;age:number;life:number;r:number;phase:number};const particles:P[]=[];let frame=0,previous=0,emitted=0;
+  const resize=()=>{const d=Math.min(devicePixelRatio,1.5);node.width=innerWidth*d;node.height=innerHeight*d;ctx.setTransform(d,0,0,d,0,0);};resize();
+  const tick=(now:number)=>{frame=0;const dt=previous?Math.min(.05,(now-previous)/1000):1/60;previous=now;ctx.clearRect(0,0,innerWidth,innerHeight);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.age+=dt;if(p.age>=p.life){particles.splice(i,1);continue;}p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy-=3*dt;const fade=(1-p.age/p.life)**2;ctx.globalAlpha=fade*(.65+.35*Math.sin(now*.008+p.phase))*(theme==='night'?.85:.5);ctx.fillStyle=i%3?'#f3dda5':'#e3ffd8';ctx.shadowColor='#f9dd99';ctx.shadowBlur=p.r*4;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;ctx.shadowBlur=0;node.dataset.particles=String(particles.length);if(particles.length)frame=requestAnimationFrame(tick);else previous=0;};
+  const move=(e:PointerEvent)=>{if(!allowed.matches||e.pointerType==='touch'||document.hidden)return;const now=performance.now();if(now-emitted<(theme==='night'?35:65))return;emitted=now;if(particles.length>=(theme==='night'?44:20))return;particles.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*19,vy:-10-Math.random()*10,age:0,life:.6+Math.random()*.8,r:.6+Math.random()*.9,phase:Math.random()*6.28});if(!frame)frame=requestAnimationFrame(tick);};
+  const clear=()=>{if(!allowed.matches||document.hidden){cancelAnimationFrame(frame);frame=0;previous=0;particles.length=0;ctx.clearRect(0,0,innerWidth,innerHeight);}};
+  window.addEventListener('pointermove',move,{passive:true});window.addEventListener('resize',resize);document.addEventListener('visibilitychange',clear);allowed.addEventListener('change',clear);
+  return()=>{cancelAnimationFrame(frame);window.removeEventListener('pointermove',move);window.removeEventListener('resize',resize);document.removeEventListener('visibilitychange',clear);allowed.removeEventListener('change',clear);};
+ },[theme]);return <canvas ref={canvas} className="cursor-dust" aria-hidden="true"/>;
+}
+
+function Brand(){return <a className="world-brand" href="/forest-prototype.html" aria-label="StethoFuse home"><span className="brand-symbol"><img src="/assets/logo.svg" alt=""/></span><span>StethoFuse</span></a>;}
+const steps=[{icon:UploadSimple,title:'Bring the recording',text:'Upload a PCM WAV recording, up to 25 MiB. Use a pseudonymous title without patient identifiers. Live microphone capture is coming soon.'},{icon:Waveform,title:'Separate the components',text:'Request sound separation and keep working while the job runs. Each result stays linked to its source and processing version.'},{icon:Headphones,title:'Listen with context',text:'Compare original, heart and lung signals. Inspect waveforms and share a recording with an explicitly assigned analyst.'}];
+const questions=[['Can I use this for diagnosis?','No. StethoFuse is a research and educational prototype for sound separation, recording organization and audio review. Outputs are not diagnostic findings or treatment advice.'],['How do I access my workspace?','Sign in with your email and password or Google account. Verify your email before opening the private workspace. Your handle is used for sharing, not for signing in.'],['Will my file or password be sent anywhere?','Firebase handles authentication. Uploaded recordings and separation results are stored privately by StethoFuse. Audio access follows ownership and explicit permissions; administrators do not automatically receive access.'],['How do I get help with a recording?','Signed-in users can open Help for upload, device and review guidance. For access restrictions, contact the project owner through your existing contact channel. A public support inbox has not been configured.']];
+
+function World(){
+ const [theme,setTheme]=useState<Theme>(()=>new URLSearchParams(location.search).get('theme')==='day'?'day':'night'),[menu,setMenu]=useState(false);
+ useEffect(()=>{document.documentElement.dataset.forestTheme=theme;const u=new URL(location.href);u.searchParams.set('theme',theme);history.replaceState(null,'',u);},[theme]);
+ return <div className="forest-world" data-theme={theme}>
+  <a className="world-skip" href="#main">Skip to content</a>
+  <div className="valley-layer" aria-hidden="true"><picture><source media="(max-width:640px)" srcSet={A+`valley-${theme}-640.webp`}/><img src={A+`valley-${theme}.webp`} alt="" width="1024" height="1536" fetchPriority="high"/></picture></div>
+  <div className="reading-atmosphere" aria-hidden="true"/>
+  <div className="trunk-spine" data-anchor="tree-axis" aria-hidden="true"/>
+  <div className="tree-crown" aria-hidden="true"><img className="crown-art" src={A+'tree-crown.webp'} width="1254" height="1254" alt="" fetchPriority="high"/><span className="perch-marker" data-anchor="branch"/><div className="owl-stage"><ApprovedOwl/></div></div>
+  <header className="world-nav"><Brand/><nav aria-label="Main navigation" className={menu?'is-open':''}><a href="#how" onClick={()=>setMenu(false)}>How it works</a><a href="#purpose" onClick={()=>setMenu(false)}>Our purpose</a><a href="#support" onClick={()=>setMenu(false)}>FAQ</a></nav><div className="nav-actions"><button className="round-control" aria-label={`Switch to ${theme==='night'?'day':'night'} theme`} onClick={()=>setTheme(t=>t==='night'?'day':'night')}>{theme==='night'?<Sun size={21}/>:<Moon size={21}/>}</button><a className="glass-button nav-signin" href="/login">Sign in</a><button className="round-control menu-toggle" aria-label={menu?'Close menu':'Open menu'} aria-expanded={menu} onClick={()=>setMenu(v=>!v)}>{menu?<X size={23}/>:<List size={23}/>}</button></div></header>
+  <main id="main">
+   <section className="world-hero content-width" aria-labelledby="hero-title"><div className="hero-words"><p className="world-eyebrow">Cardiopulmonary sound separation</p><h1 id="hero-title">Hear the<br/><em>signals within.</em></h1><p className="hero-description">Separate mixed chest recordings into heart and lung components,<br className="desktop-break"/> with space to listen, compare and review.</p><div className="hero-actions"><a className="glass-button primary" href="/register">Get started <ArrowRight size={19}/></a><a className="glass-button" href="/login">Sign in</a></div><ul className="trust-notes"><li><ShieldCheck size={23}/>Research-focused</li><li><Waveform size={23}/>Sound analysis</li><li><LockKey size={23}/>Private by design</li></ul></div></section>
+   <section className="world-workflow content-width" id="how" aria-labelledby="how-title"><header><p className="world-eyebrow">One recording.</p><h2 id="how-title">Room for every signal.</h2><p>A considered workflow, from first capture to a shared review.<br className="desktop-break"/> Keep your original recording and each processing run together.</p></header><div className="world-steps">{steps.map(({icon:Icon,title,text},i)=><article className="world-step glass" key={title}><div className="step-top"><span className="icon-medallion"><Icon size={30}/></span><span className="step-number">0{i+1}</span></div><h3>{title}</h3><p>{text}</p>{i<2&&<ArrowRight className="step-arrow" size={24} aria-hidden="true"/>}</article>)}</div></section>
+   <section className="world-purpose content-width" id="purpose" aria-labelledby="purpose-title"><div className="purpose-layout"><div><p className="world-eyebrow">A focused tool.</p><h2 id="purpose-title">A thoughtful<br/>boundary.</h2><p>StethoFuse is a university research application for recording management and cardiopulmonary sound separation. It does not diagnose conditions, recommend treatment or replace professional judgment.</p><a className="text-link" href="/privacy">How access is intended to work <ArrowUpRight size={17}/></a></div><div className="purpose-glass glass"><div><span className="icon-medallion"><ShieldCheck size={27}/></span><section><h3>Your workspace, your recordings</h3><p>Each account has its own history. Sharing is explicit and can be revoked.</p></section></div><div><span className="icon-medallion"><LockKey size={27}/></span><section><h3>Access follows permission</h3><p>Analysts review assigned files. Administration does not automatically grant access to private audio.</p></section></div></div></div><img className="purpose-bank" src={A+'clearing-bank.webp'} width="2172" height="724" alt="" loading="lazy" aria-hidden="true"/><Deer/></section>
+   <section className="world-faq content-width" id="support" aria-labelledby="faq-title"><header><p className="world-eyebrow">Before you begin.</p><h2 id="faq-title">Common questions.</h2><p>A few practical details about this research workspace.</p></header><div className="faq-list">{questions.map(([q,a])=><details className="glass" key={q}><summary>{q}<Plus size={19} aria-hidden="true"/></summary><p>{a}</p></details>)}</div></section>
+  </main>
+  <footer className="earth-footer"><img className="earth-art" src={A+'earth-roots.webp'} width="2172" height="724" alt="" loading="lazy" aria-hidden="true"/><div className="footer-content content-width"><div><Brand/><p>For research and education.<br/>Not a diagnostic system.</p></div><nav aria-label="Footer"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/login?returnTo=%2Fapp%2Fhelp">Help</a></nav></div><span className="root-marker" data-anchor="root-crown" aria-hidden="true"/></footer>
+  <CursorDust theme={theme}/>
+ </div>;
+}
+const MotionStudy=lazy(()=>import('./motion-study'));
+const study=new URLSearchParams(location.search).get('study')==='owl';
+createRoot(document.getElementById('root')!).render(study?<Suspense fallback={<p>Loading motion study…</p>}><MotionStudy/></Suspense>:<World/>);
