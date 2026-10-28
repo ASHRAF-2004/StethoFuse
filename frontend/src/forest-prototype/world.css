@@ -24,7 +24,7 @@
 @media(prefers-reduced-transparency:reduce){.glass,.round-control,.glass-button{backdrop-filter:none;background:#143b30}[data-theme=day] .glass,[data-theme=day] .round-control,[data-theme=day] .glass-button{background:#eff5e8}[data-theme=day] .primary{background:#315d3c}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.cursor-dust{display:none}.deer-clearing>canvas{display:none}.deer-clearing.art-ready>img{opacity:1}.forest-owl>canvas{display:none}.forest-owl.is-ready>img{opacity:1}}
 @media(forced-colors:active){.valley-layer,.tree-crown,.trunk-spine,.deer-clearing,.earth-art,.cursor-dust{display:none}.forest-world{background:Canvas;color:CanvasText}.reading-atmosphere{display:none}.glass,.glass-button,.round-control{background:Canvas;color:CanvasText;border:1px solid CanvasText}.earth-footer{background:Canvas;color:CanvasText}.world-eyebrow,p{color:CanvasText}}
-@media(pointer:coarse){.footer-content nav a{display:inline-flex;align-items:center;min-width:44px;min-height:44px}.round-control{min-width:44px;min-height:44px}}
+.footer-content nav a{display:inline-flex;align-items:center;min-width:44px;min-height:44px}.round-control{min-width:44px;min-height:44px}
 
 /* Measured composition corrections after first browser contact review. */
 .world-nav>nav{padding:7px 22px;border:1px solid var(--rim);border-radius:30px;background:var(--glass);backdrop-filter:blur(9px)}
