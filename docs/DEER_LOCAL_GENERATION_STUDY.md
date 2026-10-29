@@ -1,3 +1,7 @@
+> Current continuation: see [DEER_MOTION_REPAIR_CHECKPOINT.md](DEER_MOTION_REPAIR_CHECKPOINT.md).
+> The larger-model run below finished. No heavy worker remains active. The current
+> local result is an unapproved 97-position foreleg study; normal deer source stays still.
+
 # Continuous deer generation — local research continuation
 
 29 October 2026. Resumes the rejected mesh and held-pose video documented in

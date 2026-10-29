@@ -18,7 +18,7 @@
   </style>
 </head>
 <body><main>
-  <a href="/forest-review.html">← Approved forest composition</a> · <a href="/deer-frame-study.html">Earlier research</a>
+  <a href="/forest-review.html">← Approved forest composition</a> · <a href="/deer-motion-review.html">Whole-character / forest motion study</a> · <a href="/deer-frame-study.html">Earlier research</a>
   <h1>Deer motion inspection.</h1>
   <p class="notice"><strong>Local research — no replacement motion is approved.</strong> The forest still uses the unchanged original deer. These are diagnostic crops; they are not transparent runtime assets or a completed animation.</p>
   <div class="toolbar"><label>Study <select id="study"></select></label><button id="refresh" type="button">Refresh evidence</button></div>
@@ -34,7 +34,7 @@
     <label>Rate <select id="rate"><option value="1">24 fps · normal</option><option value="0.5">Half speed</option><option value="0.25">Quarter speed</option></select></label>
     <label><input id="pixels" type="checkbox"> Pixel inspection</label>
   </div>
-  <p class="note">Scrubbing displays the native PNG, not an interpolated or warped frame. Playback uses the actual encoded video. No autoplay. Hidden pages pause. Only a small PNG cache is retained.</p>
+  <p class="note">Scrubbing displays the saved native-sized PNG. Later studies contain neural in-betweens and a stationary appearance handoff, disclosed in their receipts. Playback uses the actual encoded video. No autoplay. Hidden pages pause. Only a small PNG cache is retained.</p>
   <h2>Recorded verdict</h2><div id="finding">No visual verdict yet. A finished render or a quiet difference graph does not establish anatomical quality.</div>
   <div class="links"><a id="source" href="#">Selected native PNG</a><a id="receipt" href="#">Generation receipt</a><a id="audit" href="#">Adjacent-frame measurements</a></div>
   <details><summary>What must pass before a runtime candidate</summary><p>One moving foreleg, rigid bone shafts, a normal cloven hoof, clean attachment beneath the chest, planted supporting feet, matching terrain/contact, consistent fur/light, every adjacent transition, a clean alpha matte and an exact rest handoff. The complete character must then be inspected in the actual forest. Motion metadata, frame hashes and compilation cannot approve these.</p></details>
@@ -49,7 +49,9 @@ const studies=[
   {id:'wan07',label:'Rejected · wrong-limb walk',path:'local-i2v/continuous-i2v-07-native-crop/decode-bf16-full-decode-bf16-full-native',reference:'local-i2v/continuous-i2v-07-native-crop/condition-frame.png',count:73},
   {id:'wan08',label:'Unqualified guide · correct action / wrong hoof',path:'local-i2v/continuous-i2v-08-raised-lower',reference:'vace-leg/vace-leg-04-native-crop/reference.png',count:49},
   {id:'vace09',label:'Rejected · guided attachment / hoof',path:'vace-leg/vace-leg-09-guided-refinement',count:49},
-  {id:'large02',label:'Larger model · inspection pending',path:'vace-leg/vace14-leg-02-pinned',count:49},
+  {id:'large02',label:'Larger model · timing / rest defects',path:'vace-leg/vace14-leg-02-pinned',count:49},
+  {id:'rife14',label:'Neural in-between study · 49 + 48 positions',path:'vace-leg/rife14-full-01',count:97},
+  {id:'matte14',label:'Foreleg study · matte / original-rest handoff',path:'vace-leg/deer14-matte-03',count:97},
 ];
 for(const study of studies){const option=document.createElement('option');option.value=study.id;option.textContent=study.label;el('study').append(option);}
 let selected=studies.at(-1),index=1,ready=false,generation=0,cache=new Map();
@@ -64,7 +66,7 @@ async function show(n){if(!ready)return;pause();index=Math.max(1,Math.min(select
 }
 async function refresh(){const stamp=++generation;pause();ready=false;cache.clear();buttons();el('study').value=selected.id;el('scrub').max=String(selected.count);el('receipt').href=root+selected.path+'/receipt.json';el('audit').href=root+selected.path+'/analysis/adjacent-report.json';el('state').textContent='Reading local evidence…';canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
   try{const image=await loadImage(root+(selected.reference||selected.path+'/reference.png'));if(stamp!==generation)return;reference.width=image.naturalWidth;reference.height=image.naturalHeight;reference.getContext('2d').drawImage(image,0,0);}catch{reference.getContext('2d').clearRect(0,0,reference.width,reference.height);}
-  try{const receipt=await json(root+selected.path+'/receipt.json');if(stamp!==generation)return;ready=receipt.status.startsWith('GENERATED_')&&Number(receipt.decoded_frames||0)===selected.count&&/^[a-f0-9]{64}$/.test(receipt.video_sha256||'');el('state').textContent=`${receipt.status}${receipt.step?' · generation step '+receipt.step+' / '+(receipt.total||receipt.total_steps):''} · ${ready?selected.count+' source positions at 24 fps; visual acceptance remains separate':'No complete source sequence available'}`;video.removeAttribute('src');if(ready)video.src=root+selected.path+'/candidate.mp4';buttons();if(ready)await show(1);}catch{el('state').textContent='No complete local receipt available. Playback stays disabled.';}
+  try{const receipt=await json(root+selected.path+'/receipt.json');if(stamp!==generation)return;ready=receipt.status.startsWith('GENERATED_')&&Number(receipt.decoded_frames||0)===selected.count&&/^[a-f0-9]{64}$/.test(receipt.video_sha256||'');el('state').textContent=`${receipt.status}${receipt.step?' · generation step '+receipt.step+' / '+(receipt.total||receipt.total_steps):''} · ${ready?selected.count+' saved positions at 24 fps; interpolation and holds are disclosed in the receipt':'No complete source sequence available'}`;video.removeAttribute('src');if(ready)video.src=root+selected.path+'/candidate.mp4';buttons();if(ready)await show(1);}catch{el('state').textContent='No complete local receipt available. Playback stays disabled.';}
   try{const verdict=await json(root+selected.path+'/visual-verdict.json');if(stamp!==generation)return;const lines=[verdict.status,...(verdict.blockers||verdict.remaining_defects||verdict.observations||[])];el('finding').textContent=lines.join(' · ');}catch{if(stamp===generation)el('finding').textContent='No visual verdict yet. This take is unapproved; generation metadata is not acceptance.';}
 }
 el('study').onchange=()=>{selected=studies.find(study=>study.id===el('study').value);refresh();};el('refresh').onclick=refresh;

@@ -98,3 +98,24 @@ The raw inspection page is `http://127.0.0.1:4192/deer-local-studies.html`.
 It disables playback for incomplete jobs, scrubs native PNGs with a bounded cache
 and plays actual encoded video only on explicit request. It is a local laboratory
 page, separate from the approved forest prototype and production build entry.
+
+## Native in-betweens and transparency study
+
+The current local full-character/scene study is
+`http://127.0.0.1:4192/deer-motion-review.html`. Read
+`../../../docs/DEER_MOTION_REPAIR_CHECKPOINT.md` for the visual limitations,
+provenance and actual browser evidence. It does not activate animation in the
+normal forest. The three additional scripts use preserved ignored research input:
+
+```powershell
+& LAB/.venv/Scripts/python.exe tools/deer_study/interpolate_native_motion.py --lab LAB --source SOURCE_RUN --out NEW_RUN
+& LAB/.venv/Scripts/python.exe tools/deer_study/segment_hoof_coverage.py --lab LAB --source INTERPOLATED_RUN --out NEW_MASK_RUN
+& LAB/.venv/Scripts/python.exe tools/deer_study/prepare_motion_review.py --source INTERPOLATED_RUN --original public/assets/forest-world/deer-clearing.webp --hoof-coverage NEW_MASK_RUN --out NEW_MATTE_RUN
+```
+
+Replace each placeholder with its existing absolute directory. Outputs must be
+new paths. The scripts do not install models. RIFE and MobileSAM are already
+installed in the isolated lab; do not reinstall Torch/ROCm. Segmentation changes
+coverage, not anatomy. Source holds, neural in-betweens, reverse lifting and the
+stationary rest blend are disclosed separately in receipts. Inspect every native
+alpha image and adjacent transition; a model score cannot approve its masks.
