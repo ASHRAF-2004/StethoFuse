@@ -1,0 +1,9 @@
+{
+  "source": "builtin_imagegen",
+  "role": "unapproved intermediate anatomical key",
+  "runtime_activated": false,
+  "early_lift_requirement_passed": false,
+  "verdict": "Generated hoof remains much higher than requested early-lift target; do not treat as validated early lift",
+  "file": "generated-lift-key-02.png",
+  "sha256": "3c0b9c22ce9db4320c866c10bccf0c5db14a380e19f659c03c0657de6449587e"
+}

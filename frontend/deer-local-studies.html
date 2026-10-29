@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>StethoFuse · local deer motion inspection</title>
+  <style>
+    @font-face{font-family:DM;src:url('/assets/forest-world/fonts/dm-sans-latin.woff2')}
+    *{box-sizing:border-box}body{margin:0;background:#102c24;color:#eff6e9;font:16px/1.6 DM,system-ui,sans-serif}
+    main{max-width:1140px;margin:auto;padding:32px 24px 64px}a{color:#d5eac9}h1{font:500 clamp(28px,5vw,46px)/1.15 Georgia,serif;margin:24px 0 16px}
+    h2{font-size:19px}.notice{padding:16px 20px;background:#3f3225;border:1px solid #ba9a73;border-radius:12px}.note{color:#c5d6c8;font-size:14px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:24px 0}label{display:flex;align-items:center;gap:10px}select,button{font:inherit;min-height:46px;border:1px solid #769b83;border-radius:8px;padding:8px 14px;background:#d5eac9;color:#12382c}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}select{max-width:100%}
+    input[type=range]{width:min(440px,70vw);accent-color:#c3dfad}button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #fff0b8;outline-offset:4px}
+    .views{display:grid;grid-template-columns:1fr 1fr;gap:24px}figure{margin:0;padding:18px;border:1px solid #4b715c;border-radius:12px;background:#203e32}figcaption{font-weight:600;margin-bottom:14px}.stage{position:relative;max-width:460px;margin:auto;background:#29473b;aspect-ratio:2/3;overflow:hidden}canvas,video{display:block;width:100%;height:100%;object-fit:contain}video{position:absolute;inset:0}canvas.pixel{image-rendering:pixelated}[hidden]{display:none!important}
+    #state{font-variant-numeric:tabular-nums}#finding{padding:16px 20px;background:#1c392d;border-radius:10px;min-height:80px}details{margin:24px 0}summary{cursor:pointer;padding:10px 0}.links{display:flex;gap:20px;flex-wrap:wrap}output{min-width:110px;font-variant-numeric:tabular-nums}
+    @media(max-width:680px){main{padding:24px 16px 48px}.views{grid-template-columns:1fr}.toolbar>label:first-child{width:100%}select{width:100%}.stage{max-height:640px}}
+  </style>
+</head>
+<body><main>
+  <a href="/forest-review.html">← Approved forest composition</a> · <a href="/deer-frame-study.html">Earlier research</a>
+  <h1>Deer motion inspection.</h1>
+  <p class="notice"><strong>Local research — no replacement motion is approved.</strong> The forest still uses the unchanged original deer. These are diagnostic crops; they are not transparent runtime assets or a completed animation.</p>
+  <div class="toolbar"><label>Study <select id="study"></select></label><button id="refresh" type="button">Refresh evidence</button></div>
+  <p id="state" role="status">Reading local evidence…</p>
+  <div class="views">
+    <figure><figcaption>Approved rest · registered reference crop</figcaption><div class="stage"><canvas id="reference" width="320" height="480"></canvas></div></figure>
+    <figure><figcaption id="caption">Generated source · awaiting inspection</figcaption><div class="stage"><canvas id="frame" width="320" height="480"></canvas><video id="video" playsinline controls preload="metadata" hidden></video></div></figure>
+  </div>
+  <div class="toolbar">
+    <button id="previous" type="button" aria-label="Previous source frame">←</button><button id="next" type="button" aria-label="Next source frame">→</button>
+    <label>Frame <input id="scrub" type="range" min="1" max="49" value="1"></label><output id="number">1 / 49</output>
+    <button id="play" type="button">Play actual video</button>
+    <label>Rate <select id="rate"><option value="1">24 fps · normal</option><option value="0.5">Half speed</option><option value="0.25">Quarter speed</option></select></label>
+    <label><input id="pixels" type="checkbox"> Pixel inspection</label>
+  </div>
+  <p class="note">Scrubbing displays the native PNG, not an interpolated or warped frame. Playback uses the actual encoded video. No autoplay. Hidden pages pause. Only a small PNG cache is retained.</p>
+  <h2>Recorded verdict</h2><div id="finding">No visual verdict yet. A finished render or a quiet difference graph does not establish anatomical quality.</div>
+  <div class="links"><a id="source" href="#">Selected native PNG</a><a id="receipt" href="#">Generation receipt</a><a id="audit" href="#">Adjacent-frame measurements</a></div>
+  <details><summary>What must pass before a runtime candidate</summary><p>One moving foreleg, rigid bone shafts, a normal cloven hoof, clean attachment beneath the chest, planted supporting feet, matching terrain/contact, consistent fur/light, every adjacent transition, a clean alpha matte and an exact rest handoff. The complete character must then be inspected in the actual forest. Motion metadata, frame hashes and compilation cannot approve these.</p></details>
+</main>
+<script type="module">
+const root='/evidence/deer-frame-study/',el=id=>document.getElementById(id);
+const studies=[
+  {id:'vace03',label:'Rejected · initial lift / orphan hoof',path:'vace-leg/vace-leg-03',count:49},
+  {id:'vace04',label:'Rejected · duplicated foreleg',path:'vace-leg/vace-leg-04-native-crop',count:49},
+  {id:'vace05',label:'Rejected · reference removal insufficient',path:'vace-leg/vace-leg-05-no-reference',count:49},
+  {id:'vace06',label:'Rejected · multi-key split limb',path:'vace-leg/vace-leg-06-multikey',count:49},
+  {id:'wan07',label:'Rejected · wrong-limb walk',path:'local-i2v/continuous-i2v-07-native-crop/decode-bf16-full-decode-bf16-full-native',reference:'local-i2v/continuous-i2v-07-native-crop/condition-frame.png',count:73},
+  {id:'wan08',label:'Unqualified guide · correct action / wrong hoof',path:'local-i2v/continuous-i2v-08-raised-lower',reference:'vace-leg/vace-leg-04-native-crop/reference.png',count:49},
+  {id:'vace09',label:'Rejected · guided attachment / hoof',path:'vace-leg/vace-leg-09-guided-refinement',count:49},
+  {id:'large02',label:'Larger model · inspection pending',path:'vace-leg/vace14-leg-02-pinned',count:49},
+];
+for(const study of studies){const option=document.createElement('option');option.value=study.id;option.textContent=study.label;el('study').append(option);}
+let selected=studies.at(-1),index=1,ready=false,generation=0,cache=new Map();
+const video=el('video'),canvas=el('frame'),reference=el('reference'),motion=matchMedia('(prefers-reduced-motion:reduce)');
+const sourcePath=n=>root+selected.path+'/frames/frame-'+String(n).padStart(3,'0')+'.png';
+function loadImage(url){return new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Image unavailable'));image.src=url;});}
+async function json(url){const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw new Error('Evidence unavailable');return response.json();}
+function buttons(){for(const id of ['previous','next','play','scrub'])el(id).disabled=!ready;el('play').textContent=motion.matches?'Play manually · reduced motion':'Play actual video';}
+function pause(){video.pause();video.hidden=true;canvas.hidden=false;}
+async function show(n){if(!ready)return;pause();index=Math.max(1,Math.min(selected.count,n));el('scrub').value=String(index);el('number').textContent=`${index} / ${selected.count}`;el('caption').textContent=`Generated source · native frame ${String(index).padStart(3,'0')}`;const requested=index,stamp=generation,url=sourcePath(requested);el('source').href=url;
+  try{let image=cache.get(requested);if(!image){image=await loadImage(url);if(stamp!==generation)return;cache.set(requested,image);while(cache.size>6)cache.delete(cache.keys().next().value);}if(stamp!==generation||index!==requested)return;canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;canvas.getContext('2d').drawImage(image,0,0);canvas.dataset.frame=String(requested);}catch{el('state').textContent='Native source frame unavailable; no substitute frame was drawn.';}
+}
+async function refresh(){const stamp=++generation;pause();ready=false;cache.clear();buttons();el('study').value=selected.id;el('scrub').max=String(selected.count);el('receipt').href=root+selected.path+'/receipt.json';el('audit').href=root+selected.path+'/analysis/adjacent-report.json';el('state').textContent='Reading local evidence…';canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  try{const image=await loadImage(root+(selected.reference||selected.path+'/reference.png'));if(stamp!==generation)return;reference.width=image.naturalWidth;reference.height=image.naturalHeight;reference.getContext('2d').drawImage(image,0,0);}catch{reference.getContext('2d').clearRect(0,0,reference.width,reference.height);}
+  try{const receipt=await json(root+selected.path+'/receipt.json');if(stamp!==generation)return;ready=receipt.status.startsWith('GENERATED_')&&Number(receipt.decoded_frames||0)===selected.count&&/^[a-f0-9]{64}$/.test(receipt.video_sha256||'');el('state').textContent=`${receipt.status}${receipt.step?' · generation step '+receipt.step+' / '+(receipt.total||receipt.total_steps):''} · ${ready?selected.count+' source positions at 24 fps; visual acceptance remains separate':'No complete source sequence available'}`;video.removeAttribute('src');if(ready)video.src=root+selected.path+'/candidate.mp4';buttons();if(ready)await show(1);}catch{el('state').textContent='No complete local receipt available. Playback stays disabled.';}
+  try{const verdict=await json(root+selected.path+'/visual-verdict.json');if(stamp!==generation)return;const lines=[verdict.status,...(verdict.blockers||verdict.remaining_defects||verdict.observations||[])];el('finding').textContent=lines.join(' · ');}catch{if(stamp===generation)el('finding').textContent='No visual verdict yet. This take is unapproved; generation metadata is not acceptance.';}
+}
+el('study').onchange=()=>{selected=studies.find(study=>study.id===el('study').value);refresh();};el('refresh').onclick=refresh;
+el('scrub').oninput=()=>show(Number(el('scrub').value));el('previous').onclick=()=>show(index-1);el('next').onclick=()=>show(index+1);
+el('pixels').onchange=()=>{canvas.classList.toggle('pixel',el('pixels').checked);reference.classList.toggle('pixel',el('pixels').checked);};
+el('rate').onchange=()=>{video.playbackRate=Number(el('rate').value);};el('play').onclick=async()=>{if(!ready)return;canvas.hidden=true;video.hidden=false;el('caption').textContent='Actual encoded video · native 24 fps source';video.currentTime=(index-1)/24;video.playbackRate=Number(el('rate').value);try{await video.play();}catch{pause();el('state').textContent='Video playback unavailable. Native PNG scrubbing remains available.';}};
+video.addEventListener('timeupdate',()=>{if(!video.paused){index=Math.min(selected.count,Math.floor(video.currentTime*24)+1);el('scrub').value=String(index);el('number').textContent=`${index} / ${selected.count}`;}});
+video.addEventListener('ended',()=>show(selected.count));document.addEventListener('visibilitychange',()=>{if(document.hidden)video.pause();});motion.addEventListener('change',()=>{if(motion.matches)video.pause();buttons();});
+await refresh();
+</script>
+</body></html>

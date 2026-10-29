@@ -1,4 +1,83 @@
-# Current: deer motion rejected; generated-frame rebuild, 2026-10-29
+# Current: local deer motion rebuild, 2026-10-29
+
+Owner requested resume. Only deer research is in scope. Production, host policy,
+Firebase, protected data/models/recordings, Axora and Portfolio are untouched.
+The approved original deer still remains active in `ForestDeer.tsx`; no new motion
+has passed visual QA or owner approval. Do not restore the rejected mesh.
+
+Read `../docs/DEER_LOCAL_GENERATION_STUDY.md` and `DEER_FRAME_ANIMATION_STUDY.md`.
+The isolated local ROCm/PyTorch/Wan lab is already installed under
+`C:/Users/thalt/StethoFuseDeployment/tools/DeerMotionLab`. Do not reinstall it.
+No additional Higgsfield run or paid video call was submitted.
+
+ACTIVE GPU worker: `generate_vace14_leg.py --run vace14-leg-02-pinned`
+(exec session 62375). The official larger checkpoint is complete and all 13 shards
+match published hashes. Revisiondb79b90c60bbb45ceec9e41b9d5a4df934538ac4.
+Native crop(224,832)-(544,1312),320x480,49 source positions at24 fps; known raised,
+toe-off and approved rest poses. No runtime acceptance or activation.
+Check its receipt/process before starting any GPU worker. It was around step16/32
+when this note was written. Exact worker/helper/model proof are in its provenance.
+
+`vace14-leg-01-lower` was stopped only as an identified research worker after
+slow pageable staging (~113-127 seconds/step); no output accepted. Run02 preserves
+weights/seed/poses but uses pinned asynchronous transfers,16 resident base blocks
+and24 CPU-staged blocks. Actual weights:9.14 GB GPU,8.44 GB pinned CPU. Steps are
+about45-48 seconds and finite. The first-layer dtype issue found by the tiny test
+was corrected by leaving conditioning layers in BF16; only attention/FFN blocks
+use scaled FP8. The tiny full-transformer test now matches the all-GPU quantized
+model exactly and restores CPU weights. Quantization is a real precision tradeoff
+(the independent linear probe differs by2.55%relative RMS from BF16),not an art pass.
+Do not move the full larger model to CUDA or map whole FP32 shards.
+
+The checked-in `generate_large_leg.py --lab LAB --run NEW_ID` reproduces the fixed
+pose study. `bounded_scaled_offload.py` is its tested memory helper. The isolated
+local inspection tool is `http://127.0.0.1:4192/deer-local-studies.html`.
+Its browser checks passed: pending-job playback disabled,native35/36 scrub race,
+actual decoded MP4 playback,reduced-motion pause,360/390px no overflow. This
+validates the tool only. Every output still needs native visual inspection.
+
+Run07,73 frames,was rejected after all native images: wrong leg walks/torso drifts,
+no rest handoff. Its saved motion decoded in17.3 seconds using full BF16 native
+convolution after stopping only the slow identified FP32 decoder. Run08 starts
+with the raised limb and lowers the correct leg,but the hoof turns boot-like and
+contact/registration do not qualify. All 49 native images inspected. SIFT probes
+have too few reliable inliers; do not use their registered images as approved art.
+Run09 uses the continuous08 take only as an unapproved motor guide,with original
+body outside the mask and original rest endpoints. It still damages attachment
+and retains a boot-like hoof at native1-24,so it is REJECTED; no-alert pixel metrics
+are not acceptance. MP4 SHAe63285e078217e772c8d0f8a20663d75b7df036158bbb8bb4aa081ecd4b9feb4.
+All failed outputs,latents,scripts and receipts remain under ignored evidence.
+
+Previous local results: full-character Wan2.2 idle-only05 and antler-distorted06
+are rejected. VACE03 has an abrupt initial lift/orphan hoof; VACE04 and05 duplicate
+a foreleg; VACE06 multi-key improves toe-off/count but splits and stretches the
+lower limb around 14-18. All are rejected, never activated. Removing the separate
+reference did NOT resolve duplication. Do not claim that hypothesis was proven.
+
+Two builtin-imagegen keys were created. `generated-lift-key-02.png` failed its
+small early-lift target. `early-lift-crop-key.png` is a plausible small toe-off
+source, not accepted motion. Its whole-crop registration has 730/746 inliers,
+scale 0.999933 and subpixel translation. No local anatomical warp. The source and
+reproducible key-registration tool are in the repository. Individual source images
+and every actual in-between still require native anatomical/adjacency review.
+
+GPU memory was repaired with supported VAE tiling, efficient attention, cache
+release and a process-only allocator cap. Native convolution avoids slow decoder
+kernel selection. No driver, pagefile, service or global host setting changed.
+All downloaded model safetensors match pinned official hashes. Source scripts,
+latents, receipts and rejected takes remain preserved in ignored evidence.
+
+Inspect all native frames and adjacent pairs before any candidate integration.
+Do not accept duplicate limbs, detached hooves, bowed bones, seams, planted-contact
+sliding or a discontinuous rest handoff. Broad pixel metrics are insufficient;
+use the explicit moving mask, contact sheets and playback. The exact owl and the
+approved forest composition remain unchanged. No push, merge or deploy.
+
+Historical checkpoints follow.
+
+---
+
+# Previous: deer motion rejected; generated-frame rebuild, 2026-10-29
 
 The owner rejected the foreleg deformation in the deer animation. The approved
 composition and original deer artwork remain intact. `ForestDeer.tsx` now renders
