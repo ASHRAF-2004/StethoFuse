@@ -41,3 +41,9 @@ Current production was last confirmed as 20261028T101829Z-7d4501b7cd84.
 
 No backup, Firebase configuration, protected data/model/T9, Portfolio, Axora policy
 or host/VM/network change is authorized. No heavy generation workers are required.
+
+Final release candidate and exact blocker are recorded in `../PAUSE_NOTES.md`.
+Selected version is20261030T015416Z-5134043f83bb; NOT deployed. Recovery qualification
+is required for web ef3b38fd. Both external copies and the publishing workflow are
+removed. Four ignored output copies remain because automatic approval review
+blocked recursive deletion; no other cleanup should risk the release/data evidence.
