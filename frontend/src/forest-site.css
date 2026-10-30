@@ -52,3 +52,9 @@ body:has(.forest-world) .forest-site-toggle,body:has(.sf-live) .forest-site-togg
 :root[data-forest-theme] .auth-form .password-field .icon-button{position:absolute;right:7px;top:5px}
 :root[data-forest-theme=night] .sidebar-logo img{filter:brightness(0) invert(.9)}
 @media(prefers-reduced-motion:reduce){.forest-pointer{display:none}}
+/* Retired decorative winter atlases are never part of the forest experience. */
+:root[data-forest-theme] :is(.reference-art,.winter-art){display:none!important}
+:root[data-forest-theme] .app-shell .sidebar nav a.nav-new{color:#f5faef;background:#346348}
+:root[data-forest-theme] :is(.app-shell,.sf-app) :is(thead,tbody,td){background:var(--forest-surface);color:var(--forest-ink);border-color:var(--forest-rim)}
+:root[data-forest-theme] .auth-foot{width:100%;max-width:none}
+:root[data-forest-theme=night] .auth-forest-canopy{filter:brightness(.6) saturate(.8)}
