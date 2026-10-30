@@ -1,0 +1,36 @@
+{
+  "status": "PREVIEW_CANDIDATE_OWNER_APPROVAL_REQUIRED",
+  "owner_approved": false,
+  "source_native_fps": 16,
+  "source_selection": [
+    1,
+    25
+  ],
+  "source_positions_selected": 25,
+  "evaluated_forward_poses": 49,
+  "timeline_positions": 97,
+  "presentation_fps": 24,
+  "reverse_return_disclosed": true,
+  "motion_curve": "cosine-eased neural in-betweens; zero velocity at each reversal",
+  "native_dimensions": [
+    560,
+    832
+  ],
+  "padded_dimensions": [
+    560,
+    840
+  ],
+  "padding_top_bottom": 4,
+  "image_resize_or_anatomical_mesh": false,
+  "packing": "RGB left, alpha right in the same H264 frame",
+  "loop_start_end_identical": true,
+  "video_sha256": "a576f31dd3f14cbcb15ace3429786ccfb291ee5d7a79da84f72f6a957a63df18",
+  "video_bytes": 1648175,
+  "original_lower_body_and_ground_preserved": true,
+  "original_ground_registration": "approved original resized directly to final 560x840 display coordinates; no added ground padding",
+  "lower_body_blend_range": [
+    0.6,
+    0.68
+  ],
+  "genuine_motion_scope": "generated head, ears, neck and upper chest; approved source below torso"
+}

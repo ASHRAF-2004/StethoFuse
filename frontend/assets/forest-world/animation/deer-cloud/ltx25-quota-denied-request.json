@@ -1,0 +1,20 @@
+{
+  "space": "Lightricks/LTX-2.5",
+  "revision": "c42e4cd512ec0a861024699f031538eb7bf093a7",
+  "api": "/run",
+  "height": 960,
+  "width": 640,
+  "duration_s": 4.0,
+  "seed": 8371,
+  "decoder": "diffusion",
+  "auto_len": false,
+  "randomize_seed": false,
+  "do_enhance": false,
+  "reference_sha256": "9c26ddaab50d8b650458e06ff94d3f3db566912f7e2ed4f154fe66ce8dd9cca3",
+  "reference_boards_used_as_runtime_assets": false,
+  "status": "FAILED_NO_PAID_FALLBACK",
+  "billing": "public ZeroGPU demo; no paid endpoint or card",
+  "elapsed_seconds": 12.84399999998277,
+  "remote_status": "StatusUpdate(code=<Status.STARTING: 'STARTING'>, rank=None, queue_size=None, eta=None, success=None, time=datetime.datetime(2026, 10, 30, 8, 30, 26, 559867), progress_data=None, log=None, type='status')",
+  "error": "You have exceeded your ZeroGPU quota (178s requested vs. 58s left). Try again in 23:56:52. Authenticate with a Hugging Face token for more quota - https://huggingface.co/settings/tokens"
+}

@@ -73,3 +73,4 @@
 .deer-play:hover>span,.deer-play:focus-visible>span{opacity:1;translate:0 0}.deer-play:disabled{pointer-events:none}.deer-play:focus-visible{outline-offset:-25px}
 @media(hover:none){.deer-play>span{opacity:1;translate:none}.deer-play:disabled>span{display:none}}
 @media(prefers-reduced-motion:reduce){.deer-play>span{display:none}}
+.deer-clearing>video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.deer-greeting{position:absolute;inset:0;border:0;padding:0;border-radius:35%;background:transparent;pointer-events:auto;cursor:pointer}.deer-greeting:focus-visible{outline:2px solid #dbecc6;outline-offset:5px}.deer-greeting:disabled{pointer-events:none;cursor:default}

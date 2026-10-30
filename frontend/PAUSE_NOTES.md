@@ -1,4 +1,54 @@
-# Current: inspected deer foreleg study, 2026-10-29
+# Current: generated deer idle / online review preparation, 2026-10-30
+
+Read `../docs/DEER_FREE_VIDEO_PREVIEW.md` first. The owner rejected the earlier
+animation again and supplied two reference-only boards. Do not crop those boards
+into runtime sprites. The owner now requests a deployed copy for real-device
+testing. This authorizes a separate review page, not automatic replacement of the
+main landing page or approval of the new motion.
+
+Selected candidate: `evidence/deer-cloud-study/idle-candidate-06`. One free Wan2.2
+public ZeroGPU generation supplied native 16 fps frames. Only source 1–25 are used;
+later antlers degrade. RIFE yields 49 forward poses, followed by a disclosed reverse
+return: 97 timeline positions at 24 fps. Approved feet/ground remain registered to
+the original; generated motion is head/ears/neck/chest. Playing/running remains
+unfinished. No claim of owner or independent human approval is made.
+
+Runtime MP4 SHA a576f31dd3f14cbcb15ace3429786ccfb291ee5d7a79da84f72f6a957a63df18,
+1,648,175 bytes, RGB+alpha in one video frame. Original still is the loading/error/
+reduced-motion fallback and `?deer=still` comparison. Normal owl identity and idle
+renderer are preserved; the old drawn flight study remains development-only.
+
+One LTX free output was rejected for forward walking. Its second request was
+denied by free quota before generation. Wan fit the remaining quota; no paid job,
+subscription, additional Higgsfield job or large local diffusion rerun occurred.
+Matte/ground candidates 01–05 remain historical. All49 final poses, light/dark
+alpha and 35→36/reversal/loop captures were inspected. Focused Chromium checks
+cover eight widths, reduced motion, offscreen pause, failed download and playback.
+Full browser zoom/Safari/physical-device acceptance is not established.
+
+The production build adds `forest-prototype.html` as a separate HTML entry; the
+existing `index.html` application and authenticated code remain unchanged. Public
+review hosting is prepared from the standalone forest build, without app auth code
+or user data. Off-host legal/login links lead to the actual StethoFuse website.
+See `evidence/deer-cloud-study/online-preview.json` for the actual hosting result;
+never claim an attempted upload is live. The first package exceeded the host's
+300-file limit; a fresh package keeps only manifest-referenced owl assets.
+
+The restricted owner release path is available, but each exact staged new web
+image still requires coordinator recovery qualification. Do not edit policy or
+reuse historical qualification/clearance. Record staged version and qualification
+state in the owner release checkpoint after building. Only the current release
+status has been read so far; no production activation occurred at this checkpoint.
+No backup, Firebase, data/model/T9, Portfolio, Axora or host change is authorized.
+
+Heavy workers are finished; do not restart old diffusion work. Small conversion
+workers were supervised and exited. Loopback Vite4192 is only a local preview.
+
+Historical checkpoints follow.
+
+---
+
+# Previous: inspected deer foreleg study, 2026-10-29
 
 Read `../docs/DEER_MOTION_REPAIR_CHECKPOINT.md` first. The approved forest,
 original still deer and exact owl remain unchanged in normal prototype source.
