@@ -47,3 +47,13 @@ Selected version is20261030T015416Z-5134043f83bb; NOT deployed. Recovery qualifi
 is required for web ef3b38fd. Both external copies and the publishing workflow are
 removed. Four ignored output copies remain because automatic approval review
 blocked recursive deletion; no other cleanup should risk the release/data evidence.
+
+
+## Latest retry - 30 October 2026, 02:03 UTC
+
+The owner changed computer approval settings. The four ignored output folders
+were deleted successfully and their absence verified. Cleanup rejection resolved.
+Fresh preflight still denies CANDIDATE_IMAGES_NOT_RECOVERY_QUALIFIED for selected
+20261030T015416Z-5134043f83bb. This is a server recovery-policy requirement, not a
+computer approval issue. Current production remains healthy and unchanged.
+See ../PAUSE_NOTES.md for exact digest, required signal and latest020257Z receipts.

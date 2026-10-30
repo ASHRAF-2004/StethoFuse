@@ -28,10 +28,22 @@ Owner status refreshed only; HOST_PLAN/axora-status/policy not modified.
 Receipts: `20261030T015426Z-build.json`, `20261030T015607Z-preflight.json`,
 `20261030T015607Z-status.json` under OwnerRelease/receipts.
 
-Cleanup limitation: automatic approval review rejected even verified literal-path
-recursive deletion with only the reason "blocked by policy". Four ignored folders
-remain under frontend/output: deer-live-review-20261030a, b, c and forest-world-build.
-They are local build copies, outside production source/package; the tracked
-publishing script, local external-host helper scripts and both remote copies were
-removed. No attempts should bypass that deletion rejection. Keep these distinct
-from the removed, rejected theme code and historical generation evidence.
+## Permission-setting retry - 30 October 2026, 02:03 UTC
+
+The owner changed the computer approval setting and explicitly requested retry.
+All four ignored preview-output folders were successfully deleted and absence
+verified: deer-live-review-20261030a, b, c and forest-world-build. The earlier
+local deletion rejection is resolved. The external hosted copies and publishing
+workflow remain removed.
+
+Fresh exact-version preflight still denied CANDIDATE_IMAGES_NOT_RECOVERY_QUALIFIED.
+This is the server recovery-profile guard, not a computer-permission rejection.
+The exact candidate/version/digest above remain selected. Required signal remains
+coordinator-owned exact-image recovery qualification, followed by fresh restricted
+preflight and deploy. No new owner permission is needed. Do not bypass the guard.
+
+Latest receipts in OwnerRelease/receipts: 20261030T020257Z-preflight.json and
+20261030T020257Z-status.json. Fresh status at02:02:56 UTC is
+ACCESS_READY_BASELINE_ALIGNED; the prior live release, container IDs/StartedAt,
+API/web healthy state and profile/restore alignment remain unchanged. No deploy,
+policy write, writer stop, backup or protected-data change occurred.
