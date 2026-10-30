@@ -1,5 +1,16 @@
 # Current: generated deer idle / online review preparation, 2026-10-30
 
+**Published and checked:** read `../docs/DEER_ONLINE_REVIEW_CHECKPOINT.md`.
+Day: `https://pinghumans.vercel.app/d/cKv1gc1c9uBF/index.html?theme=day`.
+Night: same path with `theme=night`. Static review expires1 Nov2026 09:20MYT.
+The earlier `z-RTdatCrcDn` host copy is superseded (runtime asset paths failed).
+Final public video hash/playback, Day/Night/mobile and all asset requests passed.
+Production candidate `20261030T011623Z-0125dc6c563e` is staged, NOT deployed:
+preflight denied `CANDIDATE_IMAGES_NOT_RECOVERY_QUALIFIED`. Exact request and fresh
+runtime evidence are published in the owner's status. Current production release
+still `20261028T101829Z-7d4501b7cd84`; no writer stop or policy write occurred.
+Do not retry before exact new-image coordinator recovery qualification.
+
 Read `../docs/DEER_FREE_VIDEO_PREVIEW.md` first. The owner rejected the earlier
 animation again and supplied two reference-only boards. Do not crop those boards
 into runtime sprites. The owner now requests a deployed copy for real-device
