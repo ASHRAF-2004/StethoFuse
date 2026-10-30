@@ -35,7 +35,7 @@ function Logo() {
   return <Link to="/" className="brand-logo" aria-label={`${brand.name} home`}><span className="brand-mark" aria-hidden="true"><img src={brand.logo} alt="" width="203" height="48"/></span><span className="brand-wordmark">{brand.name}</span></Link>;
 }
 function PublicNav({theme,onThemeChange}:{theme?:'frost'|'midnight';onThemeChange?:()=>void}={}) {
-  return <header className="public-nav"><Logo/><nav className="public-nav-links" aria-label="Public navigation"><a href="/#how-it-works">How it works</a><a href="/#research-scope">Our purpose</a><Button to="/login" variant="secondary">Sign in</Button>{onThemeChange&&<button type="button" className="home-theme-toggle" aria-label={theme==='midnight'?'Switch to Frost theme':'Switch to Midnight theme'} onClick={onThemeChange}>{theme==='midnight'?<Sun size={20}/>:<Moon size={20}/>}</button>}</nav></header>;
+  return <header className="public-nav"><Logo/><nav className="public-nav-links" aria-label="Public navigation"><a href="/#how">How it works</a><a href="/#purpose">Our purpose</a><Button to="/login" variant="secondary">Sign in</Button>{onThemeChange&&<button type="button" className="home-theme-toggle" aria-label={theme==='midnight'?'Switch to Frost theme':'Switch to Midnight theme'} onClick={onThemeChange}>{theme==='midnight'?<Sun size={20}/>:<Moon size={20}/>}</button>}</nav></header>;
 }
 function Footer() {
   return <footer className="public-footer"><span>{brand.name} · {brand.researchNotice}</span><nav aria-label="Footer"><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><a href="/#support">Help</a></nav></footer>;
