@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState, type FormEvent, type ReactNode} from 'react';
-import {Link, useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, Navigate, useLocation, useNavigate, useSearchParams} from 'react-router-dom';
 import {ArrowLeft, ArrowRight, CheckCircle, Eye, EyeSlash, GoogleLogo, EnvelopeSimple, LockKey, ShieldCheck, Waveform, UploadSimple, Headphones, ArrowClockwise, Moon, Sun} from '@phosphor-icons/react';
 import {Badge, Button, Field, InlineLink, Notice} from '../components/ui';
 import Owl from '../components/Owl';
@@ -10,15 +10,11 @@ import {brand, DEMO_ENABLED} from '../brand';
 import {useApp, roleLabel} from '../data/store';
 import {authAdapter} from '../data/adapters';
 import LiveAuthPages,{isLiveAuthPath} from './LiveAuthPages';
-import {usePublicTheme} from '../frost/publicTheme';
 import {OwlEyeMaterial} from '../frost/OwlEyeMaterial';
 import ForestPointer from '../components/ForestPointer';
 import {firebaseConfigurationError} from '../config/runtime';
 import '../frost/tokens.css';
 import './public-pages.css';
-import './public-reference.css';
-import './public-frost.css';
-import '../woodland.css';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const delay = () => new Promise(resolve => setTimeout(resolve, 450));
@@ -44,34 +40,6 @@ function PublicNav({theme,onThemeChange}:{theme?:'frost'|'midnight';onThemeChang
 function Footer() {
   return <footer className="public-footer"><span>{brand.name} · {brand.researchNotice}</span><nav aria-label="Footer"><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><a href="/#support">Help</a></nav></footer>;
 }
-function Snow() {
-  const {preferences} = useApp();
-  if (!preferences.snow || preferences.reducedMotion) return null;
-  return <div className="snow-drift" aria-hidden="true">{Array.from({length: 13}, (_, i) => <i key={i} style={{left: `${(i * 23 + 11) % 100}%`, top: `${(i * 17) % 90}%`, animationDelay: `${-i * 2.7}s`, animationDuration: `${20 + (i % 4) * 4}s`}}/>)}</div>;
-}
-
-function Welcome() {
-  const {resolved,setTheme}=usePublicTheme();
-  return <div className="sf-app sf-public public-page welcome-page" data-theme={resolved}>
-    <OwlEyeMaterial/>
-    <section className="winter-hero" aria-labelledby="welcome-title"><PublicNav theme={resolved} onThemeChange={()=>setTheme(resolved==='midnight'?'frost':'midnight')}/><Snow/>
-      <main id="main" className="hero-inner"><div className="hero-copy"><p className="eyebrow">Cardiopulmonary sound separation</p><h1 id="welcome-title"><span>Hear the</span>{' '}<em>signals within.</em></h1><p>Separate mixed chest recordings into heart and lung components, with space to listen, compare and review.</p><div className="hero-actions"><Button to="/register">Get started <ArrowRight size={17}/></Button><Button to="/login" variant="secondary">Sign in</Button></div></div><Owl arrival/></main>
-    </section>
-    <section className="public-section" id="how-it-works" aria-labelledby="workflow-title"><div className="welcome-section-intro"><h2 id="workflow-title">One recording.<br/>Room for every signal.</h2><p>A considered workflow, from first capture to a shared review. Keep your original recording and each processing run together.</p><WinterArt kind="signalFine"/></div><div className="workflow-grid">
-      <article className="workflow-step"><UploadSimple size={29} weight="light"/><h3>Bring the recording</h3><p>Upload a PCM WAV recording, up to 25 MiB. Use a pseudonymous title without patient identifiers. Live microphone capture is coming soon.</p></article>
-      <article className="workflow-step"><Waveform size={29} weight="light"/><h3>Separate the components</h3><p>Request sound separation and keep working while the job runs. Each result stays linked to its source and processing version.</p></article>
-      <article className="workflow-step"><Headphones size={29} weight="light"/><h3>Listen with context</h3><p>Compare original, heart and lung signals. Inspect waveforms and share a recording with an explicitly assigned analyst.</p></article>
-    </div></section>
-    <section className="public-band" id="research-scope" aria-labelledby="scope-title"><div className="public-section welcome-scope"><div><h2 id="scope-title">A focused tool.<br/>A thoughtful boundary.</h2><p>{brand.name} is a university research application for recording management and cardiopulmonary sound separation. It does not diagnose conditions, recommend treatment or replace professional judgment.</p><InlineLink to="/privacy">How access is intended to work</InlineLink></div><div className="scope-principles"><div><ShieldCheck size={23}/><div><h3>Your workspace, your recordings</h3><p>Each account has its own history. Sharing is explicit and can be revoked.</p></div></div><div><LockKey size={23}/><div><h3>Access follows permission</h3><p>Analysts review assigned files. Administration does not automatically grant access to private audio.</p></div></div>{DEMO_ENABLED && <Notice title="You are viewing a demonstration"><p>Fictional accounts, synthetic audio and simulated processing. No clinical recordings, authentication or model inference.</p><Link className="inline-link" to="/login#demo-personas">Explore the demo <ArrowRight size={16}/></Link></Notice>}</div><figure className="forest-deer" aria-hidden="true"><img src="/assets/enchanted-forest/glowing-deer-v1.webp" alt="" width="512" height="768" loading="lazy" decoding="async"/><span/></figure></div></section>
-    <section className="public-section welcome-help" id="support" aria-labelledby="support-title"><div><h2 id="support-title">Before you begin.</h2><p>A few practical details about this research workspace.</p><WinterArt kind="feather"/></div><div>
-      <details><summary>Can I use this for diagnosis?</summary><p>No. This is a research and educational prototype for sound separation, recording organization and audio review. Outputs are not diagnostic findings or treatment advice.</p></details>
-      {DEMO_ENABLED ? <details><summary>What can I try in the demonstration?</summary><p>Choose one of the clearly labelled fictional personas on the sign-in page. Explore separate staff workspaces, analyst assignments and administrative metadata. Only non-sensitive demonstration state is saved in this browser.</p><InlineLink to="/login#demo-personas">Choose a demo account</InlineLink></details> : <details><summary>How do I access my workspace?</summary><p>{firebaseConfigurationError?'Sign-in is unavailable in this build. Open the sign-in page for configuration guidance.':'Sign in with your email and password or Google account. Verify your email before opening the private workspace. Your handle is used for sharing, not for signing in.'}</p><InlineLink to="/login">Sign in to your workspace</InlineLink></details>}
-      <details><summary>Will my file or password be sent anywhere?</summary><p>{DEMO_ENABLED?'This development demonstration uses fictional accounts and simulated processing. It does not upload audio or authenticate real credentials.':<>Firebase handles authentication. Uploaded recordings and separation results are stored privately by StethoFuse. Audio access follows ownership and explicit permissions; administrators do not automatically receive access.</>}</p></details>
-      <details><summary>How do I get help with a recording?</summary><p>Signed-in users can open Help for upload, device and review guidance. For access restrictions, contact the project owner through your existing contact channel. A public support inbox has not been configured.</p><InlineLink to="/login?returnTo=%2Fapp%2Fhelp">Open workspace help</InlineLink></details>
-    </div></section><Footer/>
-  </div>;
-}
-
 export function AuthLayout({children}: {children: ReactNode}) {
   const {pathname} = useLocation();
   return <div className={`auth-page reference-auth ${pathname === '/login' ? 'reference-login' : ''}`}><AuthScenery/><header className="auth-brand"><Logo/></header><aside className="auth-art-copy"><h2>A little space<br/>to listen closely.</h2><p>Heart and lung signals,<br/>brought into focus for<br/>research and review.</p></aside><div className="auth-form-wrap"><main className="auth-form" id="main">{children}</main></div><footer className="auth-foot"><Link to="/">Back to home</Link><span><Link to="/privacy">Privacy</Link><span aria-hidden="true"> · </span><Link to="/terms">Terms</Link></span></footer></div>;
@@ -283,7 +251,7 @@ export default function PublicPages() {
   const {pathname} = useLocation();
   const page = !DEMO_ENABLED&&isLiveAuthPath(pathname) ? <LiveAuthPages key={pathname} path={pathname}/> : (() => {
     switch (pathname.replace(/\/$/, '') || '/') {
-      case '/': return <Welcome/>;
+      case '/': return <Navigate to="/" replace/>;
       case '/login': return <Login/>;
       case '/register': return <Register/>;
       case '/forgot-password': return <ForgotPassword/>;

@@ -1,3 +1,5 @@
+> Historical record — superseded by the owner on 30 October 2026. External hosting is removed. Use only stethofuse.ashraf-alsaloul.com and the restricted OwnerRelease path; do not follow the old publishing workflow.
+
 # Generated deer idle candidate â€” 30 October 2026
 
 The owner rejected the previous deer animation, including its broken-looking leg
