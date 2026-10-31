@@ -58,3 +58,6 @@ body:has(.forest-world) .forest-site-toggle,body:has(.sf-live) .forest-site-togg
 :root[data-forest-theme] :is(.app-shell,.sf-app) :is(thead,tbody,td){background:var(--forest-surface);color:var(--forest-ink);border-color:var(--forest-rim)}
 :root[data-forest-theme] .auth-foot{width:100%;max-width:none}
 :root[data-forest-theme=night] .auth-forest-canopy{filter:brightness(.6) saturate(.8)}
+
+/* Public-page typography must not recolor the independent forest hero. */
+.forest-world .hero-description{color:var(--muted)}
