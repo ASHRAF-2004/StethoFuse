@@ -1,81 +1,83 @@
-# Current checkpoint - 1 November 2026
+# Current checkpoint — 1 November 2026
 
-The forest website is **DEPLOYED** at https://stethofuse.ashraf-alsaloul.com/.
-Current version: `20261101T000159Z-9f1e35e3ae8c`.
-Source: `c766e3774d2edb43af64fd79575c35a5f6fbeb40`.
-Web image: `sha256:75e2c9e16ce3006992a5db1d266c55d7087324428fe867a44946cce0fdeede4b`.
-Site archive SHA256: `9f1e35e3ae8cc99b3b1aabc3bca88f675d2c4660788764d7e840fa2fea4ddbf9`.
+LIVE: https://stethofuse.ashraf-alsaloul.com/
+Version: `20261101T043654Z-a5613657b3cc`
+Source: `2c0d4dc5e4a341f4843dd403969adcd99e17e99a`
+Web: `sha256:d62e6bf5b7edbbe88254ad14419eaa1b574bab4b72ea73589342adcec2924710`
+Archive SHA256: `a5613657b3ccdd3e83f05e34366ad12785d6d29b3f44933b1159989c97f6b62c`
 
-Read [deployment report](docs/FOREST_DEPLOYMENT_20261101.md) and
-[frontend notes](frontend/PAUSE_NOTES.md) before continuing.
+The selected product/interface/readiness work is deployed. No website source
+changes are pending. Later documentation-only commits do not change this image.
+Read docs/PRODUCT_READINESS_20261101.md and docs/system_architecture.md. The old
+missing-Firebase-config blocker is RESOLVED; do not carry it into a new handoff.
 
-## Startup flash fixed and deployed - 1 November 2026
+## What is live
 
-The three pale bars were the root React Suspense workspace Skeleton, visible
-while the lazy homepage downloaded. The homepage is now in the initial bundle;
-the root fallback is empty. Real workspace loading indicators remain intact.
-Forest h2 rules are scoped to prevent changing direct sign-in typography.
+- Smooth owl-head mark and high-contrast SVG/PNG favicon, with one saved homepage
+  source backup at OwnerRelease/backups/homepage-before-product-polish.zip.
+- Source Sans 3 interface and Lora public headings/wordmark; font selection is
+  asserted in browser tests, including after lazy legal/account styles load.
+- Centered account forms, clearer copy/errors, keyboard password control,
+  verification sign-out returning to login, persistent Day/Night controls.
+- Existing forest scene/approved owl/current deer preserved. Owl flight and
+  additional deer animation remain deferred, not newly approved by this release.
+- Shared staff/analyst/admin styling, readable tables, useful help and footer
+  navigation. Existing protected data/roles/components are preserved.
+- Actual browser PCM recording integrated with explicit Start, stop/preview/save,
+  microphone cleanup and file-upload alternative. A same-origin emitted worklet
+  is verified on production with the exact packaged hash and JavaScript MIME.
+- Existing Firebase public configuration restored to the build from protected
+  runtime settings; no provider/project/role setting was changed. Build/runtime
+  share a fail-closed public-config contract. The local ignored file is
+  frontend/.env.production.local; a public-only durable copy is
+  C:/Users/thalt/StethoFuseDeployment/OwnerRelease/public-web-config.json.
+- Saved/system appearance paints before React. The old three-bar placeholder
+  does not appear on deliberately slowed live cold loads.
 
-Cold isolated live loads with 1-second JavaScript delays passed on desktop Night,
-desktop Day, 390px mobile and sign-in: no placeholder inserted, no late homepage
-chunk, no overflow or page errors. Day/Night public/auth/legal screenshots and
-exact source/archive/version passed. Existing missing Firebase config remains.
-See docs/STARTUP_FLASH_FIX_20261101.md for evidence and the inspected retry.
+## Fresh evidence
 
-## Durable independence - normal website releases
+Owner proof: C:/Users/thalt/StethoFuseDeployment/OwnerRelease/receipts/20261101T044722Z-product-owner-verification.json
+SHA256: `d07c2a84e06adeb90912064243e830f18f4c3856987950c1cfff852bdbe6134d`
+Own status: C:/Users/thalt/SharedRuntimeMigration-20261015/stethofuse-status.json
+Status: LIVE_PRODUCT_RELEASE_OWNER_VERIFIED. ready_for_users=true for the
+configured research/education workspace; shared_backup_verified=false.
 
-Use only `C:/Users/thalt/StethoFuseDeployment/OwnerRelease/Invoke-OwnerRelease.ps1`:
+Exact deploy/evidence objects and six immutable action receipts reconcile.
+API/web healthy, worker ready; pointer, workdirs, profile and stable restore path
+align. Data/model/private/foreign guards PASS. No backup/restore was invoked.
 
-`status`, then `build -> qualify -> preflight -> deploy -> evidence` for the exact
-new version returned by build. Ordinary owner-authorized website releases need
-**no Axora message, coordinator image qualification or one-use permission handoff**.
-The latest live contrast-fix release completed this entire path independently.
-No retry clearance was needed or used for this normal release.
+Live: exact version/source/archive; 30 public/auth/legal theme/viewport checks;
+16 scene viewport checks and12 zoom-equivalent reflow checks; real Firebase
+signup/signin/sign-out and production API denial of an unverified identity.
+Disposable provider identities were immediately deleted. 28 accessibility states
+have zero automated violations. Role screens have88 isolated checks; native
+capture/cleanup and separately simulated denial pass. A real isolated frozen-
+worker pipeline produced distinct finite4-kHz heart/lung outputs from synthetic
+PCM, retaining the original and unchanged model/production state. No T9 used.
 
-The restricted helper enforces shared deploy.lock, fixed API/worker images,
-Compose/data/model/foreign-app/network guards, candidate and rollback archives,
-Windows/public endpoint checks, exact web recovery-pin transition and guarded
-rollback/pin restoration. No general shell, policy, host, other-app or backup
-authority is granted. Failed/unresolved recovery must be inspected, not bypassed.
+Verification limits are explicit in the proof: role accounts are isolated test
+identities; no production privileged-account login is claimed. Actual inbox
+email delivery, interactive Google consent and physical-device audio quality
+were not observed. Google auth-URI availability and public origin authorization
+were checked without changing provider settings. No medical/compliance claim.
 
-## Completed and preserved
+## Deployment/recovery from any conversation
 
-- Forest composition is the real home route; shared Day/Night styling covers
-  public/auth/legal and existing workspace components. Night hero copy is readable.
-- Both external-hosted previews and their publishing workflow are removed.
-  All four leftover local preview folders were deleted and absence verified.
-- Existing approved owl/cursor-follow renderer preserved; live deer idle plays.
-  Further deer play/running and owl-flight work remain deferred/unapproved.
-- API/web healthy, worker ready; data and foreign-app guards PASS; runtime,
-  pointer, Compose workdirs, recovery profile and stable restore path aligned.
-- No combined backup/restore, Portfolio or Firebase-provider change was performed.
-  Keep current and previous release/image rollback artifacts intact.
+Read C:/Users/thalt/StethoFuseDeployment/OwnerRelease/DEPLOYMENT.md and
+OPERATIONS.md. Use the absolute Invoke-OwnerRelease.ps1 wrapper:
+status -> build -> qualify -> preflight -> deploy -> evidence -> status.
+Use the exact staged version and inspect every failed gate. Every normal release
+in this work used ordinary self-service; no exceptional retry clearance needed.
+No Axora terminal, handoff ID or HOST_PLAN approval is required. Keep the real
+lock, fixed API/worker, preservation, exact-image and rollback checks. Run deploy
+with public network access so the Windows endpoint proof can reach public HTTPS.
 
-## Remaining pre-existing sign-in issue
+Keep current/prior operational image archives and consumed historical checkpoints.
+The single homepage-source zip is separate from recovery/backup artifacts.
+No Portfolio, Firebase-provider, frozen-model, shared-host/network or VM restart
+change occurred. No external preview host or publishing workflow was used.
+Preserve all existing branches/PRs; commits use ASHRAF-2004. No main merge/push.
 
-The previous legal release and this forest release both lack the frontend Firebase
-web-app configuration. Login currently displays 'Authentication setup required'.
-No provider setting was changed; no credentials or protected account data were used.
-The owner has been asked for the approved public web config or a connected console.
-There is no available signed-in browser/CLI session here. Do not guess app IDs,
-create a new Firebase project, change roles/grants, or substitute a demo login.
-Owner status accurately reports `ready_for_users=false` until this is resolved.
-
-## Latest proof and historical failure
-
-Own verification: `C:/Users/thalt/StethoFuseDeployment/OwnerRelease/receipts/20261031T231001Z-forest-owner-verification.json`.
-SHA256: `4beaf759e7607ae11ac13ed319a3f46744432cc8c42ff5b5d0d29e629ffee3d0`.
-Current owner status was refreshed at SharedRuntimeMigration-20261015/stethofuse-status.json.
-Public Day/Night/mobile checks, exact version/source/archive, HTTP200/401 and
-normal owl/deer playback PASS. Live authenticated-account operation is not claimed.
-
-The Oct30 attempt of parent `20261030T015416Z-5134043f83bb` rolled back safely.
-Its failed endpoint detail was not recorded. The repaired client now saves
-per-check diagnostics, requires all5 checks in one fresh sweep and has bounded
-90s retries/100s outer timeout within the guest150s wait.37 helper and9 client tests
-passed. The inspected one-use retry succeeded for the parent at07:00MYT Nov1;
-the final contrast-fix release succeeded normally at07:07MYT. Original failed
-checkpoint/archive remain preserved. Do not replay that consumed clearance.
-
-Axora was ACKed with the actual proof and deployment result; routine independent
-review is informational and is not a release-permission dependency.
+Browser artifacts: frontend/evidence/product-polish/live-20261101T043654Z-a5613657b3cc/
+Role/capture/accessibility artifacts: frontend/evidence/product-polish/.
+Deployment and safe diagnostics: OwnerRelease/receipts/.

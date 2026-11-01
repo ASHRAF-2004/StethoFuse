@@ -86,3 +86,24 @@ keyboard and layout reviews were performed directly in the browser instead.
 Actual visual acceptance remains the owner's judgment on the deployed website.
 This is a research/education workspace, not a diagnostic product. Existing legal
 notices retain their draft/owner-review qualification; no compliance claim is made.
+
+## Final deployment and live verification
+
+Deployed version: `20261101T043654Z-a5613657b3cc`. Source: `2c0d4dc5e4a341f4843dd403969adcd99e17e99a`.
+Web image: `sha256:d62e6bf5b7edbbe88254ad14419eaa1b574bab4b72ea73589342adcec2924710`.
+Archive SHA256: `a5613657b3ccdd3e83f05e34366ad12785d6d29b3f44933b1159989c97f6b62c`.
+Owner proof: `C:/Users/thalt/StethoFuseDeployment/OwnerRelease/receipts/20261101T044722Z-product-owner-verification.json`.
+Proof SHA256: `d07c2a84e06adeb90912064243e830f18f4c3856987950c1cfff852bdbe6134d`.
+
+Actual published font assertions, centered forms, responsive anchors, keyboard
+validation, favicon, pre-React appearance and delayed startup checks PASS. Real
+provider signup/signin/sign-out, verification gate, production403 for an
+unverified identity and immediate QA-account deletion PASS. Live identity,
+health200/auth401 and preserved deployment guards PASS. No exceptional retry
+clearance was used. Earlier same-session design/sign-out releases are superseded
+by this current version; their normal immutable receipts remain retained.
+
+The current owner status reports readiness for research/education use, with the
+explicit testing boundaries above. It does not certify clinical use, legal
+compliance, inbox delivery or a real privileged production-account session.
+No combined backup/restore was invoked or certified.
