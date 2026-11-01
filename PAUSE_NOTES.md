@@ -1,108 +1,112 @@
 # Current StethoFuse checkpoint — 1 November 2026
 
-FOLLOW-UP IN PROGRESS: see `docs/SUPPORT_AND_LISTENING_FOLLOWUP_20261101.md`.
-The Arabic owl, shared footer credit, Support page/Cloudflare delivery, original
-Google mark and real dataset/model listening demo are implemented and tested.
-The Cloudflare Support backend is deployed; the frontend version below remains
-live until the pending website release completes. Firebase sender names are
-branded and real verification/reset inbox delivery and one-use recovery passed.
-Full account-mail body branding is provider-blocked by
-`EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`; the HTML files are prepared, not active.
-Official CLI admin login is authorized and reusable; the browser-control bridge
-is unavailable. No auth-provider migration
-has been authorized. The historical synthetic-demo description below belongs
-to the current older live release, not the new follow-up source.
-
 LIVE: https://stethofuse.ashraf-alsaloul.com/
-Version: `20261101T094243Z-42e08b861fc8`
-Source: `54200a3acd518f5e8a332068f3a9744f8fafb46f`
-Web: `sha256:5300f38bc5d88e527ffc0827b58536bd155ed6760ce6c48c2a4f5754039d641b`
-Site archive SHA256: `42e08b861fc879a91007f67226d05c664282c1be91bc829959053eef463741e4`
+Version: `20261101T134232Z-5f7577045661`
+Deployed source: `57a6a45d1d3908ec1eaed59649174de40e0cb54e`
+Web image: `sha256:ffb0dd563f97b6b2b5e7ae8cf35a00a4eae72e49b42d502b26b17076f574a591`
+Site archive SHA256: `5f7577045661268de2395311d7dda957944217d562e2a754302b6dbcbb48e9e0`
 
-The owner's latest request replaced the rejected forest design with a clean,
-product-focused listening studio. The only required visual carry-over is the
-approved snowy pointer-following owl. The new public/account/role interface is
-deployed. Read `docs/DESIGN_RESET_20261101.md` and `docs/system_architecture.md`.
-Do not resume the old forest composition, deer/flight studies or old design drafts.
+The requested follow-up is deployed on the existing bilingual listening studio.
+Read `docs/SUPPORT_AND_LISTENING_FOLLOWUP_20261101.md` and
+`docs/system_architecture.md`. Do not revive rejected forest themes, deer/flight
+studies, old candidates or external preview workflows. No auth-provider migration
+has been authorized. There is no pending frontend activation.
 
-## Current interface
+## Current behavior
 
-- White/charcoal/mint materials, a solid split-signal mark and opaque mint-tile
-  SVG/PNG favicon. Chillax Latin and IBM Plex Sans Arabic are self-hosted.
-- Persistent English/Arabic, real RTL document direction, logical layout and
-  LTR audio axes/IDs. User names, notes and recording titles stay unchanged.
-- Real eight-second locally synthesized listening sample with track selection,
-  playback and seeking. It is explicitly synthetic, not model output or T9 audio.
-- Centered sign-in/signup/recovery forms, readable help/legal pages, useful
-  validation, keyboard controls, responsive menu and returning-user workspace link.
-- Staff/analyst/admin share a quiet working-sheet layout. Existing recording,
-  separation, review, grants and role behavior are retained. The last correction
-  fixes workspace perch occlusion, avatar/ID contrast and accessible list/unread
-  semantics. No production role assignments were made for UI testing.
-- The approved owl's 18-view connected-neck art, meshes and eye material are
-  unchanged. Its claws stay in front of the desk/perch. No flight/deer sequence
-  is active. Pointer rendering stops offscreen/hidden and respects reduced motion.
-- The root skeleton flash is absent. The optional hero/font gate starts after
-  200ms, ends within 2.5s and is skipped for reduced motion. Forms/content do not
-  wait for the optional pointer textures. Cached vendor bundles are separated.
+- The original approved owl poster/canvas is mirrored in Arabic, with reversed
+  pointer yaw and the matching perch anchor. Art, 18 source views, meshes, eyes,
+  reduced-motion fallback and connected-neck renderer are preserved.
+- Shared public/account/workspace footers credit © 2026 Designed and developed
+  by: Ashraf Ali Hussain Al-Saloul. Arabic uses أشرف علي حسين الصلول.
+- `/support` sends directly through Cloudflare to the existing verified owner
+  destination. It does not open a visitor mail app. HTML/plain text match the
+  studio palette; the visitor is Reply-To only. Fixed addresses, origin/body
+  validation, rate limits, escaping and provider-acceptance checks are enforced.
+  Error states preserve input. Success/restart use shared accessible controls;
+  the footer stays full width at the viewport bottom, including Arabic mobile.
+- Homepage playback is an actual aligned eight-second HLS-CMDS v3 M0111 excerpt
+  and frozen-model heart/lung outputs. It is a clinical-manikin development-set
+  demonstration with public CC BY 4.0 attribution/provenance. It is not synthetic
+  placeholder audio, T9 material, a source target or an independent clinical test.
+  All tracks share one playback gain and load on demand.
+- Google sign-in uses Google's unmodified original gradient PNG on a white tile.
+- Password recovery is one Firebase flow. Generic unknown-account acknowledgement,
+  localized provider requests, trailing-slash routing and transient-error retries
+  are tested. Expired/used links still fail closed.
 
-## Verification and boundaries
+## Firebase access and remaining limitation
 
-- Final build and public suite: 86 checks, 28 accessibility states, zero detected
-  violations/page errors/failed assets; eight widths 360–2560 and both languages/
-  appearances. Actual screenshots were inspected, including mobile/account pages.
-- Private UI: 176 route/layout checks and 124 accessibility states, zero detected
-  violations/errors/unknown API calls. These use fictional identities and captured
-  responses from a temporary API database; they are not privileged live logins.
-- Real Chromium page zoom 67/80/100/125/150/200%: 48 cases, no overflow, aligned
-  owl contact and centered forms. Native CDP captures avoid Playwright's zoom
-  screenshot clipping artifact. This is browser zoom, not CSS `zoom`.
-- Four slow-start cases, exact version/source/archive and two published-script
-  hashes passed. Live owl movement was sampled at 16 positions; the art study also
-  inspected all 18 poses, enlarged light/dark alpha edges and 80 pointer positions.
-- Actual disposable Firebase signup/sign-in, verification gate, sign-out return,
-  production unverified-token403 and identity deletion all passed. No mail was
-  sent. Inbox delivery, interactive Google consent and a real verified privileged
-  production login are outside those checks.
-- Existing model/API/capture acceptance is recorded separately in
-  `docs/PRODUCT_READINESS_20261101.md`; the real frozen-model synthetic-audio test
-  belongs to that earlier checkpoint. This UI release did not rerun or alter ML.
-- Independent Pingfusi review request expired with 0 responses. No external or
-  owner visual approval is inferred. No new review, design question or deployment
-  authorization is pending. The owner's selected redesign is already live.
+The owner completed official Google CLI login. Reusable admin access works from
+any folder with the absolute `OwnerRelease/Invoke-FirebaseAdmin.ps1 -Action status`.
+The official CLI is installed once (15.34.2). Its private cache/snapshots have
+owner/System/Administrators-only Windows ACLs and are outside source. No new
+service-account key was created; no credential or action code is in source or
+published evidence. The README documents normal reauthentication after revocation.
 
-## Exact operational evidence
+Real verification and reset HTML reached a unique alias in the connected owner
+Gmail inbox with SPF/DKIM passing. Both actions were consumed, sign-in after reset
+passed, reuse of the reset link failed, and the disposable Firebase identity was
+deleted. Only those two new test messages were read. Existing user accounts and
+the application database were not changed by this account-mail test.
 
-Owner proof: `C:\Users\thalt\StethoFuseDeployment\OwnerRelease\receipts\20261101T095920Z-studio-owner-verification.json`
-SHA256: `27e1e7f334988ea5613d4a6e2b8733944c53c7bb7e3ec5906fbaea34c0095a00`
+Supported account-mail sender names are StethoFuse. Full proposed account-email
+body branding is NOT active: Firebase returned HTTP 400
+`EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED` for both full HTML and a minimal greeting edit;
+verification-body edits were ignored on read-back. Original HTML bodies, callback
+URI, providers and unrelated settings are preserved. Prepared templates remain in
+`services/stethofuse-support/templates`. Do not repeat failed writes or claim
+these bodies match the UI. Functional recovery passes despite this styling
+restriction. The Cloudflare Support email is independently branded and provider
+accepted; its fixed destination inbox is not the connected Gmail account, so its
+inbox receipt is not claimed.
 
-It contains immutable receipts and a browser-evidence snapshot. Deploy/evidence
-objects match; live pointer/workdirs/profile/stable restore path align. API/web
-are healthy and the worker is ready. Current data/foreign/credentials/model
-preservation guards passed. API and worker images remain:
+## Verification and evidence
+
+- Current live public matrix: 94 checks and 32 accessibility states, eight widths
+  360–2560, English/Arabic and both appearances; zero detected violations, page
+  errors or failed assets. Four Support confirmation accessibility states also
+  pass, along with desktop footer-width/bottom and restart behavior checks.
+- Focused live checks: four Support states (HTTP intercepted), two provider-
+  recovery languages (HTTP intercepted), three real audio hashes/decodes and two
+  actual pointer/mirror states. A separate actual deployed Support submission
+  returned 202 and displayed its reference without a mail window.
+- Ten Worker validation/email tests passed. Earlier isolated role and real-zoom
+  studies remain historical baseline evidence; they were not all rerun during
+  this follow-up. No production privileged-role login or clinical validation is
+  certified by these UI checks.
+- Build, qualification, preflight, deploy, evidence and fresh status passed.
+  API/web are healthy, worker ready; pointer/workdirs/profile/stable restore path
+  align. Data, private/model/credential and unrelated app/network guards passed.
+  Candidate and previous image archives are verified and preserved. Ordinary
+  self-service deployment required no coordinator or exceptional retry.
+
+Owner proof: `C:\Users\thalt\StethoFuseDeployment\OwnerRelease\receipts\20261101T152640Z-followup-owner-verification.json`
+SHA256: `fdb0c41e6e4561e4e1d2ebdc5435f665dab1b40a4dcd0610ac6fd210d068ff81`
+
+It contains exact immutable release receipts, endpoint diagnostics and an
+immutable snapshot of current browser/mail evidence. StethoFuse's own status is
+current. HOST_PLAN and other application statuses were not edited. API/worker
+images remain:
 
 - API: `sha256:33b257a5dbacebe7776326732ce88f596058694bbdf24410b095644171150f56`
 - Worker: `sha256:df4b5cfec7ef525c599c52773ed2c6cf5c26753b13f0e6c4d5962ab0af4dfde4`
 
-Only the guarded StethoFuse website release/web recovery pin changed. The
-current/prior image archives remain verified and preserved. No combined backup,
-restore, host/VM/network/other-app action was performed. Shared backup verification
-remains false. StethoFuse's own status was refreshed; HOST_PLAN and other app
-statuses were not changed.
+No combined backup, restore, T9 use, model change, other-app action or shared
+VM/Windows/network change was performed. Shared backup verification remains false.
 
-## Source, backup and future work
+## Source and recovery
 
-Branch: `feature/forest-world-prototype` (historical name retained).
-Implementation commits: `5d496ba` and `54200a3`. Later checkpoint edits are docs
-only and do not change the deployed source identity above. No merge to main.
+Branch: `feature/forest-world-prototype` (historical name preserved).
+Follow-up implementation commits: `591cd53`, `65b016b`, `57a6a45`.
+Later checkpoint changes are documentation only; the deployed source above stays
+authoritative. No merge to main. Existing source/PR history and the one homepage
+backup `OwnerRelease/backups/homepage-before-product-polish.zip` are preserved.
 
-One homepage source backup is retained and its ZIP integrity passed:
-`OwnerRelease/backups/homepage-before-product-polish.zip`.
-Inactive old artwork/studies remain historical source; they are not requested by
-the active homepage. No external preview site/workflow was created or deployed.
-
-For later authorized releases, read `OwnerRelease/DEPLOYMENT.md` and use
-build -> qualify -> preflight -> deploy -> evidence -> status in the same
-conversation. The owner retired Axora/handoff/agent-review gates. Preserve actual
-locks, exact images, current data, health checks and rollback. No code changes
-remain pending from this request; any later taste feedback starts a new change.
+For later authorized releases, use `OwnerRelease/DEPLOYMENT.md` and the existing
+build -> qualify -> preflight -> deploy -> evidence -> status workflow. Preserve
+locks, exact images, current data, health and rollback. The owner retired Axora
+conversation/handoff gates; routine deployment needs neither another terminal nor
+new secret keys. For genuine maintenance failures use OPERATIONS.md in the same
+conversation. Full account-email body styling is the remaining provider
+limitation; replacing authentication would be a separate migration decision.
