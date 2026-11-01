@@ -10,6 +10,9 @@ checkpoint, not the frozen ML model or protected application data.
   pale favicon tile remains legible on dark or light browser chrome.
 - Source Sans 3 product typography, Lora editorial/brand typography, self-hosted
   font subsets and their licenses; coherent Day/Night material and focus states.
+  Scoped font rules prevent lazy legacy stylesheets overriding public typography;
+  tests assert the actual rendered font. Saved/system appearance is applied by
+  a tiny same-origin script before React, preventing a bright dark-mode startup.
 - Centered sign-in, sign-up, recovery and verification surfaces, useful account
   copy, header theme control, linked field errors and keyboard password controls.
   Verification sign-out returns to sign-in; anonymous verification visits also

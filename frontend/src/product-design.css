@@ -156,3 +156,14 @@ body:has(.auth-page) .forest-site-toggle{display:none}
 
 :root[data-forest-theme] .sf-app .table-scroll :is(td,th){font-size:14px;line-height:1.55}
 :root[data-forest-theme] .sf-app .table-scroll th{font-size:12px;font-weight:600}
+
+/* Lazy legacy styles must not change the selected typography on navigation. */
+:root[data-forest-theme] body{font-family:var(--font-product)}
+:root[data-forest-theme] body :is(h1,h2,h3){font-family:var(--font-product)}
+:root[data-forest-theme] .forest-world h1,:root[data-forest-theme] .forest-world h1 em,:root[data-forest-theme] .forest-world h2{font-family:var(--font-story)}
+:root[data-forest-theme] :is(.forest-world,.auth-page,.sf-app,.public-page) :is(.world-brand,.brand-wordmark,.sf-logo){font-family:var(--font-story)}
+:root[data-forest-theme] :is(.public-nav,.public-footer,.auth-foot){font-family:var(--font-product)}
+
+:root[data-forest-theme] .public-page .legal-content :is(h1,h2,h3){font-family:var(--font-product)}
+
+:root[data-forest-theme] .public-page .legal-content :is(p,li){font-size:16px;line-height:1.75}
