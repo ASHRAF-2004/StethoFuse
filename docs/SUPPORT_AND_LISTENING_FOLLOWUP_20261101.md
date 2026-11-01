@@ -79,3 +79,11 @@ migration and is not part of this follow-up. Reusable local admin authentication
 can remove repeated manual setup without changing existing user accounts.
 
 Deployment and immutable live evidence are recorded in PAUSE_NOTES after release.
+
+Live success-state review also caught a browser-default restart button and a
+short-page footer gap. The existing shared ghost Button now styles the restart
+action. A scoped flex layout keeps the Support footer at the viewport bottom;
+the navigation's minimum inline size is constrained so Arabic mobile reflow
+matches the original layout. The focused suite checks all four success states
+again at desktop width and verifies that a new message clears subject/body while
+preserving the visitor's name.

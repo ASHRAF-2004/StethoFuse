@@ -280,7 +280,7 @@ export default function PublicPages() {
       case '/privacy': return <Legal/>;
       case '/terms': return <Legal terms/>;
       case '/help': return <PublicHelp/>;
-      case '/support': return <div className="public-page"><PublicNav/><main className="legal-content support-content" id="main"><SupportForm/></main><Footer/></div>;
+      case '/support': return <div className="public-page support-page"><PublicNav/><main className="legal-content support-content" id="main"><SupportForm/></main><Footer/></div>;
       default: return <Utility path={pathname}/>;
     }
   })();
