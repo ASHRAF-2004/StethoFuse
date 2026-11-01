@@ -3,7 +3,8 @@ import {Link,Navigate,useLocation,useNavigate,useSearchParams} from 'react-route
 import {ArrowRight,Plus,UploadSimple} from '@phosphor-icons/react';
 import Shell from '../frost/Shell';
 import {Overview as FrostOverview,Library as FrostLibrary} from '../frost/WorkspaceViews';
-import {NewRecording as FrostNewRecording,Upload as FrostUpload,RecordingComingSoon} from '../frost/Upload';
+import {NewRecording as FrostNewRecording,Upload as FrostUpload} from '../frost/Upload';
+import LiveCapture from '../components/LiveCapture';
 import {RecordingDetail as FrostRecordingDetail,ResultDetail as FrostResultDetail,MediaDetail,LegacyJob} from '../frost/RecordingDetail';
 import FrostAccount from '../frost/Account';
 import {Sharing} from '../frost/Sharing';
@@ -61,7 +62,7 @@ function LiveRoute(){
  if(pathname==='/app/insights')return <Insights/>;
  if(pathname==='/app/recordings/new')return <FrostNewRecording/>;
  if(pathname==='/app/recordings/new/upload')return <FrostUpload/>;
- if(pathname==='/app/recordings/new/record')return <RecordingComingSoon/>;
+ if(pathname==='/app/recordings/new/record')return <LiveCapture/>;
  if(/^\/app\/recordings\/[^/]+$/.test(pathname))return <FrostRecordingDetail id={pathname.split('/')[3]} ownerTools={record=><Sharing record={record}/>}/>;
  if(pathname==='/app/processing')return <Navigate replace to="/app/library?filter=processing"/>;
  if(pathname==='/app/history')return <Navigate replace to="/app/library"/>;
@@ -77,7 +78,8 @@ function LiveRoute(){
  if(pathname==='/app/admin')return <AdminOverview/>;
  if(pathname==='/app/admin/users')return <AdminUsers/>;
  if(pathname==='/app/admin/audit')return <AdminAudit/>;
- if(pathname==='/app/help')return <><PageHeading title="Help & guidance" description="Live research workspace"/><Panel title="Recording access"><p>Upload a non-sensitive PCM WAV. Your backend account owns the recording. Give another existing account an explicit read or exact-resource review grant from the recording page.</p><p>Use Revoke grant to remove one permission, or Revoke all access to remove all this recipient’s grants on a recording. Already downloaded files cannot be recalled.</p><p>Press Separate on a saved recording, then return to its processing job or result. Share result metadata and each desired audio output explicitly; a review assignment alone does not grant audio. Contact the project owner with failed job IDs.</p></Panel></>;
+ if(pathname==='/app/help')return <><PageHeading title="A little guidance." description="From your first sound to a shared review."/><div className="product-help-grid"><Panel title="1. Bring your sound"><p>Upload a mono or stereo PCM WAV, up to 25 MiB and two minutes. You can also record from your microphone or a connected audio input. Review the sound before saving it.</p><Button to="/app/recordings/new" variant="secondary">New recording</Button></Panel><Panel title="2. Separate and listen"><p>Open a recording in your Library and choose Separate. You can keep working while it processes. When ready, compare the original, heart and lung tracks in the waveform player.</p><Button to="/app/library" variant="secondary">Open Library</Button></Panel><Panel title="3. Invite a second listener"><p>Use a person’s exact handle to find them, confirm their account reference, then choose what to share. Assign an analyst to review a specific recording or result. You control access and can revoke it later.</p></Panel><Panel title="4. Keep context and privacy"><p>Use a neutral title without patient identifiers. Share only audio you are authorized to use. Separation and review support research and education; they do not provide a diagnosis.</p><Button to="/privacy" variant="secondary">Privacy notice</Button></Panel></div></>;
+
  return <Unavailable title={pathname.startsWith('/app/admin')?'Administrative feature unavailable':'Workspace feature unavailable'} detail="This screen has no connected M1 API yet. It cannot mutate local demo data in live mode."/>;
 }
 export default function LiveWorkspacePages(){

@@ -108,7 +108,7 @@ function Appearance() {
 
 function AudioSettings() {
   const {gain,setGain}=useFrostPreferences();
-  return <><div className="sf-audio-setting"><div><SpeakerHigh size={22}/><div><h2>Playback, your way.</h2><p>Playback volume up to 200%. Saved files stay unchanged.</p></div></div><label className="sf-gain" data-boosted={gain>100}><span>Preferred playback gain<strong>{gain}% {gain>100?'· Boost':''}</strong></span><div className="sf-gain-track"><input type="range" aria-label="Preferred playback gain" aria-valuetext={`${gain} percent${gain>100?', boost enabled':''}`} min={0} max={200} step={5} value={gain} onChange={event=>setGain(Number(event.target.value))}/><div className="sf-gain-scale" aria-hidden="true"><span>0%</span><span>100%</span><span>200%</span></div></div></label></div><Notice>Live recording is coming soon. Existing PCM WAV uploads use the same validated upload and separation pipeline.</Notice></>;
+  return <><div className="sf-audio-setting"><div><SpeakerHigh size={22}/><div><h2>Playback, your way.</h2><p>Playback volume up to 200%. Saved files stay unchanged.</p></div></div><label className="sf-gain" data-boosted={gain>100}><span>Preferred playback gain<strong>{gain}% {gain>100?'· Boost':''}</strong></span><div className="sf-gain-track"><input type="range" aria-label="Preferred playback gain" aria-valuetext={`${gain} percent${gain>100?', boost enabled':''}`} min={0} max={200} step={5} value={gain} onChange={event=>setGain(Number(event.target.value))}/><div className="sf-gain-scale" aria-hidden="true"><span>0%</span><span>100%</span><span>200%</span></div></div></label></div><Notice>Record from your microphone or upload a PCM WAV. Playback settings change what you hear, never your saved audio.</Notice></>;
 }
 
 function Security() {

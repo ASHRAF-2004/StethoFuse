@@ -13,6 +13,9 @@ import LiveAuthPages,{isLiveAuthPath} from './LiveAuthPages';
 import {OwlEyeMaterial} from '../frost/OwlEyeMaterial';
 import ForestPointer from '../components/ForestPointer';
 import {firebaseConfigurationError} from '../config/runtime';
+import {BrandMark} from '../components/BrandMark';
+import {usePublicTheme} from '../frost/publicTheme';
+import {usePageMotion} from '../components/usePageMotion';
 import '../frost/tokens.css';
 import './public-pages.css';
 
@@ -32,7 +35,7 @@ export function safeReturn(value: string | null, fallback = '/app/dashboard') {
 }
 
 function Logo() {
-  return <Link to="/" className="brand-logo" aria-label={`${brand.name} home`}><span className="brand-mark" aria-hidden="true"><img src={brand.logo} alt="" width="203" height="48"/></span><span className="brand-wordmark">{brand.name}</span></Link>;
+  return <Link to="/" className="brand-logo" aria-label={`${brand.name} home`}><span className="brand-mark" aria-hidden="true"><BrandMark width="40" height="40"/></span><span className="brand-wordmark">{brand.name}</span></Link>;
 }
 function PublicNav({theme,onThemeChange}:{theme?:'frost'|'midnight';onThemeChange?:()=>void}={}) {
   return <header className="public-nav"><Logo/><nav className="public-nav-links" aria-label="Public navigation"><a href="/#how">How it works</a><a href="/#purpose">Our purpose</a><Button to="/login" variant="secondary">Sign in</Button>{onThemeChange&&<button type="button" className="home-theme-toggle" aria-label={theme==='midnight'?'Switch to Frost theme':'Switch to Midnight theme'} onClick={onThemeChange}>{theme==='midnight'?<Sun size={20}/>:<Moon size={20}/>}</button>}</nav></header>;
@@ -41,8 +44,13 @@ function Footer() {
   return <footer className="public-footer"><span>{brand.name} · {brand.researchNotice}</span><nav aria-label="Footer"><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><a href="/#support">Help</a></nav></footer>;
 }
 export function AuthLayout({children}: {children: ReactNode}) {
-  const {pathname} = useLocation();
-  return <div className={`auth-page reference-auth ${pathname === '/login' ? 'reference-login' : ''}`}><AuthScenery/><header className="auth-brand"><Logo/></header><aside className="auth-art-copy"><h2>A little space<br/>to listen closely.</h2><p>Heart and lung signals,<br/>brought into focus for<br/>research and review.</p></aside><div className="auth-form-wrap"><main className="auth-form" id="main">{children}</main></div><footer className="auth-foot"><Link to="/">Back to home</Link><span><Link to="/privacy">Privacy</Link><span aria-hidden="true"> · </span><Link to="/terms">Terms</Link></span></footer></div>;
+  const {pathname}=useLocation();const root=useRef<HTMLDivElement>(null);usePageMotion(root,pathname);const {resolved,setTheme}=usePublicTheme();
+  return <div ref={root} className={`auth-page reference-auth ${pathname==='/login'?'reference-login':''}`}>
+   <AuthScenery/><a className="skip-link" href="#main">Skip to sign in</a>
+   <header className="auth-brand"><Logo/><div className="auth-header-actions"><Link className="auth-home-link" to="/"><ArrowLeft size={16}/>Back to the forest</Link><button type="button" className="auth-theme-switch" aria-label={`Switch to ${resolved==='midnight'?'day':'night'} theme`} onClick={()=>setTheme(resolved==='midnight'?'frost':'midnight')}>{resolved==='midnight'?<Sun size={19}/>:<Moon size={19}/>}</button></div></header>
+   <div className="auth-form-wrap"><main className="auth-form" id="main" tabIndex={-1} data-entrance><div className="auth-card-emblem"><BrandMark width="42" height="42"/></div>{children}<div className="auth-trust"><ShieldCheck size={16}/><span>Your recordings stay private by default.</span></div></main></div>
+   <footer className="auth-foot"><span>StethoFuse · Research & education</span><nav aria-label="Account page footer"><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><a href="/#support">Help</a></nav></footer>
+  </div>;
 }
 export function AuthTitle({title, description, icon}: {title: string; description: string; icon?: ReactNode}) {
   return <>{icon && <div className="auth-state-icon" aria-hidden="true">{icon}</div>}<h1>{title}</h1><p className="muted">{description}</p></>;

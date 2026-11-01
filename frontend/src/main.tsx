@@ -10,6 +10,7 @@ import {ForestTheme} from './ForestTheme';
 import './forest-site.css';
 // The first homepage render is the scene itself, without a workspace placeholder.
 import ForestLanding from './forest-prototype/ForestLanding';
+import './product-design.css';
 const PublicPages=lazy(()=>import('./pages/PublicPages'));
 const WorkspacePages=lazy(()=>import('./pages/WorkspacePages'));
 const AccountPages=lazy(()=>import('./pages/AccountPages'));

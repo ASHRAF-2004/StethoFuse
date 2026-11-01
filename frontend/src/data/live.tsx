@@ -71,7 +71,19 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
         if(epoch.current!==version)throw new DOMException('Account changed.','AbortError');
         return user.getIdToken(force);
       },()=>{if(epoch.current===version)expire();});
-      const value=await client.json<SessionEnvelope>('/auth/session',{method:'POST',body:'{}'});
+      const value=validateSession(await client.json<SessionEnvelope>('/auth/session',{method:'POST',body:'{}'}));
+      // Carry the name chosen at signup into a newly provisioned personal profile.
+      // Existing application names and all server-issued roles remain authoritative.
+      const initialName=user.displayName?.trim().slice(0,200);
+      if(value.user.uid===user.uid&&!value.user.display_name&&initialName){
+        try{
+          await client.json('/auth/me',{method:'PATCH',body:JSON.stringify({display_name:initialName})});
+          value.user={...value.user,display_name:initialName};
+        }catch(failure){
+          if(failure instanceof DOMException&&failure.name==='AbortError'||failure instanceof ApiError&&[401,403].includes(failure.status))throw failure;
+          // An optional profile-name save must not replace a valid identity session.
+        }
+      }
       await accept(value,client,version);
     }catch(failure){fail(failure,version);}
   },[accept,clear,expire,fail]);
