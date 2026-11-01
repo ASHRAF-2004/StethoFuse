@@ -1,5 +1,18 @@
 # Current StethoFuse checkpoint — 1 November 2026
 
+FOLLOW-UP IN PROGRESS: see `docs/SUPPORT_AND_LISTENING_FOLLOWUP_20261101.md`.
+The Arabic owl, shared footer credit, Support page/Cloudflare delivery, original
+Google mark and real dataset/model listening demo are implemented and tested.
+The Cloudflare Support backend is deployed; the frontend version below remains
+live until the pending website release completes. Firebase sender names are
+branded and real verification/reset inbox delivery and one-use recovery passed.
+Full account-mail body branding is provider-blocked by
+`EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`; the HTML files are prepared, not active.
+Official CLI admin login is authorized and reusable; the browser-control bridge
+is unavailable. No auth-provider migration
+has been authorized. The historical synthetic-demo description below belongs
+to the current older live release, not the new follow-up source.
+
 LIVE: https://stethofuse.ashraf-alsaloul.com/
 Version: `20261101T094243Z-42e08b861fc8`
 Source: `54200a3acd518f5e8a332068f3a9744f8fafb46f`

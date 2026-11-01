@@ -13,7 +13,7 @@ import {useLive} from '../data/live';
 import {useLocale} from '../studio/locale';
 
 const paths=new Set(['/login','/register','/forgot-password','/reset-password','/verify-email','/auth/action','/auth/callback','/account-disabled','/session-expired']);
-export const isLiveAuthPath=(path:string)=>paths.has(path);
+export const isLiveAuthPath=(path:string)=>paths.has(path.replace(/\/+$/,'')||'/');
 const validEmail=(email:string)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const strongPassword=(value:string)=>value.length>=12&&/[A-Za-z]/.test(value)&&/[0-9]/.test(value);
 function ConfigurationNotice(){return firebaseConfigurationError?<Notice tone="warning" title={tx("Authentication setup required")}><p>{lt(firebaseConfigurationError)}</p></Notice>:null;}
@@ -68,7 +68,7 @@ function EmailAction({mode}:{mode:'resetPassword'|'verifyEmail'|null}){
   return()=>{cancelled=true;};
  // Code consumption must not repeat when removing the query changes router state.
  },[code,mode]);
- async function reset(e:FormEvent){e.preventDefault();setError('');if(!strongPassword(password)||password!==confirmation){setError(tx("Use at least 12 characters with a letter and a number, and matching passwords."));return;}setBusy(true);try{await liveAuth.reset(code,password);setStage('success');}catch(failure){setError(authErrorMessage(failure));setStage('invalid');}finally{setPassword('');setConfirmation('');setBusy(false);}}
+ async function reset(e:FormEvent){e.preventDefault();setError('');if(!strongPassword(password)||password!==confirmation){setError(tx("Use at least 12 characters with a letter and a number, and matching passwords."));return;}setBusy(true);try{await liveAuth.reset(code,password);setStage('success');}catch(failure){setError(authErrorMessage(failure));const invalid=typeof failure==='object'&&failure!==null&&'code' in failure&&['auth/invalid-action-code','auth/expired-action-code'].includes(String(failure.code));setStage(invalid?'invalid':'ready');}finally{setPassword('');setConfirmation('');setBusy(false);}}
  return <AuthLayout><AuthTitle title={lt(stage==='success'?(mode==='verifyEmail'?tx("Your email is verified."):tx("Your password has been reset.")):stage==='invalid'?tx("This link cannot be used."):mode==='resetPassword'?tx("Choose a new password."):tx("Checking your verification link…"))} description={stage==='success'?tx("You’re all set. Sign in to continue."):tx("This link keeps your account secure. It can only be used once.")}/><ConfigurationNotice/><AccountDeletionNotice/><Feedback error={error}/>{stage==='checking'?<p role="status">{tx("Checking the account link…")}</p>:stage==='ready'?<form onSubmit={reset}><PasswordInput id="new-password" label={tx("New password")} value={password} onChange={setPassword}/><PasswordInput id="confirm-password" label={tx("Confirm new password")} value={confirmation} onChange={setConfirmation}/><Button type="submit" disabled={busy}>{lt(busy?tx("Updating…"):tx("Reset password"))}</Button></form>:stage==='invalid'?<><Notice tone="warning">{tx("The link is missing, expired, already used or invalid. Request a fresh link; no success is assumed.")}</Notice><Button to={mode==='verifyEmail'?'/verify-email':'/forgot-password'}>{tx("Request a new link")}</Button></>:null}<p className="auth-meta"><Link to="/login">{tx("Return to sign in")}</Link></p></AuthLayout>;
 }
 function Verification(){
@@ -85,6 +85,7 @@ function AccountState({expired=false}:{expired?:boolean}){
 }
 export default function LiveAuthPages({path}:{path:string}){
  useLocale();
+ path=path.replace(/\/+$/,'')||'/';
  const [params]=useSearchParams();const [actionMode]=useState(()=>params.get('mode'));const [hasActionCode]=useState(()=>params.has('oobCode'));
  if(path==='/login')return <SignIn/>;
  if(path==='/register')return <SignIn register/>;

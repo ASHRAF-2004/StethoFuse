@@ -16,6 +16,7 @@ export function firebaseAuth(): Auth {
     // Session storage remains JS-readable: this is not an HttpOnly/XSS-proof session.
     auth = initializeAuth(app, {persistence: browserSessionPersistence, popupRedirectResolver: browserPopupRedirectResolver});
   }
+  auth.languageCode=document.documentElement.lang==='ar'?'ar':'en';
   return auth;
 }
 const actionSettings = () => ({url: `${import.meta.env.DEV ? window.location.origin : PUBLIC_ORIGIN}/login`, handleCodeInApp: false});
@@ -51,7 +52,14 @@ export const liveAuth = {
     if (!user) throw new Error('Sign in before requesting verification.');
     await sendEmailVerification(user, actionSettings());
   },
-  async requestReset(email: string) { await sendPasswordResetEmail(firebaseAuth(), email, actionSettings()); },
+  async requestReset(email: string) {
+    try { await sendPasswordResetEmail(firebaseAuth(), email, actionSettings()); }
+    catch(error) {
+      // The acknowledgement must not reveal whether an email has an account.
+      if(typeof error==='object'&&error!==null&&'code' in error&&error.code==='auth/user-not-found')return;
+      throw error;
+    }
+  },
   async checkReset(code: string) { await verifyPasswordResetCode(firebaseAuth(), code); },
   async reset(code: string, password: string) { await confirmPasswordReset(firebaseAuth(), code, password); },
   async verifyEmail(code: string) {

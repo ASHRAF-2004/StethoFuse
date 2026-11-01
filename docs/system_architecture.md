@@ -18,8 +18,11 @@ pages; the favicon has an opaque mint tile for dark/light browser chrome.
 The former forest and deer scenes are inactive historical source. The approved
 snowy pointer-following owl is preserved with the same textures, meshes and
 connected-neck renderer, anchored to the listening desk. No flight sequence is
-active. A real synthetic Web Audio sample demonstrates track selection without
-claiming model output. Public, account and role pages share white/charcoal/mint
+active. Arabic mirrors the owl artwork and pointer yaw together. A lazily loaded
+eight-second HLS-CMDS development recording demonstrates track selection with
+aligned outputs from the unchanged frozen separator. Public attribution and
+provenance identify the manikin source and demonstration-only status. Public,
+account and role pages share white/charcoal/mint
 tokens, logical layouts and persistent English/Arabic language controls. Document
 language/direction and saved appearance are set before React paint. User-authored
 names, notes and resource titles remain raw. Time axes and identifiers stay LTR.
@@ -52,6 +55,25 @@ and all server-issued roles remain authoritative; only an empty initial personal
 display name can be initialized from the user's chosen provider profile name.
 
 ## API and persistence
+
+The public Support form uses a dedicated Cloudflare Worker on the exact
+`/api/support*` route; other API paths continue to the existing API. The Worker
+validates bounded input and the site Origin, applies rate limits, and sends
+branded HTML/plain text through a restricted native email binding to the fixed
+verified owner inbox. Visitors supply Reply-To only. Provider acceptance is
+awaited before success; errors preserve the visitor's form input. There is no
+SMTP password or mail-service API key in the browser or Worker source. See
+`services/stethofuse-support/README.md`.
+
+Firebase retains one password-recovery flow. A task-only live provider test
+observed verification/reset HTML in the connected owner inbox, consumed the
+links, verified sign-in after reset and rejected reuse, then deleted the test
+identity without calling the application API. Reusable official CLI admin login
+is stored outside source with restricted Windows ACLs. The supported sender name
+is branded StethoFuse; full body customization currently fails with provider
+`EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`, including a minimal text-only change.
+Prepared HTML is not active. Existing providers, callback URI, users and all
+non-template configuration are preserved.
 
 `app/m1/api.py` exposes the current FastAPI routes. SQLite stores accounts,
 recordings, jobs, grants, reviews, preferences and safe operational audit state.

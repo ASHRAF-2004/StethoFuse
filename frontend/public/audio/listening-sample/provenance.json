@@ -1,0 +1,93 @@
+{
+  "source": {
+    "triplet_id": "M0111",
+    "eligible_non_test": true,
+    "selected": true,
+    "quality_tier": "N1",
+    "heart_family": "Normal",
+    "lung_family": "Fine Crackles",
+    "family_pair_id": "hs:normal|ls:fine-crackles",
+    "path": "Mix/M0111.wav",
+    "sha256": "2253e27468f6ebac29eccaac4f04de2355ee1f554fc93f87348d4b147af519aa",
+    "bytes": 120044,
+    "dataset": "HLS-CMDS v3",
+    "source_url": "https://data.mendeley.com/datasets/8972jxbpmp/3",
+    "license": "CC BY 4.0",
+    "authors": [
+      "Yasaman Torabi",
+      "Shahram Shirani",
+      "James P. Reilly"
+    ]
+  },
+  "model": {
+    "model_name": "Compact Conv-TasNet",
+    "model_version": "stethofuse-tcn-small-hls-refit-waveform-v2",
+    "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+    "parameter_count": 171313,
+    "checkpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+    "separator_spec_sha256": "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b",
+    "sample_rate": 4000,
+    "inference_window_samples": 40000,
+    "inference_window_seconds": 10,
+    "inference_hop_samples": 32000,
+    "inference_hop_seconds": 8,
+    "inference_overlap_samples": 8000,
+    "inference_overlap_seconds": 2,
+    "output_semantic_order": [
+      "heart",
+      "lung"
+    ],
+    "mixture_consistency_version": "equal-residual-per-window-v1",
+    "amplitude_convention": "one whole-record mixture peak shared across both outputs and all windows; normalize input by peak and restore outputs by same peak; no clipping or independent output normalization",
+    "padding": "right zero-pad incomplete last window, then trim exactly to original length",
+    "projection": false,
+    "ensemble": null,
+    "runtime_device": "cpu",
+    "output_format": "WAV IEEE float32 little-endian; mono; 4000 Hz; no clipping or output normalization",
+    "environment": {
+      "python": "3.14.4",
+      "torch": "2.11.0+cpu",
+      "torchaudio": "2.11.0+cpu",
+      "numpy": "2.4.4",
+      "scipy": "1.17.0",
+      "device": "cpu"
+    }
+  },
+  "production_preservation": "PASS",
+  "excerpt": {
+    "start_seconds": 3,
+    "end_seconds": 11,
+    "reason": "Fixed central excerpt excludes the initial handling transient. No source-specific normalization or filtering. Both model tracks are the same aligned excerpt of the frozen full-recording inference."
+  },
+  "demonstration_only": true,
+  "independent_test": false,
+  "artifacts": {
+    "original": {
+      "sha256": "dd20f84b28521c5cb0c9435545083a027ccced97b147b3d09e0e3c4c01618752",
+      "samples": 32000,
+      "rate": 4000,
+      "encoding": 1,
+      "bits": 16,
+      "bytes": 64044,
+      "peak": 0.177093505859375
+    },
+    "heart": {
+      "sha256": "e41bfca375f093f66128a19213c6d89069e543150b24500bc9bd541e116b0a8e",
+      "samples": 32000,
+      "rate": 4000,
+      "encoding": 3,
+      "bits": 32,
+      "bytes": 128056,
+      "peak": 0.14703737199306488
+    },
+    "lung": {
+      "sha256": "194b1bd07a81c31495ce341b4efef405540cfd726fb832d96450defe8325f7a1",
+      "samples": 32000,
+      "rate": 4000,
+      "encoding": 3,
+      "bits": 32,
+      "bytes": 128056,
+      "peak": 0.060137540102005005
+    }
+  }
+}
