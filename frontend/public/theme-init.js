@@ -36,8 +36,8 @@
     target.dataset.prerender = 'ready';
     var hero = target.querySelector('.listening-owl>img');
     // Do not expose partially decoded WebP rows on a slow connection.
-    if (hero) hero.decode().then(function () { delete root.dataset.publicHeroPending; },function () { delete root.dataset.publicHeroPending; });
-    else delete root.dataset.publicHeroPending;
+    var revealHero = function () { delete root.dataset.publicHeroPending; };
+    var heroReady = hero ? hero.decode().then(revealHero,revealHero) : Promise.resolve().then(revealHero);
   } else {
     delete target.dataset.prerender;
     var text = language === 'ar' ? 'جارٍ تحميل StethoFuse…' : 'Loading StethoFuse…';
@@ -45,6 +45,25 @@
   }
   document.querySelectorAll('template[id^="public-"]').forEach(function (node) { node.remove(); });
   delete root.dataset.staticPreparing;
+  // Give the critical artwork a short exclusive network window on a cold visit.
+  // Cached images resolve immediately; auth routes never wait for public artwork.
+  var launchTimer;
+  var launch = function () {
+    var modules = document.getElementById('application-modules');
+    if (!modules) return;
+    clearTimeout(launchTimer);
+    modules.content.querySelectorAll('link').forEach(function (node) { document.head.appendChild(node.cloneNode(true)); });
+    modules.content.querySelectorAll('script').forEach(function (node) {
+      var script = document.createElement('script');
+      Array.from(node.attributes).forEach(function (attribute) { script.setAttribute(attribute.name,attribute.value); });
+      document.body.appendChild(script);
+    });
+    modules.remove();
+  };
+  if (location.pathname === '/' && heroReady) {
+    launchTimer = setTimeout(launch,3500);
+    heroReady.then(launch);
+  } else launch();
   var controls,notice;
   var removeNotice = function () { clearTimeout(notice); if (controls) controls.remove(); };
   document.addEventListener('sf-hydrated', removeNotice, {once:true});

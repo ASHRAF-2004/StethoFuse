@@ -15,7 +15,7 @@
           {"status_code_range": {"from": 201, "to": 599}, "value": -1}
         ]
       },
-      "browser_ttl": {"mode": "override_origin", "default": 0},
+      "browser_ttl": {"mode": "bypass"},
       "serve_stale": {"disable_stale_while_updating": true}
     }
   },
