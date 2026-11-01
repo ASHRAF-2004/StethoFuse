@@ -9,6 +9,7 @@ declare global {interface Window {
  __sfOwlFailed?:(error:unknown)=>void;
  __sfOwlDecoding?:(complete:number,total:number)=>void;
  __sfApplicationReady?:()=>void;
+ __sfApplicationFailed?:()=>void;
 }}
 
 async function readPackage():Promise<Map<string,Uint8Array>>{

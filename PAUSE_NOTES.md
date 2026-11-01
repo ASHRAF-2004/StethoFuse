@@ -1,30 +1,33 @@
 # Owl-ready entrance work — 2 November 2026
 
-The owner requested a genuinely animated branded loading page that finishes
-preparing the approved pointer-follow owl before entry. Read
-`docs/OWL_ENTRANCE_20261102.md`. The implementation is selected for deployment;
-the baseline live release below remains authoritative until fresh deployment
-receipts replace this paragraph. No other design/theme/character is selected.
+Intermediate live: `20261101T231519Z-2644ef7fa9fd`, source `189f0a7`, web
+`sha256:c2d0f8137aee96044db1be1bdcf2b59653d67fc06b0d583272815252e4773ffc`.
+Its live entrance/3G/public/follow-up checks pass. The native pack cache is live,
+with all four earlier rules exactly preserved. A deliberate component-init error
+then exposed a masked Router error screen. The selected follow-up shares the
+existing branded error UI between Router/outer boundaries and shows entrance
+Retry, never a still-owl continuation into a broken app. Deploy this correction
+normally and publish final evidence; never replay an intermediate release after
+a newer success. No other theme/character is selected.
 
-The native field now has one lossless SHA-256-verified public package instead of
-142 requests. Original WebP bitstreams and geometry are exact. Ten compiled
-entrance states, 44 layouts and three error/recovery cases pass; software canvas,
-all 18 views, actual first-frame pixels and pointer pixel changes are checked.
-Actual 400 kbit/s / 400 ms / 4x CPU lab: 82.902s cold entry, 1.977s cached entry;
-first frame precedes each reveal. The loader keeps moving during the full cold
-download; explicit still-owl entry is available after 12s. No fake percentage.
-Public 94 checks / 32 accessibility states, focused follow-up and eight session
-cache checks pass. Captured-API/mock-identity private fixtures pass 176 layouts
-and 124 accessibility states. Final deployment/live checks are in progress.
+Read `docs/OWL_ENTRANCE_20261102.md`. The native field is one lossless,
+SHA-256-verified public package instead of 142 requests. Original WebP bitstreams
+and geometry are exact. Ten compiled entrance states, 44 layouts and four
+error/recovery cases pass, including software canvas, all 18 views, actual first-
+frame pixels and pointer pixel changes. Actual 400 kbit/s / 400 ms / 4x CPU lab:
+82.902s cold and 1.977s cached; first frame precedes reveal. Intermediate live:
+86.758s cold and 2.161s cached. The trace keeps moving through the cold download;
+explicit still-owl entry is available after 12s. No fake percentage. Public
+94 checks / 32 accessibility states, focused follow-up and eight session-cache
+checks pass; mock-identity private fixtures pass 176 layouts / 124 accessibility
+states. Final exact-version live checks remain to run after correction.
 
-OwnerRelease study/evidence: `owl-loader-20261102`; frontend checks under
-`evidence/owl-entrance`. The narrow fingerprinted-runtime cache rule passed
-Cloudflare dry-run but is not installed yet. Complete build -> qualify ->
-preflight -> deploy -> evidence -> status in this conversation, append only that
-cache rule while preserving all four existing rules, purge only homepage HTML,
-then verify exact live source/pack/health/preservation and real 3G owl readiness.
-No Axora conversation, handoff or separate review is required. API/worker/data/
-model/T9/providers/other apps remain fixed. Preserve current recovery artifacts.
+Study/evidence: `OwnerRelease/owl-loader-20261102` and frontend
+`evidence/owl-entrance`. Finish build -> qualify -> preflight -> deploy ->
+evidence -> status here, preserve the five current cache rules, purge only
+homepage HTML, then verify exact live source/pack/health/preservation and actual
+3G owl readiness. No Axora conversation, handoff or separate review is required.
+API/worker/data/model/T9/providers/other apps stay fixed; recovery artifacts stay.
 
 # Previous loading/cache checkpoint — 2 November 2026
 

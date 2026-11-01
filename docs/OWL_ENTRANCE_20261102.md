@@ -68,7 +68,10 @@ After 12 seconds, a visitor may explicitly choose **Continue with still owl**
 once application controls are ready. This aborts motion loading and uses the
 approved static owl. Failed/corrupt downloads offer Retry plus that explicit
 choice. There is no silent frozen-owl fallback on a normal desktop visit.
-Application-module failure keeps the page inert and offers Retry. The download
+Application-module or component-initialization failure keeps the page inert and
+offers Retry. React Router and the outer application boundary share the existing
+branded error UI and notify the entrance, so an error cannot be hidden behind it.
+The download
 has a bounded 120-second timeout. Neither a timeout nor an error pretends motion
 was initialized successfully.
 
@@ -104,7 +107,7 @@ Source/browser tests alone do not claim production activation or owner visual
 approval. API/worker/model/schema/current data and other applications stay fixed.
 
 Local compiled verification passed ten entrance states, 44 loading layouts,
-three deliberately induced failure states, eight loading accessibility states,
+four deliberately induced failure states, eight loading accessibility states,
 and actual software fallback. The native 3G run entered at 82.902 seconds cold
 and 1.977 seconds cached; first nonblank owl frames were 82.622 and 1.704 seconds.
 The repeat native package transferred zero network bytes. Public regression:

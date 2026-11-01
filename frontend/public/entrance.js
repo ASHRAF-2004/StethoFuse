@@ -25,9 +25,9 @@
     if (state.totalBytes) { progress.setAttribute('aria-valuenow', String(percent)); progress.setAttribute('aria-valuetext', text(percent + '% downloaded', 'اكتمل تنزيل ' + percent + '٪')); }
     var label = state.pageFailed ? text('The page could not finish loading.', 'تعذّر إكمال تحميل الصفحة.') : state.error ? text('Your owl could not finish loading.', 'تعذّر إكمال تحميل البومة.') : state.phase === 'decoding' ? text('Bringing your owl to life…', 'نوقظ بومتك…') : state.phase === 'ready' ? text('Ready for a closer listen.', 'كل شيء جاهز لإصغاء أوضح.') : state.skipped ? text('Preparing a still moment…', 'نجهّز البومة دون حركة…') : state.motionExpected ? text('Preparing your owl…', 'نجهّز بومتك…') : text('Preparing your first view…', 'نجهّز إطلالتك الأولى…');
     var status = document.getElementById('sf-entry-status'); if (status.textContent !== label) status.textContent = label;
-    var skip = document.getElementById('sf-entry-skip'); skip.disabled = !state.appReady;
+    var skip = document.getElementById('sf-entry-skip'); skip.disabled = !state.appReady || state.pageFailed;
     document.getElementById('sf-entry-retry').hidden = !state.error && !state.pageStalled;
-    if (state.error && state.appReady) skip.hidden = false;
+    if (state.pageFailed) skip.hidden = true; else if (state.error && state.appReady) skip.hidden = false;
   }
   function finish() {
     if (state.entered || !home) return;
