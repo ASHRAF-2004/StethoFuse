@@ -6,14 +6,17 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4180",
     "dev:demo": "vite --mode demo --host 127.0.0.1 --port 4182",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node tools/prerender.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4180",
     "test": "npm run build && node tests/run-studio.mjs",
     "assets": "python3 tools/optimize_assets.py",
-    "test:legacy-demo": "node tests/browser.mjs"
+    "test:legacy-demo": "node tests/browser.mjs",
+    "test:cache": "node tests/session-cache.mjs",
+    "test:startup": "node tests/startup-cache.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "2.1.10",
+    "@tanstack/query-core": "5.105.1",
     "animejs": "^4.5.0",
     "firebase": "12.19.0",
     "react": "19.3.0",

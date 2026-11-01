@@ -1,6 +1,6 @@
 # Current StethoFuse architecture
 
-Updated 1 November 2026. This document describes the deployed React/API/worker
+Updated 2 November 2026. This document describes the React/API/worker
 system. The original template-based prototype remains historical source; it is
 not the current production interface.
 
@@ -9,8 +9,12 @@ not the current production interface.
 React 19, TypeScript and React Router provide the public listening studio, account pages
 and protected workspaces. Vite produces static assets served by the dedicated
 web image on the existing public origin. Route refreshes use the SPA fallback.
-The home route is eager so no unrelated workspace placeholder flashes at startup.
-Other page bundles remain lazy. Chillax supplies Latin typography and IBM Plex
+The home route is build-time rendered in English/Arabic and both appearances,
+then hydrated by the same React tree. Its compiled CSS is included with the HTML;
+one external SVG supplies the real sample waveforms across those snapshots. No
+identity, account data or token is included. The prepaint bootstrap selects the
+saved language/appearance; private/auth routes replace the public snapshot with
+a small animated client shell. Other page bundles remain lazy. Chillax supplies Latin typography and IBM Plex
 Sans Arabic supplies Arabic. Fonts are self-hosted with their license/source
 records. A simple solid split-signal mark is shared by navigation and account
 pages; the favicon has an opaque mint tile for dark/light browser chrome.
@@ -26,9 +30,16 @@ account and role pages share white/charcoal/mint
 tokens, logical layouts and persistent English/Arabic language controls. Document
 language/direction and saved appearance are set before React paint. User-authored
 names, notes and resource titles remain raw. Time axes and identifiers stay LTR.
-The optional resource gate waits only for hero/fonts and is bounded to 2.5 seconds;
-content and account forms do not wait for the pointer texture set. Reduced motion
-skips decorative motion. React and identity vendors are separately cached bundles.
+Public content paints before the application modules load. A small, nonblocking
+status describes preparation of interactive controls and offers Reload after a
+stalled startup. The common 24px loader owns its sizing and rotation in active
+startup/studio styles. Reduced motion intentionally disables rotation. Responsive
+WebP variants derive from the approved owl; the image becomes visible only after
+decoding. Latin fonts use optional display to avoid a late cold-network layout
+shift; cached fonts retain the established typography. Content and forms never
+wait for the pointer texture set. React/identity bundles and public static assets
+retain browser caching. See `LOADING_CACHE_STRATEGY_20261102.md` for measurements
+and the exact public-edge/private-session cache boundaries.
 
 ## Identity, roles and private access
 
@@ -53,6 +64,16 @@ media requests use the API client and render authorized blobs. Authenticated
 account changes clear the prior account's visible state. Existing profile names
 and all server-issued roles remain authoritative; only an empty initial personal
 display name can be initialized from the user's chosen provider profile name.
+
+TanStack Query core belongs to each API-client/auth scope, with memory-only,
+bounded metadata entries. Concurrent reads are deduplicated; permission-bearing
+metadata revalidates on reuse. Only own preferences have a 30s fresh interval.
+Auth/admin/notifications/protected media bypass it. Logout, identity change and
+expiry clear/cancel old scopes, and successful mutations invalidate metadata.
+Late old-account responses and errors cannot become cached success. Private HTTP
+requests remain `no-store`; no private service-worker or persistent offline cache
+is introduced. The public homepage alone may use a five-minute edge cache;
+account/API/action/version requests explicitly bypass shared caching.
 
 ## API and persistence
 

@@ -1,3 +1,5 @@
+import {QueryClient,isCancelledError} from '@tanstack/query-core';
+
 export class ApiError extends Error {
   constructor(public status: number, public code: string, message: string) { super(message); }
 }
@@ -28,7 +30,19 @@ const messages: Record<string, string> = {
   invalid_grant: 'That permission or expiry could not be accepted. Check the sharing options.',
 };
 export function createApiClient(token: TokenSource, onSessionExpired: () => void, transport: typeof fetch = fetch) {
+  // Each client belongs to one live auth scope. Never persisted or CDN cached.
+  const queries=new QueryClient({defaultOptions:{queries:{gcTime:typeof window==='undefined'?Infinity:60000,staleTime:0,retry:false,networkMode:'always'}}});
+  let scope=0,lifetime=new AbortController();
+  const clearCache=()=>{scope++;lifetime.abort();lifetime=new AbortController();queries.clear();};
+  const invalidate=()=>queries.clear();
+  const aborted=()=>new DOMException('The request no longer belongs to this account.','AbortError');
+  async function waitForCaller<T>(promise:Promise<T>,signal?:AbortSignal|null):Promise<T>{
+    if(!signal)return promise;if(signal.aborted)throw aborted();
+    return new Promise<T>((resolve,reject)=>{const cancel=()=>{signal.removeEventListener('abort',cancel);reject(aborted());};signal.addEventListener('abort',cancel,{once:true});void promise.then(value=>{signal.removeEventListener('abort',cancel);resolve(value);},error=>{signal.removeEventListener('abort',cancel);reject(error);});});
+  }
   async function request(path: string, init: RequestInit = {}, page?:FeedbackPage): Promise<Response> {
+    const version=scope,signal=AbortSignal.any([lifetime.signal,...(init.signal?[init.signal]:[])]);
+    if(signal.aborted)throw aborted();
     // Callers supply API-relative paths, never response URLs, absolute URLs or query tokens.
     if (!/^\/[a-z][a-z0-9/_-]*$/i.test(path) || path.includes('//') || path.includes('..')) throw new Error('Invalid API path.');
     // Pagination is typed numeric data, never a caller-supplied URL/query/token.
@@ -40,25 +54,29 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
     for (let attempt = 0; attempt < 2; attempt++) {
       let bearer: string;
       try { bearer = await token(attempt === 1); } catch (error) { if (error instanceof DOMException && error.name === 'AbortError') throw error; onSessionExpired(); throw new ApiError(401, 'session_expired', 'Your session has expired. Sign in again.'); }
+      if(version!==scope||signal.aborted)throw aborted();
       const headers = new Headers(init.headers);
       headers.set('Authorization', `Bearer ${bearer}`);
       headers.set('Accept', 'application/json');
       if (typeof init.body === 'string') headers.set('Content-Type', 'application/json');
       let response: Response;
       try {
-        response = await transport(`/api${path}${suffix}`, {...init, headers, credentials: 'omit', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer'});
+        response = await transport(`/api${path}${suffix}`, {...init, signal, headers, credentials: 'omit', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer'});
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') throw error;
         throw new ApiError(0, 'network_unavailable', 'The application service could not be reached. Check your connection and retry.');
       }
+      if(version!==scope||signal.aborted)throw aborted();
       if (response.status === 401 && attempt === 0) continue;
       if (response.status === 401) onSessionExpired();
       if (!response.ok) {
+        if([401,403,404].includes(response.status))queries.removeQueries({predicate:query=>query.state.fetchStatus==='idle'});
         const body = await response.json().catch(() => null);
         const code = typeof body?.detail?.code === 'string' ? body.detail.code : 'request_failed';
         const fallback = response.status === 401 ? 'Your session has expired. Sign in again.' : response.status === 403 ? 'You do not have permission for this action or resource.' : response.status === 404 ? 'This resource is unavailable or you no longer have access.' : response.status === 422 ? 'The supplied values could not be accepted. Check the fields and retry.' : response.status === 503 ? 'This service is not configured or is temporarily unavailable. No demo data will be substituted.' : 'The request could not be completed. Please retry.';
         throw new ApiError(response.status, code, messages[code] || fallback);
       }
+      if(!['GET','HEAD'].includes((init.method||'GET').toUpperCase()))invalidate();
       return response;
     }
     throw new ApiError(401, 'session_expired', 'Sign in again.');
@@ -68,7 +86,22 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
       // Recheck current resource authority without downloading private audio again.
       await request(`/media/${id}`, {method: 'HEAD', signal});
     },
-    async json<T>(path: string, init?: RequestInit, page?:FeedbackPage): Promise<T> { const response = await request(path, init, page); return response.status === 204 ? undefined as T : response.json(); },
+    clearCache,
+    async json<T>(path: string, init?: RequestInit, page?:FeedbackPage): Promise<T> {
+      if(init?.signal?.aborted)throw aborted();
+      const read=async(signal?:AbortSignal)=>{const response=await request(path,{...init,signal:signal||init?.signal},page);return response.status===204?undefined as T:response.json() as Promise<T>;};
+      // Permission/session/admin/media checks always reach the server. Volatile
+      // resource metadata is deduplicated in flight, then revalidated on reuse.
+      if((init?.method||'GET').toUpperCase()!=='GET'||init?.headers||init?.body||/^\/(auth|admin|media|notifications)(\/|$)/.test(path))return read();
+      const version=scope,queryKey=[path,page||null] as const;
+      try{
+        const value=await waitForCaller(queries.fetchQuery<T>({queryKey,queryFn:({signal})=>read(signal),staleTime:path==='/preferences'?30000:0}),init?.signal);
+        if(version!==scope)throw aborted();
+        const old=queries.getQueryCache().getAll().filter(q=>q.state.fetchStatus==='idle').sort((a,b)=>a.state.dataUpdatedAt-b.state.dataUpdatedAt);
+        for(const query of old.slice(0,Math.max(0,old.length-64)))queries.removeQueries({queryKey:query.queryKey,exact:true});
+        return value;
+      }catch(error){if(version!==scope||isCancelledError(error))throw aborted();if(error instanceof ApiError&&[401,403,404].includes(error.status))queries.removeQueries({queryKey,exact:true});throw error;}
+    },
     async media(id: string, signal?: AbortSignal): Promise<Blob> {
       const response = await request(`/media/${id}`, {signal});
       const type = response.headers.get('Content-Type')?.split(';')[0] || '';

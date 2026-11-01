@@ -2,11 +2,10 @@ import {useEffect,useRef,useState} from 'react';
 import {Play,Pause,Heart,Wind,Waveform,SpeakerHigh} from '@phosphor-icons/react';
 import {tx,useLocale} from './locale';
 import recording from './listeningSample.json';
+import assets from './criticalAssets.json';
 
 type Channel='original'|'heart'|'lung';
 const DURATION=recording.duration;
-function trace(channel:Channel){return recording.channels[channel].peaks.map((peak,i)=>{const x=(i/(recording.channels[channel].peaks.length-1)*1000).toFixed(2),height=Math.min(37,peak/recording.waveformScale*37);return `M${x} ${(40-height).toFixed(2)}L${x} ${(40+height).toFixed(2)}`;}).join(' ');}
-const paths={original:trace('original'),heart:trace('heart'),lung:trace('lung')};
 const channels=[{id:'original' as Channel,name:'Original',icon:Waveform},{id:'heart' as Channel,name:'Heart',icon:Heart},{id:'lung' as Channel,name:'Lung',icon:Wind}];
 export default function SoundDesk(){
  useLocale();const [channel,setChannel]=useState<Channel>('original'),[playing,setPlaying]=useState(false),[loading,setLoading]=useState(false),[position,setPosition]=useState(0),[error,setError]=useState('');
@@ -29,7 +28,7 @@ export default function SoundDesk(){
  function select(next:Channel){setChannel(next);if(playing||loading)void begin(next,position);}
  return <section className="sound-desk" data-ui="sound-demo" data-sample="hls-cmds-M0111" aria-label={tx('Listening sample')}>
   <div className="desk-heading"><div><span className="desk-live-dot"/><strong>{tx('Listening sample')}</strong><span className="desk-caption">{tx('Compare the same moment')}</span></div><span className="desk-duration" dir="ltr">00:08</span></div>
-  <div className="desk-tracks" role="group" aria-label={tx('Sound separation')}>{channels.map(({id,name,icon:Icon})=><button className={`desk-track ${channel===id?'selected':''}`} type="button" key={id} onClick={()=>select(id)} aria-pressed={channel===id}><span className={`track-label ${id}`}><Icon size={22} weight="regular"/><span>{tx(name)}</span></span><span className="track-wave"><svg viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d={paths[id]}/><line x1={position/DURATION*1000} x2={position/DURATION*1000} y1="0" y2="80" className="desk-playhead"/></svg></span><span className="track-select" aria-hidden="true">{channel===id?'●':'○'}</span></button>)}</div>
+  <div className="desk-tracks" role="group" aria-label={tx('Sound separation')}>{channels.map(({id,name,icon:Icon})=><button className={`desk-track ${channel===id?'selected':''}`} type="button" key={id} onClick={()=>select(id)} aria-pressed={channel===id}><span className={`track-label ${id}`}><Icon size={22} weight="regular"/><span>{tx(name)}</span></span><span className="track-wave"><svg viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><use href={assets.sampleWaveforms+"#"+id}/><line x1={position/DURATION*1000} x2={position/DURATION*1000} y1="0" y2="80" className="desk-playhead"/></svg></span><span className="track-select" aria-hidden="true">{channel===id?'●':'○'}</span></button>)}</div>
   <div className="desk-player"><button type="button" className="desk-play" disabled={loading} aria-label={loading?tx('Loading audio…'):`${tx(playing?'Pause':'Listen')} ${tx(channels.find(c=>c.id===channel)!.name)}`} onClick={()=>playing?stop():void begin()}>{playing?<Pause size={20} weight="fill"/>:<Play size={20} weight="fill"/>}</button><time dir="ltr">00:{String(Math.floor(position)).padStart(2,'0')}</time><input type="range" aria-label={tx('Playback position')} min="0" max={DURATION} step=".01" value={position} onChange={e=>{const time=Number(e.target.value);setPosition(time);if(playing||loading)void begin(channel,time);}}/><SpeakerHigh size={19} aria-hidden="true"/><span className="desk-synthetic">{tx('Dataset sample · HLS-CMDS')}</span></div>
   {error&&<p role="alert">{tx(error)}</p>}
   <details className="desk-attribution"><summary>{tx('About this sample')}</summary><p>{tx('Recorded on a clinical manikin. Heart and lung tracks are outputs of the current StethoFuse model.')} {tx('Development-set demonstration, not independent validation.')}<br/>Torabi, Shirani &amp; Reilly · HLS-CMDS v3 · CC BY 4.0 · <a href="https://data.mendeley.com/datasets/8972jxbpmp/3" target="_blank" rel="noopener noreferrer">{tx('Dataset and attribution')}</a></p></details>

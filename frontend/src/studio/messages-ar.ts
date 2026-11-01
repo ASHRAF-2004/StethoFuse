@@ -1,6 +1,7 @@
 import ui from './messages-ui-ar';
 /** UI translations. User-authored names, notes, handles and IDs are never translated. */
 const messages:Record<string,string>={
+ 'Loading StethoFuse…':'جارٍ تحميل StethoFuse…',
  ...ui,
  'Workflow preview':'نظرة على مسار العمل',
  'Use the support page to contact the project owner. Do not send credentials, reset links or sensitive recordings.':'تواصل مع صاحب المشروع عبر صفحة الدعم. لا ترسل بيانات الدخول أو روابط استعادة الحساب أو التسجيلات الحساسة.',

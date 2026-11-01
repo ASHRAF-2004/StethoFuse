@@ -2,6 +2,7 @@ import {useEffect,useRef} from 'react';
 import {createOwlSurface,type Surface} from '../components/owlSurface';
 import {OwlEyeMaterial} from '../frost/OwlEyeMaterial';
 import {useLocale} from './locale';
+import criticalAssets from './criticalAssets.json';
 
 /** The existing approved 18-view surface, textures and displacement meshes. No flight. */
 export default function ListeningOwl({reducedMotion=false}:{reducedMotion?:boolean}){
@@ -23,5 +24,5 @@ export default function ListeningOwl({reducedMotion=false}:{reducedMotion?:boole
   window.addEventListener('pointermove',move,{passive:true});document.addEventListener('pointerleave',leave);motion.addEventListener('change',change);document.addEventListener('visibilitychange',change);
   return()=>{disposed=true;abort.abort();cancelAnimationFrame(frame);surface?.dispose();io.disconnect();ro.disconnect();window.removeEventListener('pointermove',move);document.removeEventListener('pointerleave',leave);motion.removeEventListener('change',change);document.removeEventListener('visibilitychange',change);};
  },[reducedMotion]);
- return <div ref={root} className="listening-owl" data-mirrored={locale==='ar'} data-flight="disabled" data-pointer-scope="page" aria-hidden="true"><OwlEyeMaterial/><img src="/assets/owl-poster-1163.webp" width="1163" height="1353" alt="" fetchPriority="high"/><canvas ref={canvas}/><i className="studio-claw-anchor" data-anchor="owl-claws"/></div>;
+ return <div ref={root} className="listening-owl" data-mirrored={locale==='ar'} data-flight="disabled" data-pointer-scope="page" aria-hidden="true"><OwlEyeMaterial/><img src={criticalAssets.owl.src} srcSet={criticalAssets.owl.srcSet} sizes={criticalAssets.owl.sizes} width="1163" height="1353" alt="" fetchPriority="high"/><canvas ref={canvas}/><i className="studio-claw-anchor" data-anchor="owl-claws"/></div>;
 }

@@ -1,4 +1,15 @@
-# Current StethoFuse checkpoint — 1 November 2026
+# Loading/cache update in progress — 2 November 2026
+
+The owner requested the frozen oversized loader be repaired and tested on 3G,
+with public homepage preloading/caching and safely scoped per-user caching.
+Read `docs/LOADING_CACHE_STRATEGY_20261102.md`. Source changes are not deployed
+yet. Four public snapshots, inline compiled CSS, reusable real-sample waveforms,
+responsive original-owl encodings, active 24px loader styles and per-session
+TanStack Query core are implemented. Public/cache/private-role regressions pass;
+final 3G tuning and guarded release/cache-rule application remain in progress.
+No Next.js migration, provider/backend/model/data change or backup is involved.
+
+# Previous live checkpoint — 1 November 2026
 
 LIVE: https://stethofuse.ashraf-alsaloul.com/
 Version: `20261101T134232Z-5f7577045661`

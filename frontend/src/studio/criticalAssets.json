@@ -1,0 +1,8 @@
+{
+  "owl": {
+    "src": "/assets/owl-poster-580.8c6b7fb9f54e.webp",
+    "srcSet": "/assets/owl-poster-580.8c6b7fb9f54e.webp 580w, /assets/owl-poster-900.e81640882c18.webp 900w, /assets/owl-poster-1163.webp 1163w",
+    "sizes": "(min-width: 1440px) 430px, (min-width: 700px) 32vw, 70vw"
+  },
+  "sampleWaveforms": "/assets/listening-waveforms-c628fd4d4559.svg"
+}
