@@ -1,3 +1,19 @@
+# Owner-selected product rebuild — pending deployment
+
+The owner REJECTED the prior forest/product-polish appearance. Do not call the
+previous UI visually approved or replay its design. The only required visual
+carry-over is the approved snowy pointer-following owl. The user authorized a
+complete product-first redesign, English/Arabic RTL and deployment in this
+conversation, without design questions or another terminal.
+
+The implementation is now under frontend/src/studio. Read
+`docs/DESIGN_RESET_20261101.md`. Build and focused browser verification are in
+progress before the exact new release. The LIVE release below remains unchanged
+until a successful new OwnerRelease deploy receipt is produced. Preserve its
+current/prior operational archives and the one homepage source zip.
+
+## Previous live checkpoint (history until the new release succeeds)
+
 # Current checkpoint — 1 November 2026
 
 LIVE: https://stethofuse.ashraf-alsaloul.com/

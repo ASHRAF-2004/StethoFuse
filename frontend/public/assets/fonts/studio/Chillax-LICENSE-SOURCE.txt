@@ -1,0 +1,4 @@
+Chillax by the Indian Type Foundry, supplied by Fontshare.
+Official font source: https://www.fontshare.com/fonts/chillax
+Official licence: https://www.fontshare.com/licenses
+Self-hosted webfont files are unchanged; source URLs are recorded in FONT-SOURCES.json.

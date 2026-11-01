@@ -1,15 +1,9 @@
 import type {SVGProps} from 'react';
 
-/** The owl's facial disc, brows and stethoscope form one continuous identity. */
+/** Two broad channels share one S-shaped counterform: one source, two signals. */
 export function BrandMark(props:SVGProps<SVGSVGElement>){
- return <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" {...props}>
-  <g stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
-   <path d="M10 25C8 19 6 12 6 9C14 10 20 13 25 17C29 14 35 14 39 17C44 13 50 10 58 9C58 13 56 20 54 25"/>
-   <path d="M10 25C9 38 16 47 25 51M54 25C55 38 48 47 39 51"/>
-   <path d="M9 14C21 15 30 23 32 37C34 23 43 15 55 14M32 37V48"/>
-   <path d="M16 25C18 22 23 22 25 25M39 25C41 22 46 22 48 25"/>
-   <circle cx="20.5" cy="28" r="3.5"/><circle cx="43.5" cy="28" r="3.5"/>
-   <circle cx="32" cy="53" r="5"/>
-  </g>
+ return <svg viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" {...props}>
+  <path d="M28 124C28 71 71 28 124 28H148V76H124C97.5 76 76 97.5 76 124V204H28Z"/>
+  <path d="M228 132C228 185 185 228 132 228H108V180H132C158.5 180 180 158.5 180 132V52H228Z"/>
  </svg>;
 }

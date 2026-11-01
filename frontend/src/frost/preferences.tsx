@@ -1,3 +1,5 @@
+import {lt} from '../studio/locale';
+import {tx} from '../studio/locale';
 import {createContext,useContext,useEffect,useState,type ReactNode} from 'react';
 import type {Theme} from './contracts';
 import {rememberPublicTheme} from './publicTheme';
@@ -10,13 +12,13 @@ const Preferences=createContext<{
 }|null>(null);
 export function FrostPreferences({uid,children}:{uid:string;children:ReactNode}){
   const prefix=`sf-device-${uid}-`;
-  const [theme,setTheme]=useState<Theme>(()=>{const t=read(prefix+'theme','system');return ['system','frost','midnight'].includes(t)?t as Theme:'system';});
+  const [theme,setTheme]=useState<Theme>(()=>{const t=read(prefix+'theme','system');return ['system','frost','midnight'].includes(t)?t as Theme:"system";});
   const [gain,setGain]=useState(()=>{const n=Number(read(prefix+'gain','100'));return Number.isFinite(n)&&n>=0&&n<=200?n:100;});
   const [systemDark,setSystemDark]=useState(()=>matchMedia('(prefers-color-scheme: dark)').matches);
-  const resolved=theme==='system'?systemDark?'midnight':'frost':theme;
+  const resolved=theme==='system'?systemDark?"midnight":"frost":theme;
   useEffect(()=>{const q=matchMedia('(prefers-color-scheme: dark)');const change=()=>setSystemDark(q.matches);q.addEventListener('change',change);return()=>q.removeEventListener('change',change);},[]);
   useEffect(()=>{write(prefix+'theme',theme);rememberPublicTheme(theme);},[prefix,theme,resolved]);
   useEffect(()=>write(prefix+'gain',String(gain)),[prefix,gain]);
-  return <Preferences.Provider value={{theme,resolved,setTheme,gain,setGain}}>{children}</Preferences.Provider>;
+  return <Preferences.Provider value={{theme,resolved,setTheme,gain,setGain}}>{lt(children)}</Preferences.Provider>;
 }
 export function useFrostPreferences(){const value=useContext(Preferences);if(!value)throw new Error('Frost preferences require the authenticated shell.');return value;}

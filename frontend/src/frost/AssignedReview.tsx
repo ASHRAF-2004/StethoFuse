@@ -1,3 +1,5 @@
+import {lt} from '../studio/locale';
+import {tx} from '../studio/locale';
 import {useEffect,useId,useRef,useState,type FormEvent} from 'react';
 import {Link} from 'react-router-dom';
 import {ArrowLeft,CheckCircle,ShieldCheck} from '@phosphor-icons/react';
@@ -14,10 +16,10 @@ export function AssignedReview({id}:{id:string}){
   const data=useResource<LiveReview>(`/assignments/${id}/review`),[lost,setLost]=useState(false);
   function refresh(){data.reload();window.dispatchEvent(new Event('sf-recheck-media'));}
   return <>
-    <Link to="/app/shared?view=assigned" className="sf-text-link"><ArrowLeft size={16}/>Assigned reviews</Link>
-    <header className="sf-page-heading sf-detail-heading"><div><h1>{!lost&&data.value?.recording_title||'Assigned review'}</h1><p>Review the exact resource, without changing the recording.</p>{!lost&&data.value&&<div className="sf-detail-meta"><span><ShieldCheck size={15}/>{data.value.resource_kind==='result'?'Result details only':'Original audio only'}</span>{data.value.recording_public_id&&<CopyId value={data.value.recording_public_id}/>} {data.value.assignment_public_id&&<CopyId value={data.value.assignment_public_id}/>}</div>}</div><Button variant="secondary" onClick={refresh}>Refresh access</Button></header>
+    <Link to="/app/shared?view=assigned" className="sf-text-link"><ArrowLeft size={16}/>{tx("Assigned reviews")}</Link>
+    <header className="sf-page-heading sf-detail-heading"><div><h1>{lt(!lost&&data.value?.recording_title||'Assigned review')}</h1><p>{tx("Review the exact resource, without changing the recording.")}</p>{!lost&&data.value&&<div className="sf-detail-meta"><span><ShieldCheck size={15}/>{lt(data.value.resource_kind==='result'?tx("Result details only"):tx("Original audio only"))}</span>{data.value.recording_public_id&&<CopyId value={data.value.recording_public_id}/>} {data.value.assignment_public_id&&<CopyId value={data.value.assignment_public_id}/>}</div>}</div><Button variant="secondary" onClick={refresh}>{tx("Refresh access")}</Button></header>
     <RequestState {...data}/>
-    {lost&&<Notice danger>Review access is no longer available. The protected resource and notes have been cleared. Return to Assigned reviews to check current access.</Notice>}
+    {lost&&<Notice danger>{tx("Review access is no longer available. The protected resource and notes have been cleared. Return to Assigned reviews to check current access.")}</Notice>}
     {data.value&&!data.error&&!lost&&<>
       {data.value.resource_kind==='result'?<ResultDetail id={data.value.resource_id} embedded/>:<MediaDetail id={data.value.resource_id} kind={data.value.resource_kind||'assigned_resource'} embedded/>}
       <ReviewEditor key={id} review={data.value} onRefresh={data.reload} onLost={()=>{setLost(true);data.reload();}}/>
@@ -43,13 +45,13 @@ function ReviewEditor({review,onRefresh,onLost}:{review:LiveReview;onRefresh:()=
     }catch(failure){if(!controller.signal.aborted){if(failure instanceof ApiError&&[401,403,404].includes(failure.status)){setDraft({decision:'pending',notes:''});onLost();}else setError(errorMessage(failure));}}
     finally{if(!controller.signal.aborted)setBusy(false);}
   }
-  return <GlassPanel className="sf-review-editor" label="Your review">
-    <SectionHeading title="Your review" description="Useful observations for the owner. Not a clinical diagnosis."/>
+  return <GlassPanel className="sf-review-editor" label={tx("Your review")}>
+    <SectionHeading title={tx("Your review")} description={tx("Useful observations for the owner. Not a clinical diagnosis.")}/>
     <form onSubmit={save}>
-      <div className="sf-field"><label htmlFor={outcomeId}>Review outcome</label><select id={outcomeId} value={draft.decision} disabled={busy} onChange={event=>{setDraft({...draft,decision:event.target.value as LiveReview['decision']});setSaved(false);}}><option value="pending">Not reviewed</option><option value="accepted">Reviewed</option><option value="needs_attention">Needs attention</option></select></div>
-      <div className="sf-field"><label htmlFor={notesId}>Review notes</label><textarea id={notesId} aria-describedby={notesHelpId} rows={5} maxLength={10000} value={draft.notes} disabled={busy} onChange={event=>{setDraft({...draft,notes:event.target.value});setSaved(false);}}/><small id={notesHelpId}>Save review shares these observations with the recording owner. No patient identifiers. Up to 10,000 characters; unsaved edits are not shared.</small></div>
-      {error&&<Notice danger>{error}</Notice>}{saved&&<p className="sf-account-saved" role="status"><CheckCircle size={17}/>Review saved.</p>}
-      <div className="sf-review-save"><span>{review.updated_at==null?'No saved review yet':`Last saved ${dateLabel(review.updated_at)}`}</span><div>{dirty&&<Button variant="ghost" disabled={busy} onClick={()=>{setDraft(baseline);setError('');setSaved(false);}}>Discard changes</Button>}<Button type="submit" disabled={busy||!dirty}>{busy?'Saving…':'Save review'}</Button></div></div>
+      <div className="sf-field"><label htmlFor={outcomeId}>{tx("Review outcome")}</label><select id={outcomeId} value={draft.decision} disabled={busy} onChange={event=>{setDraft({...draft,decision:event.target.value as LiveReview['decision']});setSaved(false);}}><option value="pending">{tx("Not reviewed")}</option><option value="accepted">{tx("Reviewed")}</option><option value="needs_attention">{tx("Needs attention")}</option></select></div>
+      <div className="sf-field"><label htmlFor={notesId}>{tx("Review notes")}</label><textarea id={notesId} aria-describedby={notesHelpId} rows={5} maxLength={10000} value={draft.notes} disabled={busy} onChange={event=>{setDraft({...draft,notes:event.target.value});setSaved(false);}}/><small id={notesHelpId}>{tx("Save review shares these observations with the recording owner. No patient identifiers. Up to 10,000 characters; unsaved edits are not shared.")}</small></div>
+      {error&&<Notice danger>{lt(error)}</Notice>}{saved&&<p className="sf-account-saved" role="status"><CheckCircle size={17}/>{tx("Review saved.")}</p>}
+      <div className="sf-review-save"><span>{lt(review.updated_at==null?tx("No saved review yet"):`Last saved ${dateLabel(review.updated_at)}`)}</span><div>{dirty&&<Button variant="ghost" disabled={busy} onClick={()=>{setDraft(baseline);setError('');setSaved(false);}}>{tx("Discard changes")}</Button>}<Button type="submit" disabled={busy||!dirty}>{lt(busy?tx("Saving…"):tx("Save review"))}</Button></div></div>
     </form>
     <UnsavedGuard when={dirty&&!busy}/>
   </GlassPanel>;

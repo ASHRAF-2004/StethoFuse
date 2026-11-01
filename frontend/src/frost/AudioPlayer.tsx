@@ -1,3 +1,5 @@
+import {lt} from '../studio/locale';
+import {tx} from '../studio/locale';
 import { useEffect, useRef, useState } from "react";
 import {
   DownloadSimple,
@@ -66,12 +68,12 @@ export function AudioPlayer({
         if (controller.signal.aborted) return;
         setError(
           failure instanceof ApiError && failure.status === 401
-            ? "Sign in again to listen to this audio."
+            ? tx("Sign in again to listen to this audio.")
             : failure instanceof ApiError && [403, 404].includes(failure.status)
-              ? "You do not currently have access to this audio."
+              ? tx("You do not currently have access to this audio.")
               : failure instanceof Error
                 ? failure.message
-                : "This audio could not be loaded.",
+                : tx("This audio could not be loaded."),
         );
       });
     let checking = false;
@@ -85,7 +87,7 @@ export function AudioPlayer({
         clear.current(source);
         if (allocated) { URL.revokeObjectURL(allocated); allocated = ''; }
         setUrl('');setSignal(null);callback.current(source, null);
-        setError(failure instanceof Error ? failure.message : 'Audio access is unavailable.');
+        setError(failure instanceof Error ? failure.message : tx("Audio access is unavailable."));
       } finally { checking = false; }
     }
     const timer = setInterval(() => void recheck(), 30000);
@@ -107,15 +109,15 @@ export function AudioPlayer({
   return (
     <div
       className={`sf-player sf-player--${source}`}
-      aria-label={`${sourceLabels[source]} audio player`}
+      aria-label={lt(`${sourceLabels[source]} audio player`)}
       data-media-state={error ? "denied-or-error" : ready ? "ready" : "loading"}
     >
       <div className="sf-player-label">
-        <strong>{sourceLabels[source]}</strong>
-        <span>{source === "original" ? "Input audio" : "Component"}</span>
+        <strong>{lt(sourceLabels[source])}</strong>
+        <span>{lt(source === "original" ? tx("Input audio") : tx("Component"))}</span>
       </div>
       {error ? (
-        <><Notice danger>{error}</Notice><Button variant="ghost" onClick={() => setRevision(v => v + 1)}>Retry audio access</Button></>
+        <><Notice danger>{lt(error)}</Notice><Button variant="ghost" onClick={() => setRevision(v => v + 1)}>{tx("Retry audio access")}</Button></>
       ) : (
         <>
           <div className="sf-player-main">
@@ -123,7 +125,7 @@ export function AudioPlayer({
               variant="icon"
               className="sf-play"
               disabled={!ready}
-              aria-label={`${isPlaying ? "Pause" : "Play"} ${sourceLabels[source]}`}
+              aria-label={lt(`${isPlaying ? tx("Pause") : tx("Play")} ${sourceLabels[source]}`)}
               aria-pressed={isPlaying}
               onClick={() => {
                 if (isPlaying) playback.pause();
@@ -146,7 +148,7 @@ export function AudioPlayer({
               )}
               <input
                 type="range"
-                aria-label={`Seek ${sourceLabels[source]}`}
+                aria-label={lt(`Seek ${sourceLabels[source]}`)}
                 min={0}
                 max={signal?.duration || 0}
                 step={0.05}
@@ -158,21 +160,21 @@ export function AudioPlayer({
                 }}
               />
               <div className="sf-time">
-                <time>{timeLabel(position)}</time>
-                <time>{signal ? timeLabel(signal.duration) : "—"}</time>
+                <time>{lt(timeLabel(position))}</time>
+                <time>{lt(signal ? timeLabel(signal.duration) : "—")}</time>
               </div>
             </div>
             <div className="sf-gain" data-boosted={gain > 100}>
               <label htmlFor={`gain-${source}`} aria-hidden="true">
                 <SpeakerHigh size={15} />
-                <span className="sf-gain-value">{gain}%</span>
-                <span className="sf-gain-boost">Boost</span>
+                <span className="sf-gain-value">{lt(gain)}%</span>
+                <span className="sf-gain-boost">{tx("Boost")}</span>
               </label>
               <div className="sf-gain-track">
                 <input
                   id={`gain-${source}`}
-                  aria-label={`${sourceLabels[source]} playback volume`}
-                  aria-valuetext={`${gain} percent${gain > 100 ? ", boost enabled" : ""}`}
+                  aria-label={lt(`${sourceLabels[source]} playback volume`)}
+                  aria-valuetext={`${gain} percent${gain > 100 ? tx(", boost enabled") : ""}`}
                   aria-describedby="sf-playback-help"
                   type="range"
                   min={0}
@@ -188,16 +190,16 @@ export function AudioPlayer({
             </div>
           </div>
           <span className="sf-sr" role="status">
-            {ready
+            {lt(ready
               ? `${sourceLabels[source]} audio ready. No autoplay.`
-              : "Loading audio…"}
+              : tx("Loading audio…"))}
           </span>
         </>
       )}
       <a
         href={url || undefined}
         download={filename || `${source}.wav`}
-        aria-label={`Download ${sourceLabels[source]}`}
+        aria-label={lt(`Download ${sourceLabels[source]}`)}
         className={`sf-icon-link sf-player-download ${!url ? "is-disabled" : ""}`}
         tabIndex={url ? 0 : -1}
         aria-disabled={!url}
