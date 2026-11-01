@@ -1,99 +1,95 @@
-# Owner-selected product rebuild — pending deployment
-
-The owner REJECTED the prior forest/product-polish appearance. Do not call the
-previous UI visually approved or replay its design. The only required visual
-carry-over is the approved snowy pointer-following owl. The user authorized a
-complete product-first redesign, English/Arabic RTL and deployment in this
-conversation, without design questions or another terminal.
-
-The implementation is now under frontend/src/studio. Read
-`docs/DESIGN_RESET_20261101.md`. Build and focused browser verification are in
-progress before the exact new release. The LIVE release below remains unchanged
-until a successful new OwnerRelease deploy receipt is produced. Preserve its
-current/prior operational archives and the one homepage source zip.
-
-## Previous live checkpoint (history until the new release succeeds)
-
-# Current checkpoint — 1 November 2026
+# Current StethoFuse checkpoint — 1 November 2026
 
 LIVE: https://stethofuse.ashraf-alsaloul.com/
-Version: `20261101T043654Z-a5613657b3cc`
-Source: `2c0d4dc5e4a341f4843dd403969adcd99e17e99a`
-Web: `sha256:d62e6bf5b7edbbe88254ad14419eaa1b574bab4b72ea73589342adcec2924710`
-Archive SHA256: `a5613657b3ccdd3e83f05e34366ad12785d6d29b3f44933b1159989c97f6b62c`
+Version: `20261101T094243Z-42e08b861fc8`
+Source: `54200a3acd518f5e8a332068f3a9744f8fafb46f`
+Web: `sha256:5300f38bc5d88e527ffc0827b58536bd155ed6760ce6c48c2a4f5754039d641b`
+Site archive SHA256: `42e08b861fc879a91007f67226d05c664282c1be91bc829959053eef463741e4`
 
-The selected product/interface/readiness work is deployed. No website source
-changes are pending. Later documentation-only commits do not change this image.
-Read docs/PRODUCT_READINESS_20261101.md and docs/system_architecture.md. The old
-missing-Firebase-config blocker is RESOLVED; do not carry it into a new handoff.
+The owner's latest request replaced the rejected forest design with a clean,
+product-focused listening studio. The only required visual carry-over is the
+approved snowy pointer-following owl. The new public/account/role interface is
+deployed. Read `docs/DESIGN_RESET_20261101.md` and `docs/system_architecture.md`.
+Do not resume the old forest composition, deer/flight studies or old design drafts.
 
-## What is live
+## Current interface
 
-- Smooth owl-head mark and high-contrast SVG/PNG favicon, with one saved homepage
-  source backup at OwnerRelease/backups/homepage-before-product-polish.zip.
-- Source Sans 3 interface and Lora public headings/wordmark; font selection is
-  asserted in browser tests, including after lazy legal/account styles load.
-- Centered account forms, clearer copy/errors, keyboard password control,
-  verification sign-out returning to login, persistent Day/Night controls.
-- Existing forest scene/approved owl/current deer preserved. Owl flight and
-  additional deer animation remain deferred, not newly approved by this release.
-- Shared staff/analyst/admin styling, readable tables, useful help and footer
-  navigation. Existing protected data/roles/components are preserved.
-- Actual browser PCM recording integrated with explicit Start, stop/preview/save,
-  microphone cleanup and file-upload alternative. A same-origin emitted worklet
-  is verified on production with the exact packaged hash and JavaScript MIME.
-- Existing Firebase public configuration restored to the build from protected
-  runtime settings; no provider/project/role setting was changed. Build/runtime
-  share a fail-closed public-config contract. The local ignored file is
-  frontend/.env.production.local; a public-only durable copy is
-  C:/Users/thalt/StethoFuseDeployment/OwnerRelease/public-web-config.json.
-- Saved/system appearance paints before React. The old three-bar placeholder
-  does not appear on deliberately slowed live cold loads.
+- White/charcoal/mint materials, a solid split-signal mark and opaque mint-tile
+  SVG/PNG favicon. Chillax Latin and IBM Plex Sans Arabic are self-hosted.
+- Persistent English/Arabic, real RTL document direction, logical layout and
+  LTR audio axes/IDs. User names, notes and recording titles stay unchanged.
+- Real eight-second locally synthesized listening sample with track selection,
+  playback and seeking. It is explicitly synthetic, not model output or T9 audio.
+- Centered sign-in/signup/recovery forms, readable help/legal pages, useful
+  validation, keyboard controls, responsive menu and returning-user workspace link.
+- Staff/analyst/admin share a quiet working-sheet layout. Existing recording,
+  separation, review, grants and role behavior are retained. The last correction
+  fixes workspace perch occlusion, avatar/ID contrast and accessible list/unread
+  semantics. No production role assignments were made for UI testing.
+- The approved owl's 18-view connected-neck art, meshes and eye material are
+  unchanged. Its claws stay in front of the desk/perch. No flight/deer sequence
+  is active. Pointer rendering stops offscreen/hidden and respects reduced motion.
+- The root skeleton flash is absent. The optional hero/font gate starts after
+  200ms, ends within 2.5s and is skipped for reduced motion. Forms/content do not
+  wait for the optional pointer textures. Cached vendor bundles are separated.
 
-## Fresh evidence
+## Verification and boundaries
 
-Owner proof: C:/Users/thalt/StethoFuseDeployment/OwnerRelease/receipts/20261101T044722Z-product-owner-verification.json
-SHA256: `d07c2a84e06adeb90912064243e830f18f4c3856987950c1cfff852bdbe6134d`
-Own status: C:/Users/thalt/SharedRuntimeMigration-20261015/stethofuse-status.json
-Status: LIVE_PRODUCT_RELEASE_OWNER_VERIFIED. ready_for_users=true for the
-configured research/education workspace; shared_backup_verified=false.
+- Final build and public suite: 86 checks, 28 accessibility states, zero detected
+  violations/page errors/failed assets; eight widths 360–2560 and both languages/
+  appearances. Actual screenshots were inspected, including mobile/account pages.
+- Private UI: 176 route/layout checks and 124 accessibility states, zero detected
+  violations/errors/unknown API calls. These use fictional identities and captured
+  responses from a temporary API database; they are not privileged live logins.
+- Real Chromium page zoom 67/80/100/125/150/200%: 48 cases, no overflow, aligned
+  owl contact and centered forms. Native CDP captures avoid Playwright's zoom
+  screenshot clipping artifact. This is browser zoom, not CSS `zoom`.
+- Four slow-start cases, exact version/source/archive and two published-script
+  hashes passed. Live owl movement was sampled at 16 positions; the art study also
+  inspected all 18 poses, enlarged light/dark alpha edges and 80 pointer positions.
+- Actual disposable Firebase signup/sign-in, verification gate, sign-out return,
+  production unverified-token403 and identity deletion all passed. No mail was
+  sent. Inbox delivery, interactive Google consent and a real verified privileged
+  production login are outside those checks.
+- Existing model/API/capture acceptance is recorded separately in
+  `docs/PRODUCT_READINESS_20261101.md`; the real frozen-model synthetic-audio test
+  belongs to that earlier checkpoint. This UI release did not rerun or alter ML.
+- Independent Pingfusi review request expired with 0 responses. No external or
+  owner visual approval is inferred. No new review, design question or deployment
+  authorization is pending. The owner's selected redesign is already live.
 
-Exact deploy/evidence objects and six immutable action receipts reconcile.
-API/web healthy, worker ready; pointer, workdirs, profile and stable restore path
-align. Data/model/private/foreign guards PASS. No backup/restore was invoked.
+## Exact operational evidence
 
-Live: exact version/source/archive; 30 public/auth/legal theme/viewport checks;
-16 scene viewport checks and12 zoom-equivalent reflow checks; real Firebase
-signup/signin/sign-out and production API denial of an unverified identity.
-Disposable provider identities were immediately deleted. 28 accessibility states
-have zero automated violations. Role screens have88 isolated checks; native
-capture/cleanup and separately simulated denial pass. A real isolated frozen-
-worker pipeline produced distinct finite4-kHz heart/lung outputs from synthetic
-PCM, retaining the original and unchanged model/production state. No T9 used.
+Owner proof: `C:\Users\thalt\StethoFuseDeployment\OwnerRelease\receipts\20261101T095920Z-studio-owner-verification.json`
+SHA256: `27e1e7f334988ea5613d4a6e2b8733944c53c7bb7e3ec5906fbaea34c0095a00`
 
-Verification limits are explicit in the proof: role accounts are isolated test
-identities; no production privileged-account login is claimed. Actual inbox
-email delivery, interactive Google consent and physical-device audio quality
-were not observed. Google auth-URI availability and public origin authorization
-were checked without changing provider settings. No medical/compliance claim.
+It contains immutable receipts and a browser-evidence snapshot. Deploy/evidence
+objects match; live pointer/workdirs/profile/stable restore path align. API/web
+are healthy and the worker is ready. Current data/foreign/credentials/model
+preservation guards passed. API and worker images remain:
 
-## Deployment/recovery from any conversation
+- API: `sha256:33b257a5dbacebe7776326732ce88f596058694bbdf24410b095644171150f56`
+- Worker: `sha256:df4b5cfec7ef525c599c52773ed2c6cf5c26753b13f0e6c4d5962ab0af4dfde4`
 
-Read C:/Users/thalt/StethoFuseDeployment/OwnerRelease/DEPLOYMENT.md and
-OPERATIONS.md. Use the absolute Invoke-OwnerRelease.ps1 wrapper:
-status -> build -> qualify -> preflight -> deploy -> evidence -> status.
-Use the exact staged version and inspect every failed gate. Every normal release
-in this work used ordinary self-service; no exceptional retry clearance needed.
-No Axora terminal, handoff ID or HOST_PLAN approval is required. Keep the real
-lock, fixed API/worker, preservation, exact-image and rollback checks. Run deploy
-with public network access so the Windows endpoint proof can reach public HTTPS.
+Only the guarded StethoFuse website release/web recovery pin changed. The
+current/prior image archives remain verified and preserved. No combined backup,
+restore, host/VM/network/other-app action was performed. Shared backup verification
+remains false. StethoFuse's own status was refreshed; HOST_PLAN and other app
+statuses were not changed.
 
-Keep current/prior operational image archives and consumed historical checkpoints.
-The single homepage-source zip is separate from recovery/backup artifacts.
-No Portfolio, Firebase-provider, frozen-model, shared-host/network or VM restart
-change occurred. No external preview host or publishing workflow was used.
-Preserve all existing branches/PRs; commits use ASHRAF-2004. No main merge/push.
+## Source, backup and future work
 
-Browser artifacts: frontend/evidence/product-polish/live-20261101T043654Z-a5613657b3cc/
-Role/capture/accessibility artifacts: frontend/evidence/product-polish/.
-Deployment and safe diagnostics: OwnerRelease/receipts/.
+Branch: `feature/forest-world-prototype` (historical name retained).
+Implementation commits: `5d496ba` and `54200a3`. Later checkpoint edits are docs
+only and do not change the deployed source identity above. No merge to main.
+
+One homepage source backup is retained and its ZIP integrity passed:
+`OwnerRelease/backups/homepage-before-product-polish.zip`.
+Inactive old artwork/studies remain historical source; they are not requested by
+the active homepage. No external preview site/workflow was created or deployed.
+
+For later authorized releases, read `OwnerRelease/DEPLOYMENT.md` and use
+build -> qualify -> preflight -> deploy -> evidence -> status in the same
+conversation. The owner retired Axora/handoff/agent-review gates. Preserve actual
+locks, exact images, current data, health checks and rollback. No code changes
+remain pending from this request; any later taste feedback starts a new change.

@@ -123,3 +123,66 @@ The owner's direct implementation/deployment instruction controls this work; no
 design-approval pause, extra terminal or Axora handoff is required. The same exact
 image/lock/preservation/rollback checks still apply. A passing inspection is not
 an assertion of mathematical perfection or a medical/compliance certification.
+
+## Final deployed checkpoint
+
+Deployed `20261101T094243Z-42e08b861fc8` from `54200a3acd518f5e8a332068f3a9744f8fafb46f` to
+https://stethofuse.ashraf-alsaloul.com/. Web image `sha256:5300f38bc5d88e527ffc0827b58536bd155ed6760ce6c48c2a4f5754039d641b`;
+site archive `42e08b861fc879a91007f67226d05c664282c1be91bc829959053eef463741e4`. The first rebuilt release was followed
+by a small corrective release for workspace rendering and accessibility.
+
+| Check | Result |
+| --- | --- |
+| Public layout/interaction checks | 86 passed |
+| Public accessibility states | 28, zero detected violations |
+| Fictional private-role route/layout checks | 176 passed |
+| Private-role accessibility states | 124, zero detected violations |
+| Real browser zoom cases | 48 passed, 67–200% |
+| Slow-start states | Four passed; no old skeleton/stuck gate |
+| Real provider signup/sign-in/gate/cleanup | Passed |
+| Exact live version/source/archive/scripts | Passed |
+| API/web health, worker readiness, data/foreign preservation | Passed |
+
+The private audit additionally found invalid definition-list children, an
+unlabeled unread dot and insufficient identifier contrast. Their semantic/colour
+corrections passed the repeated audit. Enlarged/native screenshot review caught
+the owl perch drawn over its claws and a weak light-mode fallback avatar; both
+were corrected. Native CDP screenshots were used for actual page zoom because
+Playwright's full-page capture clips at changed browser zoom. The page itself
+has no measured overflow and remains centered in the native captures.
+
+Actual browser zoom uses the documented
+[Chromium tabs.setZoom API](https://developer.chrome.com/docs/extensions/reference/api/tabs#method-setZoom)
+through a disposable isolated extension/profile; the user's browser is untouched.
+Every profile is removed after its browser closes.
+
+Current evidence is under `frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8`:
+
+- [English Day hero](../frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8/hero-en-day.png)
+- [English Night full page](../frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8/home-en-night-1440.png)
+- [Arabic Night hero](../frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8/hero-ar-night.png)
+- [Arabic mobile Day](../frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8/home-ar-day-390.png)
+- [Mobile Night login](../frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8/login-en-night-390.png)
+- [Actual 67% browser zoom](../frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8/actual-browser-zoom-67-day.png)
+- [Actual 200% Arabic login](../frontend/evidence/design-reset/live-20261101T094243Z-42e08b861fc8/actual-browser-zoom-200-ar-login.png)
+
+The actual live identity, startup, script and pointer checks are in
+`finish-checks.json`; real zoom measurements are in `browser-zoom.json`; actual
+provider boundary/cleanup proof is in `real-auth.json`. Role screens and final
+audit are in `frontend/evidence/design-reset/roles-a11y-fixed`. The exact approved
+owl files match the prior deployed source byte-for-byte. No flight-quality claim
+is made; no replacement deer animation is active.
+
+Owner proof: `C:\Users\thalt\StethoFuseDeployment\OwnerRelease\receipts\20261101T095920Z-studio-owner-verification.json`; SHA256 `27e1e7f334988ea5613d4a6e2b8733944c53c7bb7e3ec5906fbaea34c0095a00`. It binds six guarded release
+receipts, Windows endpoint diagnostics and immutable browser-evidence JSON.
+The own status file records the same current release. Current/prior recovery
+archives and the one source backup remain preserved; ZIP integrity passed.
+
+The [Pingfusi review skill](C:/Users/thalt/.codex/skills/beautify-with-pingfusi/SKILL.md)
+was used for an independent review request on the actual production domain.
+The request expired with zero responses; fresh verification reports `expired`,
+not approval. No external human verdict or owner visual approval is claimed.
+No additional site was published. Google consent, mailbox delivery, physical
+microphone quality and real privileged production login were not certified by
+the isolated/temporary checks. Existing identity, API, model/data and role rules
+are preserved; the project remains a research/education product.
