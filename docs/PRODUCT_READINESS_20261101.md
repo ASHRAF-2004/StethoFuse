@@ -12,7 +12,8 @@ checkpoint, not the frozen ML model or protected application data.
   font subsets and their licenses; coherent Day/Night material and focus states.
 - Centered sign-in, sign-up, recovery and verification surfaces, useful account
   copy, header theme control, linked field errors and keyboard password controls.
-  The ineffective long-term remember-me checkbox has been removed; actual
+  Verification sign-out returns to sign-in; anonymous verification visits also
+  return to sign-in. The ineffective long-term remember-me checkbox has been removed; actual
   Firebase session behavior is unchanged.
 - Existing approved public forest/characters preserved, with an interactive,
   explicitly illustrative original/heart/lung waveform explainer. It uses no
