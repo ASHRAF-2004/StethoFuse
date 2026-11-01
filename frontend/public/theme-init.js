@@ -30,6 +30,7 @@
   }
   var target = document.getElementById('root');
   if (location.pathname === '/') {
+    target.inert = true;
     var key = language + '-' + (night ? 'midnight' : 'frost');
     var variant = document.getElementById('public-' + key);
     if (variant) target.replaceChildren(variant.content.cloneNode(true));
@@ -39,6 +40,7 @@
     var revealHero = function () { delete root.dataset.publicHeroPending; };
     var heroReady = hero ? hero.decode().then(revealHero,revealHero) : Promise.resolve().then(revealHero);
   } else {
+    target.inert = false;
     delete target.dataset.prerender;
     var text = language === 'ar' ? 'جارٍ تحميل StethoFuse…' : 'Loading StethoFuse…';
     target.innerHTML = '<div class="app-route-loading"><div class="workspace-loading" role="status" aria-live="polite"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity=".2"/><path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>' + text + '</span></div></div>';
