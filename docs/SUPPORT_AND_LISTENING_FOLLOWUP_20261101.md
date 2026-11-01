@@ -86,4 +86,6 @@ action. A scoped flex layout keeps the Support footer at the viewport bottom;
 the navigation's minimum inline size is constrained so Arabic mobile reflow
 matches the original layout. The focused suite checks all four success states
 again at desktop width and verifies that a new message clears subject/body while
-preserving the visitor's name.
+preserving the visitor's name. All four confirmation states also undergo their
+own accessibility scan. The secondary action uses the studio ink token so the
+legacy ghost-button color cannot reduce contrast on its tinted panel.
