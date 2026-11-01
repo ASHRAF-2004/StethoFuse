@@ -1,33 +1,65 @@
-# Owl-ready entrance work — 2 November 2026
+# Current owl-ready entrance — 2 November 2026
 
-Intermediate live: `20261101T231519Z-2644ef7fa9fd`, source `189f0a7`, web
-`sha256:c2d0f8137aee96044db1be1bdcf2b59653d67fc06b0d583272815252e4773ffc`.
-Its live entrance/3G/public/follow-up checks pass. The native pack cache is live,
-with all four earlier rules exactly preserved. A deliberate component-init error
-then exposed a masked Router error screen. The selected follow-up shares the
-existing branded error UI between Router/outer boundaries and shows entrance
-Retry, never a still-owl continuation into a broken app. Deploy this correction
-normally and publish final evidence; never replay an intermediate release after
-a newer success. No other theme/character is selected.
+LIVE: https://stethofuse.ashraf-alsaloul.com/
+Version: `20261101T232914Z-3373fede54d2`
+Deployed source: `7cb7d67728c91e2c0604e4076d2c13ffd5ba0c31`
+Web: `sha256:c61aa3dcb91cb8bd18b62d13102e0a7a46496578121c4f323c42bb7d3e30e49d`
+Archive: `3373fede54d29d54f556a55677be9ed212c389d236ac25d77896a04e22d21c6a`
 
-Read `docs/OWL_ENTRANCE_20261102.md`. The native field is one lossless,
-SHA-256-verified public package instead of 142 requests. Original WebP bitstreams
-and geometry are exact. Ten compiled entrance states, 44 layouts and four
-error/recovery cases pass, including software canvas, all 18 views, actual first-
-frame pixels and pointer pixel changes. Actual 400 kbit/s / 400 ms / 4x CPU lab:
-82.902s cold and 1.977s cached; first frame precedes reveal. Intermediate live:
-86.758s cold and 2.161s cached. The trace keeps moving through the cold download;
-explicit still-owl entry is available after 12s. No fake percentage. Public
-94 checks / 32 accessibility states, focused follow-up and eight session-cache
-checks pass; mock-identity private fixtures pass 176 layouts / 124 accessibility
-states. Final exact-version live checks remain to run after correction.
+Read `docs/OWL_ENTRANCE_20261102.md`. The full-screen current-brand entrance has
+an animated CSS sound trace and real download progress. Desktop entry waits for
+hydration AND the approved owl's first nonblank rendered frame. All 18 native
+WebP views, body, meshes and correspondence arrays are byte exact: 142 motion
+requests become one 3,621,432-byte SHA-verified package, cached for a year at its
+fingerprinted public URL. No new owl/flight/deer/theme artwork was introduced.
 
-Study/evidence: `OwnerRelease/owl-loader-20261102` and frontend
-`evidence/owl-entrance`. Finish build -> qualify -> preflight -> deploy ->
-evidence -> status here, preserve the five current cache rules, purge only
-homepage HTML, then verify exact live source/pack/health/preservation and actual
-3G owl readiness. No Axora conversation, handoff or separate review is required.
-API/worker/data/model/T9/providers/other apps stay fixed; recovery artifacts stay.
+Live 3G (400 kbit/s each direction, 400 ms, 4x CPU): **86.844s cold** entry and
+**2.100s cached** entry; first frames 86.564s / 1.840s, zero repeat native network
+bytes. The trace stays animated throughout the long cold download. After 12s,
+the user may explicitly choose a still owl; no silent frozen-owl success. Touch,
+Save-Data and reduced motion use the approved poster without the motion package.
+Ordinary SPA navigation does not replay entry. Private pages never wait for owl
+art. Retry covers download, integrity, module and component-init failures; the
+Router/outer error boundaries share the existing branded error screen.
+
+Actual final public verification: 10 entrance states / 44 loading layouts /
+four induced error cases, software fallback, actual pointer pixels, both
+languages/appearances; 94 public checks / 32 accessibility states; focused
+Support/recovery/audio/RTL; eight session-cache cases. Fresh captured-API/mock-
+identity staff/analyst/admin regression: 176 layouts / 124 accessibility states.
+Installed Brave 156.0.8078.80, dark, isolated temporary profile: real pixels,
+pointer tracking and Arabic mirroring PASS; normal-network entry 3.144s.
+No physical-mobile or fresh privileged-production-login/email test is claimed.
+
+Cache: preserve the five current rules. Only StethoFuse's three method sets
+were corrected to include Cloudflare's internal PURGE; private/mutation bypass
+remains and both Portfolio rules are exactly preserved. The former GET/HEAD-only
+rules allowed a successful purge API response while stale HTML persisted. Actual
+final unexpired HIT(age 172) -> single-homepage purge -> MISS -> HIT(age 0), with
+exact current HTML SHA, is proven. Future releases must purge ONLY the homepage
+and verify its actual packaged body; API success alone is insufficient. See
+`services/stethofuse-cache`. No persistent private cache/service worker was added.
+
+Protected build/qualify/preflight/deploy/evidence/status PASS; API/web healthy,
+worker ready, pointer/workdirs/profile/stable restore path aligned, data/private/
+model/credentials/foreign guards preserved. API/worker images below remain fixed.
+Current and previous recovery artifacts are preserved. No backup/restore, T9,
+provider, other-app or shared-host/network operation; shared backup stays false.
+HOST_PLAN and other application statuses were not edited. No activation remains.
+
+Owner proof:
+`C:/Users/thalt/StethoFuseDeployment/OwnerRelease/receipts/20261101T234454Z-owl-entrance-owner-verification.json`
+SHA256: `e387985d8101f96b1d2b686948bc41cc1add53ebefd1360373c3fe32b64cb50f`
+Owner status SHA256: `af99e124c904f5254bac5b1b928fa18c22006c3375c42d93d7c2058bce63cc1c`
+The immutable QA snapshot and exact receipts/endpoint diagnostics are in that
+proof. Images/video/reference study: `OwnerRelease/owl-loader-20261102` and
+frontend `evidence/owl-entrance`. All task-owned test/preview processes stopped.
+
+Branch `feature/forest-world-prototype`; implementation commits `189f0a7`,
+`7cb7d67`. Subsequent checkpoint/cache-contract edits reflect the installed
+configuration; frontend runtime remains the deployed source above. No merge to
+main. Intermediate `20261101T231519Z-2644ef7fa9fd` is historical, never replay it.
+The prior Firebase email-body styling limitation below remains unchanged.
 
 # Previous loading/cache checkpoint — 2 November 2026
 

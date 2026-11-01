@@ -86,7 +86,14 @@
           "currentVersion": 1
         }
       },
-      "updatedAt": "2026-11-01T22:50:06.369Z"
+      "updatedAt": "2026-11-01T23:47:44.8287981Z",
+      "review": {
+        "ownerVisualApproval": "Not claimed; selected implementation deployed under direct owner instruction",
+        "evidence": "OwnerRelease/receipts/20261101T234454Z-owl-entrance-owner-verification.json",
+        "liveVersion": "20261101T232914Z-3373fede54d2",
+        "renderedLive": "PASS English/Arabic, day/night, touch/reduced motion, 44 loading layouts, four failure cases, software canvas, actual native first frame and pointer pixels",
+        "brave": "PASS installed Brave 156 dark with isolated profile and Arabic mirroring"
+      }
     }
   }
 }

@@ -24,6 +24,16 @@ verifies its SHA-256 before decoding. A different field gets a different URL;
 never replace bytes at an existing fingerprint. Errors are not edge-cached.
 No account, protected media or API response matches this rule.
 
+All three StethoFuse expressions also account for Cloudflare's internal `PURGE`
+method. The earlier GET/HEAD-only rule and subsequent non-GET bypass prevented
+single-URL invalidation even when the API reported success. Only these method
+sets changed: client mutations still bypass cache, and private/auth/API/version
+paths always bypass, including during purge matching. The two Portfolio rules
+are byte-for-byte preserved. See Cloudflare's
+[single-file purge limitations](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/#cache-rules-that-match-on-request-properties).
+Verify real eviction (warmed HIT -> purge -> MISS -> HIT) and exact packaged HTML;
+a successful purge API response alone is insufficient.
+
 After every successful website release, purge only:
 
 `https://stethofuse.ashraf-alsaloul.com/`

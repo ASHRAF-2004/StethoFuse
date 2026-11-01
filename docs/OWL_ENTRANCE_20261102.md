@@ -92,12 +92,22 @@ The anonymous homepage keeps its existing five-minute edge cache and browser
 retain the existing bypass and per-session in-memory query boundary. No service
 worker, persistent private cache or authentication change is introduced.
 
+Live verification exposed a pre-existing invalidation defect: the GET/HEAD-only
+cache expressions did not match Cloudflare's internal PURGE request, and the
+non-GET private bypass overrode it. The API returned success while old HTML
+remained cached until expiry. Following the provider's
+[documented method requirement](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/#cache-rules-that-match-on-request-properties),
+the three StethoFuse expressions now include internal PURGE. Client mutations,
+identity-bearing requests and private paths remain excluded. Only StethoFuse
+method expressions changed; the two other-hostname rules and all cache settings
+were preserved. Verification requires actual MISS/refill and exact body SHA.
+
 ## Verification checkpoint
 
 The dedicated compiled-browser test checks native entry equality, all 18 views,
 nonblank first-frame pixels, real pointer pixel changes, one runtime request,
 English/Arabic, both appearances, touch/reduced motion, 44 loading layouts,
-accessibility and HTTP/integrity/module failures. It also forces software canvas
+accessibility and HTTP/integrity/module/component failures. It also forces software canvas
 rendering. The 3G run uses actual native bytes, 400 kbit/s each direction,
 400 ms latency and 4x CPU throttling, recording cold and cached reloads.
 
@@ -113,5 +123,54 @@ and 1.977 seconds cached; first nonblank owl frames were 82.622 and 1.704 second
 The repeat native package transferred zero network bytes. Public regression:
 94 checks/32 accessibility states, focused Support/recovery/audio/RTL, and eight
 session-cache cases passed. Captured-API/mock-identity role regression passed
-176 layouts/124 accessibility states. These are isolated Chromium lab checks,
-not a physical Brave/device or fresh privileged-production-login certification.
+176 layouts/124 accessibility states. These local checks use isolated Chromium;
+the installed Brave was verified separately below. No physical-mobile or fresh
+privileged-production-login certification is implied.
+
+## Deployed and verified
+
+Current live release: `20261101T232914Z-3373fede54d2`, frontend source
+`7cb7d67728c91e2c0604e4076d2c13ffd5ba0c31`, web image
+`sha256:c61aa3dcb91cb8bd18b62d13102e0a7a46496578121c4f323c42bb7d3e30e49d`.
+Build, exact qualification, preflight, deploy, evidence and fresh status passed.
+No coordinator/exceptional retry was required. The intermediate release is
+historical; no further activation is queued.
+
+| Actual live lab | First nonblank owl | Page entry | Native wire bytes |
+| --- | ---: | ---: | ---: |
+| Cold 400 kbit/s, 400 ms, 4x CPU | 86.564s | 86.844s | 3,621,732 including transfer overhead |
+| Cached, same throttling | 1.840s | 2.100s | 0 |
+
+The extra cold time is real native artwork download, not artificial intro time.
+The trace is recorded moving at the beginning and mid-download. The optional
+still-owl path avoids forcing visitors to wait for motion on a very slow link.
+Installed Brave 156.0.8078.80 in a clean temporary dark profile independently
+passed real pointer pixels and Arabic mirroring; normal-network entry was
+3.144 seconds. Existing private browser sessions were not accessed.
+
+Final live: ten entrance states, 44 loading layouts, four induced failure cases,
+software fallback, native pixel/geometry equality, real pointer pixel changes,
+English/Arabic and both themes; 94 public checks/32 accessibility states plus
+focused follow-up pass. The private fixture matrix was rerun after the shared
+route-error correction: 176 layouts/124 accessibility states pass. Support and
+provider writes in browser regressions were intercepted; no mail was sent and
+no production account changed in this task.
+
+The public body matches packaged HTML SHA-256
+`c13ac1505bbc5e7a5009f84a6bd4ff15263a776b28242c0eee22e741c690c7f3`.
+The native package hits edge/browser cache with its exact original SHA; private,
+identity-bearing and mutation requests bypass shared caching. A final unexpired
+homepage HIT with age 172 was purged, then directly observed as MISS followed by
+HIT age 0, both with that exact HTML. Both foreign hostname rules match their
+original objects; only StethoFuse method sets changed for PURGE compatibility.
+
+Immutable owner verification:
+`C:/Users/thalt/StethoFuseDeployment/OwnerRelease/receipts/20261101T234454Z-owl-entrance-owner-verification.json`
+SHA-256 `e387985d8101f96b1d2b686948bc41cc1add53ebefd1360373c3fe32b64cb50f`.
+It binds release receipts, endpoint diagnostics, runtime, browser/cache results
+and an immutable QA snapshot. Owner status is refreshed. API/worker images,
+current data, private files, model, credentials and other app/network guards
+are preserved; no combined backup/restore or provider change was invoked.
+Screenshots/video remain under frontend `evidence/owl-entrance/live-<version>`
+and `live-<version>-3g`, with the isolated Brave study under
+`OwnerRelease/owl-loader-20261102/brave-<version>`. All test servers are stopped.

@@ -4,7 +4,7 @@
     "description": "StethoFuse only: cache anonymous static homepage at edge; browser revalidates",
     "action": "set_cache_settings",
     "enabled": true,
-    "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and http.request.method in {\"GET\" \"HEAD\"} and http.request.uri.path eq \"/\" and http.request.uri.query eq \"\" and not any(http.request.headers[\"authorization\"][*] ne \"\")",
+    "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and http.request.method in {\"GET\" \"HEAD\" \"PURGE\"} and http.request.uri.path eq \"/\" and http.request.uri.query eq \"\" and not any(http.request.headers[\"authorization\"][*] ne \"\")",
     "action_parameters": {
       "cache": true,
       "edge_ttl": {
@@ -24,7 +24,7 @@
     "description": "StethoFuse only: bypass private API, accounts, auth actions, versions and mutations",
     "action": "set_cache_settings",
     "enabled": true,
-    "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and (starts_with(http.request.uri.path, \"/api\") or starts_with(http.request.uri.path, \"/app\") or starts_with(http.request.uri.path, \"/auth/\") or starts_with(http.request.uri.path, \"/static/\") or http.request.uri.path in {\"/login\" \"/register\" \"/forgot-password\" \"/reset-password\" \"/verify-email\" \"/deployment-version.json\" \"/health\"} or not http.request.method in {\"GET\" \"HEAD\"} or any(http.request.headers[\"authorization\"][*] ne \"\"))",
+    "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and (starts_with(http.request.uri.path, \"/api\") or starts_with(http.request.uri.path, \"/app\") or starts_with(http.request.uri.path, \"/auth/\") or starts_with(http.request.uri.path, \"/static/\") or http.request.uri.path in {\"/login\" \"/register\" \"/forgot-password\" \"/reset-password\" \"/verify-email\" \"/deployment-version.json\" \"/health\"} or not http.request.method in {\"GET\" \"HEAD\" \"PURGE\"} or any(http.request.headers[\"authorization\"][*] ne \"\"))",
     "action_parameters": {"cache": false, "browser_ttl": {"mode": "respect_origin"}}
   },
   {
@@ -32,7 +32,7 @@
     "description": "StethoFuse only: cache fingerprinted public native owl runtime for repeat visits",
     "action": "set_cache_settings",
     "enabled": true,
-    "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and http.request.method in {\"GET\" \"HEAD\"} and starts_with(http.request.uri.path, \"/assets/owl/runtime/approved-\") and ends_with(http.request.uri.path, \".bin\") and http.request.uri.query eq \"\" and not any(http.request.headers[\"authorization\"][*] ne \"\")",
+    "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and http.request.method in {\"GET\" \"HEAD\" \"PURGE\"} and starts_with(http.request.uri.path, \"/assets/owl/runtime/approved-\") and ends_with(http.request.uri.path, \".bin\") and http.request.uri.query eq \"\" and not any(http.request.headers[\"authorization\"][*] ne \"\")",
     "action_parameters": {
       "cache": true,
       "edge_ttl": {
