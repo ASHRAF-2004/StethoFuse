@@ -1,6 +1,7 @@
 /** Local multi-view image surface. A new pose is drawn on every changing RAF.
  * Images and displacement meshes are decoded once, never during pointer input.
  */
+import {owlAssetTransport} from './owlAssetTransport';
 type View={id:number;name:string;yaw:number;pitch:number;texture:string;bytes:number};
 type Edge={from:number;to:number;file:string;bytes:number;decodedBytes:number};
 type Binary={file:string;bytes:number;decodedBytes:number};
@@ -43,7 +44,7 @@ export async function createOwlSurface(canvas:HTMLCanvasElement,signal:AbortSign
  const gl=forceCanvas?null:canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:true,antialias:false,depth:false,stencil:false,preserveDrawingBuffer:false});
  if(!gl){const {createOwlCanvasSurface}=await import('./owlCanvasSurface');return createOwlCanvasSurface(canvas,signal,base);}
  const internalAbort=new AbortController();const loadSignal=AbortSignal.any([signal,internalAbort.signal]);
- const fetchChecked=async(url:string)=>{const r=await fetch(url,{signal:loadSignal});if(!r.ok)throw new Error(`Owl asset unavailable: ${r.status}`);return r;};
+ const fetchChecked=await owlAssetTransport(base,loadSignal);
  const manifest:Manifest=await (await fetchChecked(base+'manifest.json')).json();
  if(manifest.version!==5||!Array.isArray(manifest.meshes)||manifest.width!==1163||!Number.isInteger(manifest.height)||manifest.height<600||manifest.height>1000)throw new Error('Unsupported owl surface; keeping the approved poster');
  const textures:WebGLTexture[]=[],buffers:WebGLBuffer[]=[],fbos:WebGLFramebuffer[]=[],programs:WebGLProgram[]=[];
@@ -55,7 +56,8 @@ export async function createOwlSurface(canvas:HTMLCanvasElement,signal:AbortSign
   const loadedViews:WebGLTexture[]=new Array(manifest.views.length);
   // Small fixed set of source views, not thousands of independently loaded frames.
   let body:WebGLTexture;
-  const jobs=[async()=>{body=await loadTexture(manifest.bodyTexture||'/assets/owl/body.webp');},...manifest.views.map(v=>async()=>{loadedViews[v.id]=await loadTexture(base+v.texture);})];
+  let decoded=0;
+  const jobs=[async()=>{body=await loadTexture(manifest.bodyTexture||'/assets/owl/body.webp');},...manifest.views.map(v=>async()=>{loadedViews[v.id]=await loadTexture(base+v.texture);window.__sfOwlDecoding?.(++decoded,manifest.views.length);})];
   const flows=new Map<string,WebGLBuffer>();
   const loadBinary=async(e:Binary)=>{
    const response=await fetchChecked(base+e.file);let bytes=await response.arrayBuffer();
@@ -91,6 +93,7 @@ export async function createOwlSurface(canvas:HTMLCanvasElement,signal:AbortSign
    throw new Error(`Owl pose outside field: ${yaw}, ${pitch}`);
   };
   const draw=(yaw:number,pitch:number)=>{
+   if(gl.isContextLost())throw Error('Owl graphics context was lost.');
    resize();const {ids,weights}=contributors(yaw,pitch);
    gl.disable(gl.BLEND);gl.disable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);gl.useProgram(warp);gl.uniform1i(source,0);gl.viewport(0,0,fw,fh);
    for(let n=0;n<3;n++){

@@ -2,7 +2,16 @@
   "owl": {
     "src": "/assets/owl-poster-580.8c6b7fb9f54e.webp",
     "srcSet": "/assets/owl-poster-580.8c6b7fb9f54e.webp 580w, /assets/owl-poster-900.e81640882c18.webp 900w, /assets/owl-poster-1163.webp 1163w",
-    "sizes": "(min-width: 1440px) 430px, (min-width: 700px) 32vw, 70vw"
+    "sizes": "(min-width: 1440px) 430px, (min-width: 700px) 32vw, 70vw",
+    "runtime": {
+      "version": 1,
+      "url": "/assets/owl/runtime/approved-7de097a3a62fb9b4.bin",
+      "bytes": 3621432,
+      "decodedBytes": 3927269,
+      "sha256": "7de097a3a62fb9b4ff26b52186a2bcdf888599510896ba5011e412d3f9c0ce13",
+      "sourceViews": 18,
+      "entries": 142
+    }
   },
   "sampleWaveforms": "/assets/listening-waveforms-c628fd4d4559.svg"
 }

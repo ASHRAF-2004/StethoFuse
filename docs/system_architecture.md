@@ -30,19 +30,25 @@ account and role pages share white/charcoal/mint
 tokens, logical layouts and persistent English/Arabic language controls. Document
 language/direction and saved appearance are set before React paint. User-authored
 names, notes and resource titles remain raw. Time axes and identifiers stay LTR.
-Public content paints before the application modules load. Its root stays inert
-until React's first commit, preventing clicks before handlers exist. A small, nonblocking
-status describes preparation of interactive controls and offers Reload after a
-stalled startup. The common 24px loader owns its sizing and rotation in active
-startup/studio styles. Reduced motion intentionally disables rotation. Responsive
-WebP variants derive from the approved owl; the image becomes visible only after
-decoding. Latin fonts use optional display to avoid a late cold-network layout
-shift; cached fonts retain the established typography. The appearance bootstrap
-is inlined; public modules start after hero decode or a maximum 3.5s priority
-window. Private/auth modules start immediately. Content and forms never
-wait for the pointer texture set. React/identity bundles and public static assets
-retain browser caching. See `LOADING_CACHE_STRATEGY_20261102.md` for measurements
-and the exact public-edge/private-session cache boundaries.
+The public HTML includes a branded entrance before the application module graph.
+Its CSS sound trace animates independently of React. On a desktop fine pointer,
+the public root stays inert until hydration AND the approved owl's first real,
+nonblank rendered frame. Download progress is measured bytes; decoding is a
+separate stated phase. An explicit still-owl choice appears after 12 seconds;
+failed or corrupt downloads offer Retry rather than silently claiming motion
+readiness. Touch, Save-Data and reduced motion load only the approved responsive
+poster. Private/auth routes use the existing active 24px loader and never fetch
+or wait for public owl assets. Ordinary SPA navigation does not replay the entry.
+
+The native field's 142 resources are losslessly packaged into one SHA-256-checked,
+fingerprinted request. Original WebP bitstreams, meshes and float arrays are
+unchanged. Its public browser/edge cache lasts one year; private data is excluded.
+Latin fonts use optional display to avoid a late cold-network layout shift;
+cached fonts retain the established typography. Both appearance and entrance
+bootstraps are inlined; application modules begin immediately. See
+`OWL_ENTRANCE_20261102.md` for the current gate and native transport, and
+`LOADING_CACHE_STRATEGY_20261102.md` for the preceding measured public-edge/private-
+session cache changes.
 
 ## Identity, roles and private access
 

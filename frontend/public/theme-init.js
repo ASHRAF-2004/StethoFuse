@@ -34,7 +34,7 @@
     var key = language + '-' + (night ? 'midnight' : 'frost');
     var variant = document.getElementById('public-' + key);
     if (variant) target.replaceChildren(variant.content.cloneNode(true));
-    target.dataset.prerender = 'ready';
+    if (target.hasAttribute('data-prerender')) target.dataset.prerender = 'ready';
     var hero = target.querySelector('.listening-owl>img');
     // Do not expose partially decoded WebP rows on a slow connection.
     var revealHero = function () { delete root.dataset.publicHeroPending; };
@@ -47,40 +47,25 @@
   }
   document.querySelectorAll('template[id^="public-"]').forEach(function (node) { node.remove(); });
   delete root.dataset.staticPreparing;
-  // Give the critical artwork a short exclusive network window on a cold visit.
-  // Cached images resolve immediately; auth routes never wait for public artwork.
-  var launchTimer;
+  // Start the compiled application; the entrance separately verifies owl readiness.
   var launch = function () {
     var modules = document.getElementById('application-modules');
     if (!modules) return;
-    clearTimeout(launchTimer);
     modules.content.querySelectorAll('link').forEach(function (node) { document.head.appendChild(node.cloneNode(true)); });
     modules.content.querySelectorAll('script').forEach(function (node) {
       var script = document.createElement('script');
       Array.from(node.attributes).forEach(function (attribute) { script.setAttribute(attribute.name,attribute.value); });
+      script.addEventListener('error',function () { if (window.__sfApplicationFailed) window.__sfApplicationFailed(); });
       document.body.appendChild(script);
     });
     modules.remove();
   };
-  if (location.pathname === '/' && heroReady) {
-    launchTimer = setTimeout(launch,3500);
-    heroReady.then(launch);
-  } else launch();
-  var controls,notice;
-  var removeNotice = function () { clearTimeout(notice); if (controls) controls.remove(); };
-  document.addEventListener('sf-hydrated', removeNotice, {once:true});
-  if (location.pathname === '/') {
-    notice = setTimeout(function () {
-      if (root.dataset.application === 'hydrated') return;
-      controls = document.createElement('div'); controls.className = 'startup-controls';
-      controls.setAttribute('role','status'); controls.setAttribute('aria-live','polite');
-      controls.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" opacity=".2"/><path d="M12 3a9 9 0 0 1 9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>' + (language === 'ar' ? 'جارٍ تجهيز عناصر التحكم…' : 'Preparing controls…') + '</span>';
-      document.body.appendChild(controls);
-    }, 600);
-  }
+  // The entrance owns readiness; app modules and the public owl download can
+  // proceed together rather than waiting for a static poster first.
+  launch();
   var stalled = setTimeout(function () {
     if (root.dataset.application === 'hydrated') return;
-    var panel = location.pathname === '/' ? controls : target.querySelector('.workspace-loading');
+    var panel = location.pathname === '/' ? null : target.querySelector('.workspace-loading');
     if (!panel) return;
     var retry = document.createElement('button'); retry.type = 'button';
     retry.textContent = language === 'ar' ? 'إعادة التحميل' : 'Reload page';

@@ -1,8 +1,8 @@
 # StethoFuse cache contract
 
-`rules.json` contains two narrowly scoped Cloudflare cache rules for the existing
+`rules.json` contains three narrowly scoped Cloudflare cache rules for the existing
 StethoFuse hostname. Read the actual zone rules first and preserve every foreign
-rule. Never replace a zone ruleset wholesale from this two-rule file.
+rule. Never replace a zone ruleset wholesale from this file.
 
 The public homepage is static, anonymous HTML, generated in English/Arabic and
 both appearances. It may be cached at the edge for five minutes. Browser HTML is
@@ -16,6 +16,13 @@ or protected media is added to browser CacheStorage or a service worker. Existin
 public static-asset browser/edge caching remains four hours; measured warm loads
 already benefit from it. Changed bootstrap URLs use content-versioned query keys;
 Vite bundles and responsive posters use fingerprinted filenames.
+
+The only longer-lived override is `/assets/owl/runtime/approved-*.bin`: the
+content-fingerprinted, public native owl package. Successful anonymous GET/HEAD
+responses with no query may stay in browser/edge cache for one year. The client
+verifies its SHA-256 before decoding. A different field gets a different URL;
+never replace bytes at an existing fingerprint. Errors are not edge-cached.
+No account, protected media or API response matches this rule.
 
 After every successful website release, purge only:
 

@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4180",
     "dev:demo": "vite --mode demo --host 127.0.0.1 --port 4182",
-    "build": "tsc -b && vite build && node tools/prerender.mjs",
+    "build": "node tools/prepare-owl-runtime.mjs --verify && tsc -b && vite build && node tools/prerender.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4180",
     "test": "npm run build && node tests/run-studio.mjs",
     "assets": "python3 tools/optimize_assets.py",
     "test:legacy-demo": "node tests/browser.mjs",
     "test:cache": "node tests/session-cache.mjs",
-    "test:startup": "node tests/startup-cache.mjs"
+    "test:startup": "node tests/owl-entrance.mjs",
+    "test:3g": "node tests/owl-entrance.mjs --3g"
   },
   "dependencies": {
     "@phosphor-icons/react": "2.1.10",

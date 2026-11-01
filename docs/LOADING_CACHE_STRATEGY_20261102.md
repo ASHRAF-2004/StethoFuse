@@ -115,3 +115,10 @@ Protected build/qualify/preflight/deploy/evidence/status and data/foreign guards
 PASS; API/worker images are fixed and recovery archives preserved. Current proof
 and immutable QA snapshot are linked in PAUSE_NOTES.md. No backup, provider/model/
 T9 operation or other-app mutation occurred.
+# Follow-up
+
+The later owl-ready entrance in `OWL_ENTRANCE_20261102.md` supersedes this
+release's hydration-only public entry and 3.5-second module priority window.
+This document retains the prior measurements and private-cache reasoning.
+Current desktop entry additionally waits for a nonblank first owl frame; the
+native field is now one lossless, fingerprinted cacheable download.

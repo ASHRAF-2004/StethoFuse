@@ -1,4 +1,5 @@
 import type {Surface} from './owlSurface';
+import {owlAssetTransport} from './owlAssetTransport';
 
 type Binary={file:string;bytes:number;decodedBytes:number};
 type View={id:number;name:string;yaw:number;pitch:number;texture:string;bytes:number};
@@ -20,7 +21,7 @@ export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:Abo
  const scratch=document.createElement('canvas'),scratchContext=scratch.getContext('2d',{alpha:true})!;
  let body:ImageBitmap|undefined,disposed=false;
  const dispose=()=>{if(disposed)return;disposed=true;internalAbort.abort();body?.close();textures.clear();meshes.clear();flows.clear();scratch.width=scratch.height=1;};
- const fetchChecked=async(url:string)=>{const r=await fetch(url,{signal:loadSignal});if(!r.ok)throw new Error(`Owl asset unavailable: ${r.status}`);return r;};
+ const fetchChecked=await owlAssetTransport(base,loadSignal);
  const checkAbort=()=>{if(loadSignal.aborted)throw new DOMException('Aborted','AbortError');};
  try{
   const manifest:Manifest=await(await fetchChecked(base+'manifest.json')).json();
@@ -36,6 +37,7 @@ export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:Abo
    if(entry.decodedBytes&&entry.decodedBytes!==bytes.byteLength)throw new Error('Invalid owl correspondence data');
    checkAbort();return bytes;
   };
+  let decoded=0;
   const jobs=[async()=>{body=await loadImage(manifest.bodyTexture||'/assets/owl/body.webp');},...manifest.views.map(view=>async()=>{
    const image=await loadImage(base+view.texture);
    const decode=document.createElement('canvas');decode.width=width;decode.height=height;
@@ -43,7 +45,7 @@ export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:Abo
    try{decodeContext.drawImage(image,0,0);pixels=decodeContext.getImageData(0,0,width,height).data;}finally{image.close();decode.width=decode.height=1;}
    // Interpolate premultiplied colors, like the WebGL texture and framebuffer.
    for(let i=0;i<pixels.length;i+=4){const alpha=pixels[i+3]/255;pixels[i]*=alpha;pixels[i+1]*=alpha;pixels[i+2]*=alpha;}
-   textures.set(view.id,{pixels});
+   textures.set(view.id,{pixels});window.__sfOwlDecoding?.(++decoded,manifest.views.length);
   }),...manifest.edges.map(edge=>async()=>{flows.set(`${edge.from}-${edge.to}`,new Float32Array(await loadBinary(edge)));}),...manifest.meshes.map(mesh=>async()=>{
    const positions=new Float32Array(await loadBinary(mesh.positions)),indices=new Uint32Array(await loadBinary(mesh.indices));
    if(positions.length!==mesh.vertexCount*2||indices.length!==mesh.indexCount)throw new Error('Invalid owl mesh');

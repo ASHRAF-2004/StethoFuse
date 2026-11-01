@@ -1,1 +1,23 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="referrer" content="no-referrer"/><meta name="theme-color" content="#ffffff"/><script src="/theme-init.js"></script><meta name="description" content="Separate heart and lung sounds from a chest recording. A private research workspace to record, compare and review."/><link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"/><link rel="icon" href="/favicon-32.png?v=3" sizes="32x32" type="image/png"/><link rel="apple-touch-icon" href="/apple-touch-icon.png"/><link rel="preload" href="/assets/fonts/studio/chillax-2.woff2" as="font" type="font/woff2" crossorigin/><meta name="color-scheme" content="light dark"/><title>StethoFuse · Listen clearly</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <meta name="referrer" content="no-referrer"/><meta name="theme-color" content="#ffffff"/>
+ <script src="/theme-init.js"></script><script src="/entrance.js"></script>
+ <meta name="description" content="Separate heart and lung sounds from a chest recording. A private research workspace to record, compare and review."/>
+ <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml"/><link rel="icon" href="/favicon-32.png?v=3" sizes="32x32" type="image/png"/>
+ <link rel="apple-touch-icon" href="/apple-touch-icon.png"/><link rel="preload" href="/assets/fonts/studio/chillax-2.woff2" as="font" type="font/woff2" crossorigin/>
+ <link rel="stylesheet" href="/entrance.css"/><meta name="color-scheme" content="light dark"/>
+ <title>StethoFuse · Listen clearly</title>
+</head>
+<body>
+ <div id="sf-entrance" class="sf-entrance" role="dialog" aria-modal="true" aria-labelledby="sf-entry-name">
+  <div class="sf-entry-top"><div class="sf-entry-brand"><svg viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M28 124C28 71 71 28 124 28H148V76H124C97.5 76 76 97.5 76 124V204H28Z"/><path d="M228 132C228 185 185 228 132 228H108V180H132C158.5 180 180 158.5 180 132V52H228Z"/></svg><span>StethoFuse</span></div><span class="sf-entry-note"><span data-en>A little space<br/>for a closer listen.</span><span data-ar>لحظة هادئة<br/>لإصغاء أوضح.</span></span></div>
+  <div class="sf-entry-center"><div class="sf-entry-word" id="sf-entry-name">StethoFuse</div><p><span data-en>Every sound. A clearer signal.</span><span data-ar>لكل صوت. وضوح يستحقّه.</span></p><div class="sf-entry-signal" aria-hidden="true"><i style="--h:8px;--d:0s"></i><i style="--h:14px;--d:-.1s"></i><i style="--h:22px;--d:-.2s"></i><i style="--h:13px;--d:-.3s"></i><i style="--h:28px;--d:-.4s"></i><i style="--h:19px;--d:-.5s"></i><i style="--h:10px;--d:-.6s"></i><i style="--h:24px;--d:-.7s"></i><i style="--h:16px;--d:-.8s"></i><i style="--h:9px;--d:-.9s"></i><i style="--h:18px;--d:-1s"></i><i style="--h:7px;--d:-1.1s"></i></div></div>
+  <div class="sf-entry-bottom"><div class="sf-entry-meta"><div class="sf-entry-status"><p id="sf-entry-status" role="status" aria-live="polite"><span data-en>Preparing your owl…</span><span data-ar>نجهّز بومتك…</span></p></div><div class="sf-entry-count" aria-hidden="true"><b id="sf-entry-percent">00</b><span>%</span></div></div><div id="sf-entry-progress" class="sf-entry-track" role="progressbar" aria-label="Owl loading" aria-valuemin="0" aria-valuemax="100"><span></span></div><div class="sf-entry-actions"><button id="sf-entry-retry" type="button" hidden><span data-en>Retry loading</span><span data-ar>إعادة التحميل</span></button><button id="sf-entry-skip" type="button" hidden disabled><span data-en>Continue with still owl</span><span data-ar>المتابعة دون حركة البومة</span></button></div></div>
+ </div>
+ <div id="root"></div>
+ <script src="/theme-init.js" data-select-prerender></script>
+ <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

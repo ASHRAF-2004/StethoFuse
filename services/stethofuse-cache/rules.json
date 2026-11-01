@@ -26,5 +26,24 @@
     "enabled": true,
     "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and (starts_with(http.request.uri.path, \"/api\") or starts_with(http.request.uri.path, \"/app\") or starts_with(http.request.uri.path, \"/auth/\") or starts_with(http.request.uri.path, \"/static/\") or http.request.uri.path in {\"/login\" \"/register\" \"/forgot-password\" \"/reset-password\" \"/verify-email\" \"/deployment-version.json\" \"/health\"} or not http.request.method in {\"GET\" \"HEAD\"} or any(http.request.headers[\"authorization\"][*] ne \"\"))",
     "action_parameters": {"cache": false, "browser_ttl": {"mode": "respect_origin"}}
+  },
+  {
+    "ref": "stethofuse_fingerprinted_owl_native_runtime",
+    "description": "StethoFuse only: cache fingerprinted public native owl runtime for repeat visits",
+    "action": "set_cache_settings",
+    "enabled": true,
+    "expression": "http.host eq \"stethofuse.ashraf-alsaloul.com\" and http.request.method in {\"GET\" \"HEAD\"} and starts_with(http.request.uri.path, \"/assets/owl/runtime/approved-\") and ends_with(http.request.uri.path, \".bin\") and http.request.uri.query eq \"\" and not any(http.request.headers[\"authorization\"][*] ne \"\")",
+    "action_parameters": {
+      "cache": true,
+      "edge_ttl": {
+        "mode": "override_origin",
+        "default": 31536000,
+        "status_code_ttl": [
+          {"status_code": 200, "value": 31536000},
+          {"status_code_range": {"from": 201, "to": 599}, "value": -1}
+        ]
+      },
+      "browser_ttl": {"mode": "override_origin", "default": 31536000}
+    }
   }
 ]
