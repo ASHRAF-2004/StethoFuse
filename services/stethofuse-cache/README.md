@@ -5,8 +5,8 @@ StethoFuse hostname. Read the actual zone rules first and preserve every foreign
 rule. Never replace a zone ruleset wholesale from this two-rule file.
 
 The public homepage is static, anonymous HTML, generated in English/Arabic and
-both appearances. It may be cached at the edge for five minutes. Browsers must
-revalidate HTML. Query-bearing or authenticated requests are not eligible for
+both appearances. It may be cached at the edge for five minutes. Browser HTML is
+`no-store`, fetching fresh HTML from the edge each navigation. Query-bearing or authenticated requests are not eligible for
 that rule, and non-200 responses must not be cached. Cookies/identity do not
 personalize the generated HTML. All personalization happens after hydration.
 
@@ -21,8 +21,8 @@ After every successful website release, purge only:
 
 `https://stethofuse.ashraf-alsaloul.com/`
 
-Then request the homepage twice, confirm the new packaged script identity and
-edge MISS/HIT behavior, and verify `/deployment-version.json` and anonymous API
+Then request the homepage twice, confirm exact new packaged HTML and an edge HIT
+(the first probe may be MISS or already HIT), and verify `/deployment-version.json` and anonymous API
 denial remain uncached. Never purge the whole shared zone. Perform this step in
 the current authorized conversation through the existing Cloudflare connection;
 it needs no coordinator and no new owner-supplied API key. A failed deployment

@@ -1,13 +1,63 @@
-# Loading/cache update in progress — 2 November 2026
+# Current loading/cache checkpoint — 2 November 2026
 
-The owner requested the frozen oversized loader be repaired and tested on 3G,
-with public homepage preloading/caching and safely scoped per-user caching.
-Read `docs/LOADING_CACHE_STRATEGY_20261102.md`. Source changes are not deployed
-yet. Four public snapshots, inline compiled CSS, reusable real-sample waveforms,
-responsive original-owl encodings, active 24px loader styles and per-session
-TanStack Query core are implemented. Public/cache/private-role regressions pass;
-final 3G tuning and guarded release/cache-rule application remain in progress.
-No Next.js migration, provider/backend/model/data change or backup is involved.
+LIVE: https://stethofuse.ashraf-alsaloul.com/
+Version: `20261101T174500Z-8ec817622075`
+Deployed source: `d5fc500e7403ed43f70d82ab53a932d0c527797c`
+Web: `sha256:e01b38bf1bc0753f25af50ef8329a802f59b5fafca5b792e5fc741d8289f7fa0`
+Archive: `8ec81762207597ef6be96ae58da1ecc68b84222571822348ce3ed751a77bb297`
+
+The oversized frozen SVG came from loader rules left in an inactive stylesheet.
+The actual React loader and pre-JS shell now have explicit 24px dimensions and
+active rotation; live 3G video and sampled transforms prove motion. Reduced
+motion deliberately stays still. Stalled startup offers Reload. Read
+`docs/LOADING_CACHE_STRATEGY_20261102.md` and `docs/system_architecture.md`.
+
+React/Vite/React Router/FastAPI remain. Public HTML is generated in both languages
+and appearances, with inline CSS/bootstrap, responsive encodings of the same
+approved owl and reusable real-sample waveforms. Root controls stay inert during
+preparation, then React enables them; this fixes the early-click race found in
+review. The original owl artwork, meshes and pointer-follow behavior are intact.
+
+The exact anonymous homepage has a five-minute Cloudflare edge cache. Browser
+HTML is `no-store`; public static assets retain four-hour caching. Account/API/
+auth/action/version/query requests bypass shared caching. Per-auth-scope TanStack
+Query uses bounded memory only; logout/account changes clear and cancel old
+scopes. Permission-bearing metadata revalidates; auth/admin/private audio always
+reach the server. No private persistent cache/service worker was added. The two
+existing Portfolio cache rules are exactly preserved. Future releases must purge
+only this homepage and verify its packaged HTML, per OwnerRelease/DEPLOYMENT.md.
+
+Final live 3G emulation: 400 kbit/s each direction, 400ms latency, 4x CPU. First
+content: **10.124s before -> 4.288s now**; repeat: **1.232s**. Cold largest content
+still takes **10.056s**; CLS is **0.000038**. The old 112ms repeat reused browser
+HTML; current HTML intentionally fetches the edge. These are Chromium lab results,
+not a physical Brave/device test. Screenshots/video/JSON are in
+`OwnerRelease/performance-20261102/final-20261101T174500Z-8ec817622075` and
+`OwnerRelease/performance-20261102/live-startup-20261101T174500Z-8ec817622075`.
+
+Final live: 94 public checks/32 accessibility states, focused Support/recovery/
+audio/RTL checks, four mobile startup variants and both real React loader modes
+PASS. Local captured-real-API fixtures: 176 layouts/124 accessibility states
+PASS. Eight session-cache checks PASS. Fixture identity/network are mocked;
+privileged production login and email were not retested. All task test/preview
+processes are stopped. Protected build/qualify/preflight/deploy/evidence/status
+PASS: healthy API/web, ready worker, aligned pointer/profile/workdirs/restore path,
+preserved data/private/model/credential/foreign guards and recovery archives.
+
+Owner proof:
+`C:/Users/thalt/StethoFuseDeployment/OwnerRelease/receipts/20261101T175217Z-loading-cache-owner-verification.json`
+SHA256: `cb74e4045890064c573e7808241aee9be57f64a4aaa7c686638c82ba65f8b89c`
+Own status SHA256: `1b0234cb0754bcdea7ec0f2546787f55ea47e194fe2a2b2f2968934283fba913`
+Only StethoFuse web releases and its hostname's cache policy changed. API/worker
+images below remain fixed. No backup/restore, model/T9, provider, other-app,
+shared-host, DNS or routing action. HOST_PLAN/other statuses were not edited;
+shared backup verification stays false. No activation is pending.
+
+Branch `feature/forest-world-prototype`; implementation commits `3fff96d`,
+`ad4a7da`, `d5fc500`. Later checkpoint edits are docs only; no merge to main.
+Intermediate releases are historical and must not be replayed. Existing approved
+UI, PRs and single homepage backup are preserved. The prior account-email body
+branding limitation below remains unchanged.
 
 # Previous live checkpoint — 1 November 2026
 

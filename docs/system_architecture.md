@@ -30,13 +30,16 @@ account and role pages share white/charcoal/mint
 tokens, logical layouts and persistent English/Arabic language controls. Document
 language/direction and saved appearance are set before React paint. User-authored
 names, notes and resource titles remain raw. Time axes and identifiers stay LTR.
-Public content paints before the application modules load. A small, nonblocking
+Public content paints before the application modules load. Its root stays inert
+until React's first commit, preventing clicks before handlers exist. A small, nonblocking
 status describes preparation of interactive controls and offers Reload after a
 stalled startup. The common 24px loader owns its sizing and rotation in active
 startup/studio styles. Reduced motion intentionally disables rotation. Responsive
 WebP variants derive from the approved owl; the image becomes visible only after
 decoding. Latin fonts use optional display to avoid a late cold-network layout
-shift; cached fonts retain the established typography. Content and forms never
+shift; cached fonts retain the established typography. The appearance bootstrap
+is inlined; public modules start after hero decode or a maximum 3.5s priority
+window. Private/auth modules start immediately. Content and forms never
 wait for the pointer texture set. React/identity bundles and public static assets
 retain browser caching. See `LOADING_CACHE_STRATEGY_20261102.md` for measurements
 and the exact public-edge/private-session cache boundaries.
