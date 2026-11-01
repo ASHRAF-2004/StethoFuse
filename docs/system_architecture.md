@@ -6,20 +6,26 @@ not the current production interface.
 
 ## Browser and web service
 
-React 19, TypeScript and React Router provide the public forest, account pages
+React 19, TypeScript and React Router provide the public listening studio, account pages
 and protected workspaces. Vite produces static assets served by the dedicated
 web image on the existing public origin. Route refreshes use the SPA fallback.
 The home route is eager so no unrelated workspace placeholder flashes at startup.
-Other page bundles remain lazy. Source Sans 3 supplies product typography; Lora
-supplies the public editorial headings and wordmark. Fonts are self-hosted with
-OFL licenses. The owl-head vector is shared by navigation and account pages;
-the favicon has its own opaque pale tile for visibility on dark browser chrome.
+Other page bundles remain lazy. Chillax supplies Latin typography and IBM Plex
+Sans Arabic supplies Arabic. Fonts are self-hosted with their license/source
+records. A simple solid split-signal mark is shared by navigation and account
+pages; the favicon has an opaque mint tile for dark/light browser chrome.
 
-The continuous forest uses registered canopy/branch/trunk/root anchors. The
-approved owl renderer and existing deer animation are preserved. Day and Night
-share the same geometry. Product pages use quieter reading surfaces and the
-same color/typography system. Anime.js supplies short route-entry motion with
-cleanup and reduced-motion support. No animation delays access to content.
+The former forest and deer scenes are inactive historical source. The approved
+snowy pointer-following owl is preserved with the same textures, meshes and
+connected-neck renderer, anchored to the listening desk. No flight sequence is
+active. A real synthetic Web Audio sample demonstrates track selection without
+claiming model output. Public, account and role pages share white/charcoal/mint
+tokens, logical layouts and persistent English/Arabic language controls. Document
+language/direction and saved appearance are set before React paint. User-authored
+names, notes and resource titles remain raw. Time axes and identifiers stay LTR.
+The optional resource gate waits only for hero/fonts and is bounded to 2.5 seconds;
+content and account forms do not wait for the pointer texture set. Reduced motion
+skips decorative motion. React and identity vendors are separately cached bundles.
 
 ## Identity, roles and private access
 

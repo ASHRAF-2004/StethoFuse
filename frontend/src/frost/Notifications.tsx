@@ -65,7 +65,7 @@ export function Notifications(){
       {error&&<Notice danger>{lt(error)} <Button variant="ghost" onClick={refresh}>{tx("Retry")}</Button></Notice>}
       {!value&&loading&&<p role="status">{tx("Loading your updates…")}</p>}
       {value?.items.length===0&&<div className="sf-notifications-empty"><Bell size={30}/><h3>{tx("You’re up to date.")}</h3><p>{tx("Enabled updates appear here when processing or sharing activity is saved.")}</p></div>}
-      {value&&value.items.length>0&&<ul className="sf-notification-list">{value.items.map(item=>{const Icon=item.kind==='processing'?Waveform:item.kind==='sharing'?ShareNetwork:Check;const href=/^\/app\/(shared|recordings\/[a-z0-9_-]+|results\/[a-z0-9_-]+)$/.test(item.href)?item.href:'/app/overview';return <li key={item.id} data-unread={item.unread}><Icon size={22} aria-hidden="true"/><div><Link to={href}>{item.title}</Link><time dateTime={new Date(item.occurred_at*1000).toISOString()}>{lt(dateLabel(item.occurred_at))}</time></div>{item.unread&&<span className="sf-unread-dot" aria-label={tx("Unread")}/>}</li>;})}</ul>}
+      {value&&value.items.length>0&&<ul className="sf-notification-list">{value.items.map(item=>{const Icon=item.kind==='processing'?Waveform:item.kind==='sharing'?ShareNetwork:Check;const href=/^\/app\/(shared|recordings\/[a-z0-9_-]+|results\/[a-z0-9_-]+)$/.test(item.href)?item.href:'/app/overview';return <li key={item.id} data-unread={item.unread}><Icon size={22} aria-hidden="true"/><div><Link to={href}>{item.title}</Link><time dateTime={new Date(item.occurred_at*1000).toISOString()}>{lt(dateLabel(item.occurred_at))}</time></div>{item.unread&&<span className="sf-unread-dot" role="img" aria-label={tx("Unread")}/>}</li>;})}</ul>}
     </GlassPanel>}</>;
 }
 
