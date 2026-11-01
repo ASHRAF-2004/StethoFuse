@@ -1,13 +1,26 @@
 # Current checkpoint - 1 November 2026
 
 The forest website is **DEPLOYED** at https://stethofuse.ashraf-alsaloul.com/.
-Current version: `20261031T230523Z-3516baada0c9`.
-Source: `f32fb614db16e95bee1637d31072459c6eb7b90a`.
-Web image: `sha256:907aec9f97daca471d644878b61c2002465df75a6d21ee30be7d24ef1a3a5cdb`.
-Site archive SHA256: `3516baada0c9a43b9def18ff50cb69ec4639a395e1821e6c31dd7713e613aa40`.
+Current version: `20261101T000159Z-9f1e35e3ae8c`.
+Source: `c766e3774d2edb43af64fd79575c35a5f6fbeb40`.
+Web image: `sha256:75e2c9e16ce3006992a5db1d266c55d7087324428fe867a44946cce0fdeede4b`.
+Site archive SHA256: `9f1e35e3ae8cc99b3b1aabc3bca88f675d2c4660788764d7e840fa2fea4ddbf9`.
 
 Read [deployment report](docs/FOREST_DEPLOYMENT_20261101.md) and
 [frontend notes](frontend/PAUSE_NOTES.md) before continuing.
+
+## Startup flash fixed and deployed - 1 November 2026
+
+The three pale bars were the root React Suspense workspace Skeleton, visible
+while the lazy homepage downloaded. The homepage is now in the initial bundle;
+the root fallback is empty. Real workspace loading indicators remain intact.
+Forest h2 rules are scoped to prevent changing direct sign-in typography.
+
+Cold isolated live loads with 1-second JavaScript delays passed on desktop Night,
+desktop Day, 390px mobile and sign-in: no placeholder inserted, no late homepage
+chunk, no overflow or page errors. Day/Night public/auth/legal screenshots and
+exact source/archive/version passed. Existing missing Firebase config remains.
+See docs/STARTUP_FLASH_FIX_20261101.md for evidence and the inspected retry.
 
 ## Durable independence - normal website releases
 

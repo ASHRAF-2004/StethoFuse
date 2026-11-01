@@ -1,8 +1,16 @@
 # Frontend checkpoint - 1 November 2026
 
 LIVE: https://stethofuse.ashraf-alsaloul.com/
-Version20261031T230523Z-3516baada0c9, source f32fb614db16e95bee1637d31072459c6eb7b90a.
+Version 20261101T000159Z-9f1e35e3ae8c, source c766e3774d2edb43af64fd79575c35a5f6fbeb40.
 Read ../PAUSE_NOTES.md and ../docs/FOREST_DEPLOYMENT_20261101.md first.
+
+The startup flash is fixed: eager home import and empty root Suspense fallback;
+real workspace indicators retained. Scoped forest h2 rules preserve auth headings.
+Live delayed-JS cold-load checks passed for desktop Day/Night, mobile and login.
+Evidence: evidence/startup-flash/fixed-live-20261101T000159Z-9f1e35e3ae8c/.
+Current public checks/screenshots: evidence/forest-site-rollout/production-20261101T000159Z-9f1e35e3ae8c/.
+Read ../docs/STARTUP_FLASH_FIX_20261101.md. Earlier motion checks below are historical;
+no character animation changed. No heavy generation process is running.
 
 The approved continuous forest is now the real home route. Shared Day/Night
 styles, fonts, surfaces and theme preference are integrated with public/auth/legal
