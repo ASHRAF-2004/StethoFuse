@@ -6,6 +6,26 @@ Deployed source: `7cb7d67728c91e2c0604e4076d2c13ffd5ba0c31`
 Web: `sha256:c61aa3dcb91cb8bd18b62d13102e0a7a46496578121c4f323c42bb7d3e30e49d`
 Archive: `3373fede54d29d54f556a55677be9ed212c389d236ac25d77896a04e22d21c6a`
 
+Owner approved the loading experience on 2 November 2026. Preserve its readiness
+gate, native owl quality and pointer behavior. The owner also raised the dark
+palette as a concern. Review of the deployed home/auth captures and current
+workspace styling identifies large fluorescent mint areas and green-tinted
+surface layers as the main visual issue. Recommended next visual pass: neutral
+charcoal/graphite surfaces, softened white text and restrained sage accents,
+applied consistently to entry/home/auth/workspaces. This approval checkpoint
+changes documentation only; the live palette/release remains as recorded above.
+
+Remaining release work, beyond that palette refinement: complete a fresh real
+role journey on the current release (account/recovery, upload, separation,
+playback, explicit sharing/revocation); physical mobile/microphone checks; improve
+the long cold 3G motion wait while preserving native quality; verify backup and
+independent restore; confirm actual Support inbox delivery and resolve account-
+email body branding/provider limitations; finish owner review of draft legal
+content. Prior isolated API/frozen-worker and live account-mail tests passed;
+these are remaining integrated/current-release and operational proofs, not a
+claim that those features are unimplemented. Retired forest/deer/flight studies
+remain retired. This assessment checkpoint performs no new production operation.
+
 Read `docs/OWL_ENTRANCE_20261102.md`. The full-screen current-brand entrance has
 an animated CSS sound trace and real download progress. Desktop entry waits for
 hydration AND the approved owl's first nonblank rendered frame. All 18 native

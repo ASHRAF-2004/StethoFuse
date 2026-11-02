@@ -86,9 +86,9 @@
           "currentVersion": 1
         }
       },
-      "updatedAt": "2026-11-01T23:47:44.8287981Z",
+      "updatedAt": "2026-11-02T01:56:23.9520896Z",
       "review": {
-        "ownerVisualApproval": "Not claimed; selected implementation deployed under direct owner instruction",
+        "ownerVisualApproval": "Approved by owner on 2 November 2026 for the deployed loading experience. Dark palette raised as a separate refinement.",
         "evidence": "OwnerRelease/receipts/20261101T234454Z-owl-entrance-owner-verification.json",
         "liveVersion": "20261101T232914Z-3373fede54d2",
         "renderedLive": "PASS English/Arabic, day/night, touch/reduced motion, 44 loading layouts, four failure cases, software canvas, actual native first frame and pointer pixels",
