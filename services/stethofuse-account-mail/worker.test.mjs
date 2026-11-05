@@ -11,14 +11,18 @@ const providerLink=(kind='reset')=>`https://${PROJECT}.firebaseapp.com/__/auth/a
 const response=(value,status=200)=>Response.json(value,{status});
 function fixture(options={}){
  const calls=[],messages=[],logs=[],sleeps=[],rateKeys=[];
- const env={GOOGLE_MAIL_CREDENTIAL:JSON.stringify(mailCredential),FIREBASE_API_KEY:API_KEY,
+ const env={GOOGLE_MAIL_CREDENTIAL:JSON.stringify(mailCredential),FIREBASE_API_KEY:API_KEY,MAIL_DELIVERY_MODE:'resend-free',RESEND_FREE_TIER_CONFIRMED:'true',RESEND_API_KEY:'re_fixture_private_send_only_key_20261105',
   MAIL_IP_RATE:{limit:async()=>{if(options.rateError)throw Error('private rate failure');return {success:!options.ipBlocked};}},
   MAIL_GLOBAL_RATE:{limit:async()=>({success:!options.globalBlocked})},
-  MAIL_RECIPIENT_RATE:{limit:async value=>{rateKeys.push(value.key);return {success:!options.recipientBlocked};}},
-  ACCOUNT_MAIL:{send:async value=>{if(options.mailFailure)throw Error('private downstream message');messages.push(value);return options.noAcceptance?{}:{messageId:'fixture-message-id'};}}
+  MAIL_RECIPIENT_RATE:{limit:async value=>{rateKeys.push(value.key);return {success:!options.recipientBlocked};}}
  };
  const network=async(url,init)=>{
   calls.push({url,init});
+  assert.equal(init.redirect,'manual');
+  if(url==='https://api.resend.com/emails'){
+   assert.equal(init.headers.Authorization,'Bearer '+env.RESEND_API_KEY);assert(init.headers['Idempotency-Key'].startsWith('stethofuse-account/'));
+   if(options.mailFailure)throw Error('private downstream message');messages.push(JSON.parse(init.body));return response(options.noAcceptance?{}:{id:'00000000-0000-4000-8000-000000000001'});
+  }
   if(url==='https://oauth2.googleapis.com/token'){
    const params=new URLSearchParams(init.body),jwt=params.get('assertion');assert.equal(params.get('grant_type'),'urn:ietf:params:oauth:grant-type:jwt-bearer');
    const [header,payload,signature]=jwt.split('.'),h=JSON.parse(Buffer.from(header,'base64url')),p=JSON.parse(Buffer.from(payload,'base64url'));
@@ -28,6 +32,7 @@ function fixture(options={}){
   }
   if(url.includes('accounts:lookup?')){
    assert.equal(new URL(url).searchParams.get('key'),API_KEY);assert.equal(JSON.parse(init.body).idToken,'fixture.signed.identity');
+   if(options.redirectLookup)return new Response(null,{status:302,headers:{Location:'https://untrusted.example/collect'}});
    if(options.invalidUser)return response({error:{message:'INVALID_ID_TOKEN'}},400);
    return response({users:[{localId:'fixture-only-user',email:'verified-token-recipient@example.invalid',emailVerified:!!options.verified,disabled:!!options.disabled}]});
   }
@@ -43,11 +48,11 @@ function fixture(options={}){
 }
 test('reset uses a signed, narrowly scoped server token and only emails an app-owned link',async()=>{
  const f=fixture(),r=await f.worker.fetch(f.request(),f.env);assert.equal(r.status,202);assert.equal(r.headers.get('cache-control'),'no-store');assert.deepEqual(Object.keys(await r.json()).sort(),['ok','reference']);assert.equal(f.messages.length,1);
- const mail=f.messages[0];assert.equal(mail.to,'owner-fixture@example.invalid');assert.equal(mail.from.email,'stethofuse@ashraf-alsaloul.com');assert(mail.html.includes('&amp;oobCode='+CODE));assert(mail.text.includes(ORIGIN+'/auth/action?'));assert(!mail.html.includes('untrusted.example'));assert(!mail.html.includes(API_KEY));
- assert.equal(f.calls.length,2);assert.deepEqual(f.sleeps,[750]);
+ const mail=f.messages[0];assert.deepEqual(mail.to,['owner-fixture@example.invalid']);assert.equal(mail.from,'StethoFuse <stethofuse@notify.stethofuse.ashraf-alsaloul.com>');assert(mail.html.includes('&amp;oobCode='+CODE));assert(mail.text.includes(ORIGIN+'/auth/action?'));assert(!mail.html.includes('untrusted.example'));assert(!mail.html.includes(API_KEY));
+ assert.equal(f.calls.length,3);assert.deepEqual(f.sleeps,[750]);
 });
 test('verification binds recipient to provider-validated identity, never request email',async()=>{
- const f=fixture(),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,202);assert.equal(f.messages[0].to,'verified-token-recipient@example.invalid');assert.equal(JSON.parse(f.calls.at(-1).init.body).requestType,'VERIFY_EMAIL');
+ const f=fixture(),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,202);assert.deepEqual(f.messages[0].to,['verified-token-recipient@example.invalid']);assert.equal(JSON.parse(f.calls.find(c=>c.url.endsWith('accounts:sendOobCode')).init.body).requestType,'VERIFY_EMAIL');
 });
 test('Arabic email is HTML and plain text, RTL, escaped and app-linked',()=>{
  const mail=accountMessage({kind:'verify',locale:'ar',email:'fixture@example.invalid',link:ORIGIN+'/auth/action?mode=verifyEmail&oobCode='+CODE,reference:'fixture<reference>'});assert(mail.html.includes('lang="ar" dir="rtl"'));assert(mail.subject.includes('تأكيد'));assert(mail.text.includes('تأكيد'));assert(mail.html.includes('fixture&lt;reference&gt;'));assert(!mail.html.includes('fixture<reference>'));assert(mail.html.includes('Ashraf Ali Hussain Al-Saloul'));
@@ -75,6 +80,8 @@ for(const options of [{invalidUser:true},{disabled:true}])test('rejects invalid/
 test('missing bearer is rejected without Google access',async()=>{const f=fixture(),r=await f.worker.fetch(f.request('verify',undefined,{Authorization:''}),f.env);assert.equal(r.status,401);assert.equal(f.calls.length,0);});
 test('already-verified identity generates no mail',async()=>{const f=fixture({verified:true}),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,202);assert.equal(f.messages.length,0);assert.equal(f.calls.length,1);});
 test('verification delivery failure is honest and safe',async()=>{const f=fixture({mailFailure:true}),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,503);assert(!JSON.stringify(await r.json()).includes('private downstream'));});
+
+test('a redirected identity lookup is rejected without forwarding the token',async()=>{const f=fixture({redirectLookup:true}),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,503);assert.equal(f.calls.length,1);assert.equal(f.messages.length,0);assert(f.logs.join('').includes('IDENTITY_UNAVAILABLE'));});
 test('token reuse and concurrent minting do not repeatedly import/sign credentials',async()=>{
  const f=fixture();await Promise.all([f.worker.fetch(f.request('reset',{email:'one@example.invalid',locale:'en'}),f.env),f.worker.fetch(f.request('reset',{email:'two@example.invalid',locale:'en'}),f.env)]);assert.equal(f.calls.filter(c=>c.url==='https://oauth2.googleapis.com/token').length,1);assert.equal(f.messages.length,2);
 });

@@ -51,9 +51,26 @@ The app-scoped backup `stethofuse-20261105T065933Z` captured 37 files: consisten
 
 This is **application data/configuration recovery**, with Linux and Windows copies on the existing owner installation. Required current/previous image recovery artifacts remain separate and preserved. It is not a physical off-device copy, Windows cold-boot proof or combined/shared-host restore. Shared backup verification remains false; no combined backup, unrelated application or VM restart was performed.
 
-## Remaining limits
+## Free account-email follow-up
 
-**Provider-controlled account-email branding.** The current Firebase project rejects both email-body and callback-URL edits with HTTP 400 `EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`. Read-back confirmed all provider settings remain unchanged. Sender branding is StethoFuse and real recovery works, but the delivered HTML body and action URL remain Firebase defaults. The authorized console browser/native bridge was unavailable. A working supported template-settings path, or a separately authorized server-side action-link/mail integration, is needed to activate full branding. No owner refresh credential was copied to production, and no billing/provider change was made. [Firebase's supported handler contract](https://firebase.google.com/docs/auth/custom-email-handler) and [custom email-link generation](https://firebase.google.com/docs/auth/admin/email-action-links) describe these separate capabilities.
+The provider template restriction has been resolved through supported custom
+delivery, preserving Firebase identities. Resend Free now sends English/Arabic
+HTML and plain text through a dedicated Cloudflare Worker. Actual Gmail Inbox
+delivery, SPF/DKIM/DMARC/TLS1.3, app-owned links, verification, live Arabic reset,
+new-password login, unchanged UIDs and used-code rejection passed. Both disposable
+provider identities were independently deleted; no application data was created.
+The exact preview-proven bundle activated at 12:09:58 UTC, then public browser
+selection passed without provider mocks. 61 focused security/transport tests pass.
+API/worker images, VM container IDs/start times, policy, data and foreign guards
+were unchanged under fresh shared-lock proofs. The temporary preview route and
+secret are gone. [Full evidence and limits](ACCOUNT_EMAIL_DELIVERY.md).
+
+All payments are declined. Actual limits are 100 emails/day and 3,000/month; the QA
+run used two. No billing, upgrade, overage, paid fallback or payment-required trial was
+enabled. Runtime credentials are restricted; owner OAuth stays local. This work
+changes email delivery, not the identity provider or authentication boundary.
+
+## Remaining limits
 
 **Physical checks and inbox placement.** A real stethoscope/mobile hardware session has not been certified. Support provider acceptance is proven; receipt/inbox placement at the configured secondary inbox is not independently observed. These are distinct from working browser capture, authentication and support submission. No clinical/regulatory certification is claimed.
 
