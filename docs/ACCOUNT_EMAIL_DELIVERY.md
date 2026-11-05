@@ -32,6 +32,14 @@ sequenceDiagram
 
 ## Verified status — 5 November 2026
 
+The frontend adapter is live in `20261105T101558Z-aa1c40a98ebd`, source
+`8dd23ecaa84b3baaf29469a9f91c9b60ab3b6841`. PR #12 and the follow-up [PR #13](https://github.com/ASHRAF-2004/StethoFuse/pull/13)
+are merged to main. Live recovery correctly selects the existing sender because the
+native-mail service is absent; Arabic action URLs initialize RTL and remove the
+sensitive query. These browser checks intercepted Google responses and sent no mail.
+Root/Windows/public health/version/auth, data and foreign-resource guards passed.
+API/worker pins stayed fixed; current HTML matched the package after scoped purge.
+
 | Boundary | Evidence |
 | --- | --- |
 | Provider template edit | Existing project rejects body and callback edits with `EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`; no settings were changed |

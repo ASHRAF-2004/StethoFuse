@@ -1,10 +1,19 @@
 # Current StethoFuse checkpoint — 5 November 2026
 
 LIVE: https://stethofuse.ashraf-alsaloul.com/
-Version: `20261105T063435Z-e77db0cef73f`
-Deployed source: `6609c93ef74bf65dfbaeebf5e41dc4099031385b`
-Web: `sha256:53e98874ef3f0fbe94162996b787340feb1b0a1c271cca6d9692ec15d1b64d1d`
-Archive: `e77db0cef73f7c2ddad7d6196cc9fd6d8b29eadea8c1afce921242a45e78887b`
+Version: `20261105T101558Z-aa1c40a98ebd`
+Deployed source: `8dd23ecaa84b3baaf29469a9f91c9b60ab3b6841`
+Web: `sha256:2733640ed17ab6cad9b727f6115a346d00c1aeb3af10776e766947d6e1c33234`
+Archive: `aa1c40a98ebd6f44abb0a344d3517a8c4d3c1e6a6a1a5e02d454ca3c13e0d1e8`
+
+Latest change: safe account-mail capability adapter and Arabic action-link locale.
+Full self-service qualify/preflight/deploy/evidence/status passed; independent
+read-only inspection confirms image/profile/data/foreign state. API/worker pins
+unchanged, DB logical772d6ed5/preserveddd800378/foreigne300585f unchanged.
+Current live recovery fallback and fresh-browser Arabic action rendering PASS;
+provider responses intercepted for these UI checks, no real emails sent. Public
+homepage HTML exactly matches the new package, scoped purge MISS→HIT, browser
+no-store. Current immutable receipts start20261105T102045Z in OwnerRelease/receipts.
 
 ## Completed
 
@@ -16,7 +25,8 @@ are preserved. Day layout remains. No rejected forest/deer/flight work was resum
 Native startup now uses two disjoint SHA-verified packets: 1,958,672 bytes prepares
 nine real source views, then 1,665,892 bytes extends to all eighteen. All 142 source
 images/geometry remain byte-identical. 48 GPU/software comparisons are pixel-equal.
-Final live 3G:50.7s cold,1.9s cached (50kB/s,400ms,4x CPU), versus prior86.8s cold.
+Previous release live 3G:50.7s cold,1.9s cached (50kB/s,400ms,4x CPU), versus86.8s.
+The latest release preserves the same renderer and all142 assets; no new3G claim.
 Startup11 cases/44 layouts/5 failure states pass. Motion survives detail failure
 and recovers after SPA navigation. Still choice/touch/Save-Data/reduced motion remain.
 
@@ -50,8 +60,9 @@ instruction, commit5c4cb33f78c589bfb69b530ef470c61d5b8cbcfa. Verified owner-requ
 StethoFuse merges are authorized going forward without reasking. Preserve branches,
 normal owner identity and CI; no force pushes. See docs/COMPLETION_2026-11-05.md.
 
-Follow-up: fix/account-email-delivery implements the restricted separate mail Worker
-and frontend capability selection. Existing provider remains active while the Worker
+Follow-up PR#13 is also merged (main6c21fc2c6f54ffeb16119cee186cbc589cadd2dd,
+10:19:26 UTC). All6 checks across push/PR passed. The restricted separate mail Worker
+and frontend capability selection are in main. Existing provider remains active while the Worker
 is absent (404/410). Actual project-generated verification/reset links, new-password
 sign-in, UID preservation and used-code rejection PASS. One new provider-only QA
 identity was independently deleted; no app data touched.36 Worker+14 adapter tests,
