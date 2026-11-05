@@ -107,7 +107,7 @@ Reduced motion, touch and data-saving conditions use the approved still pose. Fa
 
 The same-origin support Worker validates bounded JSON, enforces origin and rate limits, escapes visitor content, and sends HTML plus plain text to the configured owner destination through a restricted native Cloudflare binding. The visitor's address is reply-to; no email application is launched. A `202` means provider acceptance, not proof that a person opened the message.
 
-Firebase owns verification and password-recovery actions. The app provides themed action-handler pages and one recovery flow. Sender branding is configured; the provider currently restricts account-email body customization. Prepared templates are not evidence that custom bodies are active. Custom account email would require supported server-side link-generation authority and a separately secured mail integration; the owner's local admin session must never become a runtime credential.
+Firebase owns verification and password-recovery actions. The app provides themed action-handler pages and one recovery flow. Sender branding is configured; the current project rejects both account-email body and callback-URL customization with EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED. Delivered action links still open Firebase’s default handler; the shipped themed handler was separately verified with a real task-only reset code. Prepared templates are not evidence that custom bodies are active. Custom account email would require supported server-side link-generation authority and a separately secured mail integration; the owner's local admin session must never become a runtime credential.
 
 ## Deployment, preservation and recovery
 
