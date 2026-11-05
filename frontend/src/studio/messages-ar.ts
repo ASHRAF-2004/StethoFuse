@@ -1,6 +1,15 @@
 import ui from './messages-ui-ar';
 /** UI translations. User-authored names, notes, handles and IDs are never translated. */
 const messages:Record<string,string>={
+  "Updated 5 November 2026": "آخر تحديث: 5 نوفمبر 2026",
+  "Research use only": "للاستخدام البحثي فقط",
+  "StethoFuse is operated by Ashraf Ali Hussain Al-Saloul for research and education. Use non-identifying recordings you have permission to use. Do not submit patient identifiers, emergency requests or clinical records. Contact the owner through Support for questions about this service or your data.": "يدير أشرف علي حسين الصلول منصة StethoFuse للبحث والتعليم. استخدم تسجيلات غير معرّفة بالهوية ولديك إذن باستخدامها. لا ترسل بيانات تعريف المرضى أو طلبات الطوارئ أو السجلات السريرية. تواصل مع المالك عبر صفحة الدعم للاستفسار عن الخدمة أو بياناتك.",
+  "Using StethoFuse": "استخدام StethoFuse",
+  "This research service may be interrupted or changed. No service-level commitment, clinical guarantee or suitability for patient care is offered. Keep your own permitted copies of important research files. For access problems or questions about these terms, contact Support.": "قد تتوقف هذه الخدمة البحثية أو تتغير. لا نقدم التزامًا بمستوى خدمة أو ضمانًا سريريًا أو صلاحية لرعاية المرضى. احتفظ بنسخ مسموح بها من ملفاتك البحثية المهمة. تواصل مع الدعم لمشكلات الوصول أو الأسئلة المتعلقة بهذه الشروط.",
+  "Firebase Authentication processes sign-in and account-recovery requests. Cloudflare provides the public HTTPS edge and support-email delivery. Application records and private audio are stored on the project owner’s infrastructure. These services process the information needed to provide their functions; this notice does not promise a particular data-residency region.": "تعالج Firebase Authentication طلبات تسجيل الدخول واستعادة الحساب. توفر Cloudflare اتصال HTTPS العام وتسليم رسائل الدعم. تُحفظ سجلات التطبيق والصوت الخاص على البنية التحتية لمالك المشروع. تعالج هذه الخدمات المعلومات اللازمة لأداء وظائفها؛ ولا يتضمن هذا الإشعار وعدًا بمنطقة جغرافية محددة لإقامة البيانات.",
+  "Retention and research limits": "الاحتفاظ بالبيانات وحدود الاستخدام البحثي",
+  "Saved research files remain until you delete them or close your account; no automatic expiry period is promised. Minimal security records and contributions to other owners may remain. Encrypted backups are separate from the live service and must preserve confirmed deletions during recovery. Contact Support with access, correction or deletion questions. This service makes no claim of GDPR, HIPAA or other regulatory certification.": "تبقى الملفات البحثية المحفوظة إلى أن تحذفها أو تغلق حسابك؛ ولا نعد بمدة انتهاء تلقائية. قد تبقى سجلات أمنية محدودة ومساهماتك في تسجيلات يملكها آخرون. النسخ الاحتياطية المشفرة منفصلة عن الخدمة الحية ويجب أن تحترم عمليات الحذف المؤكدة عند الاستعادة. تواصل مع الدعم بشأن الوصول أو التصحيح أو الحذف. لا تدّعي الخدمة اعتمادًا بموجب GDPR أو HIPAA أو أي اعتماد تنظيمي آخر.",
+
  'Loading StethoFuse…':'جارٍ تحميل StethoFuse…',
  ...ui,
  'Workflow preview':'نظرة على مسار العمل',

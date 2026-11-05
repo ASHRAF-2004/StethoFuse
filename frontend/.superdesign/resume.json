@@ -63,8 +63,8 @@
         "public/assets/studio-signal.svg"
       ],
       "fingerprints": {
-        ".superdesign/design-system.md": "9b19d03beb3fa757b619db147ed28860c3d9d8ed56c2ba47ee4833c17441f908",
-        "public/entrance.css": "e2544da907a3390ca395c88ce93bcaa0d4d954d4cbd368730c65b31985fb018d",
+        ".superdesign/design-system.md": "d08daf88a93623623dbfd8e45b909c8e67f39a0cac310863377b3fdc25c43cec",
+        "public/entrance.css": "b9632a118da84d2be15a77e32a5b21c21d992c538e35eda659ddfe94ed135aa0",
         "index.html": "8c62aaa0e071fa490bc9dea8c10893debef64b363c47cc70334f3a64adca312c",
         "public/assets/studio-signal.svg": "39466cd32f997dabbbe25fbebb55f041eae5de917b66cb1292727a330e2576ba"
       },
@@ -82,17 +82,18 @@
       "drafts": {
         "0f0bbaab-a1d2-42e6-a30f-b419aca031b6": {
           "title": "Listening entrance with real owl readiness",
-          "visualDirection": "Current charcoal/white/mint studio; real wordmark and measured progress",
-          "currentVersion": 1
+          "visualDirection": "Current neutral charcoal/white studio with muted sage accents",
+          "currentVersion": 2
         }
       },
-      "updatedAt": "2026-11-02T01:56:23.9520896Z",
+      "updatedAt": "2026-11-05T05:49:38.108Z",
       "review": {
         "ownerVisualApproval": "Approved by owner on 2 November 2026 for the deployed loading experience. Dark palette raised as a separate refinement.",
         "evidence": "OwnerRelease/receipts/20261101T234454Z-owl-entrance-owner-verification.json",
         "liveVersion": "20261101T232914Z-3373fede54d2",
         "renderedLive": "PASS English/Arabic, day/night, touch/reduced motion, 44 loading layouts, four failure cases, software canvas, actual native first frame and pointer pixels",
-        "brave": "PASS installed Brave 156 dark with isolated profile and Arabic mirroring"
+        "brave": "PASS installed Brave 156 dark with isolated profile and Arabic mirroring",
+        "paletteRefinement": "Selected by current completion task; compiled public/auth/role screenshots inspected; owner appearance review remains distinct from automated checks."
       }
     }
   }

@@ -67,7 +67,7 @@
     state.promise.catch(function (error) { if (!state.skipped) { state.error = true; state.lastError = String(error); update(true); } });
     return state.promise;
   };
-  window.__sfOwlDecoding = function (done,total) { state.decodedViews = done; state.totalViews = total; state.phase = 'decoding'; update(false); };
+  window.__sfOwlDecoding = function (done,total) { state.decodedViews = done; state.totalViews = total; if (!state.entered) { state.phase = 'decoding'; update(false); } };
   window.__sfOwlFrameReady = function (verified) { if (verified !== true) return; state.frameReady = true; state.pixelVerified = true; state.firstFrameAt = performance.now(); performance.mark('sf-owl-first-frame'); checkReady(); };
   window.__sfOwlFailed = function (error) { if (!state.skipped && !state.entered) { state.error = true; state.lastError = String(error); update(true); } };
   window.__sfApplicationFailed = function () { if (state.entered) return; state.pageFailed = state.pageStalled = true; if (controller) controller.abort(); update(true); };

@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible application problem without private data.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Use SECURITY.md for security reports. Never attach tokens, action links, patient recordings or private account screenshots."
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the observed and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Use synthetic or public data only.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, device and version
+      placeholder: "Brave desktop, English, night appearance, deployment version"
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Safe evidence
+      description: Screenshots or error text with sensitive information removed.

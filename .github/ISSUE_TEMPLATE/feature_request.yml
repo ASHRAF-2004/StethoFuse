@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest an improvement to the research workflow.
+title: "[Feature] "
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What task are you trying to complete?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Explain useful behavior and any alternatives.
+    validations:
+      required: true

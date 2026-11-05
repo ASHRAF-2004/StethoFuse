@@ -12,7 +12,11 @@
 
 /* One source of material, type and direction across public and private views. */
 :root{--studio-font:Chillax,system-ui,sans-serif;--studio-bg:#fff;--studio-ink:#232b28;--studio-muted:#53615a;--studio-soft:#f0f3f1;--studio-panel:#fff;--studio-frame:#eaf0ed;--studio-line:#d3dcd6;--studio-mint:#a1ffcb;--studio-deep:#183d30;--studio-heart:#34795a;--studio-lung:#2f6695;--studio-link:#25654c;--studio-focus:#377c60;--studio-corner:20px}
-:root[data-forest-theme=night]{--studio-bg:#171c1b;--studio-ink:#edf3ef;--studio-muted:#b0c0b7;--studio-soft:#252e29;--studio-panel:#1c2420;--studio-frame:#121814;--studio-line:#3d4d43;--studio-deep:#c0f2d4;--studio-heart:#a1ffcb;--studio-lung:#a9d4f3;--studio-link:#a1ffcb;--studio-focus:#a1ffcb}
+:root[data-forest-theme=night]{--studio-bg:#181a1c;--studio-ink:#e2e3df;--studio-muted:#adafac;--studio-soft:#292c2e;--studio-panel:#202326;--studio-frame:#131517;--studio-line:#454b4a;--studio-mint:#9bbca9;--studio-deep:#bad0c3;--studio-heart:#a3c7b4;--studio-lung:#a8bdce;--studio-link:#a3c7b4;--studio-focus:#bad0c3}
+:root[data-forest-theme=night] .studio-motif{opacity:.22}
+:root[data-forest-theme=night] .studio-closing{background:var(--studio-soft);color:var(--studio-ink);border-block:1px solid var(--studio-line)}
+:root[data-forest-theme=night] .studio-closing p{color:var(--studio-muted)}
+:root[data-forest-theme=night] .studio-closing .studio-cta{background:var(--studio-ink);color:var(--studio-bg)}
 :root[lang=ar]{--studio-font:'IBM Plex Sans Arabic',system-ui,sans-serif}
 html{scroll-behavior:smooth;scroll-padding-top:24px}html body{margin:0;font:400 16px/1.55 var(--studio-font);background:var(--studio-bg);color:var(--studio-ink)}body::before,body::after{display:none!important}*{box-sizing:border-box}button,a,input,select,textarea{touch-action:manipulation}button,input,textarea,select{font:inherit}button{cursor:pointer}a{color:inherit}button,a{-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--studio-focus);outline-offset:5px}::selection{background:#a1ffcb;color:#163d2d}button:disabled{cursor:not-allowed}img{max-width:100%}
 :root[data-forest-theme] body :is(h1,h2,h3,h4){font-family:var(--studio-font);letter-spacing:-.035em;font-weight:600;text-wrap:balance}

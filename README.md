@@ -1,250 +1,132 @@
-<img src="frontend/public/assets/logo.svg" alt="StethoFuse — Listen further" width="250">
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/stethofuse-white.svg">
+    <img src="assets/readme/stethofuse.svg" width="420" alt="StethoFuse">
+  </picture>
+  <h1>Every sound. A clearer signal.</h1>
+  <p>A private workspace for cardiopulmonary sound separation.<br>Record, separate, listen and review — with the original always in context.</p>
+  <p><a href="https://stethofuse.ashraf-alsaloul.com/">Open StethoFuse</a> · <a href="#getting-started">Get started</a> · <a href="ARCHITECTURE.md">Architecture</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
+  <p>
+    <img alt="React 19" src="https://img.shields.io/badge/React_19-202326?logo=react&logoColor=61DAFB">
+    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-202326?logo=typescript&logoColor=3178C6">
+    <img alt="Vite" src="https://img.shields.io/badge/Vite-202326?logo=vite&logoColor=BD8BFF">
+    <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-202326?logo=fastapi&logoColor=009688">
+    <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-202326?logo=pytorch&logoColor=EE4C2C">
+    <img alt="SQLite" src="https://img.shields.io/badge/SQLite-202326?logo=sqlite&logoColor=79B8D7">
+    <img alt="Firebase Authentication" src="https://img.shields.io/badge/Firebase_Auth-202326?logo=firebase&logoColor=FFCA28">
+    <img alt="Cloudflare" src="https://img.shields.io/badge/Cloudflare-202326?logo=cloudflare&logoColor=F38020">
+  </p>
+</div>
 
-# StethoFuse
+> **Research and education.** StethoFuse does not diagnose conditions, recommend treatment or replace professional judgment. Upload only recordings you are entitled to use, without patient identifiers.
 
-A cardiopulmonary sound-separation application for research and education, with a calm
-winter workspace for recordings, separation runs and explicitly shared audio review.
-**Not a diagnostic system.** The M1 application is deployed at
-[stethofuse.ashraf-alsaloul.com](https://stethofuse.ashraf-alsaloul.com).
-The 15 October user-readiness release includes the Frost/Midnight public home,
-genuine owl arrival, private profile photos, metadata export, confirmed account
-deletion and in-app updates. Read the [current live release evidence](docs/USER_READINESS_LIVE_20261015.md).
-The frozen CPU separator is connected; ensemble execution remains unavailable.
-The [27 September receipt](deploy/PRODUCTION_2026-09-27.md) is historical evidence.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/studio-night.png">
+  <img src="assets/readme/studio-day.png" alt="The StethoFuse listening studio: approved snowy owl, sound comparison and a clear recording workflow" width="1440">
+</picture>
 
-Academic project: **Machine Learning-Based System for Cardiopulmonary Sound Separation**.
-The application and FYP report remain separate Git repositories. Submitted FYP1 evidence
-is preserved in the sibling documentation repository.
+## What you can do
 
-## Current milestone
+- **Record or upload.** Capture microphone audio in a supported browser, or upload a PCM WAV recording up to 25 MiB. Preview before saving.
+- **Separate and compare.** Queue the frozen CPU model, keep the original unchanged, and compare aligned heart and lung outputs with waveforms.
+- **Keep a private library.** Recordings, processing history, settings and notifications belong to an authenticated account.
+- **Invite a second pair of ears.** Grant an analyst access to a specific resource, receive a review, and revoke access when needed.
+- **Work in English or Arabic.** RTL layout, a mirrored pointer-following owl, day/night appearance and reduced motion.
+- **Get help in the app.** The support form submits a branded HTML email through Cloudflare; visitors do not need to open an email client.
 
-M1 connects Firebase identity to FastAPI authorization and private, persistent user data.
-The approved frontend/artwork and continuous two-axis owl renderer are preserved.
-Read [the M1 API contract](docs/M1_API_CONTRACT.md) and
-[route protection evidence](docs/M1_ROUTE_AUDIT.md) for exact scope and limitations.
+### Access is explicit
 
-| Layer | Technology / boundary |
-| --- | --- |
-| Interface | React19, TypeScript, Vite, React Router; existing winter/glass design |
-| Identity | Official Firebase Web SDK; email/password and Google flows |
-| Authorization | FastAPI + trusted application SQLite records; verified Firebase UID |
-| Private data | Explicit development database and private filesystem, outside public assets |
-| Media | Authorized API delivery; no public upload/output/visualization mount |
-| ML/evaluation | Preserved Python Strategy/Factory services, PyTorch NeoSSNet adapter and individual baselines |
-| Testing | Pytest API/permission integration and real Chrome browser automation; mocks distinguished from live providers |
+| Account | Responsibility | Private audio access |
+| --- | --- | --- |
+| Healthcare staff | Own recordings and separation runs | Own resources; explicit grants where applicable |
+| Audio analyst | Review assigned recordings | Only resources explicitly shared with that analyst |
+| Administrator | Manage accounts and operational metadata | No automatic access to other people's audio |
 
-Live identity cannot be inferred from a successful build or mock test. The selected project
-`stethofuse-c18cd-3cca0` has its registered Web App and enabled email/password and Google
-providers. Developer CLI consent, restricted keyless backend ADC and harmless provider
-reads are verified. On 27 September 2026, real Google-authenticated sessions for the
-verified primary Administrator and an existing Healthcare Staff account were accepted by
-the local FastAPI verifier. Admin Users returned 200 to the Administrator and 403 to Staff;
-Staff also received 403 when submitting a forged admin-role request. A synthetic silent WAV
-verified owner access, exact-resource sharing, direct-media/download denial before sharing,
-and denial again immediately after revocation. A second Staff-owned silent fixture returned
-403 to the Administrator for metadata, media and download and remained absent from the
-Admin recording list. This is **LOCAL REAL PROVIDER** plus **LOCAL BACKEND** evidence, not
-production verification. Email/password and recovery flows remain untested, and no
-verification/reset email was sent. No Firebase project is created automatically.
+Registration creates a healthcare-staff account. Roles come from trusted backend records, never a browser selector. Email verification is required before entering the private workspace.
 
-The deployed identity boundary uses local Firebase ID-token signature/claim verification
-plus Firebase Auth REST `accounts:lookup` for current-user/revocation checks, followed by
-trusted local authorization. The separate server key is restricted to Identity Toolkit.
-Cloud Run was superseded before deployment; no Google Cloud billing was enabled.
-Production Google Admin/Staff requests now return Admin API 200/403 respectively, and
-private-media access is denied to non-owners (including an Administrator without a grant).
-These newer checks are **PRODUCTION + REAL FIREBASE**, recorded separately from the
-earlier local share/revoke evidence above.
+## Getting started
 
-## Identity and access
+### Explore the interface
 
-```text
-Firebase sign-in → current ID token → Authorization: Bearer → FastAPI verification
-  → UID-linked application account → active status + role + owner/grant check → resource
-```
-
-- Public registration defaults to `healthcare_staff`; no requested browser role is accepted.
-- `audio_analyst` can review only explicitly assigned resources.
-- `admin` manages accounts and safe operational metadata, not everyone's private audio.
-- The current administrator's own User Management row is read-only: FastAPI rejects
-  self role/status changes with `403`; another administrator must act, and the last-active
-  administrator safeguard remains enforced.
-- First-admin bootstrap is a trusted operator action against a real, verified UID, never an
-  email match, first-user promotion, browser toggle or public HTTP endpoint.
-- Role/status/grant checks use trusted records; UI guards only support navigation.
-- Legacy unowned data stays quarantined. No automatic ownership inference or destructive
-  database migration is performed on startup.
-- Demo personas and synthetic audio are development-only and isolated from live mode.
-
-See [roles, signup/sign-in and administrator provisioning](docs/ROLES_AND_ACCOUNT_PROVISIONING.md)
-for the permission matrix, steps for promoting another verified account and FYP2 use-case actors.
-The user confirmed that an existing administrator may promote additional administrators;
-public signup still never grants privileged roles.
-
-The development branch is `fyp2/application`; its Git history and the earlier
-`codex/fyp2-application-rebuild` branch remain preserved.
-Its author configuration matches the existing human-authored repository identity
-`ASHRAF-2004 <adoashraf103@gmail.com>` and the authenticated GitHub account. The earlier
-`codex/fyp2-application-rebuild` remote branch remains preserved. Its duplicate draft PR #8
-was closed as superseded by owner-maintained draft PR #9; no history was rewritten. The
-normal branch is pushed for review, not merged to main.
-The production application release is `921c40d`; later operational documentation commits
-do not imply a new application-image deployment. Main remains unmerged.
-
-## Local development (Ubuntu)
-
-Reuse installed dependencies. This repository does not require reinstallation of the working
-frontend, Blender or ML stack to test authentication. From this repository:
+Use **Node.js 24** and npm. The development-only demo uses fictional, disposable browser data and does not connect to production accounts, recordings or inference.
 
 ```sh
-# Existing frontend: normal mode is live and fails closed if configuration is absent.
-cd frontend
-npm run dev -- --host 127.0.0.1 --port 4180 --strictPort
+git clone https://github.com/ASHRAF-2004/StethoFuse.git
+cd StethoFuse/frontend
+npm ci
+npm run dev:demo
 ```
 
-Copy `frontend/.env.example` to an ignored local configuration only after obtaining the
-existing project's genuine Web App settings. Firebase web configuration is public client
-configuration; Firebase Admin credentials and OAuth secrets must never go into `VITE_*`.
-The prepared workspace already has its genuine configuration in ignored `frontend/.env.local`.
-Use **http://localhost:4180/login** for local provider tests: `localhost` is currently an
-authorized Firebase domain; `127.0.0.1` is not. The production hostname is now authorized.
-Use the existing provider auth domain, not an invented callback URL. No email is sent by tests
-without an explicitly designated recipient.
+Open **http://127.0.0.1:4182**. Production builds cannot enable demo identity.
 
-The API-only dependencies are pinned in `requirements-m1.txt`. The prepared workspace uses
-`../.local/venvs/backend-smoke/`; a standalone checkout may use its own ignored virtualenv.
+### Run the connected application
 
-```sh
-# Prepared workspace environment, not system Python:
-../.local/venvs/backend-smoke/bin/python -m pip install -r requirements-m1.txt
-
-# Explicit isolated paths, never the legacy database or frontend public directory:
-export STETHOFUSE_M1_DATABASE=/home/ashraf/Documents/StethoFuse/.local/data/m1.sqlite3
-export STETHOFUSE_M1_PRIVATE_STORAGE=/home/ashraf/Documents/StethoFuse/.local/private-storage/m1
-export STETHOFUSE_FIREBASE_PROJECT=stethofuse-c18cd-3cca0
-/home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --no-access-log
-```
-
-The API runtime does not use Firebase Admin ADC. It verifies Firebase ID-token signatures
-locally using Google's public signing certificates, then calls Firebase Auth REST
-`accounts:lookup` with the same token to check current UID, disabled/email-verification
-state and the revocation boundary. The server API key is restricted only to Identity
-Toolkit; it is not an Admin credential. Role, status, ownership and sharing remain enforced
-by trusted local backend storage. Cloud Run was superseded before deployment due to the
-Google Cloud billing prepayment requirement; no billing was enabled. See
-`../planning/PRODUCTION_RUNTIME_PROPOSAL.md` for current acceptance status. Never substitute
-browser roles or local state for this boundary, and never copy developer ADC or credentials
-into Compose.
-
-The trusted first-admin bootstrap is a separate operator-only CLI path in
-`scripts/bootstrap_m1_admin.py` and `app/m1/bootstrap_provider.py`. It uses a separately
-authorized local ADC session only when explicitly invoked with `--apply`; those credentials
-are not API runtime credentials and must not be copied into Docker or backups. Existing
-bootstrap is complete; do not rerun it as setup.
-
-Explicit fictional preview (development server only):
+Start with [CONTRIBUTING.md](CONTRIBUTING.md) for isolated API paths, the existing Firebase web-app configuration and test commands. `.env.example` contains configuration names, not privileged credentials. A production build intentionally fails when the selected Firebase configuration is missing or invalid.
 
 ```sh
 cd frontend
-VITE_APP_MODE=demo npm run dev -- --host 127.0.0.1 --port 4181 --strictPort
-```
-
-## Checks and evidence
-
-```sh
-cd frontend
+npm ci
+# Configure frontend/.env.local using frontend/.env.example.
 npm run build
-
-# From repository root; isolated temporary databases/private files and mock identity:
-/home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke/bin/python -m pytest tests/test_access_foundation.py tests/test_m1_api.py tests/test_m1_operator_safety.py -q
+npm run preview
 ```
 
-Use the exact test filenames/commands recorded in the route audit if additional suites are
-added. **MOCK** proves application behavior against controlled identities, not successful
-Google login or Firebase project configuration. **EMULATOR**, **LOCAL REAL PROVIDER** and
-**PRODUCTION** results must be separately identified. The commands above are local tests;
-the deployment receipt identifies the actual production checks.
+The frontend uses same-origin `/api`. Vite can proxy it to an explicitly configured loopback API during development. Private recordings and model weights are **not distributed in Git**. Model execution requires the qualified frozen model and worker configuration; the UI demo does not simulate scientific results.
 
-From `frontend/`, the focused live-client tests are `node tests/m1/client.mjs` and
-`node tests/m1/browser.mjs` (running loopback Vite required). `node tests/m1/cross-layer.mjs`
-starts an ephemeral loopback FastAPI instance with temporary SQLite/private files and
-exercises actual browser upload/media/isolation using **mock identity only**. Test SDK
-substitutions live under `tests/`, not in an application login bypass. Use a new
-`EVIDENCE_ROOT` for repeat runs; evidence is never silently overwritten.
+## How it works
 
-## Separation and research provenance
+```mermaid
+flowchart LR
+    Browser[React listening workspace] -->|Firebase ID token| API[FastAPI authorization]
+    Browser --> Auth[Firebase Authentication]
+    API --> DB[(SQLite: accounts, grants, jobs)]
+    API --> Files[Private recordings and outputs]
+    Worker[Frozen CPU ML worker] --> DB
+    Worker --> Files
+    API -->|Authorized media only| Browser
+```
 
-The normal workflow requests **one ensemble separation**, not a choice of individual
-algorithm. Ensemble Learning remains in scope; Federated Learning is excluded.
-The M1 API must report unavailable execution honestly while the verified ensemble executor
-is not connected—it must not manufacture jobs, outputs or superiority scores.
+The API checks the signed identity and its current provider state, then applies account status, role, ownership and resource-specific grants. Public assets can be cached; private API responses, identity state and protected media stay outside the public cache. See [ARCHITECTURE.md](ARCHITECTURE.md) for the complete boundaries.
 
-| Component | Preserved implementation and evidence boundary |
-| --- | --- |
-| Fixed-filter baseline | Frequency-domain baseline for controlled benchmarking |
-| NMF baseline | NumPy multiplicative-update spectrogram decomposition; not a complete published NMF/NMCF reproduction |
-| VMD baseline | `vmdpy` mode decomposition/grouping; not the combined DAE-NMF-VMD method |
-| NeoSSNet | Existing PyTorch adapter and source reference; checkpoint identity, license and exact paper correspondence require verification |
-| Ensemble | Intended expert/fusion direction; no superiority claim without appropriate experiments |
+### The listening owl
 
-Existing training, dataset preparation and evaluation scripts remain in `scripts/` and
-`evaluation/`. They are **not** run as part of M1 setup. See the preserved
-[legacy baseline instructions](docs/LEGACY_BASELINE_README.md) for historical commands, not
-for current public API/security instructions. Its old performance/availability statements
-are historical, not newly verified results. The report's candidate attribution register is
-`../documentation/fyp2/provenance/METHOD_ATTRIBUTION.md`.
-
-Reference-based metrics require valid paired references, documented splits/alignment and
-real executions. Synthetic demo waveforms are never evaluation results. Do not collect
-participant/patient recordings as development fixtures.
+The approved owl uses a registered, two-axis native renderer, rather than a repeating flight clip. Two integrity-checked packages prepare a useful initial motion field before extending to all 18 source views. The original artwork and geometry are preserved byte-for-byte. Touch, data-saving and reduced-motion users receive the approved still pose. A still image is never reported as a successful animated first frame.
 
 ## Repository map
 
 ```text
-frontend/             existing responsive application, approved assets, auth adapters/tests
-app/access_foundation/ shared identity/role/last-admin primitives
-app/m1/               protected API, persistent authorization and private-media integration
-app/ml/               preserved individual-method adapters
-app/services/         preserved preprocessing, separation and evaluation services
-database/             legacy schema/seed recipes (not runtime data)
-scripts/              trusted local tools and preserved experiment commands
-tests/                foundation, API and legacy tests
-docs/                 contracts, route inventory, migration and evidence boundaries
+app/                  FastAPI, identity, authorization and application persistence
+frontend/             React application, native owl renderer and browser checks
+services/             Cloudflare support mail and narrowly scoped public-cache policy
+deploy/               Containers, dependency locks and operational runbooks
+tests/                Python API, authorization, processing and research-contract tests
+scripts/              Research, evaluation and operational utilities
+evaluation/           Evaluation code and preserved experiment definitions
+research/             Research notes and reproducibility context
+assets/readme/        Current branding and actual application previews
+docs/                 API contracts, design decisions and dated evidence
 ```
 
-Large historical render evidence and inactive frame libraries remain on disk, excluded from
-new Git commits; approved runtime owl assets and source scripts are retained. No frame library
-was regenerated during M1. Environment files, credentials, databases, recordings, model weights,
-caches and build output are ignored. Never serve the parent workspace.
+The academic report is maintained separately. Historical milestone documents describe their dated state; they are not the current product specification.
 
-## Production-like local runtime
+## Quality and operations
 
-An isolated Docker Compose package now builds the current M1 frontend/API for local
-production-like testing. It serves the SPA and `/api` through the same Caddy origin, keeps
-the API unpublished to the host, and stores SQLite/private audio in external bind mounts.
-It has no connection to Axora's network and does not include a separation worker or GPU
-service. Follow [the deployment package runbook](deploy/README.md) for configuration,
-build/run, health/auth smoke checks, backup and restore guidance.
+CI checks the frontend build, native asset integrity, focused browser journeys and isolated Python authorization tests. Browser fixtures, real-provider tests and physical-device checks are different evidence categories; one does not stand in for another.
 
-Local validation on 27 September 2026 passed: both images built; `/` and a nested SPA route
-returned 200; `/api/health` reported storage/provider configured and ensemble unavailable;
-tokenless protected auth/admin/media requests returned 401; an API restart preserved
-synthetic-only database/private-file state. This is local package evidence, not a production
-test, a backup-recovery drill, or evidence of connected ensemble processing.
+Production releases use the owner's guarded tooling: **build → qualify → preflight → deploy → evidence**. Exact-image checks, an exclusive lock, data-preservation checks and a verified previous-image rollback remain mandatory. This repository does not automatically deploy on a push, change other applications or run a shared backup.
 
-## Production deployment
+- [Current completion and verification record](docs/COMPLETION_2026-11-05.md)
+- [Architecture and trust boundaries](ARCHITECTURE.md)
+- [Contributor setup and checks](CONTRIBUTING.md)
+- [Changes](CHANGELOG.md)
+- [Security reporting](SECURITY.md)
+- [ML worker runbook](deploy/ML_WORKER_RUNBOOK.md)
+- [Deployment configuration](deploy/README.md)
 
-**https://stethofuse.ashraf-alsaloul.com** runs on the owner's Linux server, not Firebase
-Hosting. Its dedicated `stethofuse-production` tunnel reaches isolated Caddy at
-`127.0.0.1:8088`; FastAPI port 8000 is internal. SQLite/private media persist under
-`/srv/stethofuse`; credentials remain outside Git. Axora's routes/services were unchanged.
+## Project and attribution
 
-On 27 September 2026, HTTPS/SPA/API health, real Google Admin 200/Staff 403, private-media
-isolation and restart persistence passed. The first encrypted B2 application snapshot
-completed; daily backups are active with pruning disabled. The prepared consistent backup
-briefly stops StethoFuse each night. Earlier synthetic restore/password-escrow verification
-is separate evidence, not a claim that every production snapshot has been restored.
+**Machine Learning-Based System for Cardiopulmonary Sound Separation** — an academic research application by **Ashraf Ali Hussain Al-Saloul / أشرف علي حسين الصلول**.
 
-See [exact services, evidence, limitations and rollback](deploy/PRODUCTION_2026-09-27.md).
-Email/password/recovery and real Analyst acceptance remain pending; ensemble processing,
-derived results and future GPU work are not deployed. Do not collect patient data.
+No project-wide open-source license has been declared. Public visibility does not grant a license to redistribute the code, artwork, datasets or model weights. Third-party software, fonts and datasets retain their own terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+<div align="center"><sub>© 2026 Designed and developed by Ashraf Ali Hussain Al-Saloul</sub></div>

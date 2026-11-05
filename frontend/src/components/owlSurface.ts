@@ -1,12 +1,12 @@
 /** Local multi-view image surface. A new pose is drawn on every changing RAF.
  * Images and displacement meshes are decoded once, never during pointer input.
  */
-import {owlAssetTransport} from './owlAssetTransport';
+import {owlAssetTransport,type OwlStage} from './owlAssetTransport';
 type View={id:number;name:string;yaw:number;pitch:number;texture:string;bytes:number};
 type Edge={from:number;to:number;file:string;bytes:number;decodedBytes:number};
 type Binary={file:string;bytes:number;decodedBytes:number};
 type Mesh={id:number;vertexCount:number;indexCount:number;positions:Binary;indices:Binary};
-type Manifest={version:number;width:number;height:number;views:View[];edges:Edge[];triangles:number[][];meshes:Mesh[];fixedBodyBoundary?:number[][];bodyTexture?:string;fixedBodyBlendWidth?:number};
+type Manifest={version:number;width:number;height:number;views:View[];activeViewIds?:number[];edges:Edge[];triangles:number[][];meshes:Mesh[];fixedBodyBoundary?:number[][];bodyTexture?:string;fixedBodyBlendWidth?:number};
 export type Surface={draw:(yaw:number,pitch:number)=>void;resize:()=>void;dispose:()=>void;info:Record<string,unknown>};
 const vertex=`#version 300 es
 precision highp float;
@@ -35,18 +35,19 @@ function program(gl:WebGL2RenderingContext,vs:string,fs:string){
  const p=gl.createProgram()!;shaders.forEach(s=>gl.attachShader(p,s));gl.linkProgram(p);shaders.forEach(s=>gl.deleteShader(s));if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p)||'Owl shader link failed');return p;
 }
 
-export async function createOwlSurface(canvas:HTMLCanvasElement,signal:AbortSignal):Promise<Surface>{
+export async function createOwlSurface(canvas:HTMLCanvasElement,signal:AbortSignal,stage:OwlStage='complete'):Promise<Surface>{
  // The user-approved connected-neck field is the normal experience. Older fields
  // remain available only through explicit development comparison flags.
  const params=new URLSearchParams(location.search);
  const base=import.meta.env.DEV&&params.has('owlLegacy')?'/assets/owl/smooth-field/':import.meta.env.DEV&&params.has('owlCandidate')?'/assets/owl/diagonal-candidate/':'/assets/owl/neck-candidate/';
  const forceCanvas=import.meta.env.DEV&&new URLSearchParams(location.search).has('owlCanvas');
  const gl=forceCanvas?null:canvas.getContext('webgl2',{alpha:true,premultipliedAlpha:true,antialias:false,depth:false,stencil:false,preserveDrawingBuffer:false});
- if(!gl){const {createOwlCanvasSurface}=await import('./owlCanvasSurface');return createOwlCanvasSurface(canvas,signal,base);}
+ if(!gl){const {createOwlCanvasSurface}=await import('./owlCanvasSurface');return createOwlCanvasSurface(canvas,signal,base,stage);}
  const internalAbort=new AbortController();const loadSignal=AbortSignal.any([signal,internalAbort.signal]);
- const fetchChecked=await owlAssetTransport(base,loadSignal);
+ const fetchChecked=await owlAssetTransport(base,loadSignal,stage);
  const manifest:Manifest=await (await fetchChecked(base+'manifest.json')).json();
  if(manifest.version!==5||!Array.isArray(manifest.meshes)||manifest.width!==1163||!Number.isInteger(manifest.height)||manifest.height<600||manifest.height>1000)throw new Error('Unsupported owl surface; keeping the approved poster');
+ const activeViews=manifest.views.filter(v=>!manifest.activeViewIds||manifest.activeViewIds.includes(v.id));
  const textures:WebGLTexture[]=[],buffers:WebGLBuffer[]=[],fbos:WebGLFramebuffer[]=[],programs:WebGLProgram[]=[];
  const buffer=(data:BufferSource,target:number=gl.ARRAY_BUFFER)=>{const b=gl.createBuffer()!;buffers.push(b);gl.bindBuffer(target,b);gl.bufferData(target,data,gl.STATIC_DRAW);return b;};
  const texture=()=>{const t=gl.createTexture()!;textures.push(t);gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t;};
@@ -57,7 +58,7 @@ export async function createOwlSurface(canvas:HTMLCanvasElement,signal:AbortSign
   // Small fixed set of source views, not thousands of independently loaded frames.
   let body:WebGLTexture;
   let decoded=0;
-  const jobs=[async()=>{body=await loadTexture(manifest.bodyTexture||'/assets/owl/body.webp');},...manifest.views.map(v=>async()=>{loadedViews[v.id]=await loadTexture(base+v.texture);window.__sfOwlDecoding?.(++decoded,manifest.views.length);})];
+  const jobs=[async()=>{body=await loadTexture(manifest.bodyTexture||'/assets/owl/body.webp');},...activeViews.map(v=>async()=>{loadedViews[v.id]=await loadTexture(base+v.texture);window.__sfOwlDecoding?.(++decoded,activeViews.length);})];
   const flows=new Map<string,WebGLBuffer>();
   const loadBinary=async(e:Binary)=>{
    const response=await fetchChecked(base+e.file);let bytes=await response.arrayBuffer();
@@ -108,6 +109,6 @@ export async function createOwlSurface(canvas:HTMLCanvasElement,signal:AbortSign
    gl.uniform3fv(weight,debugLayer===null?weights:[0,1,2].map(i=>i===Number(debugLayer)?1:0));gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
   };
   const extension=gl.getExtension('WEBGL_debug_renderer_info');
-  return {draw,resize,dispose,info:{renderer:extension?gl.getParameter(extension.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),fieldVersion:manifest.version,sourceViews:manifest.views.length,surfaceHeight:manifest.height,compressedBytes:manifest.views.reduce((s,v)=>s+v.bytes,0)+manifest.edges.reduce((s,e)=>s+e.bytes,0)+(manifest.meshes||[]).reduce((s,m)=>s+m.positions.bytes+m.indices.bytes,0),sourceTextureBytes:manifest.views.length*manifest.width*manifest.height*4,flowBufferBytes:manifest.edges.reduce((s,e)=>s+(e.decodedBytes||e.bytes),0),meshBufferBytes:(manifest.meshes||[]).reduce((s,m)=>s+m.positions.decodedBytes+m.indices.decodedBytes,0),trianglesPerView:[...meshes].map(([id,m])=>({id,triangles:m.count/3}))}};
+  return {draw,resize,dispose,info:{renderer:extension?gl.getParameter(extension.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),fieldVersion:manifest.version,sourceViews:activeViews.length,surfaceHeight:manifest.height,compressedBytes:activeViews.reduce((s,v)=>s+v.bytes,0)+manifest.edges.reduce((s,e)=>s+e.bytes,0)+(manifest.meshes||[]).reduce((s,m)=>s+m.positions.bytes+m.indices.bytes,0),sourceTextureBytes:activeViews.length*manifest.width*manifest.height*4,flowBufferBytes:manifest.edges.reduce((s,e)=>s+(e.decodedBytes||e.bytes),0),meshBufferBytes:(manifest.meshes||[]).reduce((s,m)=>s+m.positions.decodedBytes+m.indices.decodedBytes,0),trianglesPerView:[...meshes].map(([id,m])=>({id,triangles:m.count/3}))}};
  }catch(error){internalAbort.abort();dispose();throw error;}
 }

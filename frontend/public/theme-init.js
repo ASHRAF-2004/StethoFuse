@@ -4,7 +4,7 @@
   try { saved = localStorage.getItem('sf-public-theme') || 'system'; } catch (_) {}
   var night = saved === 'midnight' || (saved !== 'frost' && matchMedia('(prefers-color-scheme: dark)').matches);
   var root = document.documentElement;
-  var color = night ? '#171c1b' : '#ffffff';
+  var color = night ? '#181a1c' : '#ffffff';
   root.dataset.forestTheme = night ? 'night' : 'day';
   root.dataset.studioTheme = night ? 'dark' : 'light';
   var language = 'en';
