@@ -51,13 +51,15 @@ Registration creates a healthcare-staff account. Roles come from trusted backend
 Use **Node.js 24** and npm. The development-only demo uses fictional, disposable browser data and does not connect to production accounts, recordings or inference.
 
 ```sh
-git clone https://github.com/ASHRAF-2004/StethoFuse.git
+git clone --branch feature/forest-world-prototype https://github.com/ASHRAF-2004/StethoFuse.git
 cd StethoFuse/frontend
 npm ci
 npm run dev:demo
 ```
 
 Open **http://127.0.0.1:4182**. Production builds cannot enable demo identity.
+
+The current product branch is linked above and published in [PR #12](https://github.com/ASHRAF-2004/StethoFuse/pull/12). The default branch is preserved until its review is merged.
 
 ### Run the connected application
 

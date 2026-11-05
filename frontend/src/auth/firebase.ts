@@ -62,12 +62,14 @@ export const liveAuth = {
   },
   async checkReset(code: string) { await verifyPasswordResetCode(firebaseAuth(), code); },
   async reset(code: string, password: string) { await confirmPasswordReset(firebaseAuth(), code, password); },
-  async verifyEmail(code: string) {
+  async confirmEmailAction(code: string, kind: 'verifyEmail'|'recoverEmail'|'verifyAndChangeEmail') {
     const info = await checkActionCode(firebaseAuth(), code);
-    if (info.operation !== 'VERIFY_EMAIL') throw new Error('This is not an email verification link.');
+    const expected = {verifyEmail:'VERIFY_EMAIL',recoverEmail:'RECOVER_EMAIL',verifyAndChangeEmail:'VERIFY_AND_CHANGE_EMAIL'}[kind];
+    if (info.operation !== expected) throw Object.assign(new Error('Unexpected account action.'),{code:'auth/invalid-action-code'});
     await applyActionCode(firebaseAuth(), code);
     if (await this.current()) await this.reload();
   },
+  async verifyEmail(code: string) { await this.confirmEmailAction(code,'verifyEmail'); },
 };
 
 export function authErrorMessage(error: unknown): string {

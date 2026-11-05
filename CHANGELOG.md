@@ -8,6 +8,7 @@ Changes use dates and immutable source/release identities, not invented semantic
 - Progressive native owl preparation: a nine-view initial field followed by all 18 views, preserving every original image and geometry resource.
 - Actual initial/full GPU and software frame comparisons; background-detail failure coverage.
 - Current README, architecture, contributor setup, security reporting, real previews and focused CI.
+- Themed Firebase account actions with operation-bound email verification, email recovery and email-change confirmation; one password-recovery flow.
 
 Deployment identity and validation results: [COMPLETION_2026-11-05.md](docs/COMPLETION_2026-11-05.md).
 

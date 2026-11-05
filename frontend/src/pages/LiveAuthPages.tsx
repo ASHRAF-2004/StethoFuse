@@ -54,7 +54,9 @@ function Forgot(){
  async function submit(e:FormEvent){e.preventDefault();setError('');if(!validEmail(email.trim())){setError(tx("Enter a valid email address."));return;}setBusy(true);try{await authAdapter.sendPasswordReset(email.trim());setMessage(tx("If an account uses this address, you’ll receive a reset link. Check your inbox and spam folder."));}catch(failure){setError(authErrorMessage(failure));}finally{setBusy(false);}}
  return <AuthLayout><AuthTitle title={lt(message?tx("Check your inbox."):tx("A fresh start."))} description={tx("Enter your email and we’ll help you get back to your workspace.")}/><ConfigurationNotice/><AccountDeletionNotice/><form noValidate onSubmit={submit}><Field label={tx("Email address")}><input type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} required/></Field><Feedback error={error} message={message}/><Button type="submit" disabled={busy||!!message||!!firebaseConfigurationError}>{lt(busy?tx("Requesting…"):tx("Request reset link"))}</Button></form><p className="auth-meta"><Link to="/login">{tx("Back to sign in")}</Link></p></AuthLayout>;
 }
-function EmailAction({mode}:{mode:'resetPassword'|'verifyEmail'|null}){
+type EmailActionMode='resetPassword'|'verifyEmail'|'recoverEmail'|'verifyAndChangeEmail';
+const emailActionModes=new Set<EmailActionMode>(['resetPassword','verifyEmail','recoverEmail','verifyAndChangeEmail']);
+function EmailAction({mode}:{mode:EmailActionMode|null}){
  const [params,setParams]=useSearchParams();
  // Read once into component memory, then replace the sensitive URL. Never log,
  // forward, render or persist action codes. Reload requires reopening the email.
@@ -63,13 +65,13 @@ function EmailAction({mode}:{mode:'resetPassword'|'verifyEmail'|null}){
  const [error,setError]=useState(''),[password,setPassword]=useState(''),[confirmation,setConfirmation]=useState(''),[busy,setBusy]=useState(false);
  useEffect(()=>{setParams({}, {replace:true});let cancelled=false;
   if(!code||!mode||firebaseConfigurationError){setStage('invalid');return;}
-  const operation=mode==='resetPassword'?liveAuth.checkReset(code):liveAuth.verifyEmail(code);
+  const operation=mode==='resetPassword'?liveAuth.checkReset(code):liveAuth.confirmEmailAction(code,mode);
   void operation.then(()=>{if(!cancelled)setStage(mode==='resetPassword'?"ready":"success");}).catch(failure=>{if(!cancelled){setStage('invalid');setError(authErrorMessage(failure));}});
   return()=>{cancelled=true;};
  // Code consumption must not repeat when removing the query changes router state.
  },[code,mode]);
  async function reset(e:FormEvent){e.preventDefault();setError('');if(!strongPassword(password)||password!==confirmation){setError(tx("Use at least 12 characters with a letter and a number, and matching passwords."));return;}setBusy(true);try{await liveAuth.reset(code,password);setStage('success');}catch(failure){setError(authErrorMessage(failure));const invalid=typeof failure==='object'&&failure!==null&&'code' in failure&&['auth/invalid-action-code','auth/expired-action-code'].includes(String(failure.code));setStage(invalid?'invalid':'ready');}finally{setPassword('');setConfirmation('');setBusy(false);}}
- return <AuthLayout><AuthTitle title={lt(stage==='success'?(mode==='verifyEmail'?tx("Your email is verified."):tx("Your password has been reset.")):stage==='invalid'?tx("This link cannot be used."):mode==='resetPassword'?tx("Choose a new password."):tx("Checking your verification link…"))} description={stage==='success'?tx("You’re all set. Sign in to continue."):tx("This link keeps your account secure. It can only be used once.")}/><ConfigurationNotice/><AccountDeletionNotice/><Feedback error={error}/>{stage==='checking'?<p role="status">{tx("Checking the account link…")}</p>:stage==='ready'?<form onSubmit={reset}><PasswordInput id="new-password" label={tx("New password")} value={password} onChange={setPassword}/><PasswordInput id="confirm-password" label={tx("Confirm new password")} value={confirmation} onChange={setConfirmation}/><Button type="submit" disabled={busy}>{lt(busy?tx("Updating…"):tx("Reset password"))}</Button></form>:stage==='invalid'?<><Notice tone="warning">{tx("The link is missing, expired, already used or invalid. Request a fresh link; no success is assumed.")}</Notice><Button to={mode==='verifyEmail'?'/verify-email':'/forgot-password'}>{tx("Request a new link")}</Button></>:null}<p className="auth-meta"><Link to="/login">{tx("Return to sign in")}</Link></p></AuthLayout>;
+ return <AuthLayout><AuthTitle title={lt(stage==='success'?(mode==='verifyEmail'?tx("Your email is verified."):mode==='recoverEmail'?tx("Your email address has been restored."):mode==='verifyAndChangeEmail'?tx("Your email address is updated."):tx("Your password has been reset.")):stage==='invalid'?tx("This link cannot be used."):mode==='resetPassword'?tx("Choose a new password."):tx("Checking the account link…"))} description={stage==='success'?tx("You’re all set. Sign in to continue."):tx("This link keeps your account secure. It can only be used once.")}/><ConfigurationNotice/><AccountDeletionNotice/><Feedback error={error}/>{stage==='checking'?<p role="status">{tx("Checking the account link…")}</p>:stage==='ready'?<form onSubmit={reset}><PasswordInput id="new-password" label={tx("New password")} value={password} onChange={setPassword}/><PasswordInput id="confirm-password" label={tx("Confirm new password")} value={confirmation} onChange={setConfirmation}/><Button type="submit" disabled={busy}>{lt(busy?tx("Updating…"):tx("Reset password"))}</Button></form>:stage==='invalid'?<><Notice tone="warning">{tx("The link is missing, expired, already used or invalid. Request a fresh link; no success is assumed.")}</Notice><Button to={mode==='verifyEmail'?'/verify-email':'/forgot-password'}>{tx("Request a new link")}</Button></>:null}<p className="auth-meta"><Link to="/login">{tx("Return to sign in")}</Link></p></AuthLayout>;
 }
 function Verification(){
  const {status,refreshIdentity,logout}=useLive();const [error,setError]=useState(''),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[remaining,setRemaining]=useState(0);
@@ -91,7 +93,7 @@ export default function LiveAuthPages({path}:{path:string}){
  if(path==='/register')return <SignIn register/>;
  if(path==='/forgot-password')return <Forgot/>;
  if(path==='/reset-password')return <EmailAction mode="resetPassword"/>;
- if(path==='/auth/action')return <EmailAction mode={actionMode==='resetPassword'||actionMode==='verifyEmail'?actionMode:null}/>;
+ if(path==='/auth/action')return <EmailAction mode={emailActionModes.has(actionMode as EmailActionMode)?actionMode as EmailActionMode:null}/>;
  if(path==='/verify-email')return hasActionCode?<EmailAction mode="verifyEmail"/>:<Verification/>;
  if(path==='/account-disabled')return <AccountState/>;
  if(path==='/session-expired')return <AccountState expired/>;

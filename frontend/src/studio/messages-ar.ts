@@ -1,6 +1,8 @@
 import ui from './messages-ui-ar';
 /** UI translations. User-authored names, notes, handles and IDs are never translated. */
 const messages:Record<string,string>={
+  "Your email address has been restored.": "تمت استعادة عنوان بريدك الإلكتروني.",
+  "Your email address is updated.": "تم تحديث عنوان بريدك الإلكتروني.",
   "Updated 5 November 2026": "آخر تحديث: 5 نوفمبر 2026",
   "Research use only": "للاستخدام البحثي فقط",
   "StethoFuse is operated by Ashraf Ali Hussain Al-Saloul for research and education. Use non-identifying recordings you have permission to use. Do not submit patient identifiers, emergency requests or clinical records. Contact the owner through Support for questions about this service or your data.": "يدير أشرف علي حسين الصلول منصة StethoFuse للبحث والتعليم. استخدم تسجيلات غير معرّفة بالهوية ولديك إذن باستخدامها. لا ترسل بيانات تعريف المرضى أو طلبات الطوارئ أو السجلات السريرية. تواصل مع المالك عبر صفحة الدعم للاستفسار عن الخدمة أو بياناتك.",
