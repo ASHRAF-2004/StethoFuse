@@ -11,12 +11,12 @@ test('the only permitted transport is the explicitly confirmed free provider',()
 });
 test('uses only the fixed HTTPS email endpoint, scoped secret and minimal payload',async()=>{
  const result=await deliverEmail(message,reference,env,async(url,request)=>{
-  assert.equal(url,'https://api.resend.com/emails');assert.equal(request.method,'POST');assert.equal(request.redirect,'error');assert.equal(request.headers.Authorization,'Bearer '+env.RESEND_API_KEY);assert.equal(request.headers['Idempotency-Key'],'stethofuse-account/'+reference);
+  assert.equal(url,'https://api.resend.com/emails');assert.equal(request.method,'POST');assert.equal(request.redirect,'manual');assert.equal(request.headers.Authorization,'Bearer '+env.RESEND_API_KEY);assert.equal(request.headers['Idempotency-Key'],'stethofuse-account/'+reference);
   const body=JSON.parse(request.body);assert.deepEqual(Object.keys(body).sort(),['from','html','subject','text','to']);assert.deepEqual(body.to,['fixture@example.invalid']);assert.equal(body.from,'StethoFuse <stethofuse@notify.stethofuse.ashraf-alsaloul.com>');assert(body.html.includes('StethoFuse'));assert(body.text.includes('Reset password'));assert(!request.body.includes(env.RESEND_API_KEY));
   return Response.json({id:reference});
  });assert.deepEqual(result,{messageId:reference});
 });
-for(const [status,code]of [[429,'FREE_MAIL_RATE_OR_QUOTA_LIMIT'],[401,'FREE_MAIL_NOT_AUTHORIZED'],[403,'FREE_MAIL_NOT_AUTHORIZED'],[500,'DELIVERY_UNCONFIRMED'],[409,'DELIVERY_UNCONFIRMED']])test('HTTP '+status+' stops without retry, upgrade, paid fallback or leaked provider body',async()=>{
+for(const [status,code]of [[301,'DELIVERY_UNCONFIRMED'],[302,'DELIVERY_UNCONFIRMED'],[307,'DELIVERY_UNCONFIRMED'],[308,'DELIVERY_UNCONFIRMED'],[429,'FREE_MAIL_RATE_OR_QUOTA_LIMIT'],[401,'FREE_MAIL_NOT_AUTHORIZED'],[403,'FREE_MAIL_NOT_AUTHORIZED'],[500,'DELIVERY_UNCONFIRMED'],[409,'DELIVERY_UNCONFIRMED']])test('HTTP '+status+' stops without retry, upgrade, paid fallback or leaked provider body',async()=>{
  let calls=0;await assert.rejects(deliverEmail(message,reference,env,async()=>{calls++;return Response.json({message:'private provider details and action codes'},{status});}),e=>e.code===code&&!e.message.includes('private'));assert.equal(calls,1);
 });
 test('network uncertainty never triggers another provider or a false accepted ID',async()=>{let calls=0;await assert.rejects(deliverEmail(message,reference,env,async()=>{calls++;throw Error('private DNS details');}),{code:'DELIVERY_UNCONFIRMED'});assert.equal(calls,1);});

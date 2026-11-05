@@ -50,7 +50,9 @@ export function appActionLink(link,kind,locale,apiKey){
 export function createWorker({fetch:network=globalThis.fetch,now=Date.now,sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms)),log=console}={}){
  let cachedToken,tokenPending;
  async function googleJSON(url,options){
-  let response;try{response=await network(url,{...options,redirect:'error',signal:AbortSignal.timeout(8000)});}catch{fail('IDENTITY_UNAVAILABLE');}
+  // Workers supports manual/follow only. Manual keeps credentials on fixed URLs;
+  // redirects remain non-success responses and are never followed.
+  let response;try{response=await network(url,{...options,redirect:'manual',signal:AbortSignal.timeout(8000)});}catch{fail('IDENTITY_UNAVAILABLE');}
   let value;try{value=await response.json();}catch{fail('IDENTITY_UNAVAILABLE');}
   if(!response.ok){const code=value.error?.message?.split(' : ')[0];if(code==='EMAIL_NOT_FOUND')fail('ACCOUNT_ABSENT');if(['INVALID_ID_TOKEN','TOKEN_EXPIRED','USER_DISABLED','USER_NOT_FOUND','INVALID_REFRESH_TOKEN'].includes(code))fail('INVALID_IDENTITY');fail('IDENTITY_UNAVAILABLE');}
   return value;

@@ -18,8 +18,9 @@ function fixture(options={}){
  };
  const network=async(url,init)=>{
   calls.push({url,init});
+  assert.equal(init.redirect,'manual');
   if(url==='https://api.resend.com/emails'){
-   assert.equal(init.headers.Authorization,'Bearer '+env.RESEND_API_KEY);assert.equal(init.redirect,'error');assert(init.headers['Idempotency-Key'].startsWith('stethofuse-account/'));
+   assert.equal(init.headers.Authorization,'Bearer '+env.RESEND_API_KEY);assert(init.headers['Idempotency-Key'].startsWith('stethofuse-account/'));
    if(options.mailFailure)throw Error('private downstream message');messages.push(JSON.parse(init.body));return response(options.noAcceptance?{}:{id:'00000000-0000-4000-8000-000000000001'});
   }
   if(url==='https://oauth2.googleapis.com/token'){
@@ -31,6 +32,7 @@ function fixture(options={}){
   }
   if(url.includes('accounts:lookup?')){
    assert.equal(new URL(url).searchParams.get('key'),API_KEY);assert.equal(JSON.parse(init.body).idToken,'fixture.signed.identity');
+   if(options.redirectLookup)return new Response(null,{status:302,headers:{Location:'https://untrusted.example/collect'}});
    if(options.invalidUser)return response({error:{message:'INVALID_ID_TOKEN'}},400);
    return response({users:[{localId:'fixture-only-user',email:'verified-token-recipient@example.invalid',emailVerified:!!options.verified,disabled:!!options.disabled}]});
   }
@@ -78,6 +80,8 @@ for(const options of [{invalidUser:true},{disabled:true}])test('rejects invalid/
 test('missing bearer is rejected without Google access',async()=>{const f=fixture(),r=await f.worker.fetch(f.request('verify',undefined,{Authorization:''}),f.env);assert.equal(r.status,401);assert.equal(f.calls.length,0);});
 test('already-verified identity generates no mail',async()=>{const f=fixture({verified:true}),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,202);assert.equal(f.messages.length,0);assert.equal(f.calls.length,1);});
 test('verification delivery failure is honest and safe',async()=>{const f=fixture({mailFailure:true}),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,503);assert(!JSON.stringify(await r.json()).includes('private downstream'));});
+
+test('a redirected identity lookup is rejected without forwarding the token',async()=>{const f=fixture({redirectLookup:true}),r=await f.worker.fetch(f.request('verify'),f.env);assert.equal(r.status,503);assert.equal(f.calls.length,1);assert.equal(f.messages.length,0);assert(f.logs.join('').includes('IDENTITY_UNAVAILABLE'));});
 test('token reuse and concurrent minting do not repeatedly import/sign credentials',async()=>{
  const f=fixture();await Promise.all([f.worker.fetch(f.request('reset',{email:'one@example.invalid',locale:'en'}),f.env),f.worker.fetch(f.request('reset',{email:'two@example.invalid',locale:'en'}),f.env)]);assert.equal(f.calls.filter(c=>c.url==='https://oauth2.googleapis.com/token').length,1);assert.equal(f.messages.length,2);
 });
