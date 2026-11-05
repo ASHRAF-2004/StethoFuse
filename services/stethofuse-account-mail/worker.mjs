@@ -1,4 +1,5 @@
 import {accountMessage} from './mail.mjs';
+import {configuredDelivery,deliverEmail,DeliveryError} from './delivery.mjs';
 
 export const ORIGIN='https://stethofuse.ashraf-alsaloul.com';
 export const PROJECT='stethofuse-c18cd-3cca0';
@@ -19,7 +20,8 @@ export function credential(env){
 }
 function configured(env){
  credential(env);
- if(!env.ACCOUNT_MAIL?.send||!env.MAIL_IP_RATE?.limit||!env.MAIL_RECIPIENT_RATE?.limit||!env.MAIL_GLOBAL_RATE?.limit||typeof env.FIREBASE_API_KEY!=='string'||env.FIREBASE_API_KEY.length<20)fail('MAIL_NOT_CONFIGURED');
+ configuredDelivery(env);
+ if(!env.MAIL_IP_RATE?.limit||!env.MAIL_RECIPIENT_RATE?.limit||!env.MAIL_GLOBAL_RATE?.limit||typeof env.FIREBASE_API_KEY!=='string'||env.FIREBASE_API_KEY.length<20)fail('MAIL_NOT_CONFIGURED');
 }
 async function readBody(request){
  if(!/^application\/json(?:\s*;|$)/i.test(request.headers.get('content-type')||''))fail('JSON_REQUIRED');
@@ -81,11 +83,11 @@ export function createWorker({fetch:network=globalThis.fetch,now=Date.now,sleep=
  async function deliver(kind,email,locale,reference,env){
   const token=await accessToken(env),result=await googleJSON(`${GOOGLE}/v1/projects/${PROJECT}/accounts:sendOobCode`,{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({requestType:kind==='reset'?'PASSWORD_RESET':'VERIFY_EMAIL',email,returnOobLink:true,continueUrl:ORIGIN+'/login'})});
   const link=appActionLink(result.oobLink,kind,locale,env.FIREBASE_API_KEY);
-  const delivery=await env.ACCOUNT_MAIL.send(accountMessage({kind,locale,email,link,reference}));
+  const delivery=await deliverEmail(accountMessage({kind,locale,email,link,reference}),reference,env,network);
   if(!delivery||typeof delivery.messageId!=='string'||!delivery.messageId)fail('DELIVERY_UNCONFIRMED');
   log.log(JSON.stringify({event:'account_mail_accepted',kind,locale,reference,messageId:delivery.messageId}));
  }
- function failure(error,reference,kind){log.error(JSON.stringify({event:'account_mail_unavailable',reference,kind,code:error instanceof MailError?error.code:'DELIVERY_UNCONFIRMED'}));}
+ function failure(error,reference,kind){log.error(JSON.stringify({event:'account_mail_unavailable',reference,kind,code:error instanceof MailError||error instanceof DeliveryError?error.code:'DELIVERY_UNCONFIRMED'}));}
  return {async fetch(request,env){
   const url=new URL(request.url),reference=crypto.randomUUID(),started=now();
   if(url.origin!==ORIGIN)return json(404,{ok:false,code:'not_found'});

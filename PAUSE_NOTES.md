@@ -68,12 +68,16 @@ sign-in, UID preservation and used-code rejection PASS. One new provider-only QA
 identity was independently deleted; no app data touched.36 Worker+14 adapter tests,
 seven compiled native/Arabic states and the existing public/email suites PASS.
 
-Cloudflare ordinary-recipient test failed E_RECIPIENT_NOT_ALLOWED. Its temporary
-Worker/exact route were removed, original routes preserved. Sender capability/Workers
-Paid is the real activation boundary; an async question asks owner authorization for
-the new US$5/month minimum (3,000 emails included; email/Workers overages possible).
-No answer/charge/subscription/service identity/key is inferred from "resume" or merge
-authorization. No custom account email is claimed live. See docs/ACCOUNT_EMAIL_DELIVERY.md.
+The owner subsequently rejected **every payment**. The old paid-mail question is
+DECLINED, never pending. No billing, upgrades, automatic overages or payment-required
+trials. Resend Free is selected; owner signed in with Google adoashraf103@gmail.com.
+Official OAuth connection works locally; actual quota100/day,3000/month verified.
+Dedicated notify.stethofuse sender is verified; all7 prior DNS records preserved.
+Restricted sending-only key denies management; new Google role has only
+firebaseauth.users.sendEmail, other IAM preserved.56 free-service/preview/security
+tests pass. Private real inbox/action proof must precede activation; current website
+continues using the existing sender until that passes. See docs/ACCOUNT_EMAIL_DELIVERY.md
+and OwnerRelease/free-mail-20261105/WORK.md. No manual secrets or GitHub sign-in needed.
 
 ## Actual remaining boundaries
 

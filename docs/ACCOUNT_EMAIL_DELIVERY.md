@@ -6,12 +6,13 @@ working identity is unnecessary to fix restricted email branding.
 
 ## Selected design
 
-Keep the current Firebase identities and secure one-use actions. Deliver the emails
-through a dedicated, app-scoped Cloudflare Worker with the same HTML material as
-the website. This preserves account UIDs, passwords, roles, grants and private
-recording ownership. It avoids a separate SMTP password; a narrowly scoped Google
-service identity is still necessary for server-side action-link generation.
-The owner should not need to manually copy credentials between services.
+Keep the current Firebase identities and secure one-use actions. A dedicated
+Cloudflare Worker uses **Resend Free** to deliver the same HTML material as the
+website. This preserves UIDs, passwords, roles, grants and recording ownership.
+The owner explicitly declined all payments. No paid Cloudflare sending binding,
+subscription, payment-required trial, automatic upgrade or overage is permitted.
+Credentials are provisioned privately through the existing owner connections;
+the owner does not need to copy secrets into chat.
 
 ```mermaid
 sequenceDiagram
@@ -19,7 +20,7 @@ sequenceDiagram
     participant App as StethoFuse browser
     participant Mail as Dedicated account-mail Worker
     participant Auth as Firebase Authentication
-    participant Email as Cloudflare native email
+    participant Email as Resend Free
     User->>App: Request recovery or verification
     App->>Mail: Same-origin, bounded request
     Mail->>Auth: Generate restricted one-use action
@@ -45,26 +46,32 @@ API/worker pins stayed fixed; current HTML matched the package after scoped purg
 | Provider template edit | Existing project rejects body and callback edits with `EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`; no settings were changed |
 | Alternative secure links | Actual project verification/reset links generated with existing local owner access; verification, new-password login, same UID and used-code rejection passed |
 | Test cleanup | The single new provider-only identity was deleted and independently looked up as absent; application data and other users untouched |
-| Worker security | 36 isolated tests passed: signed/scoped token, exact project/links, recipient binding, no public codes, origin/body/rate limits and safe logs |
+| Worker security | 56 isolated tests passed: identity/link binding, private preview, free-only transport, quotas/errors, no paid fallback and safe logs |
 | Frontend adapter | 14 tests passed, including existing-provider fallback and no duplicate fallback after a failed native submission |
 | Compiled browser | Seven new native-mail/Arabic-link states and six existing operation-bound SDK states passed; responses intercepted |
 | Real Cloudflare capability | Ordinary recipient rejected with `E_RECIPIENT_NOT_ALLOWED`; temporary test Worker and unique route removed, original routes preserved |
-| Public delivery | Custom account-mail service is **not active**; existing Firebase emails continue working |
+| Free provider access | Owner Google OAuth connected; actual API confirms 100/day and 3,000/month limits, with zero initially used |
+| Sender | Dedicated `notify.stethofuse.ashraf-alsaloul.com` verified; all seven prior DNS records unchanged |
+| Credentials | Resend sending-only key denies management access; separate Google role has only `firebaseauth.users.sendEmail`, all other IAM policy preserved |
+| Public delivery | Private preview and real inbox/action validation precede activation; existing Firebase emails stay active during setup |
 
-The free Support sender is restricted to a preverified owner inbox. It cannot be
-reused as an arbitrary-recipient account mailer. Cloudflare's current native sending
-capability requires Workers Paid; the published minimum is US$5/month with 3,000
-emails/month included, then US$0.35/1,000 emails. Other Workers overages can apply.
-No subscription, billing, runtime mail key or new Google service account was created.
-The new recurring charge requires explicit owner authorization, requested separately
-from the already-authorized repository merge.
+The earlier paid-mail question is **declined**, not pending. The free Support sender
+continues using its preverified owner destination. Account mail instead uses the
+confirmed Resend Free account over HTTPS. Free quotas stop delivery when exhausted;
+the application never purchases capacity or retries through a paid sender. The
+runtime credential can send only from the dedicated domain and cannot administer
+the account. Owner/admin OAuth credentials remain local, outside runtime and Git.
+
+The public mail route remains absent until a secret-protected preview passes real
+inbox, one-use action and browser tests. The frontend then discovers the configured
+service without changing the identity provider or requiring another web release.
 
 ## Alternatives considered
 
 | Option | Effect on this project |
 | --- | --- |
 | Existing Firebase delivery | Works today without a new sender subscription; this project's template/body/URL controls are restricted |
-| Firebase identity + custom delivery | Fixes mail branding while preserving users and permissions; selected implementation is ready for provider activation tests |
+| Firebase identity + Resend Free delivery | Selected; preserves users and permissions, with verified free quotas and privately provisioned restricted credentials |
 | Supabase Auth | A possible identity replacement; it still needs configured production mail delivery and a planned identity migration |
 | Self-hosted authentication, such as Better Auth | Offers control but adds database, session, abuse-prevention, migration and email operations; it does not eliminate trusted server credentials |
 
@@ -82,5 +89,8 @@ Implementation, deployment boundaries and focused commands are in
 - [Cloudflare: email sending and recipient restrictions](https://developers.cloudflare.com/email-service/configuration/send-bindings/)
 - [Cloudflare: Email Service pricing](https://developers.cloudflare.com/email-service/platform/pricing/)
 - [Cloudflare: Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/)
+- [Resend: free quotas and limits](https://resend.com/docs/knowledge-base/account-quotas-and-limits)
+- [Resend: supported OAuth connection](https://resend.com/changelog/oauth-support)
+- [Resend: domain-restricted sending credentials](https://resend.com/changelog/new-api-key-permissions)
 - [Supabase: production SMTP](https://supabase.com/docs/guides/auth/auth-smtp)
 - [Better Auth: email/password authentication](https://www.better-auth.com/docs/authentication/email-password)

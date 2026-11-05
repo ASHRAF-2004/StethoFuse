@@ -83,3 +83,5 @@ jobs:
           node-version: '24'
       - run: node --test services/stethofuse-support/worker.test.mjs
       - run: node --test services/stethofuse-account-mail/worker.test.mjs
+      - run: node --test services/stethofuse-account-mail/delivery.test.mjs
+      - run: node --test services/stethofuse-account-mail/entry.test.mjs

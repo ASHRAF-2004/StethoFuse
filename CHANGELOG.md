@@ -4,6 +4,8 @@ Changes use dates and immutable source/release identities, not invented semantic
 
 ## 2026-11-05
 
+- Selected Resend Free after the owner declined all payments. Added a restricted HTTPS transport, quota/auth failure handling, idempotency and an owner-only preview gate; no paid fallback or automatic upgrade path.
+
 - Published the verified application and documentation to the default `main` branch; preserved the existing branch/history.
 - Added a restricted custom account-mail service and safe frontend capability adapter, with English/Arabic HTML and app-owned one-use links. Activation remains held by the sending-provider capability/new subscription decision; the working sender stays active.
 - Verified actual alternative link generation, verification, password reset, same UID and used-code rejection with a disposable provider identity; no application data or existing user changes.
