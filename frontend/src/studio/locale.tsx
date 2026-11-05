@@ -5,7 +5,7 @@ import {useInitialView} from './InitialView';
 export type Locale='en'|'ar';
 const KEY='sf-language';
 let serverLocale:Locale='en';
-function read():Locale{try{return localStorage.getItem(KEY)==='ar'?'ar':'en';}catch{return 'en';}}
+function read():Locale{try{const actionLanguage=location.pathname==='/auth/action'?new URLSearchParams(location.search).get('lang'):null;if(actionLanguage==='en'||actionLanguage==='ar')return actionLanguage;return localStorage.getItem(KEY)==='ar'?'ar':'en';}catch{return 'en';}}
 const LocaleContext=createContext<{locale:Locale;setLocale:(next:Locale)=>void}>({locale:'en',setLocale:()=>{}});
 export function useLocale(){return useContext(LocaleContext);}
 export function tx(text:string):string{

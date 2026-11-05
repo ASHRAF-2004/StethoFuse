@@ -5,6 +5,7 @@ import {applyActionCode, browserPopupRedirectResolver, browserSessionPersistence
   signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile,
   verifyPasswordResetCode, type Auth, type User} from 'firebase/auth';
 import {DEMO_ENABLED, firebaseConfiguration, PUBLIC_ORIGIN} from '../config/runtime';
+import {requestAccountMail} from './account-mail';
 
 let auth: Auth | undefined;
 export function firebaseAuth(): Auth {
@@ -50,10 +51,10 @@ export const liveAuth = {
   async sendVerification() {
     const user = await this.current();
     if (!user) throw new Error('Sign in before requesting verification.');
-    await sendEmailVerification(user, actionSettings());
+    if(!await requestAccountMail('verify',undefined,await user.getIdToken()))await sendEmailVerification(user, actionSettings());
   },
   async requestReset(email: string) {
-    try { await sendPasswordResetEmail(firebaseAuth(), email, actionSettings()); }
+    try { if(!await requestAccountMail('reset',email))await sendPasswordResetEmail(firebaseAuth(), email, actionSettings()); }
     catch(error) {
       // The acknowledgement must not reveal whether an email has an account.
       if(typeof error==='object'&&error!==null&&'code' in error&&error.code==='auth/user-not-found')return;
