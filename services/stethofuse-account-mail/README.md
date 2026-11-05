@@ -1,10 +1,16 @@
 # Account email delivery
 
-**Implemented and contract-tested; not enabled in production.** Existing Firebase
-emails remain active. The 5 November live capability test rejected an ordinary
-recipient with `E_RECIPIENT_NOT_ALLOWED`; sending to preverified owner destinations
-alone is insufficient for user verification and recovery. The temporary probe
-Worker/route were removed and the original route set was verified unchanged.
+**Active in production, 5 November 2026.** English verification and Arabic recovery
+emails arrived in the owner-controlled Gmail inbox with SPF/DKIM/DMARC passing.
+Their actual app-owned links completed verification and password reset in the live
+UI; new-password sign-in, unchanged UIDs and used-code rejection passed. Public
+English/Arabic browser checks then selected this service without provider mocks.
+The two disposable provider identities and temporary preview route/secret were
+removed. API/worker images, app data and other services remained unchanged.
+
+The earlier native Cloudflare test rejected an ordinary recipient with
+`E_RECIPIENT_NOT_ALLOWED`. Its temporary probe was removed. Account mail therefore
+uses the confirmed free Resend transport; Support keeps its separate working sender.
 
 This service separates **identity** from **mail delivery**. Firebase retains users,
 password verification, Google sign-in, UID and one-use action validation. A separate
@@ -77,6 +83,13 @@ valid code. Only that code is placed in `/auth/action`; untrusted redirects and
 provider URLs are discarded. The frontend uses the official SDK to consume codes.
 Nothing returns an action link through the public mail endpoint. Logs contain no
 email, ID token, credential, access token or code.
+
+Outbound requests use Workers-supported `redirect: 'manual'`, reject non-success
+responses and never forward credentials to redirect targets. Workers does not
+support `redirect: 'error'`; this mismatch was found and fixed in the private
+preview before public activation. The focused suite now contains 61 passing tests,
+including redirect rejection. Invocation-header logging is disabled; fixed event,
+reference and error-code logs remain available for operational diagnosis.
 
 ## Verification and activation
 

@@ -16,6 +16,8 @@ flowchart TB
     Edge[Cloudflare HTTPS edge]
     Auth[Firebase Authentication]
     Mail[Support Worker + restricted Email Sending]
+    AccountMail[Account-mail Worker]
+    Delivery[Resend Free]
     Web[Static web container]
     API[FastAPI application]
     DB[(Application SQLite)]
@@ -27,6 +29,9 @@ flowchart TB
     Edge -->|Public site and assets| Web
     Edge -->|Same-origin authenticated API| API
     Edge -->|Support form only| Mail
+    Edge -->|Verification and recovery requests| AccountMail
+    AccountMail -->|Restricted action-link generation| Auth
+    AccountMail -->|Branded HTML and plain text| Delivery
     API -->|Signature and live provider state| Auth
     API --> DB
     API --> Media
@@ -46,7 +51,7 @@ flowchart TB
 | `frontend/src/pages/`, `components/`, `data/` | Account flows, workspace screens, UI, adapters and session state |
 | `frontend/src/components/owl*` | Approved native GPU/software rendering and verified asset transport |
 | `services/stethofuse-support/` | Bounded support submission and escaped HTML/plain-text mail |
-| `services/stethofuse-account-mail/` | Tested, unactivated custom verification/recovery delivery; existing identity is preserved |
+| `services/stethofuse-account-mail/` | Active free verification/recovery delivery; existing identity is preserved |
 | `services/stethofuse-cache/` | Public cache eligibility and private-route bypass |
 | `deploy/` | Separate web/API/worker containers and qualified dependency contracts |
 | `tests/`, `frontend/tests/` | Isolated API tests, browser acceptance and native-renderer checks |
@@ -110,7 +115,7 @@ The same-origin support Worker validates bounded JSON, enforces origin and rate 
 
 Firebase owns verification and password-recovery actions. The app provides themed action-handler pages and one recovery flow. The current project rejects account-email body/callback customization with `EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`. A dedicated custom-delivery service and capability-based browser adapter are now implemented and tested. Real project-bound one-use link generation, verification, reset, new-password login and UID preservation were verified with a disposable provider-only identity, then independently cleaned up.
 
-Account delivery uses a separate Worker and **Resend Free**, preserving identity and the existing Support sender. The owner rejected every payment. Actual free quotas (100/day,3,000/month), dedicated sender DNS and a sending-only domain-restricted credential were verified. A distinct Google identity has only `firebaseauth.users.sendEmail`; the owner's local administrator credential never becomes a runtime secret. A protected preview must prove real delivery and one-use actions before public activation. Until then, the browser retains the existing sender. Quota failures cannot trigger purchases or a paid fallback. [Account email delivery](docs/ACCOUNT_EMAIL_DELIVERY.md) records the decision, proof scopes and current activation boundary.
+Account delivery is active through a separate Worker and **Resend Free**, preserving identity and the existing Support sender. The owner rejected every payment. Actual free quotas (100/day,3,000/month), dedicated sender DNS and a sending-only domain-restricted credential were verified. A distinct Google identity has only `firebaseauth.users.sendEmail`; the owner's local administrator credential never becomes a runtime secret. A protected preview proved actual English/Arabic inbox delivery, SPF/DKIM/DMARC, app-owned one-use links and new-password sign-in before activation. Public browser checks then verified real service selection without intercepting provider responses. Temporary identities, preview routing and its secret were removed. Quota failures cannot trigger purchases or a paid fallback. [Account email delivery](docs/ACCOUNT_EMAIL_DELIVERY.md) records the evidence and operating limits.
 
 ## Deployment, preservation and recovery
 

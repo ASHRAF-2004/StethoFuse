@@ -6,14 +6,22 @@ Deployed source: `8dd23ecaa84b3baaf29469a9f91c9b60ab3b6841`
 Web: `sha256:2733640ed17ab6cad9b727f6115a346d00c1aeb3af10776e766947d6e1c33234`
 Archive: `aa1c40a98ebd6f44abb0a344d3517a8c4d3c1e6a6a1a5e02d454ca3c13e0d1e8`
 
-Latest change: safe account-mail capability adapter and Arabic action-link locale.
-Full self-service qualify/preflight/deploy/evidence/status passed; independent
-read-only inspection confirms image/profile/data/foreign state. API/worker pins
-unchanged, DB logical772d6ed5/preserveddd800378/foreigne300585f unchanged.
-Current live recovery fallback and fresh-browser Arabic action rendering PASS;
-provider responses intercepted for these UI checks, no real emails sent. Public
-homepage HTML exactly matches the new package, scoped purge MISS→HIT, browser
-no-store. Current immutable receipts start20261105T102045Z in OwnerRelease/receipts.
+Latest change: free branded account-email delivery is ACTIVE at 12:09:58 UTC.
+Worker source db82865b9a3fe6fb782016913418fa3a9411dc76, exact bundle
+766e6acdf99fa50017c9cf93f4f3a178a10994d3a452c2bf0dfa687b1337fb78.
+The website image above is unchanged; its live capability adapter selects the
+custom sender automatically. English verification/Arabic recovery arrived in
+Gmail Inbox, SPF/DKIM/DMARC/TLS1.3 passed. Actual delivered links completed the
+live SDK flows; new-password sign-in, same UID, old-password and used-code rejection
+passed without provider mocks. Both disposable identities were independently
+deleted. Actual public English/Arabic recovery selection and origin/auth/version
+checks passed. 61 focused tests and all six code CI checks passed.
+
+Shared-lock activation/cleanup receipts confirm all VM container IDs/StartedAt,
+API/worker pins, DB772d6ed5/preserveddd800378/foreigne300585f and policy unchanged.
+Other Cloudflare Workers/routes and prior DNS records preserved. Private preview
+route/secret removed; workers.dev disabled, private/account responses no-store.
+Details: docs/ACCOUNT_EMAIL_DELIVERY.md and OwnerRelease/free-mail-20261105/WORK.md.
 
 ## Completed
 
@@ -74,23 +82,23 @@ trials. Resend Free is selected; owner signed in with Google adoashraf103@gmail.
 Official OAuth connection works locally; actual quota100/day,3000/month verified.
 Dedicated notify.stethofuse sender is verified; all7 prior DNS records preserved.
 Restricted sending-only key denies management; new Google role has only
-firebaseauth.users.sendEmail, other IAM preserved.56 free-service/preview/security
-tests pass. Private real inbox/action proof must precede activation; current website
-continues using the existing sender until that passes. See docs/ACCOUNT_EMAIL_DELIVERY.md
-and OwnerRelease/free-mail-20261105/WORK.md. No manual secrets or GitHub sign-in needed.
+firebaseauth.users.sendEmail, other IAM preserved.61 free-service/preview/security
+tests pass. Private real inbox/action proof passed before activation; public
+selection passed afterward. Resend usage after QA is2/100 daily,2/3000 monthly.
+Workers-incompatible redirect:'error' was fixed to manual with redirect rejection
+before activation. Cloudflare preserved an omitted preview secret during upload;
+it was then explicitly deleted under a fresh lock, exact code reverified. All
+attempts/receipts retained. No manual secrets or GitHub sign-in needed.
 
 ## Actual remaining boundaries
 
-Firebase rejects email-body AND callbackUri edits: HTTP400
-EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED. All provider configuration is unchanged; sender
-StethoFuse/original HTML/default Firebase action URL remain. Themed app handlers
-for reset/verify/recover/change email are shipped, strict operation binding tested,
-and real reset code was manually verified in the app. Do NOT claim delivered emails
-automatically open the app handler. Browser/native console bridge unavailable.
-The supported alternative is now implemented: dedicated server-side link generation
-and custom delivery, preserving existing Firebase users. It still needs the sending
-capability and activation proof. Never copy the local owner OAuth token into runtime
-or silently enable billing/change identity providers. Account recovery itself works.
+Firebase's body/callback template restriction remains historical provider behavior;
+it is no longer an account-mail blocker. The separate free service generates secure
+links and delivers themed HTML/plain text with actual app-owned URLs, proven in
+Gmail and the live UI. Firebase identities and one-use validation remain. Do not
+repeat rejected template writes, replace the provider or broaden the narrow role.
+Never upload owner refresh credentials or silently enable billing. Monitor the
+fixed-code logs and free quota; reset acknowledgements do not promise delivery.
 
 One marked Support form email was accepted through native Cloudflare binding and
 matching telemetry/message ID. Destination secondary inbox is not the connected

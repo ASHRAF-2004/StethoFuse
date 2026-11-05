@@ -61,9 +61,9 @@ Open **http://127.0.0.1:4182**. Production builds cannot enable demo identity.
 
 The default `main` branch contains the current application and documentation.
 
-Account email delivery is kept separate from identity. The current sender remains
-active while a tested custom HTML delivery service awaits its sending capability;
-see [the verified status and options](docs/ACCOUNT_EMAIL_DELIVERY.md).
+Verification and password-recovery emails use branded English/Arabic HTML and
+plain text through Resend Free. Firebase keeps the existing identities and secure
+one-use actions. [Delivery status and free limits](docs/ACCOUNT_EMAIL_DELIVERY.md).
 
 ### Run the connected application
 
@@ -103,7 +103,7 @@ The approved owl uses a registered, two-axis native renderer, rather than a repe
 ```text
 app/                  FastAPI, identity, authorization and application persistence
 frontend/             React application, native owl renderer and browser checks
-services/             Cloudflare support mail and narrowly scoped public-cache policy
+services/             Support/account mail and narrowly scoped public-cache policy
 deploy/               Containers, dependency locks and operational runbooks
 tests/                Python API, authorization, processing and research-contract tests
 scripts/              Research, evaluation and operational utilities
