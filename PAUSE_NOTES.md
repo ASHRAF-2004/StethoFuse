@@ -45,8 +45,24 @@ license grant or external hosting workflow. CI197 Python tests+26 subtests; publ
 checks/32 Axe; account-action6 SDK cases; support10 checks all pass. Windows pytest
 SQLite-cleanup failures are not counted as passing; Linux CI is authoritative here.
 GitHub README header/images were inspected. Branch feature/forest-world-prototype,
-PR#12 remains unmerged per owner direction. New documentation-only commits do not
-change the deployed frontend commit. Read docs/COMPLETION_2026-11-05.md for full scope.
+PR#12 was merged to main at 07:53:36 UTC on 5 November under the owner's direct
+instruction, commit5c4cb33f78c589bfb69b530ef470c61d5b8cbcfa. Verified owner-requested
+StethoFuse merges are authorized going forward without reasking. Preserve branches,
+normal owner identity and CI; no force pushes. See docs/COMPLETION_2026-11-05.md.
+
+Follow-up: fix/account-email-delivery implements the restricted separate mail Worker
+and frontend capability selection. Existing provider remains active while the Worker
+is absent (404/410). Actual project-generated verification/reset links, new-password
+sign-in, UID preservation and used-code rejection PASS. One new provider-only QA
+identity was independently deleted; no app data touched.36 Worker+14 adapter tests,
+seven compiled native/Arabic states and the existing public/email suites PASS.
+
+Cloudflare ordinary-recipient test failed E_RECIPIENT_NOT_ALLOWED. Its temporary
+Worker/exact route were removed, original routes preserved. Sender capability/Workers
+Paid is the real activation boundary; an async question asks owner authorization for
+the new US$5/month minimum (3,000 emails included; email/Workers overages possible).
+No answer/charge/subscription/service identity/key is inferred from "resume" or merge
+authorization. No custom account email is claimed live. See docs/ACCOUNT_EMAIL_DELIVERY.md.
 
 ## Actual remaining boundaries
 
@@ -56,9 +72,10 @@ StethoFuse/original HTML/default Firebase action URL remain. Themed app handlers
 for reset/verify/recover/change email are shipped, strict operation binding tested,
 and real reset code was manually verified in the app. Do NOT claim delivered emails
 automatically open the app handler. Browser/native console bridge unavailable.
-Need a supported project template-settings path or separately authorized secure
-server-side mail-link integration; never copy the local owner OAuth token into
-runtime or silently enable billing/change providers. Account recovery itself works.
+The supported alternative is now implemented: dedicated server-side link generation
+and custom delivery, preserving existing Firebase users. It still needs the sending
+capability and activation proof. Never copy the local owner OAuth token into runtime
+or silently enable billing/change identity providers. Account recovery itself works.
 
 One marked Support form email was accepted through native Cloudflare binding and
 matching telemetry/message ID. Destination secondary inbox is not the connected

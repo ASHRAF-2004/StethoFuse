@@ -33,6 +33,8 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
+      - name: Account-mail adapter security contract
+        run: node --test tests/account-mail.test.mjs
       - run: npx playwright-core install --with-deps chromium
       - run: npm test
       - run: npm run test:startup
@@ -80,3 +82,4 @@ jobs:
         with:
           node-version: '24'
       - run: node --test services/stethofuse-support/worker.test.mjs
+      - run: node --test services/stethofuse-account-mail/worker.test.mjs

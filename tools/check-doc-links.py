@@ -6,7 +6,8 @@ from urllib.parse import unquote
 root = Path(__file__).resolve().parents[1]
 documents = [root / name for name in (
     'README.md', 'ARCHITECTURE.md', 'CONTRIBUTING.md', 'CHANGELOG.md',
-    'SECURITY.md', 'THIRD_PARTY_NOTICES.md', 'docs/COMPLETION_2026-11-05.md')]
+    'SECURITY.md', 'THIRD_PARTY_NOTICES.md', 'docs/COMPLETION_2026-11-05.md',
+    'docs/ACCOUNT_EMAIL_DELIVERY.md', 'services/stethofuse-account-mail/README.md')]
 missing = []
 checked = 0
 for document in documents:

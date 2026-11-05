@@ -46,6 +46,7 @@ flowchart TB
 | `frontend/src/pages/`, `components/`, `data/` | Account flows, workspace screens, UI, adapters and session state |
 | `frontend/src/components/owl*` | Approved native GPU/software rendering and verified asset transport |
 | `services/stethofuse-support/` | Bounded support submission and escaped HTML/plain-text mail |
+| `services/stethofuse-account-mail/` | Tested, unactivated custom verification/recovery delivery; existing identity is preserved |
 | `services/stethofuse-cache/` | Public cache eligibility and private-route bypass |
 | `deploy/` | Separate web/API/worker containers and qualified dependency contracts |
 | `tests/`, `frontend/tests/` | Isolated API tests, browser acceptance and native-renderer checks |
@@ -107,7 +108,9 @@ Reduced motion, touch and data-saving conditions use the approved still pose. Fa
 
 The same-origin support Worker validates bounded JSON, enforces origin and rate limits, escapes visitor content, and sends HTML plus plain text to the configured owner destination through a restricted native Cloudflare binding. The visitor's address is reply-to; no email application is launched. A `202` means provider acceptance, not proof that a person opened the message.
 
-Firebase owns verification and password-recovery actions. The app provides themed action-handler pages and one recovery flow. Sender branding is configured; the current project rejects both account-email body and callback-URL customization with EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED. Delivered action links still open Firebase’s default handler; the shipped themed handler was separately verified with a real task-only reset code. Prepared templates are not evidence that custom bodies are active. Custom account email would require supported server-side link-generation authority and a separately secured mail integration; the owner's local admin session must never become a runtime credential.
+Firebase owns verification and password-recovery actions. The app provides themed action-handler pages and one recovery flow. The current project rejects account-email body/callback customization with `EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`. A dedicated custom-delivery service and capability-based browser adapter are now implemented and tested. Real project-bound one-use link generation, verification, reset, new-password login and UID preservation were verified with a disposable provider-only identity, then independently cleaned up.
+
+Custom account delivery is not active: Cloudflare's existing binding rejects ordinary recipients, while Support's preverified owner destination works. Activating arbitrary-recipient sending requires a separately authorized plan/capability and a dedicated Google identity with only `firebaseauth.users.sendEmail`. The owner's local administrator credential must never become a runtime secret. Until the service is installed, the browser retains existing Firebase delivery. Installed-service failures never trigger duplicate sends through an automatic provider retry. [Account email delivery](docs/ACCOUNT_EMAIL_DELIVERY.md) records the decision, proof scopes, alternatives and activation boundary.
 
 ## Deployment, preservation and recovery
 

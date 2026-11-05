@@ -61,4 +61,11 @@ This is **application data/configuration recovery**, with Linux and Windows copi
 
 Source and documentation are pushed as **ASHRAF-2004** on `feature/forest-world-prototype`, in [PR #12](https://github.com/ASHRAF-2004/StethoFuse/pull/12). Main and existing history are preserved; no automatic merge was performed. The deployed frontend source is the exact commit above. Later documentation-only checkpoints do not imply a different runtime release.
 
+**Repository follow-up, 5 November:** the owner subsequently directed merging without
+another permission gate. PR #12 merged into main at 07:53:36 UTC, merge commit
+`5c4cb33f78c589bfb69b530ef470c61d5b8cbcfa`. The default repository page now contains
+the verified source, README, previews and architecture. The preceding paragraph
+records the earlier completion checkpoint, not a current merge restriction.
+Custom-mail follow-up status and proof scopes are in [ACCOUNT_EMAIL_DELIVERY.md](ACCOUNT_EMAIL_DELIVERY.md).
+
 Actual GitHub rendering was inspected: the current logo is centered and intact, all eight stack badges and the day/night product preview load. [README](../README.md), [architecture](../ARCHITECTURE.md), [contributor setup](../CONTRIBUTING.md), [security](../SECURITY.md) and [pause notes](../PAUSE_NOTES.md) provide the current entry points.
