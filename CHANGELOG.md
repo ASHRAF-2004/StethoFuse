@@ -5,9 +5,10 @@ Changes use dates and immutable source/release identities, not invented semantic
 ## 2026-11-05
 
 - Selected Resend Free after the owner declined all payments. Added a restricted HTTPS transport, quota/auth failure handling, idempotency and an owner-only preview gate; no paid fallback or automatic upgrade path.
+- Activated the exact preview-proven free sender after real English/Arabic inbox and one-use action tests. Public browser selection, SPF/DKIM/DMARC, new-password sign-in and test cleanup passed; temporary preview access was removed.
 
 - Published the verified application and documentation to the default `main` branch; preserved the existing branch/history.
-- Added a restricted custom account-mail service and safe frontend capability adapter, with English/Arabic HTML and app-owned one-use links. Activation remains held by the sending-provider capability/new subscription decision; the working sender stays active.
+- Added a restricted custom account-mail service and safe frontend capability adapter, with English/Arabic HTML and app-owned one-use links. The verified free sender is active; the subscription question was declined.
 - Verified actual alternative link generation, verification, password reset, same UID and used-code rejection with a disposable provider identity; no application data or existing user changes.
 
 - Calmer charcoal night surfaces and subdued sage accents across public, loading, account and private workspace screens.
