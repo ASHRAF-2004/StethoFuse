@@ -1,0 +1,39 @@
+{
+  "owl": {
+    "src": "/assets/owl-poster-580.8c6b7fb9f54e.webp",
+    "srcSet": "/assets/owl-poster-580.8c6b7fb9f54e.webp 580w, /assets/owl-poster-900.e81640882c18.webp 900w, /assets/owl-poster-1163.webp 1163w",
+    "sizes": "(min-width: 1440px) 430px, (min-width: 700px) 32vw, 70vw",
+    "runtime": {
+      "version": 1,
+      "url": "/assets/owl/runtime/approved-98b0650c86d5f706.bin",
+      "bytes": 1958672,
+      "decodedBytes": 2115829,
+      "sha256": "98b0650c86d5f7063fe0ff8d1652be86aa4812d8666b6a49a09e48999152b1e7",
+      "sourceViews": 9,
+      "entries": 61,
+      "initialViews": [
+        0,
+        1,
+        2,
+        3,
+        7,
+        9,
+        14,
+        16,
+        17
+      ],
+      "initialReach": 0.32,
+      "fullSourceViews": 18,
+      "detail": {
+        "version": 1,
+        "url": "/assets/owl/runtime/approved-2a32fa933804df14.bin",
+        "bytes": 1665892,
+        "decodedBytes": 1811465,
+        "sha256": "2a32fa933804df141a48872166919e77378b3d63c04caabb3caf821bbcf24f2f",
+        "sourceViews": 9,
+        "entries": 81
+      }
+    }
+  },
+  "sampleWaveforms": "/assets/listening-waveforms-c628fd4d4559.svg"
+}

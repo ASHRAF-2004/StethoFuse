@@ -29,7 +29,8 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
   const [avatar,setAvatar]=useState<ProtectedAvatar|null>(null);
   const [accountDeletion,setAccountDeletion]=useState<{providerCleanupPending:boolean}|null>(null);
   const epoch=useRef(0),currentUid=useRef<string|null>(null),expired=useRef(false);
-  const clear=useCallback(()=>{setSession(null);setPrefs({});setAvatar(null);setToast('');},[]);
+  const clients=useRef(new Set<ApiClient>());
+  const clear=useCallback(()=>{for(const client of clients.current)client.clearCache();setSession(null);setPrefs({});setAvatar(null);setToast('');},[]);
   const logout=useCallback(async()=>{epoch.current++;currentUid.current=null;setUid(null);clear();setStatus('signed-out');expired.current=false;await liveAuth.logout();},[clear]);
   const expire=useCallback(()=>{epoch.current++;expired.current=true;currentUid.current=null;setUid(null);clear();setStatus('expired');void liveAuth.logout().catch(()=>{});},[clear]);
   const api=useMemo(()=>createApiClient(async force=>{
@@ -37,6 +38,7 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
     if (!user || user.uid!==uid || currentUid.current!==uid) throw new DOMException('Account changed.','AbortError');
     return user.getIdToken(force);
   },()=>{if(currentUid.current===uid)expire();}),[uid,expire]);
+  useEffect(()=>{clients.current.add(api);return()=>{clients.current.delete(api);api.clearCache();};},[api]);
 
   const accept=useCallback(async(value:SessionEnvelope,client:ApiClient,version:number)=>{
     const checked=validateSession(value);
@@ -71,8 +73,23 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
         if(epoch.current!==version)throw new DOMException('Account changed.','AbortError');
         return user.getIdToken(force);
       },()=>{if(epoch.current===version)expire();});
-      const value=await client.json<SessionEnvelope>('/auth/session',{method:'POST',body:'{}'});
+      clients.current.add(client);
+      try{
+      const value=validateSession(await client.json<SessionEnvelope>('/auth/session',{method:'POST',body:'{}'}));
+      // Carry the name chosen at signup into a newly provisioned personal profile.
+      // Existing application names and all server-issued roles remain authoritative.
+      const initialName=user.displayName?.trim().slice(0,200);
+      if(value.user.uid===user.uid&&!value.user.display_name&&initialName){
+        try{
+          await client.json('/auth/me',{method:'PATCH',body:JSON.stringify({display_name:initialName})});
+          value.user={...value.user,display_name:initialName};
+        }catch(failure){
+          if(failure instanceof DOMException&&failure.name==='AbortError'||failure instanceof ApiError&&[401,403].includes(failure.status))throw failure;
+          // An optional profile-name save must not replace a valid identity session.
+        }
+      }
       await accept(value,client,version);
+      }finally{clients.current.delete(client);client.clearCache();}
     }catch(failure){fail(failure,version);}
   },[accept,clear,expire,fail]);
   useEffect(()=>{
@@ -80,7 +97,7 @@ export function LiveAppProvider({children}:{children:ReactNode}) {
     let stop=()=>{};
     try {stop=liveAuth.observe(()=>{void syncIdentity();},()=>{clear();setStatus('error');setError('The identity session could not be restored. Sign in again.');});}
     catch {setStatus('error');setError('Authentication configuration could not be initialized.');}
-    return()=>{stop();epoch.current++;};
+    return()=>{stop();epoch.current++;for(const client of clients.current)client.clearCache();clients.current.clear();};
   },[syncIdentity,clear]);
   const refreshAccount=useCallback(async()=>{
     if(!currentUid.current){await syncIdentity();return;}

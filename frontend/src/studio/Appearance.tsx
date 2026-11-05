@@ -1,0 +1,3 @@
+import {useEffect,type ReactNode} from 'react';
+import {usePublicTheme} from '../frost/publicTheme';
+export function Appearance({children}:{children:ReactNode}){const {resolved}=usePublicTheme();useEffect(()=>{const root=document.documentElement,night=resolved==='midnight',color=night?'#181a1c':'#ffffff';root.dataset.forestTheme=night?'night':'day';root.dataset.studioTheme=night?'dark':'light';root.style.backgroundColor=color;root.style.colorScheme=night?'dark':'light';const meta=document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');if(meta)meta.content=color;},[resolved]);return children;}

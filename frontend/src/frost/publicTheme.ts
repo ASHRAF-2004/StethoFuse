@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
 import type {Theme} from './contracts';
+import {useInitialView} from '../studio/InitialView';
 
 // Only the appearance choice is shared with public pages, never an account ID.
 export const PUBLIC_THEME_KEY='sf-public-theme';
@@ -12,8 +13,9 @@ export function rememberPublicTheme(theme:Theme) {
   window.dispatchEvent(new Event('sf-theme-change'));
 }
 export function usePublicTheme() {
-  const [theme,setChoice]=useState(readPublicTheme);
-  const [dark,setDark]=useState(()=>matchMedia('(prefers-color-scheme: dark)').matches);
+  const initial=useInitialView();
+  const [theme,setChoice]=useState<Theme>(()=>typeof window==='undefined'?initial.appearance:readPublicTheme());
+  const [dark,setDark]=useState(()=>typeof matchMedia==='function'?matchMedia('(prefers-color-scheme: dark)').matches:initial.appearance==='midnight');
   useEffect(()=>{
     const media=matchMedia('(prefers-color-scheme: dark)');
     const changed=()=>setDark(media.matches),stored=()=>setChoice(readPublicTheme());

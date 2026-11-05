@@ -1,3 +1,5 @@
+import {lt} from '../studio/locale';
+import {tx} from '../studio/locale';
 import {
   useEffect,
   useId,
@@ -32,7 +34,7 @@ export function Button({
       className={`sf-button sf-button--${variant} ${className}`}
       {...props}
     >
-      {children}
+      {lt(children)}
     </button>
   );
 }
@@ -46,8 +48,8 @@ export function GlassPanel({
   label?: string;
 }) {
   return (
-    <section className={`sf-panel ${className}`} aria-label={label}>
-      {children}
+    <section className={`sf-panel ${className}`} aria-label={lt(label)}>
+      {lt(children)}
     </section>
   );
 }
@@ -69,7 +71,7 @@ export function StatusChip({ status }: { status: RecordingStatus }) {
   return (
     <span className={`sf-status sf-status--${status}`}>
       <Icon size={15} weight={status === "ready" ? "fill" : "regular"} />
-      {labels[status]}
+      {lt(labels[status])}
     </span>
   );
 }
@@ -81,7 +83,7 @@ export function CopyId({ value }: { value: string }) {
     <button
       type="button"
       className="sf-copy"
-      aria-label={`Copy ${value}`}
+      aria-label={lt(`Copy ${value}`)}
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(value);
@@ -93,10 +95,10 @@ export function CopyId({ value }: { value: string }) {
         }
       }}
     >
-      <span>{value}</span>
+      <span dir="ltr">{value}</span>
       {copied ? <Check size={14} /> : <Copy size={14} />}
       <span className="sf-sr" role="status">
-        {copied ? "Copied" : ""}
+        {lt(copied ? tx("Copied") : "")}
       </span>
     </button>
   );
@@ -116,7 +118,7 @@ export function ProfileIdentity({
     <div className={`sf-identity ${compact ? "sf-identity--compact" : ""}`}>
       <span className="sf-avatar">
         {photo ? (
-          <img src={photo} alt="Your profile photo" />
+          <img src={photo} alt={tx("Your profile photo")} />
         ) : (
           name
             .split(" ")
@@ -127,7 +129,7 @@ export function ProfileIdentity({
       </span>
       <span>
         <strong>{name}</strong>
-        {handle && <small>@{handle}</small>}
+        {handle && <small><bdi dir="ltr">@{handle}</bdi></small>}
       </span>
     </div>
   );
@@ -144,7 +146,7 @@ export function Segments<T extends string>({
   label: string;
 }) {
   return (
-    <div className="sf-segments" role="group" aria-label={label}>
+    <div className="sf-segments" role="group" aria-label={lt(label)}>
       {items.map((item) => (
         <button
           type="button"
@@ -152,8 +154,8 @@ export function Segments<T extends string>({
           aria-pressed={value === item.id}
           onClick={() => onChange(item.id)}
         >
-          {item.label}
-          {item.count !== undefined && <span>{item.count}</span>}
+          {lt(item.label)}
+          {item.count !== undefined && <span>{lt(item.count)}</span>}
         </button>
       ))}
     </div>
@@ -192,12 +194,12 @@ export function Modal({
       }}
     >
       <header>
-        <h2 id={id}>{title}</h2>
-        <Button variant="icon" aria-label="Close dialog" onClick={onClose}>
+        <h2 id={id}>{lt(title)}</h2>
+        <Button variant="icon" aria-label={tx("Close dialog")} onClick={onClose}>
           <X size={21} />
         </Button>
       </header>
-      {children}
+      {lt(children)}
     </dialog>
   );
 }
@@ -213,10 +215,10 @@ export function SectionHeading({
   return (
     <div className="sf-section-heading">
       <div>
-        <h2>{title}</h2>
-        {description && <p>{description}</p>}
+        <h2>{lt(title)}</h2>
+        {description && <p>{lt(description)}</p>}
       </div>
-      {action}
+      {lt(action)}
     </div>
   );
 }
@@ -231,9 +233,9 @@ export function MetricCard({
 }) {
   return (
     <div className="sf-metric">
-      <dt>{label}</dt>
-      <dd>{value}</dd>
-      {note && <small>{note}</small>}
+      <dt>{lt(label)}</dt>
+      <dd>{lt(value)}</dd>
+      {note && <small>{lt(note)}</small>}
     </div>
   );
 }
@@ -250,7 +252,7 @@ export function Notice({
       role={danger ? "alert" : "status"}
     >
       <WarningCircle size={19} />
-      <span>{children}</span>
+      <span>{lt(children)}</span>
     </p>
   );
 }

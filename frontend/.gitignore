@@ -24,3 +24,7 @@ public/assets/owl/continuous-field/
 # Reproducible design discovery and review-only HTML.
 .superdesign/init/
 .superdesign/tmp/
+.taste-skill/
+.pingfusi/
+targets/
+assets/enchanted-forest/deer-alpha-check.png

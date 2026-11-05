@@ -1,3 +1,5 @@
+import {lt} from '../studio/locale';
+import {tx} from '../studio/locale';
 import { useEffect, useMemo, useRef } from "react";
 import { spectrogram, waveformPeaks, type AudioSignal } from "./signal";
 import type { SourceKind } from "./contracts";
@@ -147,21 +149,21 @@ export function SignalChart({
       <div className="sf-chart-area">
         <div className="sf-y-axis">
           <span>
-            {mode === "spectrogram"
+            {lt(mode === "spectrogram"
               ? `${Number((signal.rate / 2000).toFixed(2))}kHz`
-              : "+1"}
+              : "+1")}
           </span>
           <span>
-            {mode === "spectrogram"
+            {lt(mode === "spectrogram"
               ? `${Number((signal.rate / 4000).toFixed(2))}kHz`
-              : "0"}
+              : "0")}
           </span>
-          <span>{mode === "spectrogram" ? "0" : "−1"}</span>
+          <span>{lt(mode === "spectrogram" ? "0" : "−1")}</span>
         </div>
         <canvas
           ref={ref}
           role="img"
-          aria-label={`${source} ${mode}. ${signal.duration} seconds, ${signal.rate} Hz. ${mode === "spectrogram" ? "Frequency runs from zero to Nyquist; colours show single-sided magnitude from minus80 to minus20 dBFS." : "Amplitude uses an absolute full-scale axis."}`}
+          aria-label={lt(`${source} ${mode}. ${signal.duration} seconds, ${signal.rate} Hz. ${mode === "spectrogram" ? tx("Frequency runs from zero to Nyquist; colours show single-sided magnitude from minus80 to minus20 dBFS.") : tx("Amplitude uses an absolute full-scale axis.")}`)}
         />
         {mode === "spectrogram" && (
           <div className="sf-colour-axis">
@@ -174,14 +176,13 @@ export function SignalChart({
       <div className="sf-x-axis">
         {Array.from({ length: 6 }, (_, i) => (
           <span key={i}>
-            {((i * signal.duration) / 5).toFixed(signal.duration % 5 ? 1 : 0)}s
-          </span>
+            {lt(((i * signal.duration) / 5).toFixed(signal.duration % 5 ? 1 : 0))}{tx("s ")}</span>
         ))}
       </div>
       <figcaption>
-        {mode === "spectrogram"
-          ? "Frequency over time · Hann 256 / hop 64 · magnitude dBFS"
-          : "Sample amplitude over time · full-scale waveform"}
+        {lt(mode === "spectrogram"
+          ? tx("Frequency over time · Hann 256 / hop 64 · magnitude dBFS")
+          : tx("Sample amplitude over time · full-scale waveform"))}
       </figcaption>
     </figure>
   );

@@ -50,6 +50,51 @@
         "renderedLocal": "PASS Frost/Midnight controls, contrast, persistence and mobile; owl lifecycle tested separately",
         "independentHumanReview": "Unavailable: Pingfusi reviewer login is not configured"
       }
+    },
+    "site-entrance": {
+      "targetKind": "existing-ui",
+      "projectId": "92993d86-7e38-42a2-9f53-0e29029640d6",
+      "activeDraftId": "0f0bbaab-a1d2-42e6-a30f-b419aca031b6",
+      "designSystemPath": ".superdesign/design-system.md",
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "public/entrance.css",
+        "index.html",
+        "public/assets/studio-signal.svg"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "d08daf88a93623623dbfd8e45b909c8e67f39a0cac310863377b3fdc25c43cec",
+        "public/entrance.css": "b9632a118da84d2be15a77e32a5b21c21d992c538e35eda659ddfe94ed135aa0",
+        "index.html": "8c62aaa0e071fa490bc9dea8c10893debef64b363c47cc70334f3a64adca312c",
+        "public/assets/studio-signal.svg": "39466cd32f997dabbbe25fbebb55f041eae5de917b66cb1292727a330e2576ba"
+      },
+      "referenceIds": [
+        "public-assets-studio-signal.svg"
+      ],
+      "brandAssets": {
+        "logo": {
+          "assetKey": "public-assets-studio-signal.svg",
+          "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/92993d86-7e38-42a2-9f53-0e29029640d6/brand-assets/public-assets-studio-signal.svg/studio-signal.svg",
+          "sourcePath": "public/assets/studio-signal.svg"
+        }
+      },
+      "components": [],
+      "drafts": {
+        "0f0bbaab-a1d2-42e6-a30f-b419aca031b6": {
+          "title": "Listening entrance with real owl readiness",
+          "visualDirection": "Current neutral charcoal/white studio with muted sage accents",
+          "currentVersion": 2
+        }
+      },
+      "updatedAt": "2026-11-05T05:49:38.108Z",
+      "review": {
+        "ownerVisualApproval": "Approved by owner on 2 November 2026 for the deployed loading experience. Dark palette raised as a separate refinement.",
+        "evidence": "OwnerRelease/receipts/20261101T234454Z-owl-entrance-owner-verification.json",
+        "liveVersion": "20261101T232914Z-3373fede54d2",
+        "renderedLive": "PASS English/Arabic, day/night, touch/reduced motion, 44 loading layouts, four failure cases, software canvas, actual native first frame and pointer pixels",
+        "brave": "PASS installed Brave 156 dark with isolated profile and Arabic mirroring",
+        "paletteRefinement": "Selected by current completion task; compiled public/auth/role screenshots inspected; owner appearance review remains distinct from automated checks."
+      }
     }
   }
 }

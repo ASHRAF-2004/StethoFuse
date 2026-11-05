@@ -1,0 +1,284 @@
+{
+  "status": "PREVIEW_CANDIDATE_OWNER_APPROVAL_REQUIRED",
+  "owner_approved": false,
+  "source": "frontend\\evidence\\deer-cloud-study\\wan22-01",
+  "source_native_fps": 16,
+  "source_selection": [
+    1,
+    25
+  ],
+  "source_positions_selected": 25,
+  "evaluated_forward_poses": 49,
+  "timeline_positions": 97,
+  "presentation_fps": 24,
+  "reverse_return_disclosed": true,
+  "motion_curve": "cosine-eased neural in-betweens; zero velocity at each reversal",
+  "native_dimensions": [
+    560,
+    832
+  ],
+  "padded_dimensions": [
+    560,
+    840
+  ],
+  "padding_top_bottom": 4,
+  "image_resize_or_anatomical_mesh": false,
+  "packing": "RGB left, alpha right in the same H264 frame",
+  "loop_start_end_identical": true,
+  "mapping": [
+    {
+      "pose": 1,
+      "source_position": 1.0,
+      "fraction": 0.0
+    },
+    {
+      "pose": 2,
+      "source_position": 1.0256929211367583,
+      "fraction": 0.02569292113675825
+    },
+    {
+      "pose": 3,
+      "source_position": 1.1026616635142754,
+      "fraction": 0.10266166351427541
+    },
+    {
+      "pose": 4,
+      "source_position": 1.2305766351612348,
+      "fraction": 0.23057663516123483
+    },
+    {
+      "pose": 5,
+      "source_position": 1.4088900845311803,
+      "fraction": 0.40889008453118025
+    },
+    {
+      "pose": 6,
+      "source_position": 1.6368384460587317,
+      "fraction": 0.6368384460587317
+    },
+    {
+      "pose": 7,
+      "source_position": 1.9134456098645591,
+      "fraction": 0.9134456098645591
+    },
+    {
+      "pose": 8,
+      "source_position": 2.2375271016077396,
+      "fraction": 0.2375271016077396
+    },
+    {
+      "pose": 9,
+      "source_position": 2.6076951545867355,
+      "fraction": 0.6076951545867355
+    },
+    {
+      "pose": 10,
+      "source_position": 3.022364652369457,
+      "fraction": 0.022364652369457172
+    },
+    {
+      "pose": 11,
+      "source_position": 3.479759916505178,
+      "fraction": 0.479759916505178
+    },
+    {
+      "pose": 12,
+      "source_position": 3.9779223102522714,
+      "fraction": 0.9779223102522714
+    },
+    {
+      "pose": 13,
+      "source_position": 4.514718625761429,
+      "fraction": 0.5147186257614291
+    },
+    {
+      "pose": 14,
+      "source_position": 5.087850218799174,
+      "fraction": 0.08785021879917387
+    },
+    {
+      "pose": 15,
+      "source_position": 5.694862851895352,
+      "fraction": 0.6948628518953521
+    },
+    {
+      "pose": 16,
+      "source_position": 6.333157203764771,
+      "fraction": 0.3331572037647712
+    },
+    {
+      "pose": 17,
+      "source_position": 6.999999999999998,
+      "fraction": 0.9999999999999982
+    },
+    {
+      "pose": 18,
+      "source_position": 7.692535717371984,
+      "fraction": 0.6925357173719844
+    },
+    {
+      "pose": 19,
+      "source_position": 8.407798811618921,
+      "fraction": 0.40779881161892195
+    },
+    {
+      "pose": 20,
+      "source_position": 9.14272641636206,
+      "fraction": 0.14272641636205918
+    },
+    {
+      "pose": 21,
+      "source_position": 9.894171458769751,
+      "fraction": 0.8941714587697511
+    },
+    {
+      "pose": 22,
+      "source_position": 10.65891613580646,
+      "fraction": 0.6589161358064608
+    },
+    {
+      "pose": 23,
+      "source_position": 11.43368569335938,
+      "fraction": 0.43368569335937934
+    },
+    {
+      "pose": 24,
+      "source_position": 12.215162449238282,
+      "fraction": 0.21516244923828154
+    },
+    {
+      "pose": 25,
+      "source_position": 12.999999999999998,
+      "fraction": 0.9999999999999982
+    },
+    {
+      "pose": 26,
+      "source_position": 13.784837550761718,
+      "fraction": 0.7848375507617185
+    },
+    {
+      "pose": 27,
+      "source_position": 14.566314306640619,
+      "fraction": 0.5663143066406189
+    },
+    {
+      "pose": 28,
+      "source_position": 15.34108386419354,
+      "fraction": 0.3410838641935392
+    },
+    {
+      "pose": 29,
+      "source_position": 16.10582854123025,
+      "fraction": 0.10582854123024887
+    },
+    {
+      "pose": 30,
+      "source_position": 16.85727358363794,
+      "fraction": 0.857273583637939
+    },
+    {
+      "pose": 31,
+      "source_position": 17.592201188381075,
+      "fraction": 0.5922011883810754
+    },
+    {
+      "pose": 32,
+      "source_position": 18.30746428262801,
+      "fraction": 0.3074642826280112
+    },
+    {
+      "pose": 33,
+      "source_position": 18.999999999999996,
+      "fraction": 0.9999999999999964
+    },
+    {
+      "pose": 34,
+      "source_position": 19.666842796235226,
+      "fraction": 0.6668427962352261
+    },
+    {
+      "pose": 35,
+      "source_position": 20.30513714810465,
+      "fraction": 0.30513714810464876
+    },
+    {
+      "pose": 36,
+      "source_position": 20.912149781200824,
+      "fraction": 0.9121497812008243
+    },
+    {
+      "pose": 37,
+      "source_position": 21.485281374238568,
+      "fraction": 0.48528137423856776
+    },
+    {
+      "pose": 38,
+      "source_position": 22.02207768974773,
+      "fraction": 0.022077689747728613
+    },
+    {
+      "pose": 39,
+      "source_position": 22.52024008349482,
+      "fraction": 0.5202400834948193
+    },
+    {
+      "pose": 40,
+      "source_position": 22.97763534763054,
+      "fraction": 0.9776353476305388
+    },
+    {
+      "pose": 41,
+      "source_position": 23.392304845413264,
+      "fraction": 0.39230484541326405
+    },
+    {
+      "pose": 42,
+      "source_position": 23.76247289839226,
+      "fraction": 0.7624728983922608
+    },
+    {
+      "pose": 43,
+      "source_position": 24.08655439013544,
+      "fraction": 0.08655439013543997
+    },
+    {
+      "pose": 44,
+      "source_position": 24.363161553941268,
+      "fraction": 0.3631615539412678
+    },
+    {
+      "pose": 45,
+      "source_position": 24.59110991546882,
+      "fraction": 0.5911099154688202
+    },
+    {
+      "pose": 46,
+      "source_position": 24.769423364838765,
+      "fraction": 0.7694233648387652
+    },
+    {
+      "pose": 47,
+      "source_position": 24.897338336485724,
+      "fraction": 0.8973383364857241
+    },
+    {
+      "pose": 48,
+      "source_position": 24.97430707886324,
+      "fraction": 0.9743070788632409
+    },
+    {
+      "pose": 49,
+      "source_position": 25.0,
+      "fraction": 0.0
+    }
+  ],
+  "video_sha256": "a576f31dd3f14cbcb15ace3429786ccfb291ee5d7a79da84f72f6a957a63df18",
+  "video_bytes": 1648175,
+  "original_lower_body_and_ground_preserved": true,
+  "original_ground_registration": "approved original resized directly to final 560x840 display coordinates; no added ground padding",
+  "lower_body_blend_range": [
+    0.6,
+    0.68
+  ],
+  "genuine_motion_scope": "generated head, ears, neck and upper chest; approved source below torso"
+}

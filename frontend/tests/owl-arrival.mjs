@@ -27,7 +27,7 @@ try{
   await p.screenshot({path:path.join(out,'owl-winged-approach.png')});
   await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.arrivalStage==='landed');
   const stages=await p.evaluate(()=>window.__arrival);report.arrival=stages;
-  assert.ok(stages.some(x=>x.key.includes('midstroke-0')));assert.ok(stages.some(x=>x.key.includes('atlas-2')));assert.ok(stages.some(x=>x.key.startsWith('landing/')));assert.ok(stages.some(x=>x.key.startsWith('settling/')));
+  assert.ok(stages.some(x=>x.key.includes('flight-00')));assert.ok(stages.some(x=>x.key.includes('flight-07')));assert.ok(stages.some(x=>x.key.startsWith('landing/')));assert.ok(stages.some(x=>x.key.startsWith('settling/')));
   assert.equal(await p.locator('canvas.owl-arrival').evaluate(e=>e.width*e.height),1);
   await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.renderer==='continuous-surface');
   await p.mouse.move(300,270);await p.waitForFunction(()=>Number(document.querySelector('.owl-art').dataset.yaw)<-1);
@@ -41,13 +41,12 @@ try{
  await check('Motion preference changed during flight restores the approved static fallback',async()=>{
   const c=await context(),p=await c.newPage();await p.goto(base+'/',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.arrivalStage==='approach');await p.emulateMedia({reducedMotion:'reduce'});await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.arrivalStage==='skipped');assert.equal(await p.locator('canvas.owl-arrival').isVisible(),false);assert.equal(await p.locator('.owl-art>img').evaluate(e=>getComputedStyle(e).opacity),'1');await c.close();
  });
- await check('Reduced motion and touch do not download or animate flight assets',async()=>{
-  for(const options of [{reducedMotion:'reduce'},{viewport:{width:390,height:844},isMobile:true,hasTouch:true}]){
-   const c=await context(options),p=await c.newPage(),requests=[];p.on('request',r=>{if(r.url().includes('/arrival-v1/'))requests.push(r.url());});await p.goto(base+'/');await p.locator('.owl-art').waitFor();await p.waitForTimeout(200);assert.deepEqual(requests,[]);assert.equal(await p.locator('canvas.owl-arrival').isVisible(),false);assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await c.close();
-  }
+ await check('Reduced motion skips arrival while touch receives the complete flight',async()=>{
+  const reduced=await context({reducedMotion:'reduce'}),reducedPage=await reduced.newPage(),reducedRequests=[];reducedPage.on('request',r=>{if(r.url().includes('/arrival-v'))reducedRequests.push(r.url());});await reducedPage.goto(base+'/');await reducedPage.locator('.owl-art').waitFor();await reducedPage.waitForTimeout(200);assert.deepEqual(reducedRequests,[]);assert.equal(await reducedPage.locator('canvas.owl-arrival').isVisible(),false);await reduced.close();
+  const c=await context({viewport:{width:390,height:844},isMobile:true,hasTouch:true}),p=await c.newPage(),requests=[];p.on('request',r=>{if(r.url().includes('/arrival-v'))requests.push(r.url());});await p.goto(base+'/');await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.arrivalStage==='approach'&&Number(document.querySelector('.owl-art')?.dataset.arrivalProgress)>.25);await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.arrivalStage==='landed');assert.ok(requests.some(url=>url.endsWith('/arrival-v2/manifest.json')));assert.equal(await p.locator('canvas.owl-arrival').evaluate(e=>e.width*e.height),1);assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await c.close();
  });
  await check('Missing flight assets fail to the approved owl without blocking the page',async()=>{
-  const c=await context();await c.route('**/assets/owl/arrival-v1/**',r=>r.abort());const p=await c.newPage();await p.goto(base+'/');await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.arrivalStage==='fallback');assert.equal(await p.locator('canvas.owl-arrival').isVisible(),false);await p.getByRole('link',{name:'Get started'}).click();assert.ok(p.url().includes('/register'));await c.close();
+  const c=await context();await c.route('**/assets/owl/arrival-v2/**',r=>r.abort());const p=await c.newPage();await p.goto(base+'/');await p.waitForFunction(()=>document.querySelector('.owl-art')?.dataset.arrivalStage==='fallback');assert.equal(await p.locator('canvas.owl-arrival').isVisible(),false);await p.getByRole('link',{name:'Get started'}).click();assert.ok(p.url().includes('/register'));await c.close();
  });
  assert.deepEqual(report.errors,[]);
 }finally{report.pages=[];for(const c of browser.contexts())for(const p of c.pages())report.pages.push({url:p.url(),state:await p.locator('.owl-art').evaluate(e=>({...e.dataset,canvas:{width:e.querySelector('.owl-arrival').width,hidden:e.querySelector('.owl-arrival').hidden}})).catch(()=>null)});await fs.writeFile(path.join(out,'owl-arrival-results.json'),JSON.stringify(report,null,2));await browser.close();}

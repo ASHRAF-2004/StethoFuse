@@ -1,9 +1,10 @@
 import type {Surface} from './owlSurface';
+import {owlAssetTransport,type OwlStage} from './owlAssetTransport';
 
 type Binary={file:string;bytes:number;decodedBytes:number};
 type View={id:number;name:string;yaw:number;pitch:number;texture:string;bytes:number};
 type Edge=Binary&{from:number;to:number};
-type Manifest={version:number;width:number;height:number;views:View[];edges:Edge[];triangles:number[][];meshes:{id:number;vertexCount:number;indexCount:number;positions:Binary;indices:Binary}[];fixedBodyBoundary?:number[][];bodyTexture?:string;fixedBodyBlendWidth?:number};
+type Manifest={version:number;width:number;height:number;views:View[];activeViewIds?:number[];edges:Edge[];triangles:number[][];meshes:{id:number;vertexCount:number;indexCount:number;positions:Binary;indices:Binary}[];fixedBodyBoundary?:number[][];bodyTexture?:string;fixedBodyBlendWidth?:number};
 type Texture={pixels:Uint8ClampedArray};
 type Mesh={positions:Float32Array;indices:Uint32Array;destination:Float32Array};
 
@@ -12,7 +13,7 @@ type Mesh={positions:Float32Array;indices:Uint32Array;destination:Float32Array};
  * would leave antialiased cracks, especially across the eyes and feathers.
  * Textures, correspondences, raster buffers, and the fixed neck are cached.
  */
-export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:AbortSignal,base=import.meta.env.DEV&&new URLSearchParams(location.search).has('owlCandidate')?'/assets/owl/diagonal-candidate/':'/assets/owl/smooth-field/'):Promise<Surface>{
+export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:AbortSignal,base=import.meta.env.DEV&&new URLSearchParams(location.search).has('owlCandidate')?'/assets/owl/diagonal-candidate/':'/assets/owl/smooth-field/',stage:OwlStage='complete'):Promise<Surface>{
  const context=canvas.getContext('2d',{alpha:true});
  if(!context)throw new Error('Canvas2D unavailable');
  const internalAbort=new AbortController(),loadSignal=AbortSignal.any([signal,internalAbort.signal]);
@@ -20,11 +21,12 @@ export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:Abo
  const scratch=document.createElement('canvas'),scratchContext=scratch.getContext('2d',{alpha:true})!;
  let body:ImageBitmap|undefined,disposed=false;
  const dispose=()=>{if(disposed)return;disposed=true;internalAbort.abort();body?.close();textures.clear();meshes.clear();flows.clear();scratch.width=scratch.height=1;};
- const fetchChecked=async(url:string)=>{const r=await fetch(url,{signal:loadSignal});if(!r.ok)throw new Error(`Owl asset unavailable: ${r.status}`);return r;};
+ const fetchChecked=await owlAssetTransport(base,loadSignal,stage);
  const checkAbort=()=>{if(loadSignal.aborted)throw new DOMException('Aborted','AbortError');};
  try{
   const manifest:Manifest=await(await fetchChecked(base+'manifest.json')).json();
   if(manifest.version!==5||!Array.isArray(manifest.meshes)||manifest.width!==1163||!Number.isInteger(manifest.height)||manifest.height<600||manifest.height>1000)throw new Error('Unsupported owl surface');
+  const activeViews=manifest.views.filter(v=>!manifest.activeViewIds||manifest.activeViewIds.includes(v.id));
   const width=manifest.width,height=manifest.height,totalHeight=1353,blendWidth=manifest.fixedBodyBlendWidth??12;
   if(!Number.isFinite(blendWidth)||blendWidth<1||blendWidth>height)throw new Error('Invalid owl body blend width');
   if(manifest.bodyTexture!==undefined&&typeof manifest.bodyTexture!=='string')throw new Error('Invalid owl body texture');
@@ -36,14 +38,15 @@ export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:Abo
    if(entry.decodedBytes&&entry.decodedBytes!==bytes.byteLength)throw new Error('Invalid owl correspondence data');
    checkAbort();return bytes;
   };
-  const jobs=[async()=>{body=await loadImage(manifest.bodyTexture||'/assets/owl/body.webp');},...manifest.views.map(view=>async()=>{
+  let decoded=0;
+  const jobs=[async()=>{body=await loadImage(manifest.bodyTexture||'/assets/owl/body.webp');},...activeViews.map(view=>async()=>{
    const image=await loadImage(base+view.texture);
    const decode=document.createElement('canvas');decode.width=width;decode.height=height;
    const decodeContext=decode.getContext('2d',{willReadFrequently:true})!;let pixels:Uint8ClampedArray;
    try{decodeContext.drawImage(image,0,0);pixels=decodeContext.getImageData(0,0,width,height).data;}finally{image.close();decode.width=decode.height=1;}
    // Interpolate premultiplied colors, like the WebGL texture and framebuffer.
    for(let i=0;i<pixels.length;i+=4){const alpha=pixels[i+3]/255;pixels[i]*=alpha;pixels[i+1]*=alpha;pixels[i+2]*=alpha;}
-   textures.set(view.id,{pixels});
+   textures.set(view.id,{pixels});window.__sfOwlDecoding?.(++decoded,activeViews.length);
   }),...manifest.edges.map(edge=>async()=>{flows.set(`${edge.from}-${edge.to}`,new Float32Array(await loadBinary(edge)));}),...manifest.meshes.map(mesh=>async()=>{
    const positions=new Float32Array(await loadBinary(mesh.positions)),indices=new Uint32Array(await loadBinary(mesh.indices));
    if(positions.length!==mesh.vertexCount*2||indices.length!==mesh.indexCount)throw new Error('Invalid owl mesh');
@@ -67,7 +70,7 @@ export async function createOwlCanvasSurface(canvas:HTMLCanvasElement,signal:Abo
    // Indices become offsets into the interleaved vec2 arrays after culling.
    mesh.indices=new Uint32Array(active);
   }
-  const info:Record<string,unknown>={renderer:'Canvas2D software surface',fieldVersion:manifest.version,sourceViews:manifest.views.length,maxHeadRasterWidth:590,sourceTextureBytes:manifest.views.length*width*height*4,compressedBytes:manifest.views.reduce((s,v)=>s+v.bytes,0)+manifest.edges.reduce((s,e)=>s+e.bytes,0)+manifest.meshes.reduce((s,m)=>s+m.positions.bytes+m.indices.bytes,0),flowBufferBytes:manifest.edges.reduce((s,e)=>s+e.decodedBytes,0),meshBufferBytes:manifest.meshes.reduce((s,m)=>s+m.positions.decodedBytes+m.indices.decodedBytes,0),trianglesPerView:originalTriangles,rasterizedTrianglesPerView:[...meshes].map(([id,m])=>({id,triangles:m.indices.length/3})),quality:'Head raster capped at 590 pixels wide; body uses full canvas resolution'};
+  const info:Record<string,unknown>={renderer:'Canvas2D software surface',fieldVersion:manifest.version,sourceViews:activeViews.length,maxHeadRasterWidth:590,sourceTextureBytes:activeViews.length*width*height*4,compressedBytes:activeViews.reduce((s,v)=>s+v.bytes,0)+manifest.edges.reduce((s,e)=>s+e.bytes,0)+manifest.meshes.reduce((s,m)=>s+m.positions.bytes+m.indices.bytes,0),flowBufferBytes:manifest.edges.reduce((s,e)=>s+e.decodedBytes,0),meshBufferBytes:manifest.meshes.reduce((s,m)=>s+m.positions.decodedBytes+m.indices.decodedBytes,0),trianglesPerView:originalTriangles,rasterizedTrianglesPerView:[...meshes].map(([id,m])=>({id,triangles:m.indices.length/3})),quality:'Head raster capped at 590 pixels wide; body uses full canvas resolution'};
   let fw=0,fh=0,output:ImageData,accumulation=new Float32Array(0),fixed=new Float32Array(0),moving=new Float32Array(0);
   const boundary=manifest.fixedBodyBoundary||[[0,height],[width,height]];
   const sample=(pixels:Uint8ClampedArray,x:number,y:number,target:Float32Array,offset:number,weight:number)=>{

@@ -1,0 +1,36 @@
+{
+  "job_id": "797daa7b-3f49-4f00-bac0-24062ec99758",
+  "source": "one explicitly authorized free hf_mult_motion_control run",
+  "video_sha256": "3f5e3ba36c5316ac930ff827e86689bbbd3685c55ce3579efd86843d9f088021",
+  "video_bytes": 4710095,
+  "native_fps": "24/1",
+  "dimensions": [
+    834,
+    1112
+  ],
+  "duration": "4.041667",
+  "decoded_frames": 97,
+  "unique_png_hashes": 97,
+  "accepted": false,
+  "verdict": "REJECTED_HARD_POSE_DISCONTINUITIES",
+  "local_anatomical_warp": false,
+  "hard_pose_cuts": [
+    {
+      "from": 35,
+      "to": 36,
+      "time_seconds": 1.4583333333333333
+    },
+    {
+      "from": 62,
+      "to": 63,
+      "time_seconds": 2.5833333333333335
+    }
+  ],
+  "hash_uniqueness_is_not_anatomical_motion_evidence": true,
+  "source_video_alpha": false,
+  "forest_activation": false,
+  "paid_generations_used": 0,
+  "generator_output_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3KGTYD1HNEbzghx1ltdi3doF7Gc/hf_20261028_210600_797daa7b-3f49-4f00-bac0-24062ec99758.mp4",
+  "control_guide": "pose-control-reference.mp4",
+  "generator": "Higgsfield Genjutsu motion control"
+}

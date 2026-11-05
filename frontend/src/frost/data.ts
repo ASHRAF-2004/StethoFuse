@@ -1,9 +1,10 @@
+import {localeTag} from '../studio/locale';
 import {useEffect,useRef,useState} from 'react';
 import {useLive} from '../data/live';
 import type {LiveJob,LiveRecording,LiveResult} from '../data/liveTypes';
 import type {RecordingStatus} from './contracts';
 
-export const dateLabel = (seconds: number | null | undefined) => seconds == null ? 'Unavailable' : new Date(seconds * 1000).toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+export const dateLabel = (seconds: number | null | undefined) => seconds == null ? 'Unavailable' : new Date(seconds * 1000).toLocaleString(localeTag(),{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
 export const errorMessage = (error: unknown) => error instanceof Error ? error.message : 'The service could not complete this request.';
 const activeJob = (job: LiveJob) => ['queued','processing'].includes(job.status);
 

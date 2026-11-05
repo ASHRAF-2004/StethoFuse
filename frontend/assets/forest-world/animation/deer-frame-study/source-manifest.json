@@ -1,0 +1,87 @@
+{
+  "status": "study-only-not-accepted",
+  "generation": "built-in imagegen",
+  "source_reference": "../../source/deer-clearing.png",
+  "atlas_grid": [
+    4,
+    2
+  ],
+  "frame_native_dimensions": [
+    362,
+    543
+  ],
+  "generated_source_frames": 24,
+  "motion_acceptance": false,
+  "local_anatomical_warp": false,
+  "files": [
+    {
+      "file": "lift-anatomy-key.png",
+      "sha256": "7be48252f454bc038d9d705cfa480f754a6d6257bdc99e0fac7d96a960acb132",
+      "bytes": 2588657
+    },
+    {
+      "file": "sheet-A.png",
+      "sha256": "defe07f016e9fd8a69f58418ea580eb9962e0ed53fed5f37075df7b71b1cac82",
+      "bytes": 3098437
+    },
+    {
+      "file": "sheet-B.png",
+      "sha256": "af8be8ff411a0ac9e22209cdce73d32585c9936d4e3ea90d5ea386c5b7182e0b",
+      "bytes": 2936887
+    },
+    {
+      "file": "sheet-C.png",
+      "sha256": "8fb70448194a83462cca5d4c3e437c3eb4fdab68ac7673c9dd07b65e7217dbe6",
+      "bytes": 3115428
+    },
+    {
+      "file": "lower-precontact-key.png",
+      "sha256": "ed80973f26d497d43067403ada6cb48b67ae35712eb5423f17f0086af972650c",
+      "bytes": 2610130
+    },
+    {
+      "file": "rejected-continuity-take.mp4",
+      "sha256": "3f5e3ba36c5316ac930ff827e86689bbbd3685c55ce3579efd86843d9f088021",
+      "bytes": 4710095
+    },
+    {
+      "file": "pose-control-reference.mp4",
+      "sha256": "cfc3d2cc4da56fceac5c1933b285c6ff1982368046b6fd9ba00a5df7c12cf204",
+      "bytes": 172386
+    },
+    {
+      "file": "continuity-test-result.json",
+      "sha256": "25af21c046e08fa62a95c187af09215da180bf7dbb5695f5c54efd8487ece851",
+      "bytes": 1103
+    }
+  ],
+  "full_resolution_key_poses": 2,
+  "verdicts": {
+    "lift-anatomy-key.png": "anatomy study only; identity/registration not accepted",
+    "sheet-A.png": "abrupt initial lift; texture/ground drift",
+    "sheet-B.png": "identity/registration drift; boundary mismatch",
+    "sheet-C.png": "reversed lowering, enlarged hoof and unstable contact",
+    "lower-precontact-key.png": "leg shape study only; opaque background/glow contamination, not usable as transparent runtime art"
+  },
+  "continuity_generation": {
+    "job_id": "797daa7b-3f49-4f00-bac0-24062ec99758",
+    "model": "hf_mult_motion_control",
+    "explicit_free_runs_used": 1,
+    "paid_runs_used": 0,
+    "decoded_frames": 97,
+    "fps": "24/1",
+    "accepted": false,
+    "hard_cuts": [
+      [
+        35,
+        36
+      ],
+      [
+        62,
+        63
+      ]
+    ],
+    "no_alpha": true,
+    "forest_activation": false
+  }
+}

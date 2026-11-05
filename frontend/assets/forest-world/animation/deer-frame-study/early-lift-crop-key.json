@@ -1,0 +1,34 @@
+{
+  "source": "builtin_imagegen",
+  "source_sha256": "feb812b4c71e7b575b878cff93fd397cb55d223cae1997df43cef99c39d3075c",
+  "source_size": [
+    1024,
+    1536
+  ],
+  "working_size": [
+    384,
+    576
+  ],
+  "method": "one whole-crop similarity registration on static context; no anatomical deformation",
+  "matches": 746,
+  "inliers": 730,
+  "matrix": [
+    [
+      0.9999331076062233,
+      5.211792460699445e-05,
+      0.1445357777947456
+    ],
+    [
+      -5.211792460699445e-05,
+      0.9999331076062233,
+      0.28453019090394477
+    ]
+  ],
+  "scale": 0.9999331089644532,
+  "rotation_degrees": -0.002986336877480072,
+  "target_hoof": "early toe-off about25 native crop pixels above original contact",
+  "visual_quality": "plausible anatomical key; not an accepted animation or runtime asset",
+  "runtime_activated": false,
+  "motion_accepted": false,
+  "source_file": "early-lift-crop-key.png"
+}

@@ -1,0 +1,63 @@
+@font-face{font-family:'DM Sans';src:url('/assets/forest-world/fonts/dm-sans-latin.woff2') format('woff2');font-weight:400 700;font-display:swap}
+@font-face{font-family:Fraunces;src:url('/assets/forest-world/fonts/fraunces-roman-latin.woff2') format('woff2');font-weight:400 700;font-display:swap}
+:root{--forest-bg:#e5eddf;--forest-ink:#163c30;--forest-muted:#385b49;--forest-surface:rgba(244,250,235,.92);--forest-soft:rgba(230,242,218,.87);--forest-rim:#a5bba4;--forest-accent:#306147;--forest-landscape:url('/assets/forest-world/valley-day.webp');color-scheme:light}
+:root[data-forest-theme=night]{--forest-bg:#09241f;--forest-ink:#eef5e8;--forest-muted:#c0d5c5;--forest-surface:rgba(9,39,32,.94);--forest-soft:rgba(18,52,40,.9);--forest-rim:#54765e;--forest-accent:#b4dab0;--forest-landscape:url('/assets/forest-world/valley-night.webp');color-scheme:dark}
+html body{margin:0;background:var(--forest-bg);color:var(--forest-ink);font-family:'DM Sans',system-ui,sans-serif}
+body:before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,var(--forest-bg),transparent),var(--forest-landscape) center/cover}
+:root[data-forest-theme] :is(.sf-app,.app-shell,.public-page,.auth-page,.utility-screen,.legal-page){--background:var(--forest-bg);--ink:var(--forest-ink);--secondary:var(--forest-muted);--faint:var(--forest-muted);--text-primary:var(--forest-ink);--text-secondary:var(--forest-muted);--accent:var(--forest-accent);--accent-hover:var(--forest-accent);--line:var(--forest-rim);--glass-1:var(--forest-surface);--glass-2:var(--forest-soft);--glass-strong:var(--forest-surface);--control-surface:var(--forest-surface);--workspace-veil:var(--forest-soft);--glass-border:var(--forest-rim);--control-border:var(--forest-rim);--font-display:Fraunces,Georgia,serif;--font-ui:'DM Sans',system-ui,sans-serif;font-family:var(--font-ui);color:var(--forest-ink);background:transparent}
+:root[data-forest-theme] :is(.sf-live,.app-shell):before{background:linear-gradient(90deg,var(--forest-bg),transparent 140%),var(--forest-landscape) center/cover;opacity:1}
+:root[data-forest-theme] :is(.sf-sidebar,.sf-topbar,.sidebar,.topbar,.sf-dialog,.modal,.sf-panel,.panel,.auth-form,.legal-content,.public-footer){background:var(--forest-surface);color:var(--forest-ink);border-color:var(--forest-rim);backdrop-filter:blur(12px)}
+:root[data-forest-theme] :is(h1,h2,.brand-wordmark,.sf-logo){font-family:Fraunces,Georgia,serif}
+:root[data-forest-theme] :is(.sf-sidebar,.sidebar):before,:root[data-forest-theme] .page-heading-owl:after{background:none}
+:root[data-forest-theme] :is(input,select,textarea){background:var(--forest-surface);color:var(--forest-ink);border-color:var(--forest-rim)}
+:root[data-forest-theme] :is(input,textarea)::placeholder{color:var(--forest-muted);opacity:.8}
+:root[data-forest-theme] :is(.sf-sidebar nav a,.sidebar nav a,.sf-location,.sf-workspace-label,.muted,.auth-art-copy,.auth-foot,.public-footer){color:var(--forest-muted)}
+:root[data-forest-theme] :is(.sf-sidebar nav a.active,.sidebar nav a.active){background:var(--forest-soft);color:var(--forest-ink);border-color:var(--forest-rim)}
+:root[data-forest-theme] :is(.button-primary,.sf-button--primary,.nav-new){background:#346348;color:#f5faef;border-color:#5d8866}
+:root[data-forest-theme] .auth-page{background:linear-gradient(90deg,transparent,var(--forest-bg) 72%),var(--forest-landscape) center/cover;min-height:100dvh;isolation:isolate}
+:root[data-forest-theme] .auth-form{padding:clamp(24px,4vw,48px);border:1px solid var(--forest-rim);border-radius:22px;box-shadow:0 16px 50px #001b1826}
+:root[data-forest-theme] .auth-forest-canopy{position:absolute;inset:0 auto 0 0;width:48%;background:url('/assets/forest-world/tree-crown.webp') right top/auto 100% no-repeat;pointer-events:none;z-index:-1}
+:root[data-forest-theme] .auth-form h1{color:var(--forest-ink)}
+:root[data-forest-theme] .brand-mark{display:inline-flex;width:42px;height:42px;overflow:visible;background:none;mask:none}
+:root[data-forest-theme] .brand-mark img{position:static;width:42px;height:42px;max-width:none;object-fit:contain;transform:none;clip-path:none}
+:root[data-forest-theme] .sf-logo{display:flex;align-items:center;gap:10px;font-size:25px}
+:root[data-forest-theme] .sf-logo img{width:36px;height:36px;object-fit:contain}
+:root[data-forest-theme=night] :is(.brand-mark img,.sf-logo img){filter:brightness(0) invert(.9)}
+.forest-site-toggle{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:8px;padding:12px 16px;border:1px solid var(--forest-rim);border-radius:30px;background:var(--forest-surface);color:var(--forest-ink);font:600 13px 'DM Sans',sans-serif;cursor:pointer}
+body:has(.forest-world) .forest-site-toggle,body:has(.sf-live) .forest-site-toggle{display:none}
+.forest-site-toggle:focus-visible{outline:3px solid var(--forest-accent);outline-offset:4px}
+@media(max-width:700px){:root[data-forest-theme] .auth-forest-canopy{width:100%;opacity:.25}:root[data-forest-theme] .auth-form-wrap{padding:90px 18px 70px}:root[data-forest-theme] .auth-art-copy{display:none}.forest-site-toggle span{display:none}.forest-site-toggle{padding:12px}}
+@media(forced-colors:active){body:before,.auth-forest-canopy{display:none}:root[data-forest-theme] .auth-form{background:Canvas;color:CanvasText;border-color:CanvasText}}
+:root[data-forest-theme] .auth-page{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr auto;padding-top:90px}
+:root[data-forest-theme] .auth-brand{position:absolute;top:28px;left:clamp(24px,4vw,65px);z-index:2}
+:root[data-forest-theme] .brand-logo{display:flex;align-items:center;gap:10px;color:var(--forest-ink)}
+:root[data-forest-theme] .brand-wordmark{font-size:26px}
+:root[data-forest-theme] .auth-art-copy{position:relative;top:auto;left:auto;align-self:center;padding:60px;max-width:480px;color:var(--forest-ink);text-shadow:0 1px 8px var(--forest-bg)}
+:root[data-forest-theme] .auth-art-copy :is(h2,p){color:inherit}
+:root[data-forest-theme] .auth-form-wrap{grid-column:2;grid-row:1;display:flex;align-items:center;justify-content:center;padding:30px;min-width:0}
+:root[data-forest-theme] .auth-form{width:min(100%,500px)}
+:root[data-forest-theme] .auth-foot{grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;padding:24px 36px;margin:0;background:var(--forest-surface)}
+:root[data-forest-theme] .auth-form :is(a,.auth-links a,.auth-meta a,.auth-state-picker summary){color:var(--forest-accent)}
+:root[data-forest-theme] .auth-form :is(input:not([type=checkbox]),select,.button-secondary){background:var(--forest-soft);color:var(--forest-ink);border-color:var(--forest-rim)}
+:root[data-forest-theme] .auth-form :is(.muted,.auth-meta,.form-divider,.auth-demo-note){color:var(--forest-muted)}
+:root[data-forest-theme] .legal-content :is(h1,h2,h3){color:var(--forest-ink)}
+:root[data-forest-theme] .legal-content :is(p,li){color:var(--forest-muted)}
+@media(max-width:800px){:root[data-forest-theme] .auth-page{grid-template-columns:minmax(0,1fr)}:root[data-forest-theme] .auth-art-copy{display:none}:root[data-forest-theme] .auth-form-wrap{grid-column:1;padding:26px 18px}:root[data-forest-theme] .auth-foot{padding:20px 18px;flex-wrap:wrap}}
+.forest-pointer{position:fixed;inset:0;pointer-events:none;z-index:100;contain:strict}
+:root[data-forest-theme] :is(.app-shell,.sf-live){position:relative;isolation:isolate}
+:root[data-forest-theme] :is(.app-shell,.sf-live):before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none}
+:root[data-forest-theme] .auth-input-icon{position:relative}
+:root[data-forest-theme] .auth-input-icon>svg{position:absolute;left:13px;top:14px;pointer-events:none;color:var(--forest-muted)}
+:root[data-forest-theme] .auth-input-icon>input{padding-left:42px}
+:root[data-forest-theme] .auth-form .password-field .icon-button{position:absolute;right:7px;top:5px}
+:root[data-forest-theme=night] .sidebar-logo img{filter:brightness(0) invert(.9)}
+@media(prefers-reduced-motion:reduce){.forest-pointer{display:none}}
+/* Retired decorative winter atlases are never part of the forest experience. */
+:root[data-forest-theme] :is(.reference-art,.winter-art){display:none!important}
+:root[data-forest-theme] .app-shell .sidebar nav a.nav-new{color:#f5faef;background:#346348}
+:root[data-forest-theme] :is(.app-shell,.sf-app) :is(thead,tbody,td){background:var(--forest-surface);color:var(--forest-ink);border-color:var(--forest-rim)}
+:root[data-forest-theme] .auth-foot{width:100%;max-width:none}
+:root[data-forest-theme=night] .auth-forest-canopy{filter:brightness(.6) saturate(.8)}
+
+/* Public-page typography must not recolor the independent forest hero. */
+.forest-world .hero-description{color:var(--muted)}

@@ -1,0 +1,82 @@
+name: Application checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend build and public journeys
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
+      VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
+      VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
+      VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npx playwright-core install --with-deps chromium
+      - run: npm test
+      - run: npm run test:startup
+      - name: Native initial/full image consistency
+        run: node tests/owl-stages.mjs
+      - name: Upload failure evidence
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: public-browser-evidence
+          path: frontend/evidence/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  api:
+    name: Isolated API and authorization
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: requirements-m1.txt
+      - run: python -m pip install -r requirements-m1.txt numpy==2.4.4
+      - name: Temporary stores and fictional identities only
+        run: >-
+          python -m pytest -q
+          tests/test_access_foundation.py tests/test_firebase_token_boundary.py
+          tests/test_m1_api.py tests/test_m1_identity.py tests/test_m1_sharing.py
+          tests/test_m1_notifications.py tests/test_m1_operator_safety.py
+          tests/test_m1_review_feedback.py tests/test_m1_review_views.py
+          tests/test_m1_workspace_completion.py tests/test_m1_user_readiness.py
+      - name: Documentation links
+        run: python tools/check-doc-links.py
+
+  support:
+    name: Support mail contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - run: node --test services/stethofuse-support/worker.test.mjs

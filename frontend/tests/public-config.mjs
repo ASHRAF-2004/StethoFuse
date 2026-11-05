@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import {validatePublicFirebaseConfig,FIREBASE_PROJECT} from '../src/config/firebase-contract.ts';
+const valid={VITE_FIREBASE_API_KEY:'AIzaFictionalConfigShapeOnly',VITE_FIREBASE_AUTH_DOMAIN:FIREBASE_PROJECT+'.firebaseapp.com',VITE_FIREBASE_PROJECT_ID:FIREBASE_PROJECT,VITE_FIREBASE_APP_ID:'1:123:web:abcdef'};
+assert.equal(validatePublicFirebaseConfig(valid).projectId,FIREBASE_PROJECT);
+for(const key of Object.keys(valid))assert.throws(()=>validatePublicFirebaseConfig({...valid,[key]:''}));
+assert.throws(()=>validatePublicFirebaseConfig({...valid,VITE_FIREBASE_PROJECT_ID:'another-project'}));
+assert.throws(()=>validatePublicFirebaseConfig({...valid,VITE_FIREBASE_AUTH_DOMAIN:'untrusted.example'}));
+assert.throws(()=>validatePublicFirebaseConfig({...valid,VITE_FIREBASE_APP_ID:'not-an-app-id'}));
+assert.throws(()=>validatePublicFirebaseConfig({...valid,VITE_FIREBASE_API_KEY:'not-an-api-key'}));
+assert.equal(validatePublicFirebaseConfig({...valid,VITE_FIREBASE_AUTH_DOMAIN:'stethofuse.ashraf-alsaloul.com'}).authDomain,'stethofuse.ashraf-alsaloul.com');
+console.log('PASS public Firebase build/runtime contract: both approved domains, each missing field, foreign project/domain and malformed identifiers. No provider request.');
+
+const frontend=fileURLToPath(new URL('..',import.meta.url));
+const denied=spawnSync(process.execPath,[path.join(frontend,'node_modules/vite/bin/vite.js'),'build'],{cwd:frontend,env:{...process.env,VITE_FIREBASE_PROJECT_ID:'unapproved-project'},encoding:'utf8',timeout:15000});
+assert(denied.status!==0,'A build using another Firebase project must fail before bundling');
+assert((denied.stderr+denied.stdout).includes('Authentication configuration is incomplete'));
+console.log('PASS actual production build rejects an unapproved Firebase project before bundling.');

@@ -1,0 +1,23 @@
+{
+  "status": "COMPLETED_UNAPPROVED_SOURCE",
+  "space": "zerogpu-aoti/wan2-2-fp8da-aoti-faster",
+  "revision": "1ff7432a88d7827eb787ef10c15cbc5c85c841a2",
+  "api": "/generate_video",
+  "reference_argument": "input_image",
+  "api_parameters": {
+    "steps": 4,
+    "negative_prompt": "walking, stepping, running, forward movement, body turning, foot lifting, sliding feet, camera movement, zoom, extra limbs, three legs, five legs, fused legs, warped bones, deformed hoof, changing antler branches, changing identity, flicker, cuts, subtitles, text, blurry",
+    "duration_seconds": 4.0,
+    "guidance_scale": 1.0,
+    "guidance_scale_2": 1.0,
+    "seed": 20261030,
+    "randomize_seed": false
+  },
+  "reference_sha256": "9c26ddaab50d8b650458e06ff94d3f3db566912f7e2ed4f154fe66ce8dd9cca3",
+  "billing": "public ZeroGPU demo; remaining free quota only; no paid endpoint",
+  "native_model_fps": 16,
+  "reference_boards_used_as_runtime_assets": false,
+  "elapsed_seconds": 72.68799999999464,
+  "remote_status": "StatusUpdate(code=<Status.PROGRESS: 'PROGRESS'>, rank=None, queue_size=None, eta=None, success=None, time=datetime.datetime(2026, 10, 30, 8, 38, 30, 676480), progress_data=[], log=None, type='status')",
+  "video_sha256": "b4cbff977546f528aee16592e946e840806277a1b0c84274888bbfe9123fb254"
+}

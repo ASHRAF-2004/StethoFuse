@@ -1,0 +1,27 @@
+{
+  "owner_rejected_previous_animation": true,
+  "references": [
+    {
+      "file": "Magical Deer Animation Spritesheet-1.png",
+      "sha256": "79581a7952dc465b587c1101facd586dab6eb4f3427b7fd03de9cc8a145c3093",
+      "purpose": "motion direction only; no pixels extracted, uploaded or shipped"
+    },
+    {
+      "file": "Magical Deer Animation Atlas-2.png",
+      "sha256": "989a97dcb54fc612adc3458bae2b3125d0a9dab5cc3f1ece04e1ab746008a12e",
+      "purpose": "motion direction only; no pixels extracted, uploaded or shipped"
+    }
+  ],
+  "selected_source_range": [
+    1,
+    25
+  ],
+  "excluded_later_frames": "antler appearance changes in the later generated take; full clip is not qualified",
+  "source_native_fps": 16,
+  "presentation_fps": 24,
+  "neural_forward_poses": 49,
+  "reverse_return": true,
+  "loop_positions": 97,
+  "full_body_running_or_playing_complete": false,
+  "owner_approved": false
+}

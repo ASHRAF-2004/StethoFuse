@@ -1,0 +1,26 @@
+{
+  "css_source": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap",
+  "files": [
+    {
+      "family": "DM Sans",
+      "style": "normal",
+      "file": "dm-sans-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K4.woff2",
+      "bytes": 36932
+    },
+    {
+      "family": "Fraunces",
+      "style": "italic",
+      "file": "fraunces-italic-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/fraunces/v38/6NU58FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChjeveQ.woff2",
+      "bytes": 81520
+    },
+    {
+      "family": "Fraunces",
+      "style": "normal",
+      "file": "fraunces-roman-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/fraunces/v38/6NU78FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0KxC9TeA.woff2",
+      "bytes": 67304
+    }
+  ]
+}

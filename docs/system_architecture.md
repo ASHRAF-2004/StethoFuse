@@ -1,164 +1,159 @@
-# System Architecture
+# Current StethoFuse architecture
 
-## Overview
+Updated 2 November 2026. This document describes the React/API/worker
+system. The original template-based prototype remains historical source; it is
+not the current production interface.
 
-This project is a local web-based prototype for cardiopulmonary sound separation. A user uploads a mixed WAV file, the backend records the upload in SQLite, NeoSSNet separates the audio into heart and lung components, and the generated WAV files are saved on the local filesystem.
+## Browser and web service
 
-The main architecture is intentionally simple:
+React 19, TypeScript and React Router provide the public listening studio, account pages
+and protected workspaces. Vite produces static assets served by the dedicated
+web image on the existing public origin. Route refreshes use the SPA fallback.
+The home route is build-time rendered in English/Arabic and both appearances,
+then hydrated by the same React tree. Its compiled CSS is included with the HTML;
+one external SVG supplies the real sample waveforms across those snapshots. No
+identity, account data or token is included. The prepaint bootstrap selects the
+saved language/appearance; private/auth routes replace the public snapshot with
+a small animated client shell. Other page bundles remain lazy. Chillax supplies Latin typography and IBM Plex
+Sans Arabic supplies Arabic. Fonts are self-hosted with their license/source
+records. A simple solid split-signal mark is shared by navigation and account
+pages; the favicon has an opaque mint tile for dark/light browser chrome.
 
-- FastAPI handles HTTP routes and serves the template frontend.
-- SQLite stores structured metadata, job state, result paths, and timing.
-- The filesystem stores large WAV files, model files, and dataset files.
-- NeoSSNet performs real PyTorch inference using the vendored implementation under `app/ml/neossnet_source/`.
+The former forest and deer scenes are inactive historical source. The approved
+snowy pointer-following owl is preserved with the same textures, meshes and
+connected-neck renderer, anchored to the listening desk. No flight sequence is
+active. Arabic mirrors the owl artwork and pointer yaw together. A lazily loaded
+eight-second HLS-CMDS development recording demonstrates track selection with
+aligned outputs from the unchanged frozen separator. Public attribution and
+provenance identify the manikin source and demonstration-only status. Public,
+account and role pages share white/charcoal/mint
+tokens, logical layouts and persistent English/Arabic language controls. Document
+language/direction and saved appearance are set before React paint. User-authored
+names, notes and resource titles remain raw. Time axes and identifiers stay LTR.
+The public HTML includes a branded entrance before the application module graph.
+Its CSS sound trace animates independently of React. On a desktop fine pointer,
+the public root stays inert until hydration AND the approved owl's first real,
+nonblank rendered frame. Download progress is measured bytes; decoding is a
+separate stated phase. An explicit still-owl choice appears after 12 seconds;
+failed or corrupt downloads offer Retry rather than silently claiming motion
+readiness. Touch, Save-Data and reduced motion load only the approved responsive
+poster. Private/auth routes use the existing active 24px loader and never fetch
+or wait for public owl assets. Ordinary SPA navigation does not replay the entry.
 
-## Frontend
+The native field's 142 resources are losslessly packaged into one SHA-256-checked,
+fingerprinted request. Original WebP bitstreams, meshes and float arrays are
+unchanged. Its public browser/edge cache lasts one year; private data is excluded.
+Latin fonts use optional display to avoid a late cold-network layout shift;
+cached fonts retain the established typography. Both appearance and entrance
+bootstraps are inlined; application modules begin immediately. See
+`OWL_ENTRANCE_20261102.md` for the current gate and native transport, and
+`LOADING_CACHE_STRATEGY_20261102.md` for the preceding measured public-edge/private-
+session cache changes.
 
-The frontend is built with FastAPI templates and static assets:
+## Identity, roles and private access
 
-- `app/templates/index.html`
-- `app/static/css/style.css`
-- `app/static/js/main.js`
+Firebase SDK handles email/password and Google identity. The existing approved
+public web configuration is required both at build time and at runtime. The
+shared pure validator pins the existing project and approved auth domains;
+a normal production build fails before bundling if configuration is missing or
+incorrect. Deployment keeps the existing public settings in the local ignored
+frontend `.env.production.local`; its durable public-only copy is under
+`OwnerRelease/public-web-config.json`. Neither contains Admin credentials.
 
-The browser UI supports the main demo workflow:
+Firebase proves identity; FastAPI independently verifies tokens and current
+provider/account state. SQLite supplies application roles and explicit resource
+grants. Email verification is required for protected workspace access. Healthcare
+Staff, Audio Analyst and Administrator share sign-in, but have distinct server-
+authorized capabilities. Administrator is not an unrestricted audio-reader role.
+There is no production role selector or demonstration authentication fallback.
 
-1. Select a mixed WAV file.
-2. Upload it through `POST /upload`.
-3. Run separation through `POST /separate/{audio_id}`.
-4. Show loading and status messages.
-5. Display the uploaded filename.
-6. Preview separated heart and lung outputs with audio players.
-7. Download the generated WAV files.
-8. Show recent history from `GET /history`.
+The Firebase SDK uses browser-session persistence. This is not an HttpOnly or
+XSS-proof session. Tokens are not added to media URLs. Same-origin protected
+media requests use the API client and render authorized blobs. Authenticated
+account changes clear the prior account's visible state. Existing profile names
+and all server-issued roles remain authoritative; only an empty initial personal
+display name can be initialized from the user's chosen provider profile name.
 
-This keeps the frontend beginner-friendly and avoids a separate React build step.
+TanStack Query core belongs to each API-client/auth scope, with memory-only,
+bounded metadata entries. Concurrent reads are deduplicated; permission-bearing
+metadata revalidates on reuse. Only own preferences have a 30s fresh interval.
+Auth/admin/notifications/protected media bypass it. Logout, identity change and
+expiry clear/cancel old scopes, and successful mutations invalidate metadata.
+Late old-account responses and errors cannot become cached success. Private HTTP
+requests remain `no-store`; no private service-worker or persistent offline cache
+is introduced. The public homepage alone may use a five-minute edge cache;
+account/API/action/version requests explicitly bypass shared caching.
 
-## Backend
+## API and persistence
 
-The backend uses FastAPI and is organized into routers and services:
+The public Support form uses a dedicated Cloudflare Worker on the exact
+`/api/support*` route; other API paths continue to the existing API. The Worker
+validates bounded input and the site Origin, applies rate limits, and sends
+branded HTML/plain text through a restricted native email binding to the fixed
+verified owner inbox. Visitors supply Reply-To only. Provider acceptance is
+awaited before success; errors preserve the visitor's form input. There is no
+SMTP password or mail-service API key in the browser or Worker source. See
+`services/stethofuse-support/README.md`.
 
-```text
-app/main.py
-app/routers/upload.py
-app/routers/separation.py
-app/routers/results.py
-app/services/storage_service.py
-app/services/separation_service.py
-app/services/result_service.py
-app/ml/neossnet_inference.py
-```
+Firebase retains one password-recovery flow. A task-only live provider test
+observed verification/reset HTML in the connected owner inbox, consumed the
+links, verified sign-in after reset and rejected reuse, then deleted the test
+identity without calling the application API. Reusable official CLI admin login
+is stored outside source with restricted Windows ACLs. The supported sender name
+is branded StethoFuse; full body customization currently fails with provider
+`EMAIL_TEMPLATE_UPDATE_NOT_ALLOWED`, including a minimal text-only change.
+Prepared HTML is not active. Existing providers, callback URI, users and all
+non-template configuration are preserved.
 
-Routes stay thin. They validate request-level concerns, call service functions, and translate service errors into HTTP responses.
+`app/m1/api.py` exposes the current FastAPI routes. SQLite stores accounts,
+recordings, jobs, grants, reviews, preferences and safe operational audit state.
+Private WAVs and outputs are filesystem resources, served only after per-resource
+authorization. Database and private-media paths are explicit, separate from
+public source/static files. Private directory permissions fail closed.
 
-Service modules contain the core behavior:
+The React adapter uses `src/data/live.tsx`, `api.ts` and `liveTypes.ts`. The
+`src/frost/` directory is the established live component implementation; its
+historical directory name does not select an obsolete production theme.
 
-- `storage_service.py` validates uploaded WAV files, saves them to `storage/uploads/raw/`, and extracts basic WAV metadata.
-- `separation_service.py` creates separation jobs, loads the active model record, asks the separation algorithm factory for the correct strategy, runs NeoSSNet inference, stores output metadata, writes system logs, and marks jobs as completed or failed.
-- `result_service.py` reads job details, resolves download paths, and returns recent history.
-- `neossnet_inference.py` wraps the vendored NeoSSNet implementation and handles WAV loading, mono conversion, resampling to 4000 Hz when needed, inference, and WAV saving.
+## Recording and separation
 
-## Database
+1. Upload a mono/stereo PCM WAV, up to 25 MiB and two minutes, or explicitly start
+   browser microphone capture. AudioWorklet captures PCM; the microphone stops
+   before preview. Nothing is saved until the user chooses Save.
+2. The API validates and stores the original privately with an immutable resource
+   identity and metadata. The original is not replaced by processing output.
+3. Separate creates a durable queued job. The single production worker owns its
+   worker lock, reads only its queue, canonicalizes audio and runs the frozen
+   CPU separator. The API does not spawn inference inside a request.
+4. Heart and lung outputs become independently protected WAV resources, linked
+   to their source, job, model version and processing provenance.
+5. Users compare tracks, inspect waveforms and share explicitly. Review requires
+   an assigned analyst and an explicitly scoped original/result. Role alone
+   does not grant another account's audio. Revocation is enforced by the API.
 
-The database is SQLite:
+The frozen v2 checkpoint, specification and original worker image are unchanged.
+T9 remains consumed held-out evidence and is never used for design or QA audio.
+New acceptance generates synthetic PCM in temporary storage. Valid pipeline
+output is not evidence of clinical accuracy or a diagnostic claim.
 
-```text
-database/cardiopulmonary.db
-```
+## Deployment and recovery
 
-The schema is defined in:
+The existing OwnerRelease wrapper packages the committed frontend and applies
+build -> qualify -> preflight -> deploy -> evidence under the real shared lock.
+API/worker image pins, Compose/network/data/model guards, prior recovery images
+and automatic rollback remain enforced. Normal authorized web releases and any
+necessary inspected recovery happen in the current owner conversation. No Axora
+terminal or HOST_PLAN approval is required. Other applications and combined
+backup/restore remain outside a website release.
 
-```text
-database/schema.sql
-```
+## Verification boundaries
 
-SQLite stores structured records rather than audio blobs. The main tables are:
-
-- `uploaded_audio`
-- `model`
-- `separation_job`
-- `separation_result`
-- `evaluation_metric`
-- `system_log`
-
-The `separation_job` table is the central processing table. Each job links one uploaded WAV file to one model record. A completed job has one `separation_result` row containing the heart and lung output paths.
-
-## Storage
-
-Large files are stored on disk:
-
-```text
-storage/uploads/raw/       Uploaded mixed WAV files
-storage/uploads/temp/      Temporary runtime/test files
-storage/outputs/heart/     Separated heart WAV files
-storage/outputs/lung/      Separated lung WAV files
-storage/ml_models/         NeoSSNet checkpoint and config files
-storage/logs/              Local logs
-```
-
-The dataset is kept separate from runtime storage:
-
-```text
-datasets/hls_cmds/raw/
-datasets/hls_cmds/processed/
-datasets/hls_cmds/metadata/
-```
-
-This separation makes the system easier to explain and prevents uploaded demo files from being mixed with training or evaluation data.
-
-## NeoSSNet Inference Flow
-
-The working inference flow is:
-
-1. `POST /upload` receives a WAV file.
-2. `storage_service.py` validates the filename and WAV header.
-3. The file is saved under `storage/uploads/raw/`.
-4. A row is inserted into `uploaded_audio`.
-5. `POST /separate/{audio_id}` receives the uploaded audio ID.
-6. `separation_service.py` loads the uploaded audio record.
-7. The active NeoSSNet model row is loaded from the `model` table.
-8. `SeparationAlgorithmFactory` creates the correct separation strategy for the selected model architecture.
-9. A `separation_job` row is created with status `running`.
-10. A `system_log` row records that separation started.
-11. `neossnet_inference.py` loads the uploaded WAV as mono float audio.
-12. If needed, the waveform is resampled to the model sample rate of 4000 Hz.
-13. The vendored NeoSSNet `generate_output` function runs real CPU inference.
-14. Heart and lung WAV outputs are saved to `storage/outputs/heart/` and `storage/outputs/lung/`.
-15. A `separation_result` row is inserted with output paths and metadata.
-16. The `separation_job` row is marked `completed`.
-17. A `system_log` row records that separation completed.
-18. The API returns the job ID, status, output paths, and processing time.
-
-If inference fails, the job is marked `failed` and the error message is stored in `separation_job.error_message`.
-
-## Request Flow Summary
-
-```text
-Browser UI
-  -> POST /upload
-  -> uploaded_audio row + stored WAV
-  -> POST /separate/{audio_id}
-  -> separation_job row + started system_log row
-  -> NeoSSNet inference
-  -> output WAV files
-  -> separation_result row + completed system_log row
-  -> GET /result/{job_id}
-  -> GET /download/{job_id}/heart
-  -> GET /download/{job_id}/lung
-  -> GET /history
-```
-
-## Design Rationale
-
-The architecture favors a small, understandable system that is suitable for a student Final Year Project:
-
-- FastAPI keeps backend routing clear and lightweight.
-- SQLite is enough for local metadata, job tracking, and demo history.
-- WAV files stay on the filesystem because they are large binary artifacts.
-- NeoSSNet code is isolated in `app/ml/` so the API and ML concerns are easier to explain separately.
-- Dataset folders are separated from runtime uploads and outputs.
-
-## Current Limitations and Future Work
-
-- Inference runs synchronously, so a long audio file can keep the HTTP request open.
-- The system does not provide clinical diagnosis or validated clinical accuracy.
-- There is no user authentication in the current prototype.
-- Future work could add a background job queue, stronger logging, evaluation metrics, model selection controls, and deployment packaging.
+Real disposable Firebase registration/sign-in and the verification gate are
+checked separately from isolated role/API tests. Staff/analyst/admin screenshots
+use fictional test identities and responses from an actual temporary API database;
+they do not certify a production privileged-account login. A separate isolated
+worker test runs real frozen-model inference on generated PCM, verifies finite
+4-kHz heart/lung outputs, protects the original and checks production preservation.
+Google configuration/authorized origin can be checked without completing consent.
+Inbox delivery, clinical suitability and real-device audio quality are not
+established by HTTP health, automated accessibility tests or synthetic inference.
