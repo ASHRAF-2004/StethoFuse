@@ -1,7 +1,12 @@
 export type LiveRole = 'healthcare_staff' | 'audio_analyst' | 'admin';
 export type LiveStatus = 'active' | 'suspended' | 'disabled';
 export interface LiveUser {id:string;uid:string;email:string;display_name:string;role:LiveRole;status:LiveStatus;email_verified:boolean;public_id?:string;handle?:string;handle_change_count?:number;handle_changed_at?:number|null}
-export interface SessionEnvelope {user:LiveUser;mode:'live';capabilities:{recordings:boolean;sharing:boolean;reviews:boolean;admin:boolean;ensemble:boolean;separation?:boolean;profile_avatar?:boolean;account_metadata_export?:boolean;account_deletion?:boolean;in_app_notifications?:boolean}}
+export interface SessionEnvelope {user:LiveUser;mode:'live';capabilities:{recordings:boolean;sharing:boolean;reviews:boolean;admin:boolean;ensemble:boolean;separation?:boolean;analysis?:boolean;profile_avatar?:boolean;account_metadata_export?:boolean;account_deletion?:boolean;in_app_notifications?:boolean}}
+
+export type AcousticFinding='present'|'absent'|'unknown'|'neither'|'crackle'|'wheeze'|'both'|'uncertain';
+export interface AnalysisWindow {start_seconds:number;end_seconds:number;scores:number[];finding:AcousticFinding}
+export interface AnalysisComponent {status:'complete'|'unavailable'|'insufficient_evidence';finding:AcousticFinding;model_id:string;revision:string;weights_sha256:string;validation:string;track_agreement?:boolean;separated_finding?:AcousticFinding;original_finding?:AcousticFinding;windows?:AnalysisWindow[];original_windows?:AnalysisWindow[]}
+export interface AcousticAnalysis {version:string;run_id?:string;status:'not_analyzed'|'queued'|'processing'|'complete'|'partial'|'unavailable';completed_at?:number;runtime_seconds?:number;components:Partial<Record<'heart'|'lung',AnalysisComponent>>;score_type?:string;source_sha256?:Record<string,string>}
 export interface ProtectedAvatar {mime:'image/png';base64:string;revision:string}
 export interface WorkflowUpdate {id:string;kind:'processing'|'review'|'sharing';title:string;occurred_at:number;href:string;unread:boolean}
 export interface WorkflowUpdateFeed {items:WorkflowUpdate[];unread:number;limit:30;scope:'current_account_recent_updates'}

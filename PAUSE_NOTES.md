@@ -1,5 +1,26 @@
 # Current StethoFuse checkpoint — 5 November 2026
 
+## Next improvement backlog — recorded 9 November 2026
+
+The owner asked to save the application-based FYP gaps and continue chatting.
+See [NEXT_IMPROVEMENT_GAPS.md](docs/NEXT_IMPROVEMENT_GAPS.md): limited user-entered
+recording attributes (confirmed), intended healthcare-user validation (not yet
+established by reviewed evidence), and FYP requirements/use-case/report alignment
+(not yet audited). The full supervisor correction checklist and closure evidence
+are recorded there. Existing roles/library/processing/sharing/reviews establish an
+application foundation; they do not prove stakeholder suitability or report completion.
+The owner then selected a simple improvement direction: **Upload/record → Separate
+and analyze → Results/report**. Automatic heart/lung analyzers and a structured,
+downloadable recording-analysis report belong after separation, behind one action.
+No separate quality-feedback stage or extra mandatory user steps. Initial candidate
+tasks are murmur detection and wheeze/crackle classification; exact models and any
+disease-prediction endpoint still require selection and pipeline evaluation. The
+backlog now records APP-04/APP-05, report contents, sound-preservation tests and
+held-out-patient validation. These capabilities are planned, not implemented.
+No application changes or deployment are requested by this note.
+
+## Last recorded deployment checkpoint
+
 LIVE: https://stethofuse.ashraf-alsaloul.com/
 Version: `20261105T101558Z-aa1c40a98ebd`
 Deployed source: `8dd23ecaa84b3baaf29469a9f91c9b60ab3b6841`

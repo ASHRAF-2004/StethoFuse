@@ -69,6 +69,7 @@ jobs:
           tests/test_m1_notifications.py tests/test_m1_operator_safety.py
           tests/test_m1_review_feedback.py tests/test_m1_review_views.py
           tests/test_m1_workspace_completion.py tests/test_m1_user_readiness.py
+          tests/test_m1_analysis.py
       - name: Documentation links
         run: python tools/check-doc-links.py
 

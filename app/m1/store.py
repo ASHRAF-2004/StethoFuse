@@ -20,12 +20,13 @@ from .workspace_store import WorkspaceStore
 from .profile_store import ProfileStore, PRIVATE_PREFERENCES
 from .account_lifecycle import AccountLifecycleStore
 from .notifications import NotificationStore
+from .analysis_store import AnalysisStore
 
 M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
              "m1_result_files", "m1_reviews", "m1_preferences"}
 
 
-class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProfileStore, AccountLifecycleStore, NotificationStore, ProcessingStore, DevelopmentAccessStore):
+class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProfileStore, AccountLifecycleStore, NotificationStore, AnalysisStore, ProcessingStore, DevelopmentAccessStore):
     def _account_change_allowed(self,db,target):
         if self._settings(db,target["id"]).get("account_lifecycle"):
             raise AccessDenied("Deleted accounts cannot be reactivated.")

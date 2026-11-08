@@ -1,6 +1,6 @@
 import {lt} from '../studio/locale';
 import {tx} from '../studio/locale';
-import {useCallback,useMemo,useState} from 'react';
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {CheckCircle,Clock,Info,ShieldCheck,SpeakerHigh,WarningCircle,Waveform} from '@phosphor-icons/react';
 import type {MediaResource} from '../data/liveTypes';
 import {AudioPlayer} from './AudioPlayer';
@@ -15,10 +15,13 @@ import {GlassPanel,MetricCard,Notice,SectionHeading,Segments} from './primitives
 function sourceKind(resource:MediaResource):SourceKind|null{
   return resource.kind==='heart_audio'?"heart":resource.kind==='lung_audio'?"lung":['original_audio','assigned_resource'].includes(resource.kind)?"original":null;
 }
-export function AudioWorkspace({resources,provider,filenames,analysis=true}:{resources:MediaResource[];provider:MediaProvider;filenames?:Partial<Record<SourceKind,string>>;analysis?:boolean}){
+export function AudioWorkspace({resources,provider,filenames,analysis=true,workspaceId}:{resources:MediaResource[];provider:MediaProvider;filenames?:Partial<Record<SourceKind,string>>;analysis?:boolean;workspaceId?:string}){
   const {gain,setGain}=useFrostPreferences(),playback=usePlayback(gain);
   const [selected,setSelected]=useState<SourceKind>('original'),[mode,setMode]=useState<'spectrogram'|'waveform'>('spectrogram');
   const [signals,setSignals]=useState<Partial<Record<SourceKind,AudioSignal>>>({});
+  const seeking=useRef({playback,signals});seeking.current={playback,signals};
+  const workspace=useRef<HTMLDivElement>(null);
+  useEffect(()=>{function seek(event:Event){const detail=(event as CustomEvent).detail;if(!workspaceId||detail?.workspaceId!==workspaceId||!['heart','lung'].includes(detail.source)||!Number.isFinite(detail.seconds))return;const source=detail.source as SourceKind,signal=seeking.current.signals[source];if(!signal)return;seeking.current.playback.pause();setSelected(source);seeking.current.playback.seek(source,signal,Math.max(0,Math.min(signal.duration,detail.seconds)));workspace.current?.scrollIntoView({block:'center',behavior:'instant'});}window.addEventListener('sf-analysis-seek',seek);return()=>window.removeEventListener('sf-analysis-seek',seek);},[workspaceId]);
   const sources=resources.map(resource=>({resource,kind:sourceKind(resource)})).filter((entry):entry is {resource:MediaResource;kind:SourceKind}=>entry.kind!==null);
   const source=sources.some(entry=>entry.kind===selected)?selected:sources[0]?.kind;
   const signal=source?signals[source]:undefined;
@@ -32,7 +35,7 @@ export function AudioWorkspace({resources,provider,filenames,analysis=true}:{res
   const select=(kind:SourceKind)=>{playback.pause();setSelected(kind);};
   const items=sources.map(entry=>({id:entry.kind,label:sourceLabels[entry.kind]}));
   if(!sources.length)return <GlassPanel><SectionHeading title={tx("Audio access")}/><Notice>{tx("No audio is included in your current access. A result or review grant does not automatically share its audio files.")}</Notice></GlassPanel>;
-  return <div className="sf-detail-grid"><div className="sf-detail-main">
+  return <div ref={workspace} className="sf-detail-grid"><div className="sf-detail-main">
     <GlassPanel className="sf-audio-panel" label={tx("Audio workspace")}><SectionHeading title={lt(sources.length>1?tx("Listen to the difference"):tx("Listen closer"))} description={tx("Your available sounds, each with its own access.")} action={signal?<span className="sf-format">{lt(signal.duration.toFixed(1))}{tx("s · ")}{lt(signal.rate.toLocaleString())} {tx(" Hz · ")}{lt(signal.channels===1?"mono":"stereo")}</span>:undefined}/>
       <div className="sf-mobile-source"><Segments<SourceKind> label={tx("Audio source")} value={source!} onChange={select} items={items}/></div>
       {sources.map(({resource,kind})=><div className="sf-audio-lane" key={`${kind}:${resource.id}`} data-selected={source===kind}><AudioPlayer source={kind} resourceId={resource.id} provider={provider} playback={playback} gain={gain} setGain={setGain} onLoaded={onLoaded} filename={filenames?.[kind]}/></div>)}
