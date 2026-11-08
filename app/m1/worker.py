@@ -142,6 +142,17 @@ class Worker:
         self.sync_directory()
         return {"relative_path": target.name, "size": target.stat().st_size, "sha256": digest(target.read_bytes())}
 
+    def read_analysis_output(self, info):
+        """Read our hash-verified IEEE float WAV; the upload decoder accepts PCM."""
+        import io
+        import numpy as np
+        from scipy.io import wavfile
+        encoded, sha = self.read_input({"input_file": info, "input_sha256": info["sha256"]})
+        rate, samples = wavfile.read(io.BytesIO(encoded))
+        if rate != 4000 or samples.dtype != np.float32 or samples.ndim != 1 or not np.isfinite(samples).all():
+            raise ProcessingError("output_integrity_failed")
+        return samples, sha
+
     def run_once(self):
         if self.lock_fd is None or self.separator is None:
             raise ProcessingError("worker_not_started")
@@ -176,9 +187,7 @@ class Worker:
                     saved = []
                     for kind in ("heart", "lung"):
                         info = outputs[kind]
-                        encoded, _ = self.read_input({"input_file": {"relative_path": info["relative_path"],
-                            "file_size_bytes": info["size"]}, "input_sha256": info["sha256"]})
-                        decoded, _ = self.separator.decode(encoded)
+                        decoded, _ = self.read_analysis_output({**info, "file_size_bytes": info["size"]})
                         saved.append(decoded)
                     provenance["analysis"] = self.analysis_engine.analyze(canonical, np.stack(saved), 4000,
                         {"original": input_sha, "heart": outputs["heart"]["sha256"], "lung": outputs["lung"]["sha256"]})
@@ -215,8 +224,11 @@ class Worker:
             samples, hashes = {}, {}
             for kind in ("original", "heart", "lung"):
                 info = request["files"][kind + "_audio"]
-                encoded, sha = self.read_input({"input_file": info, "input_sha256": info["sha256"]})
-                samples[kind], _ = self.separator.decode(encoded)
+                if kind == "original":
+                    encoded, sha = self.read_input({"input_file": info, "input_sha256": info["sha256"]})
+                    samples[kind], _ = self.separator.decode(encoded)
+                else:
+                    samples[kind], sha = self.read_analysis_output(info)
                 hashes[kind] = sha
             analysis = self.analysis_engine.analyze(samples["original"], np.stack([samples["heart"], samples["lung"]]), 4000, hashes)
         except Exception:

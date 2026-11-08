@@ -1,4 +1,16 @@
-# Current StethoFuse checkpoint — 5 November 2026
+# Current StethoFuse checkpoint
+
+## Active implementation — 9 November 2026
+
+The owner subsequently instructed starting and deploying the recorded improvement.
+Work is on `feature/post-separation-analysis` / PR #17. Automatic post-separation
+acoustic candidates and bilingual private reports are implemented; qualification,
+full worker/browser verification and guarded production deployment are in progress.
+See [ACOUSTIC_ANALYSIS.md](docs/ACOUSTIC_ANALYSIS.md). The first Linux CI run passed.
+No new production release is claimed by this checkpoint. The small heart smoke
+study exposed a missed labeled murmur; output is explicitly an experimental
+listening-review candidate, with no validated diagnostic-performance claim.
+The historical planning section below remains the record of the discussion.
 
 ## Next improvement backlog — recorded 9 November 2026
 

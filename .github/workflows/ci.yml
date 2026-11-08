@@ -60,7 +60,7 @@ jobs:
           python-version: '3.14'
           cache: pip
           cache-dependency-path: requirements-m1.txt
-      - run: python -m pip install -r requirements-m1.txt numpy==2.4.4
+      - run: python -m pip install -r requirements-m1.txt numpy==2.4.4 scipy==1.17.0
       - name: Temporary stores and fictional identities only
         run: >-
           python -m pytest -q
@@ -70,6 +70,7 @@ jobs:
           tests/test_m1_review_feedback.py tests/test_m1_review_views.py
           tests/test_m1_workspace_completion.py tests/test_m1_user_readiness.py
           tests/test_m1_analysis.py
+          tests/test_m1_analysis_worker.py
       - name: Documentation links
         run: python tools/check-doc-links.py
 

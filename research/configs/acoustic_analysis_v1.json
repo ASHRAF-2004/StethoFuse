@@ -1,0 +1,29 @@
+{
+  "version": "stethofuse-acoustic-analysis-v1",
+  "models": {
+    "heart": {
+      "id": "cogniveon/eeem069_heart_murmur_classification",
+      "revision": "716eb534dca3936594ea6421d460fe3bd4839ecb",
+      "license": "Apache-2.0",
+      "validation": "Upstream evaluation split is not documented; local external-model evaluation only. Clinical performance is not established.",
+      "files": {
+        "config.json": "952f53c4d94cefc88775ebb82c226fa28966263e2f6b3638029432d45bfe2c91",
+        "preprocessor_config.json": "8cdfd65ff4115423185a1512bdae100e2e0cd744f5b322417429944aaafd0827",
+        "model.safetensors": "38f86b579fab0b884a6f92e0184e2a2989e87887a8ddeec50d86695968f28f77"
+      },
+      "weights_sha256": "38f86b579fab0b884a6f92e0184e2a2989e87887a8ddeec50d86695968f28f77"
+    },
+    "lung": {
+      "id": "Atakanisik/ICBHI-AST-SAM",
+      "revision": "78578463426d11bf38f7279ec3155a4efdadf76a",
+      "license": "MIT",
+      "validation": "Upstream ICBHI respiratory-cycle classifier; separated-track and fixed-window use require independent validation. Clinical performance is not established.",
+      "files": {
+        "config.json": "a93d525511d77e8ecc933d09674b85099815bbbb417c228a4edd655e252fb9ff",
+        "preprocessor_config.json": "8d04ba5a9c6fca5d39d0de2b1fd05ecf79deb589fbba279728bbebac39934231",
+        "best_sota_model.pth": "19e592b582c6c7ecceabafb904b6a0e9fd82923be44ead962526c6f68edad2ed"
+      },
+      "weights_sha256": "19e592b582c6c7ecceabafb904b6a0e9fd82923be44ead962526c6f68edad2ed"
+    }
+  }
+}

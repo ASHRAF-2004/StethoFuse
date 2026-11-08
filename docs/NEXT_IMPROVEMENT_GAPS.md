@@ -1,9 +1,11 @@
 # Next improvement: application workflow and supervisor feedback
 
 Recorded: 9 November 2026, Asia/Kuala_Lumpur.
-Owner instruction: record the gaps for a later improvement session; continue the
-discussion now. This record does not start implementation, deployment, a survey
-or report rewriting.
+Original instruction: record the gaps and continue discussing. The owner later
+authorized implementation and deployment. APP-04/APP-05 implementation is now on
+PR #17; see [ACOUSTIC_ANALYSIS.md](ACOUSTIC_ANALYSIS.md) for actual behavior and
+validation limits. Deployment and stakeholder/clinical closure require their own
+evidence; the planning discussion below is preserved as history.
 
 ## Assessment to preserve
 

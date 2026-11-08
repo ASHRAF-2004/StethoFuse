@@ -1,0 +1,9 @@
+# Extend the exact reviewed runtime; frozen separator dependencies are unchanged.
+ARG STETHOFUSE_ANALYSIS_BASE=stethofuse-analysis-api-base:33b257a5dbac
+FROM ${STETHOFUSE_ANALYSIS_BASE}
+USER root
+COPY app/access_foundation /app/app/access_foundation
+COPY app/m1 /app/app/m1
+ARG STETHOFUSE_CODE_GIT_SHA
+ENV STETHOFUSE_ANALYSIS_ENABLED=1 STETHOFUSE_CODE_GIT_SHA=${STETHOFUSE_CODE_GIT_SHA}
+USER 10001:10001

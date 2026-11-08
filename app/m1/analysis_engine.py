@@ -9,6 +9,7 @@ from pathlib import Path
 from uuid import uuid4
 
 ANALYSIS_VERSION = "stethofuse-acoustic-analysis-v1"
+MAX_ANALYSIS_SECONDS = 120
 LABELS = {"heart": ("absent", "present", "unknown"),
           "lung": ("neither", "crackle", "wheeze", "both")}
 
@@ -124,7 +125,7 @@ class AnalysisEngine:
         import torch
         from scipy.signal import resample_poly
         signal = np.asarray(samples, dtype=np.float32)
-        if signal.ndim != 1 or not 0 < len(signal) <= sample_rate * 120 or not np.isfinite(signal).all():
+        if signal.ndim != 1 or not 0 < len(signal) <= sample_rate * MAX_ANALYSIS_SECONDS or not np.isfinite(signal).all():
             raise AnalysisError("invalid_analysis_audio")
         if len(signal) < sample_rate or float(np.sqrt(np.mean(signal.astype(np.float64) ** 2))) < 1e-7:
             return []
@@ -152,10 +153,14 @@ class AnalysisEngine:
 
     def analyze(self, original, separated, sample_rate, source_hashes):
         started = time.perf_counter()
+        duration = len(original) / sample_rate
+        coverage = min(duration, MAX_ANALYSIS_SECONDS)
+        original = original[:sample_rate * MAX_ANALYSIS_SECONDS]
+        separated = separated[:, :sample_rate * MAX_ANALYSIS_SECONDS]
         report = {"version": ANALYSIS_VERSION, "run_id": uuid4().hex,
-                  "created_at": int(time.time()), "status": "complete", "components": {},
+                  "created_at": int(time.time()), "status": "partial" if duration > coverage else "complete", "components": {},
                   "source_sha256": source_hashes, "sample_rate_hz": sample_rate,
-                  "duration_seconds": round(len(original) / sample_rate, 4),
+                  "duration_seconds": round(duration, 4), "analyzed_seconds": round(coverage, 4),
                   "score_type": "uncalibrated_model_score", "disease_prediction": None}
         for index, kind in enumerate(LABELS):
             entry = self.manifest["models"][kind]
