@@ -12,6 +12,7 @@ const messages: Record<string, string> = {
   account_missing: 'Your application account has not been synchronized. Retry sign-in.',
   ensemble_unavailable: 'Ensemble processing is not connected yet. No job or result was created.',
   separation_unavailable: 'Separation is temporarily unavailable. Your original recording is saved.',
+  analysis_unavailable: 'Acoustic analysis is temporarily unavailable. Your saved sounds are unchanged.',
   benchmark_unavailable: 'Benchmark execution is not available in this runtime.',
   last_admin: 'The last active administrator cannot be disabled or demoted.',
   upload_too_large: 'Choose a WAV file no larger than 25 MiB.',

@@ -12,7 +12,7 @@ export interface WorkflowUpdate {id:string;kind:'processing'|'review'|'sharing';
 export interface WorkflowUpdateFeed {items:WorkflowUpdate[];unread:number;limit:30;scope:'current_account_recent_updates'}
 export interface MediaResource {id:string;public_id?:string;kind:string;media_type:string|null;url:string|null}
 export interface LiveRecording {id:string;public_id?:string;owner_id:string;title:string;original_filename:string|null;created_at:number;duration_sec:number;sample_rate_hz:number;channels:number;file_size_bytes:number;original_resource_id:string|null;resources:MediaResource[];is_owner:boolean}
-export interface LiveJob {id:string;public_id?:string;recording_id:string;requester_id:string;status:string;created_at:number;started_at:number|null;completed_at:number|null;error_code:string|null;result_id:string|null}
+export interface LiveJob {id:string;public_id?:string;recording_id:string;requester_id:string;status:string;stage?:string;created_at:number;started_at:number|null;completed_at:number|null;error_code:string|null;result_id:string|null}
 export interface LiveResult {id:string;public_id?:string;recording_id:string;job_id:string;created_at:number;method_label:string;resources:MediaResource[];is_owner:boolean;provenance?:{sample_rate:number;output_samples:number;runtime_seconds:number;model_version:string}|null}
 export interface SharingRecipient {display_name:string;handle:string;public_id:string}
 export interface LiveGrant {id:string;public_id?:string;assignment_public_id?:string|null;recording_id:string;resource_id:string|null;grantor_id:string;recipient_id:string;recipient?:SharingRecipient;permission:'read'|'review';status:'active'|'revoked';expires_at:number|null;created_at:number;revoked_at:number|null}
