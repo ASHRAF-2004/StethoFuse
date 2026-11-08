@@ -5,6 +5,8 @@ and lung tracks, model-generated sound candidates, supporting window references
 and a downloadable English/Arabic HTML report. The report supports browser
 printing and PDF saving; the endpoint does not claim to return a PDF file.
 
+Deployment and live acceptance: [9 November release evidence](ANALYSIS_RELEASE_20261109.md).
+
 ## Status and interpretation
 
 This is an **experimental acoustic-analysis preview**, not a validated diagnostic
