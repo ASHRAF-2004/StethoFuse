@@ -1,16 +1,35 @@
-# Current StethoFuse checkpoint
+# Current StethoFuse checkpoint — 9 November 2026
 
-## Active implementation — 9 November 2026
+LIVE: https://stethofuse.ashraf-alsaloul.com/
+Version: `20261108T223046Z-93ff781cfbf3`
+Website source: `379a8598a1a8f8d1602622d29e2d5daafed650e4` (PR #18 merged; PR #17 feature merged).
+Backend source: `c62514a44f0fc25e5b8e4894f36f1149ead2569c`.
 
-The owner subsequently instructed starting and deploying the recorded improvement.
-Work is on `feature/post-separation-analysis` / PR #17. Automatic post-separation
-acoustic candidates and bilingual private reports are implemented; qualification,
-full worker/browser verification and guarded production deployment are in progress.
-See [ACOUSTIC_ANALYSIS.md](docs/ACOUSTIC_ANALYSIS.md). The first Linux CI run passed.
-No new production release is claimed by this checkpoint. The small heart smoke
-study exposed a missed labeled murmur; output is explicitly an experimental
-listening-review candidate, with no validated diagnostic-performance claim.
-The historical planning section below remains the record of the discussion.
+Automatic post-separation acoustic-analysis **preview** and private English/Arabic
+HTML reports are deployed. Saved older results can be analyzed without separating
+again. The browser report-download issue was corrected and tested live. Real
+staff/analyst API/browser journeys, four localized responsive report downloads,
+exact audio bytes, private access/revocation, health/version/cache and preservation
+checks passed. All three task accounts/files were cleaned; 181 original rows,
+private files/permissions, model/credentials and foreign resources are preserved.
+See [release evidence](docs/ANALYSIS_RELEASE_20261109.md).
+
+The approved pointer-following owl, frozen T8 v2 separator, schema 3 and T9 remain
+unchanged. No paid service, other-app/Portfolio action, VM restart or combined
+backup was invoked. Normal web releases still use OwnerRelease self-service;
+qualified backend maintenance was completed here with recovery artifacts and
+guarded rollback. Do not replay historical authorizations or deployment scripts.
+
+Clinical diagnosis, representative patient-wise validation/calibration, intended
+healthcare-user feedback, recording-context requirements and FYP report alignment
+remain open. The limited source-audio studies do not establish clinical accuracy.
+This deployment is complete; these evidence gaps must not be silently marked closed.
+
+## Historical planning discussion
+
+The following section preserves the original discussion and the earlier Nov5
+deployment record. The current release/evidence above supersede its planned-status
+and version statements.
 
 ## Next improvement backlog — recorded 9 November 2026
 

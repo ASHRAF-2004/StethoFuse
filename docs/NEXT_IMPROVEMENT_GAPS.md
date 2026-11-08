@@ -2,10 +2,11 @@
 
 Recorded: 9 November 2026, Asia/Kuala_Lumpur.
 Original instruction: record the gaps and continue discussing. The owner later
-authorized implementation and deployment. APP-04/APP-05 implementation is now on
-PR #17; see [ACOUSTIC_ANALYSIS.md](ACOUSTIC_ANALYSIS.md) for actual behavior and
-validation limits. Deployment and stakeholder/clinical closure require their own
-evidence; the planning discussion below is preserved as history.
+authorized implementation and deployment. APP-04/APP-05 software was merged in
+PR #17/#18 and deployed. See [release evidence](ANALYSIS_RELEASE_20261109.md)
+and [ACOUSTIC_ANALYSIS.md](ACOUSTIC_ANALYSIS.md). Software acceptance passed;
+stakeholder and clinical closure remain open. The planning discussion below is
+preserved as history.
 
 ## Assessment to preserve
 
@@ -136,8 +137,8 @@ These establish available task definitions, not performance of StethoFuse:
 | APP-01 | **Confirmed partial coverage: user-entered recording attributes.** `app/m1/api.py` accepts a file and optional title at upload. `app/m1/schema.sql` stores title, filename, duration, sample rate, channels and size; most are automatically derived technical properties. | Establish which recording-context attributes intended users need, then implement the agreed fields consistently in upload/edit, library/detail views and persistence. Keep technical properties automatically derived. Preserve the existing no-patient-identifiers scope and access rules. | Requirements with a rationale, actual create/edit/list/detail behavior, validation and permission checks, and a demonstration using representative non-patient material. Adding arbitrary fields alone is not acceptance. |
 | APP-02 | **Healthcare stakeholder validation is not established by the evidence reviewed.** This does not mean no survey exists; existing survey material has not been audited here. | Locate the existing survey/respondent evidence first. Assess coverage of actual intended healthcare staff and audio analysts; address missing requirements/usability evidence with appropriate participants. Evaluate the recording-to-review workflow. | Actual respondent roles, method, responses, findings, resulting requirements/design decisions and task feedback. Distinguish completed research from planned work and developer testing; never invent responses. |
 | APP-03 | **FYP report alignment is not established.** The current implementation has role-specific workflows, but the current FYP submission has not been checked end to end against the supervisor's comments. | Identify the authoritative FYP report in the separate documentation repository. Trace user needs through requirements, use cases, design, implementation and evaluation; audit each report correction below. | A traceability matrix and the actual corrected report, with accurate feature status, complete use-case descriptions and stakeholder evidence. Do not assume the separate software-design assignment report is the current FYP submission. |
-| APP-04 | **Planned new capability: automatic post-separation analysis.** Current separation does not establish automated acoustic findings or disease predictions. | Add evaluated heart/lung analyzers behind the existing single action; select exact models and targets based on suitable data and the complete pipeline's performance. | Held-out-patient results, sound-preservation checks, original-versus-separated baselines, error analysis, uncertainty behavior and versioned runtime outputs. No new user workflow stage. |
-| APP-05 | **Planned new capability: structured results and recording-analysis report.** A report must be supported by actual analysis outputs. | Present a concise summary with comparison playback and supporting details; generate a downloadable report from stored model findings and optional reviewer notes. | Correct source/run/model linkage, faithful findings and uncertainty, clear failed/partial states, preserved private access, useful export and intended-user evaluation. |
+| APP-04 | **Software implemented and deployed as an experimental preview; clinical qualification remains open.** Automatic heart/lung sound candidates, source comparison, uncertainty and versioned results are live. Disease prediction is not implemented. | Add evaluated heart/lung analyzers behind the existing single action; select exact models and targets based on suitable data and the complete pipeline's performance. | Held-out-patient results, sound-preservation checks, original-versus-separated baselines, error analysis, uncertainty behavior and versioned runtime outputs. No new user workflow stage. |
+| APP-05 | **Software implemented and live-tested; intended-user acceptance remains open.** Private bilingual HTML reports use actual saved analysis, preserve uncertainty and exact-result access, and support browser Print/Save PDF. | Present a concise summary with comparison playback and supporting details; generate a downloadable report from stored model findings and optional reviewer notes. | Correct source/run/model linkage, faithful findings and uncertainty, clear failed/partial states, preserved private access, useful export and intended-user evaluation. |
 
 ## Supervisor report checklist to verify
 
