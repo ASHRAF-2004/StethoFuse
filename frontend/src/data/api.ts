@@ -12,6 +12,7 @@ const messages: Record<string, string> = {
   account_missing: 'Your application account has not been synchronized. Retry sign-in.',
   ensemble_unavailable: 'Ensemble processing is not connected yet. No job or result was created.',
   separation_unavailable: 'Separation is temporarily unavailable. Your original recording is saved.',
+  analysis_unavailable: 'Acoustic analysis is temporarily unavailable. Your saved sounds are unchanged.',
   benchmark_unavailable: 'Benchmark execution is not available in this runtime.',
   last_admin: 'The last active administrator cannot be disabled or demoted.',
   upload_too_large: 'Choose a WAV file no larger than 25 MiB.',
@@ -87,6 +88,14 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
       await request(`/media/${id}`, {method: 'HEAD', signal});
     },
     clearCache,
+    async report(id:string,locale:'en'|'ar',signal?:AbortSignal):Promise<Blob>{
+      const version=scope;
+      const response=await request(`/results/${encodeURIComponent(id)}/report?locale=${locale}`,{signal});
+      if(!response.headers.get('content-type')?.startsWith('text/html'))throw new Error('The report response could not be verified.');
+      const blob=await response.blob();
+      if(version!==scope||signal?.aborted)throw aborted();
+      return blob;
+    },
     async json<T>(path: string, init?: RequestInit, page?:FeedbackPage): Promise<T> {
       if(init?.signal?.aborted)throw aborted();
       const read=async(signal?:AbortSignal)=>{const response=await request(path,{...init,signal:signal||init?.signal},page);return response.status===204?undefined as T:response.json() as Promise<T>;};

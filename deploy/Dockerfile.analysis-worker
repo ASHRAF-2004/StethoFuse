@@ -1,0 +1,13 @@
+# The existing exact CPU worker supplies the immutable separator environment.
+ARG STETHOFUSE_ANALYSIS_BASE=stethofuse-analysis-worker-base:df4b5cfec7ef
+FROM ${STETHOFUSE_ANALYSIS_BASE}
+USER root
+COPY wheels /tmp/analysis-wheels
+COPY requirements-analysis.lock.txt /tmp/requirements-analysis.lock.txt
+RUN python -m pip install --no-index --find-links=/tmp/analysis-wheels --require-hashes --no-deps -r /tmp/requirements-analysis.lock.txt && python -m pip check
+COPY analysis-models /app/analysis-models
+COPY app/access_foundation /app/app/access_foundation
+COPY app/m1 /app/app/m1
+ARG STETHOFUSE_ANALYSIS_SOURCE_SHA
+ENV STETHOFUSE_ANALYSIS_ENABLED=1 STETHOFUSE_CODE_GIT_SHA=${STETHOFUSE_ANALYSIS_SOURCE_SHA} HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 TOKENIZERS_PARALLELISM=false OMP_NUM_THREADS=2 MKL_NUM_THREADS=2
+USER 10001:10001

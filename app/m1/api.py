@@ -91,13 +91,14 @@ class NotificationReadBody(StrictBody):
     ids: list[Annotated[str, Field(min_length=1,max_length=200)]] = Field(max_length=30)
 
 
-def envelope(user, separation=False, deletion=False):
+def envelope(user, separation=False, deletion=False, analysis=False):
     return {"user": user, "mode": "live", "capabilities": {
         "recordings": True, "sharing": True, "reviews": user["role"] == "audio_analyst",
         "admin": user["role"] == "admin", "ensemble": False, "separation": separation,
         "profile_avatar": True, "account_metadata_export": True,
         "account_deletion": deletion,
         "in_app_notifications": True,
+        "analysis": analysis,
     }}
 
 
@@ -224,15 +225,15 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     @app.post("/api/auth/session")
     def session(_body: SessionBody, who=Depends(identity), store=Depends(database)):
         store.register_verified_identity(who)
-        return envelope(store.me(who), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)))
+        return envelope(store.me(who), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)), settings.analysis_enabled)
 
     @app.get("/api/auth/me")
     def me(who=Depends(principal), store=Depends(database)):
-        return envelope(store.me(who), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)))
+        return envelope(store.me(who), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)), settings.analysis_enabled)
 
     @app.patch("/api/auth/me")
     def profile(body: ProfileBody, who=Depends(principal), store=Depends(database)):
-        return envelope(store.update_profile(who, body.display_name, body.handle), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)))
+        return envelope(store.update_profile(who, body.display_name, body.handle), settings.separation_enabled, callable(getattr(app.state.verifier,"delete_self",None)), settings.analysis_enabled)
 
     @app.get("/api/preferences")
     def preferences(who=Depends(principal), store=Depends(database)):
@@ -380,6 +381,34 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
         if not settings.separation_enabled:
             raise failure(503, "separation_unavailable", "Separation is not enabled. No job was created.")
         return store.request_separation(who, recording_id)
+
+    @app.get("/api/results/{result_id}/analysis")
+    def result_analysis(result_id: str, who=Depends(principal), store=Depends(database)):
+        return store.analysis(who, result_id)
+
+    @app.post("/api/results/{result_id}/analysis", status_code=202)
+    def request_result_analysis(result_id: str, _body: SessionBody, who=Depends(principal), store=Depends(database)):
+        # Authorize the exact result before exposing capability or creating work.
+        result = store.results(who, result_id)
+        store.require_owner(who, result["recording_id"])
+        if not settings.analysis_enabled:
+            raise failure(503, "analysis_unavailable", "Analysis is temporarily unavailable. Saved sounds remain available.")
+        return store.request_analysis(who, result_id)
+
+    @app.get("/api/results/{result_id}/report")
+    def result_report(result_id: str, locale: Literal["en", "ar"] = "en",
+                      who=Depends(principal), store=Depends(database)):
+        from .analysis_report import report_html
+        result = store.results(who, result_id)
+        analysis = (result.get("provenance") or {}).get("analysis")
+        if not analysis or analysis.get("status") in ("queued", "processing"):
+            raise failure(409, "analysis_not_ready", "The analysis report is not ready yet.")
+        reviews = store.recording_reviews(who, result["recording_id"], limit=20)["items"] if result["is_owner"] else ()
+        return Response(report_html(result, analysis, locale, reviews), media_type="text/html",
+                        headers={"Cache-Control": "private, no-store", "Content-Language": locale,
+                                 "Content-Disposition": 'attachment; filename="stethofuse-analysis.html"',
+                                 "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer",
+                                 "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'"})
 
     @app.get("/api/results")
     def results(who=Depends(principal), store=Depends(database)):

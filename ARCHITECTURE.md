@@ -22,8 +22,10 @@ flowchart TB
     API[FastAPI application]
     DB[(Application SQLite)]
     Media[Private filesystem]
-    Worker[Frozen CPU separation worker]
+    Worker[Dedicated CPU processing worker]
     Model[Qualified frozen model]
+    Analysis[Offline heart + lung analyzers]
+    Report[Authorized bilingual report renderer]
     Client --> Edge
     UI -->|Sign-in and account actions| Auth
     Edge -->|Public site and assets| Web
@@ -38,6 +40,8 @@ flowchart TB
     Worker --> DB
     Worker --> Media
     Worker --> Model
+    Worker --> Analysis
+    API --> Report
 ```
 
 ## Source boundaries
@@ -58,6 +62,28 @@ flowchart TB
 | `evaluation/`, `research/`, `scripts/` | Research pipeline and dated reproducibility evidence |
 
 Legacy source and research contracts remain available. An optional method or historical document does not imply it is active in production.
+
+## Post-separation findings and reports
+
+The short workflow is **Upload/record → Separate and analyze → Results and report**.
+The existing worker first preserves the exact frozen separator outputs, then
+analyzes their authenticated float32 WAV encoding and compares findings with the
+original recording. The API remains free of Torch/model loading. Models run
+offline inside the existing worker; no additional inference service, database,
+message broker or paid platform is introduced.
+
+Versioned analysis is additive JSON inside `m1_results.provenance_json`; schema
+version 3 and media/resource authorization remain unchanged. Saved older results
+can queue analysis without rerunning separation. Failure of a model preserves the
+audio and returns an explicit partial/unavailable state. The same result grants
+protect findings and reports; audio-only grants do not imply report access.
+
+Reports are deterministic escaped HTML, generated on demand rather than uploaded
+to a public bucket. They include actual findings, uncertainty, optional owner-visible
+reviewer notes, audio/run references and model hashes. No LLM invents a narrative.
+Browser printing supplies PDF export. The first analysis is capped at 120 seconds
+with explicit coverage for longer files. This preview has no established clinical
+diagnostic performance; see [ACOUSTIC_ANALYSIS.md](docs/ACOUSTIC_ANALYSIS.md).
 
 ## Identity and authorization
 

@@ -28,6 +28,9 @@ class AccountLifecycleStore:
             own="SELECT id FROM af_recordings WHERE owner_id=?"
             if db.execute(f"SELECT 1 FROM m1_jobs WHERE recording_id IN ({own}) AND status='processing' LIMIT 1",(actor["id"],)).fetchone():
                 raise failure(409,"processing_in_progress","Wait for your current processing job to finish before deleting the account.")
+            if db.execute(f"SELECT 1 FROM m1_results WHERE recording_id IN ({own}) AND "
+                          "json_extract(provenance_json,'$.analysis.status')='processing' LIMIT 1",(actor["id"],)).fetchone():
+                raise failure(409,"processing_in_progress","Wait for your current analysis to finish before deleting the account.")
             files=[row[0] for row in db.execute(f"SELECT f.relative_path FROM m1_files f JOIN af_resources r ON r.id=f.resource_id WHERE r.recording_id IN ({own})",(actor["id"],))]
             if any(not re.fullmatch(r"[0-9a-f]{32}\.(wav|png)",name) for name in files):
                 raise failure(503,"deletion_unavailable","Private storage needs operator verification before deletion.")

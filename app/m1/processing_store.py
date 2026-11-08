@@ -10,6 +10,15 @@ from .ml_contract import MODEL_VERSION, ProcessingError
 
 
 class ProcessingStore:
+    def set_processing_stage(self, job, stage):
+        if stage != "analysis":
+            raise ValueError("Unknown processing extension.")
+        with self._connection(write=True) as db:
+            changed = db.execute("UPDATE m1_jobs SET stage=? WHERE id=? AND status='processing' AND claim_token=?",
+                                 (stage, job["id"], job["claim_token"])).rowcount
+            if not changed:
+                raise ProcessingError("job_claim_lost")
+
     @staticmethod
     def _public_job(row):
         keys = ("id", "public_id", "recording_id", "requester_id", "status", "created_at", "started_at",

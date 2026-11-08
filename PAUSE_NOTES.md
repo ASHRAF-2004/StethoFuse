@@ -1,4 +1,37 @@
-# Current StethoFuse checkpoint — 5 November 2026
+# Current StethoFuse checkpoint
+
+## Active implementation — 9 November 2026
+
+The owner subsequently instructed starting and deploying the recorded improvement.
+Work is on `feature/post-separation-analysis` / PR #17. Automatic post-separation
+acoustic candidates and bilingual private reports are implemented; qualification,
+full worker/browser verification and guarded production deployment are in progress.
+See [ACOUSTIC_ANALYSIS.md](docs/ACOUSTIC_ANALYSIS.md). The first Linux CI run passed.
+No new production release is claimed by this checkpoint. The small heart smoke
+study exposed a missed labeled murmur; output is explicitly an experimental
+listening-review candidate, with no validated diagnostic-performance claim.
+The historical planning section below remains the record of the discussion.
+
+## Next improvement backlog — recorded 9 November 2026
+
+The owner asked to save the application-based FYP gaps and continue chatting.
+See [NEXT_IMPROVEMENT_GAPS.md](docs/NEXT_IMPROVEMENT_GAPS.md): limited user-entered
+recording attributes (confirmed), intended healthcare-user validation (not yet
+established by reviewed evidence), and FYP requirements/use-case/report alignment
+(not yet audited). The full supervisor correction checklist and closure evidence
+are recorded there. Existing roles/library/processing/sharing/reviews establish an
+application foundation; they do not prove stakeholder suitability or report completion.
+The owner then selected a simple improvement direction: **Upload/record → Separate
+and analyze → Results/report**. Automatic heart/lung analyzers and a structured,
+downloadable recording-analysis report belong after separation, behind one action.
+No separate quality-feedback stage or extra mandatory user steps. Initial candidate
+tasks are murmur detection and wheeze/crackle classification; exact models and any
+disease-prediction endpoint still require selection and pipeline evaluation. The
+backlog now records APP-04/APP-05, report contents, sound-preservation tests and
+held-out-patient validation. These capabilities are planned, not implemented.
+No application changes or deployment are requested by this note.
+
+## Last recorded deployment checkpoint
 
 LIVE: https://stethofuse.ashraf-alsaloul.com/
 Version: `20261105T101558Z-aa1c40a98ebd`

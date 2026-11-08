@@ -29,6 +29,7 @@
 
 - **Record or upload.** Capture microphone audio in a supported browser, or upload a PCM WAV recording up to 25 MiB. Preview before saving.
 - **Separate and compare.** Queue the frozen CPU model, keep the original unchanged, and compare aligned heart and lung outputs with waveforms.
+- **Review findings and export a report.** Automatic acoustic-analysis preview adds heart/lung sound candidates, uncertainty and listening intervals after separation. Download a private English/Arabic HTML report, or print it to PDF. [Behavior and validation limits](docs/ACOUSTIC_ANALYSIS.md).
 - **Keep a private library.** Recordings, processing history, settings and notifications belong to an authenticated account.
 - **Invite a second pair of ears.** Grant an analyst access to a specific resource, receive a review, and revoke access when needed.
 - **Work in English or Arabic.** RTL layout, a mirrored pointer-following owl, day/night appearance and reduced motion.

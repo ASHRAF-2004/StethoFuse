@@ -38,6 +38,7 @@ class Worker:
         self.store = M1Store(settings.database)
         self.lock_fd = None
         self.separator = None
+        self.analysis_engine = None
 
     def __enter__(self):
         self.settings.database.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -58,6 +59,14 @@ class Worker:
             # Import PyTorch only in this dedicated worker process.
             from .frozen_model import FrozenSeparator
             self.separator = FrozenSeparator(self.checkpoint, self.specification)
+            if self.settings.analysis_enabled:
+                from .analysis_engine import AnalysisEngine
+                try:
+                    self.analysis_engine = AnalysisEngine(os.environ.get("STETHOFUSE_ANALYSIS_MODELS", "/app/analysis-models"))
+                except Exception:
+                    # Separation remains available; never substitute fabricated findings.
+                    self.analysis_engine = None
+                self.store.recover_interrupted_analysis()
             for job in self.store.interrupted_jobs():
                 self.cleanup(job)
                 if job["status"] == "processing":
@@ -133,6 +142,17 @@ class Worker:
         self.sync_directory()
         return {"relative_path": target.name, "size": target.stat().st_size, "sha256": digest(target.read_bytes())}
 
+    def read_analysis_output(self, info):
+        """Read our hash-verified IEEE float WAV; the upload decoder accepts PCM."""
+        import io
+        import numpy as np
+        from scipy.io import wavfile
+        encoded, sha = self.read_input({"input_file": info, "input_sha256": info["sha256"]})
+        rate, samples = wavfile.read(io.BytesIO(encoded))
+        if rate != 4000 or samples.dtype != np.float32 or samples.ndim != 1 or not np.isfinite(samples).all():
+            raise ProcessingError("output_integrity_failed")
+        return samples, sha
+
     def run_once(self):
         if self.lock_fd is None or self.separator is None:
             raise ProcessingError("worker_not_started")
@@ -156,6 +176,23 @@ class Worker:
                           "worker_version": WORKER_VERSION, "worker_attempt": job["attempts"],
                           "runtime_seconds": runtime, "processing_seconds": time.perf_counter() - started,
                           "output_samples": len(canonical), "started_at": job["started_at"]}
+            if self.settings.analysis_enabled:
+                self.store.set_processing_stage(job, "analysis")
+                from .analysis_engine import unavailable
+                try:
+                    if self.analysis_engine is None:
+                        raise ProcessingError("analysis_unavailable")
+                    # Analyze the exact stored output encoding, not an unexported tensor.
+                    import numpy as np
+                    saved = []
+                    for kind in ("heart", "lung"):
+                        info = outputs[kind]
+                        decoded, _ = self.read_analysis_output({**info, "file_size_bytes": info["size"]})
+                        saved.append(decoded)
+                    provenance["analysis"] = self.analysis_engine.analyze(canonical, np.stack(saved), 4000,
+                        {"original": input_sha, "heart": outputs["heart"]["sha256"], "lung": outputs["lung"]["sha256"]})
+                except Exception:
+                    provenance["analysis"] = unavailable()
             self.store.complete_job(job, outputs, provenance)
             return {"id": job["id"], "status": "succeeded", "runtime_seconds": runtime}
         except Exception as error:
@@ -172,6 +209,32 @@ class Worker:
             except OSError:
                 pass
             return {"id": job["id"], "status": "failed", "error_code": code, "stage": stage}
+
+    def run_analysis_once(self):
+        if not self.settings.analysis_enabled:
+            return None
+        request = self.store.claim_analysis()
+        if request is None:
+            return None
+        from .analysis_engine import unavailable
+        try:
+            if self.analysis_engine is None:
+                raise ProcessingError("analysis_unavailable")
+            import numpy as np
+            samples, hashes = {}, {}
+            for kind in ("original", "heart", "lung"):
+                info = request["files"][kind + "_audio"]
+                if kind == "original":
+                    encoded, sha = self.read_input({"input_file": info, "input_sha256": info["sha256"]})
+                    samples[kind], _ = self.separator.decode(encoded)
+                else:
+                    samples[kind], sha = self.read_analysis_output(info)
+                hashes[kind] = sha
+            analysis = self.analysis_engine.analyze(samples["original"], np.stack([samples["heart"], samples["lung"]]), 4000, hashes)
+        except Exception:
+            analysis = unavailable()
+        committed = self.store.complete_analysis(request, analysis)
+        return {"id": request["run_id"], "analysis_status": analysis["status"], "saved": committed}
 
 
 def main():
@@ -196,6 +259,8 @@ def main():
             print(json.dumps({"status": "ready", "model_load_seconds": worker.separator.load_seconds, "worker_version": WORKER_VERSION}), flush=True)
             while not stop:
                 result = worker.run_once()
+                if result is None:
+                    result = worker.run_analysis_once()
                 if result:
                     print(json.dumps(result), flush=True)
                 if args.once:
