@@ -41,7 +41,7 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
     if(!signal)return promise;if(signal.aborted)throw aborted();
     return new Promise<T>((resolve,reject)=>{const cancel=()=>{signal.removeEventListener('abort',cancel);reject(aborted());};signal.addEventListener('abort',cancel,{once:true});void promise.then(value=>{signal.removeEventListener('abort',cancel);resolve(value);},error=>{signal.removeEventListener('abort',cancel);reject(error);});});
   }
-  async function request(path: string, init: RequestInit = {}, page?:FeedbackPage): Promise<Response> {
+  async function request(path: string, init: RequestInit = {}, page?:FeedbackPage,reportLocale?:'en'|'ar'): Promise<Response> {
     const version=scope,signal=AbortSignal.any([lifetime.signal,...(init.signal?[init.signal]:[])]);
     if(signal.aborted)throw aborted();
     // Callers supply API-relative paths, never response URLs, absolute URLs or query tokens.
@@ -52,13 +52,17 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
       if(!(path==='/reviews/history'||/^\/recordings\/[a-z0-9_-]+\/reviews$/i.test(path))||!Number.isSafeInteger(page.limit)||page.limit<1||page.limit>20||!Number.isSafeInteger(page.offset??0)||(page.offset??0)<0)throw new Error('Invalid feedback page.');
       suffix=`?limit=${page.limit}&offset=${page.offset??0}`;
     }
+    if(reportLocale!==undefined){
+      if(page||!/^\/results\/[a-z0-9_-]+\/report$/i.test(path)||!['en','ar'].includes(reportLocale)||(init.method||'GET')!=='GET')throw new Error('Invalid report request.');
+      suffix=`?locale=${reportLocale}`;
+    }
     for (let attempt = 0; attempt < 2; attempt++) {
       let bearer: string;
       try { bearer = await token(attempt === 1); } catch (error) { if (error instanceof DOMException && error.name === 'AbortError') throw error; onSessionExpired(); throw new ApiError(401, 'session_expired', 'Your session has expired. Sign in again.'); }
       if(version!==scope||signal.aborted)throw aborted();
       const headers = new Headers(init.headers);
       headers.set('Authorization', `Bearer ${bearer}`);
-      headers.set('Accept', 'application/json');
+      headers.set('Accept', reportLocale?'text/html':'application/json');
       if (typeof init.body === 'string') headers.set('Content-Type', 'application/json');
       let response: Response;
       try {
@@ -89,8 +93,9 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
     },
     clearCache,
     async report(id:string,locale:'en'|'ar',signal?:AbortSignal):Promise<Blob>{
+      if(locale!=='en'&&locale!=='ar')throw new Error('Invalid report language.');
       const version=scope;
-      const response=await request(`/results/${encodeURIComponent(id)}/report?locale=${locale}`,{signal});
+      const response=await request(`/results/${encodeURIComponent(id)}/report`,{signal},undefined,locale);
       if(!response.headers.get('content-type')?.startsWith('text/html'))throw new Error('The report response could not be verified.');
       const blob=await response.blob();
       if(version!==scope||signal?.aborted)throw aborted();

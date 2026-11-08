@@ -35,6 +35,8 @@ jobs:
       - run: npm ci
       - name: Account-mail adapter security contract
         run: node --test tests/account-mail.test.mjs
+      - name: Private report download boundary
+        run: node tests/report-download.mjs
       - run: npx playwright-core install --with-deps chromium
       - run: npm test
       - run: npm run test:startup
