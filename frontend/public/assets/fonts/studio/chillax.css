@@ -2,20 +2,20 @@
   font-family: 'Chillax';
   src:url('/assets/fonts/studio/chillax-0.woff2') format('woff2');
   font-weight: 400;
-  font-display: optional;
+  font-display: swap;
   font-style: normal;
 }
 @font-face {
   font-family: 'Chillax';
   src:url('/assets/fonts/studio/chillax-1.woff2') format('woff2');
   font-weight: 500;
-  font-display: optional;
+  font-display: swap;
   font-style: normal;
 }
 @font-face {
   font-family: 'Chillax';
   src:url('/assets/fonts/studio/chillax-2.woff2') format('woff2');
   font-weight: 600;
-  font-display: optional;
+  font-display: swap;
   font-style: normal;
 }

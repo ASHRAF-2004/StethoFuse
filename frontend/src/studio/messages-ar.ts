@@ -1,6 +1,23 @@
 import ui from './messages-ui-ar';
 /** UI translations. User-authored names, notes, handles and IDs are never translated. */
 const messages:Record<string,string>={
+ "What do I get after separation?":"ماذا أحصل عليه بعد فصل الأصوات؟",
+ "Automatic analysis follows heart and lung separation. Compare the original and separated tracks, review acoustic findings and uncertainty, and download a private report in English or Arabic.":"يبدأ التحليل تلقائيًا بعد فصل أصوات القلب والرئة. قارن التسجيل الأصلي بالمسارات المفصولة، وراجع الملاحظات الصوتية ودرجة عدم اليقين، ثم نزّل تقريرًا خاصًا بالعربية أو الإنجليزية.",
+ "How should I interpret the findings?":"كيف أفهم الملاحظات الصوتية؟",
+ "The report highlights possible murmur, wheeze and crackle patterns, including uncertainty. Use it to guide a professional review of the recording. The analysis is experimental and has not been clinically validated for disease diagnosis.":"يبرز التقرير أنماطًا صوتية محتملة مثل النفخات القلبية والأزيز والفرقعة، مع توضيح عدم اليقين. يساعد ذلك المختص على مراجعة التسجيل. التحليل تجريبي، ولم تُثبت صلاحيته سريريًا لتشخيص الأمراض.",
+ "Separate and analyze":"افصل وحلّل",
+ "Start once. Heart and lung separation is followed by automatic acoustic analysis, with your original kept unchanged.":"ابدأ بخطوة واحدة. يتبع فصل أصوات القلب والرئة تحليل صوتي تلقائي، مع الحفاظ على التسجيل الأصلي دون تغيير.",
+ "Review and report":"راجع وأعدّ التقرير",
+ "Compare aligned tracks, explore findings and uncertainty, and download your English or Arabic report. Share access with an assigned analyst.":"قارن المسارات المتزامنة، واستكشف الملاحظات ودرجة عدم اليقين، ونزّل تقريرك بالعربية أو الإنجليزية. يمكنك منح محلّل معيّن إذن الوصول.",
+ "Separate heart and lung sounds. Explore acoustic findings, compare every track, and bring your review together in one private report.":"افصل أصوات القلب والرئة. استكشف الملاحظات الصوتية، وقارن المسارات، واجمع تفاصيل مراجعتك في تقرير خاص واحد.",
+ "Hear the separation here. In your workspace, explore acoustic findings and download your report.":"استمع هنا إلى الأصوات بعد الفصل. وفي مساحة عملك، استكشف الملاحظات الصوتية ونزّل تقريرك.",
+ "From recording to report.":"من التسجيل إلى التقرير.",
+ "Record or upload. Separate and analyze. Review and report. Three connected steps, with your original always preserved.":"سجّل أو ارفع ملفًا. افصل وحلّل. راجع وأعدّ التقرير. ثلاث خطوات مترابطة، والتسجيل الأصلي محفوظ دائمًا.",
+ "Acoustic findings":"الملاحظات الصوتية",
+ "English or Arabic report":"تقرير بالعربية أو الإنجليزية",
+ "Your workflow, explained.":"مسار عملك، بوضوح.",
+ "Your recording, findings and report. Together in one private workspace.":"تسجيلك وملاحظاتك وتقريرك. معًا في مساحة عمل خاصة واحدة.",
+ "Heart and lung sound separation, analysis and review.":"فصل أصوات القلب والرئة وتحليلها ومراجعتها.",
   "Your email address has been restored.": "تمت استعادة عنوان بريدك الإلكتروني.",
   "Your email address is updated.": "تم تحديث عنوان بريدك الإلكتروني.",
   "Updated 5 November 2026": "آخر تحديث: 5 نوفمبر 2026",
