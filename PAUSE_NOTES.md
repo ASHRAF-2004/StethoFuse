@@ -1,4 +1,32 @@
-# Current StethoFuse checkpoint — 9 November 2026
+# Current homepage correction — 9 November 2026
+
+The homepage now describes the deployed recording → separation and analysis →
+review/report workflow in English and Arabic. Its footer describes the product;
+the FAQ explains the experimental acoustic findings and clinical-validation
+boundary. It no longer presents the old blanket research-only slogan as its
+main product message. The listening sample remains an actual separation sample;
+the workflow panel is labelled as a preview and invents no clinical findings.
+
+The English font files and family are unchanged. A real cold browser inspection
+found Segoe UI still rendering after Chillax downloaded because `font-display:
+optional` could permanently retain fallback text. The corrected faces use `swap`,
+and the regular body face is preloaded alongside the existing semibold face.
+The public checks inspect actual rendered platform fonts after delaying downloads;
+CSS-family strings and successful font responses alone are insufficient.
+
+Use `OwnerRelease/Invoke-OwnerRelease.ps1 -Action status` and the owner's
+`SharedRuntimeMigration-20261015/stethofuse-status.json` for the exact live version
+and immutable receipts. This source checkpoint describes the selected website
+change; it does not authorize replaying an earlier deployment. Approved native
+owl files/renderer, API/worker pins, analysis models, schema and stored data remain
+unchanged by this website-only correction. No paid service or backup is invoked.
+
+The previous completed analysis deployment is recorded below as history.
+Clinical validation and intended-healthcare-user evidence remain open.
+
+---
+
+# Previous analysis checkpoint — 9 November 2026
 
 LIVE: https://stethofuse.ashraf-alsaloul.com/
 Version: `20261108T223046Z-93ff781cfbf3`
