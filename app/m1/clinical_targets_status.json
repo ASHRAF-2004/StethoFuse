@@ -1,0 +1,314 @@
+{
+  "format": "stethofuse-clinical-status-v1",
+  "protocol_version": "stethofuse-clinical-targets-v4",
+  "gate": {
+    "status": "passed",
+    "model": "features_boosted_trees",
+    "failed_checks": [],
+    "rates": {
+      "chest_recordings": 2506,
+      "unrelated_recordings": 1034,
+      "chest_false_rejection": 0.0011971268954509178,
+      "chest_false_rejection_ci": [
+        0.0004072128356645806,
+        0.003513934767546324
+      ],
+      "unrelated_false_acceptance": 0.0038684719535783366,
+      "unrelated_false_acceptance_ci": [
+        0.0015053704343094883,
+        0.009904328725473211
+      ],
+      "uncertain_fraction": 0.002824858757062147
+    },
+    "missing_datasets": []
+  },
+  "targets": [
+    {
+      "key": "copd",
+      "organ": "lung",
+      "title": {
+        "en": "COPD",
+        "ar": "مرض الانسداد الرئوي المزمن"
+      },
+      "supported_population": [
+        "adult",
+        "older_adult"
+      ],
+      "dataset": "icbhi, kauh, respiratorydatabase_tr, bracets_thessaloniki, bracets_aveiro",
+      "bar": {
+        "min_auroc_ci_low": 0.7,
+        "min_test_sensitivity": 0.7,
+        "min_test_specificity": 0.6,
+        "max_expected_calibration_error": 0.15,
+        "min_test_positive_subjects": 10
+      },
+      "status": "not_activated",
+      "model": "features_boosted_trees",
+      "evidence_run_utc": "2026-11-20T10:00:58+00:00",
+      "failed_checks": [
+        "auroc_ci_low",
+        "beats_baseline",
+        "calibration"
+      ],
+      "test": {
+        "subjects": 27,
+        "positive_subjects": 14,
+        "auroc": 0.8351648351648352,
+        "auroc_ci_low": 0.6701923076923079,
+        "auroc_ci_high": 0.967032967032967,
+        "sensitivity": 0.7857142857142857,
+        "specificity": 0.8461538461538461,
+        "expected_calibration_error": 0.1512636153288691
+      },
+      "external_test": null
+    },
+    {
+      "key": "pneumonia",
+      "organ": "lung",
+      "title": {
+        "en": "Pneumonia",
+        "ar": "الالتهاب الرئوي"
+      },
+      "supported_population": [
+        "adult",
+        "older_adult"
+      ],
+      "dataset": "icbhi, kauh",
+      "bar": {
+        "min_auroc_ci_low": 0.7,
+        "min_test_sensitivity": 0.7,
+        "min_test_specificity": 0.6,
+        "max_expected_calibration_error": 0.15,
+        "min_test_positive_subjects": 10
+      },
+      "status": "not_activated",
+      "model": "features_logreg",
+      "evidence_run_utc": "2026-11-20T10:01:05+00:00",
+      "failed_checks": [
+        "enough_test_positive_subjects",
+        "enough_test_negative_subjects",
+        "specificity"
+      ],
+      "test": {
+        "subjects": 10,
+        "positive_subjects": 1,
+        "auroc": 1.0,
+        "auroc_ci_low": 1.0,
+        "auroc_ci_high": 1.0,
+        "sensitivity": 1.0,
+        "specificity": 0.4444444444444444,
+        "expected_calibration_error": 0.13605667183910564
+      },
+      "external_test": null
+    },
+    {
+      "key": "abnormal_heart",
+      "organ": "heart",
+      "title": {
+        "en": "Abnormal heart (cardiologist screen)",
+        "ar": "قلب غير طبيعي (فحص طبيب القلب)"
+      },
+      "supported_population": [
+        "infant",
+        "child",
+        "adolescent",
+        "adult"
+      ],
+      "dataset": "circor",
+      "bar": {
+        "min_auroc_ci_low": 0.7,
+        "min_test_sensitivity": 0.7,
+        "min_test_specificity": 0.6,
+        "max_expected_calibration_error": 0.15,
+        "min_test_positive_subjects": 10
+      },
+      "status": "not_activated",
+      "model": "panns_logreg",
+      "evidence_run_utc": "2026-11-20T10:02:30+00:00",
+      "failed_checks": [
+        "auroc_ci_low",
+        "specificity"
+      ],
+      "test": {
+        "subjects": 235,
+        "positive_subjects": 113,
+        "auroc": 0.6920063832873931,
+        "auroc_ci_low": 0.6240134919483534,
+        "auroc_ci_high": 0.7557993616712605,
+        "sensitivity": 0.8584070796460177,
+        "specificity": 0.36065573770491804,
+        "expected_calibration_error": 0.03297662271980048
+      },
+      "external_test": {
+        "subjects": 3240,
+        "positive_subjects": 665,
+        "negative_subjects": 2575,
+        "auroc": 0.5796595371924959,
+        "sensitivity": 0.724812030075188,
+        "specificity": 0.3662135922330097,
+        "balanced_accuracy": 0.5455128111540989,
+        "expected_calibration_error": 0.38504592019979766,
+        "threshold": 0.39679173719422994
+      }
+    },
+    {
+      "key": "aortic_stenosis",
+      "organ": "heart",
+      "title": {
+        "en": "Aortic stenosis",
+        "ar": "تضيّق الصمام الأبهري"
+      },
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "dataset": "bmdhs",
+      "bar": {
+        "min_auroc_ci_low": 0.7,
+        "min_test_sensitivity": 0.7,
+        "min_test_specificity": 0.6,
+        "max_expected_calibration_error": 0.15,
+        "min_test_positive_subjects": 10
+      },
+      "status": "not_activated",
+      "model": "features_boosted_trees",
+      "evidence_run_utc": "2026-11-20T10:03:23+00:00",
+      "failed_checks": [
+        "enough_test_positive_subjects",
+        "calibration"
+      ],
+      "test": {
+        "subjects": 27,
+        "positive_subjects": 9,
+        "auroc": 0.9876543209876543,
+        "auroc_ci_low": 0.9444444444444445,
+        "auroc_ci_high": 1.0,
+        "sensitivity": 0.8888888888888888,
+        "specificity": 0.8888888888888888,
+        "expected_calibration_error": 0.15822538293637697
+      },
+      "external_test": null
+    },
+    {
+      "key": "aortic_regurgitation",
+      "organ": "heart",
+      "title": {
+        "en": "Aortic regurgitation",
+        "ar": "قلس الصمام الأبهري"
+      },
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "dataset": "bmdhs, heart_regurgitation",
+      "bar": {
+        "min_auroc_ci_low": 0.7,
+        "min_test_sensitivity": 0.7,
+        "min_test_specificity": 0.6,
+        "max_expected_calibration_error": 0.15,
+        "min_test_positive_subjects": 10
+      },
+      "status": "not_activated",
+      "model": "features_logreg",
+      "evidence_run_utc": "2026-11-20T10:10:01+00:00",
+      "failed_checks": [
+        "auroc_ci_low",
+        "beats_baseline"
+      ],
+      "test": {
+        "subjects": 47,
+        "positive_subjects": 11,
+        "auroc": 0.7878787878787878,
+        "auroc_ci_low": 0.5908459595959598,
+        "auroc_ci_high": 0.9419191919191919,
+        "sensitivity": 0.8181818181818182,
+        "specificity": 0.6666666666666666,
+        "expected_calibration_error": 0.09698775156583124
+      },
+      "external_test": null
+    },
+    {
+      "key": "mitral_regurgitation",
+      "organ": "heart",
+      "title": {
+        "en": "Mitral regurgitation",
+        "ar": "قلس الصمام التاجي"
+      },
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "dataset": "bmdhs, heart_regurgitation",
+      "bar": {
+        "min_auroc_ci_low": 0.7,
+        "min_test_sensitivity": 0.7,
+        "min_test_specificity": 0.6,
+        "max_expected_calibration_error": 0.15,
+        "min_test_positive_subjects": 10
+      },
+      "status": "not_activated",
+      "model": "features_boosted_trees",
+      "evidence_run_utc": "2026-11-20T10:17:00+00:00",
+      "failed_checks": [
+        "auroc_ci_low",
+        "beats_baseline",
+        "sensitivity",
+        "specificity",
+        "calibration"
+      ],
+      "test": {
+        "subjects": 43,
+        "positive_subjects": 18,
+        "auroc": 0.6288888888888888,
+        "auroc_ci_low": 0.46444444444444444,
+        "auroc_ci_high": 0.7866666666666666,
+        "sensitivity": 0.6666666666666666,
+        "specificity": 0.56,
+        "expected_calibration_error": 0.16132493028861394
+      },
+      "external_test": null
+    },
+    {
+      "key": "mitral_stenosis",
+      "organ": "heart",
+      "title": {
+        "en": "Mitral stenosis",
+        "ar": "تضيّق الصمام التاجي"
+      },
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "dataset": "bmdhs",
+      "bar": {
+        "min_auroc_ci_low": 0.7,
+        "min_test_sensitivity": 0.7,
+        "min_test_specificity": 0.6,
+        "max_expected_calibration_error": 0.15,
+        "min_test_positive_subjects": 10
+      },
+      "status": "not_activated",
+      "model": "features_logreg",
+      "evidence_run_utc": "2026-11-20T10:17:51+00:00",
+      "failed_checks": [
+        "enough_test_positive_subjects",
+        "calibration"
+      ],
+      "test": {
+        "subjects": 27,
+        "positive_subjects": 9,
+        "auroc": 0.8888888888888888,
+        "auroc_ci_low": 0.7469135802469136,
+        "auroc_ci_high": 0.9876543209876543,
+        "sensitivity": 1.0,
+        "specificity": 0.6111111111111112,
+        "expected_calibration_error": 0.2000188919676427
+      },
+      "external_test": null
+    }
+  ]
+}

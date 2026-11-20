@@ -20,6 +20,8 @@ from .config import PROJECT_ROOT, Settings
 from .media import BodyLimitMiddleware, byte_range, failure, open_authorized_media, persist_upload
 from .provider import configured_verifier
 from .store import M1Store
+from .case_context import CaseContextError, field_spec
+from .clinical_status import clinical_status
 from .public_identity import IdentityError
 
 
@@ -38,6 +40,10 @@ class ProfileBody(StrictBody):
 
 class TitleBody(StrictBody):
     title: str = Field(min_length=1, max_length=200)
+
+
+class CaseContextBody(StrictBody):
+    context: dict[str, str | list[str] | None] = Field(max_length=32)
 
 
 class GrantBody(StrictBody):
@@ -319,6 +325,25 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     def update_recording(recording_id: str, body: TitleBody, who=Depends(principal), store=Depends(database)):
         return store.update_recording(who, recording_id, body.title)
 
+    @app.get("/api/case-context/spec")
+    def case_context_spec(who=Depends(principal)):
+        return field_spec()
+
+    @app.get("/api/clinical-targets")
+    def clinical_targets(who=Depends(principal)):
+        return clinical_status()
+
+    @app.get("/api/recordings/{recording_id}/context")
+    def case_context(recording_id: str, who=Depends(principal), store=Depends(database)):
+        return store.case_context(who, recording_id)
+
+    @app.put("/api/recordings/{recording_id}/context")
+    def update_case_context(recording_id: str, body: CaseContextBody, who=Depends(principal), store=Depends(database)):
+        try:
+            return store.update_case_context(who, recording_id, body.context)
+        except CaseContextError as error:
+            raise failure(422, "invalid_case_context", str(error)) from error
+
     @app.get("/api/recordings/{recording_id}/reviews")
     def recording_reviews(recording_id: str, limit: int = Query(default=3, ge=1, le=20),
                           offset: int = Query(default=0, ge=0), who=Depends(principal), store=Depends(database)):
@@ -404,7 +429,8 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
         if not analysis or analysis.get("status") in ("queued", "processing"):
             raise failure(409, "analysis_not_ready", "The analysis report is not ready yet.")
         reviews = store.recording_reviews(who, result["recording_id"], limit=20)["items"] if result["is_owner"] else ()
-        return Response(report_html(result, analysis, locale, reviews), media_type="text/html",
+        context = store.case_context(who, result["recording_id"])["context"]
+        return Response(report_html(result, analysis, locale, reviews, context), media_type="text/html",
                         headers={"Cache-Control": "private, no-store", "Content-Language": locale,
                                  "Content-Disposition": 'attachment; filename="stethofuse-analysis.html"',
                                  "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer",

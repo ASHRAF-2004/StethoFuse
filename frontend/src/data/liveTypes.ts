@@ -34,3 +34,13 @@ export function validateSession(value: SessionEnvelope): SessionEnvelope {
       typeof value.user.email_verified !== 'boolean' || !value.capabilities) throw new Error('The application returned an invalid account response.');
   return value;
 }
+
+export type Localized={en:string;ar:string};
+export interface CaseFieldOption{value:string;label:Localized}
+export interface CaseField{key:string;type:'code'|'choice'|'multi_choice';label:Localized;help?:Localized;options?:CaseFieldOption[];max_length?:number;pattern?:string}
+export interface CaseContextSpec{version:string;policy:string;fields:CaseField[]}
+export type CaseContextValues=Record<string,string|string[]>;
+export interface CaseContextState{spec_version:string;can_edit:boolean;context:CaseContextValues;updated_at:number|null}
+export interface ClinicalTestNumbers{subjects:number;positive_subjects:number;auroc:number|null;auroc_ci_low:number|null;auroc_ci_high:number|null;sensitivity:number|null;specificity:number|null;expected_calibration_error:number}
+export interface ClinicalTarget{key:string;organ:'heart'|'lung';title:Localized;supported_population:string[];dataset:string;status:'activated'|'passed'|'not_activated'|'not_run';model?:string;failed_checks?:string[];reason?:string;missing_datasets?:string[];bar:{min_auroc_ci_low:number;min_test_sensitivity:number;min_test_specificity:number;max_expected_calibration_error:number;min_test_positive_subjects:number};test?:ClinicalTestNumbers;external_test?:ClinicalTestNumbers|null}
+export interface ClinicalStatus{format:string;protocol_version:string;gate:{status:'activated'|'passed'|'not_activated'|'not_run';failed_checks?:string[];missing_datasets?:string[]};targets:ClinicalTarget[]}

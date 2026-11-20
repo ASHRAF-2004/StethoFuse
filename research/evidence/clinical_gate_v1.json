@@ -1,0 +1,625 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v1",
+    "protocol_sha256": "b8067d33294ec4c8ca682b9c69236a7794ede08f2f8806d5e649d1f5e1e66921",
+    "run_utc": "2026-11-20T04:34:39+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "evaluated",
+  "missing_datasets": {
+    "icbhi": "icbhi: no extracted folder in the data root",
+    "sprsound": "sprsound: no extracted folder in the data root",
+    "musan": "musan: no extracted folder in the data root"
+  },
+  "test_unit": "recording (split by subject)",
+  "cohort": {
+    "recordings": 8585,
+    "subjects": 5746,
+    "positive_subjects": 4182,
+    "negative_subjects": 1564
+  },
+  "results": {
+    "prior": {
+      "rates": {
+        "chest_recordings": 1593,
+        "unrelated_recordings": 548,
+        "chest_false_rejection": 0.0,
+        "chest_false_rejection_ci": [
+          0.0,
+          0.0024056607495218313
+        ],
+        "unrelated_false_acceptance": 0.0,
+        "unrelated_false_acceptance_ci": [
+          4.336808689942018e-19,
+          0.006961163861996644
+        ],
+        "uncertain_fraction": 1.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "uncertain_fraction",
+          "declared_datasets_missing"
+        ]
+      },
+      "by_source": {
+        "circor/adolescent": {
+          "uncertain": 61
+        },
+        "circor/all": {
+          "uncertain": 67
+        },
+        "circor/child": {
+          "uncertain": 602
+        },
+        "circor/infant": {
+          "uncertain": 52
+        },
+        "esc50/airplane": {
+          "uncertain": 10
+        },
+        "esc50/breathing": {
+          "uncertain": 12
+        },
+        "esc50/brushing_teeth": {
+          "uncertain": 12
+        },
+        "esc50/can_opening": {
+          "uncertain": 12
+        },
+        "esc50/car_horn": {
+          "uncertain": 7
+        },
+        "esc50/cat": {
+          "uncertain": 8
+        },
+        "esc50/chainsaw": {
+          "uncertain": 7
+        },
+        "esc50/chirping_birds": {
+          "uncertain": 4
+        },
+        "esc50/church_bells": {
+          "uncertain": 12
+        },
+        "esc50/clapping": {
+          "uncertain": 9
+        },
+        "esc50/clock_alarm": {
+          "uncertain": 15
+        },
+        "esc50/clock_tick": {
+          "uncertain": 8
+        },
+        "esc50/coughing": {
+          "uncertain": 4
+        },
+        "esc50/cow": {
+          "uncertain": 8
+        },
+        "esc50/crackling_fire": {
+          "uncertain": 8
+        },
+        "esc50/crickets": {
+          "uncertain": 11
+        },
+        "esc50/crow": {
+          "uncertain": 12
+        },
+        "esc50/crying_baby": {
+          "uncertain": 6
+        },
+        "esc50/dog": {
+          "uncertain": 8
+        },
+        "esc50/door_wood_creaks": {
+          "uncertain": 12
+        },
+        "esc50/door_wood_knock": {
+          "uncertain": 12
+        },
+        "esc50/drinking_sipping": {
+          "uncertain": 9
+        },
+        "esc50/engine": {
+          "uncertain": 8
+        },
+        "esc50/fireworks": {
+          "uncertain": 1
+        },
+        "esc50/footsteps": {
+          "uncertain": 17
+        },
+        "esc50/frog": {
+          "uncertain": 11
+        },
+        "esc50/glass_breaking": {
+          "uncertain": 7
+        },
+        "esc50/hand_saw": {
+          "uncertain": 8
+        },
+        "esc50/helicopter": {
+          "uncertain": 11
+        },
+        "esc50/hen": {
+          "uncertain": 7
+        },
+        "esc50/insects": {
+          "uncertain": 10
+        },
+        "esc50/keyboard_typing": {
+          "uncertain": 12
+        },
+        "esc50/laughing": {
+          "uncertain": 8
+        },
+        "esc50/mouse_click": {
+          "uncertain": 10
+        },
+        "esc50/pig": {
+          "uncertain": 10
+        },
+        "esc50/pouring_water": {
+          "uncertain": 14
+        },
+        "esc50/rain": {
+          "uncertain": 13
+        },
+        "esc50/rooster": {
+          "uncertain": 11
+        },
+        "esc50/sea_waves": {
+          "uncertain": 15
+        },
+        "esc50/sheep": {
+          "uncertain": 9
+        },
+        "esc50/siren": {
+          "uncertain": 10
+        },
+        "esc50/sneezing": {
+          "uncertain": 12
+        },
+        "esc50/snoring": {
+          "uncertain": 9
+        },
+        "esc50/thunderstorm": {
+          "uncertain": 7
+        },
+        "esc50/toilet_flush": {
+          "uncertain": 7
+        },
+        "esc50/train": {
+          "uncertain": 24
+        },
+        "esc50/vacuum_cleaner": {
+          "uncertain": 10
+        },
+        "esc50/washing_machine": {
+          "uncertain": 12
+        },
+        "esc50/water_drops": {
+          "uncertain": 8
+        },
+        "esc50/wind": {
+          "uncertain": 11
+        },
+        "librispeech/speech": {
+          "uncertain": 50
+        },
+        "physionet2016/all": {
+          "uncertain": 811
+        }
+      }
+    },
+    "features_logreg": {
+      "rates": {
+        "chest_recordings": 1593,
+        "unrelated_recordings": 548,
+        "chest_false_rejection": 0.0,
+        "chest_false_rejection_ci": [
+          0.0,
+          0.0024056607495218313
+        ],
+        "unrelated_false_acceptance": 0.0036496350364963502,
+        "unrelated_false_acceptance_ci": [
+          0.0010014327938673755,
+          0.0132081897260709
+        ],
+        "uncertain_fraction": 0.0037365716954694066
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "declared_datasets_missing"
+        ]
+      },
+      "by_source": {
+        "circor/adolescent": {
+          "accepted": 61
+        },
+        "circor/all": {
+          "accepted": 66,
+          "uncertain": 1
+        },
+        "circor/child": {
+          "accepted": 597,
+          "uncertain": 5
+        },
+        "circor/infant": {
+          "accepted": 52
+        },
+        "esc50/airplane": {
+          "rejected": 10
+        },
+        "esc50/breathing": {
+          "rejected": 12
+        },
+        "esc50/brushing_teeth": {
+          "rejected": 12
+        },
+        "esc50/can_opening": {
+          "rejected": 12
+        },
+        "esc50/car_horn": {
+          "rejected": 7
+        },
+        "esc50/cat": {
+          "rejected": 7,
+          "accepted": 1
+        },
+        "esc50/chainsaw": {
+          "rejected": 7
+        },
+        "esc50/chirping_birds": {
+          "rejected": 4
+        },
+        "esc50/church_bells": {
+          "rejected": 12
+        },
+        "esc50/clapping": {
+          "rejected": 9
+        },
+        "esc50/clock_alarm": {
+          "rejected": 15
+        },
+        "esc50/clock_tick": {
+          "rejected": 8
+        },
+        "esc50/coughing": {
+          "rejected": 4
+        },
+        "esc50/cow": {
+          "rejected": 8
+        },
+        "esc50/crackling_fire": {
+          "rejected": 8
+        },
+        "esc50/crickets": {
+          "rejected": 11
+        },
+        "esc50/crow": {
+          "rejected": 12
+        },
+        "esc50/crying_baby": {
+          "rejected": 6
+        },
+        "esc50/dog": {
+          "rejected": 8
+        },
+        "esc50/door_wood_creaks": {
+          "rejected": 12
+        },
+        "esc50/door_wood_knock": {
+          "rejected": 11,
+          "uncertain": 1
+        },
+        "esc50/drinking_sipping": {
+          "rejected": 9
+        },
+        "esc50/engine": {
+          "rejected": 8
+        },
+        "esc50/fireworks": {
+          "rejected": 1
+        },
+        "esc50/footsteps": {
+          "rejected": 17
+        },
+        "esc50/frog": {
+          "rejected": 11
+        },
+        "esc50/glass_breaking": {
+          "rejected": 7
+        },
+        "esc50/hand_saw": {
+          "rejected": 8
+        },
+        "esc50/helicopter": {
+          "rejected": 11
+        },
+        "esc50/hen": {
+          "rejected": 7
+        },
+        "esc50/insects": {
+          "rejected": 10
+        },
+        "esc50/keyboard_typing": {
+          "rejected": 12
+        },
+        "esc50/laughing": {
+          "rejected": 8
+        },
+        "esc50/mouse_click": {
+          "rejected": 9,
+          "uncertain": 1
+        },
+        "esc50/pig": {
+          "rejected": 10
+        },
+        "esc50/pouring_water": {
+          "rejected": 13,
+          "accepted": 1
+        },
+        "esc50/rain": {
+          "rejected": 13
+        },
+        "esc50/rooster": {
+          "rejected": 11
+        },
+        "esc50/sea_waves": {
+          "rejected": 15
+        },
+        "esc50/sheep": {
+          "rejected": 9
+        },
+        "esc50/siren": {
+          "rejected": 10
+        },
+        "esc50/sneezing": {
+          "rejected": 12
+        },
+        "esc50/snoring": {
+          "rejected": 9
+        },
+        "esc50/thunderstorm": {
+          "rejected": 7
+        },
+        "esc50/toilet_flush": {
+          "rejected": 7
+        },
+        "esc50/train": {
+          "rejected": 24
+        },
+        "esc50/vacuum_cleaner": {
+          "rejected": 10
+        },
+        "esc50/washing_machine": {
+          "rejected": 12
+        },
+        "esc50/water_drops": {
+          "rejected": 8
+        },
+        "esc50/wind": {
+          "rejected": 11
+        },
+        "librispeech/speech": {
+          "rejected": 50
+        },
+        "physionet2016/all": {
+          "accepted": 811
+        }
+      }
+    },
+    "features_boosted_trees": {
+      "rates": {
+        "chest_recordings": 1593,
+        "unrelated_recordings": 548,
+        "chest_false_rejection": 0.0,
+        "chest_false_rejection_ci": [
+          0.0,
+          0.0024056607495218313
+        ],
+        "unrelated_false_acceptance": 0.0036496350364963502,
+        "unrelated_false_acceptance_ci": [
+          0.0010014327938673755,
+          0.0132081897260709
+        ],
+        "uncertain_fraction": 0.002335357309668379
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "declared_datasets_missing"
+        ]
+      },
+      "by_source": {
+        "circor/adolescent": {
+          "accepted": 61
+        },
+        "circor/all": {
+          "accepted": 66,
+          "uncertain": 1
+        },
+        "circor/child": {
+          "accepted": 600,
+          "uncertain": 2
+        },
+        "circor/infant": {
+          "accepted": 52
+        },
+        "esc50/airplane": {
+          "rejected": 10
+        },
+        "esc50/breathing": {
+          "rejected": 12
+        },
+        "esc50/brushing_teeth": {
+          "rejected": 11,
+          "uncertain": 1
+        },
+        "esc50/can_opening": {
+          "rejected": 12
+        },
+        "esc50/car_horn": {
+          "rejected": 7
+        },
+        "esc50/cat": {
+          "rejected": 8
+        },
+        "esc50/chainsaw": {
+          "rejected": 7
+        },
+        "esc50/chirping_birds": {
+          "rejected": 4
+        },
+        "esc50/church_bells": {
+          "rejected": 12
+        },
+        "esc50/clapping": {
+          "rejected": 9
+        },
+        "esc50/clock_alarm": {
+          "rejected": 15
+        },
+        "esc50/clock_tick": {
+          "rejected": 8
+        },
+        "esc50/coughing": {
+          "rejected": 4
+        },
+        "esc50/cow": {
+          "rejected": 8
+        },
+        "esc50/crackling_fire": {
+          "rejected": 8
+        },
+        "esc50/crickets": {
+          "rejected": 11
+        },
+        "esc50/crow": {
+          "rejected": 12
+        },
+        "esc50/crying_baby": {
+          "rejected": 6
+        },
+        "esc50/dog": {
+          "rejected": 8
+        },
+        "esc50/door_wood_creaks": {
+          "rejected": 12
+        },
+        "esc50/door_wood_knock": {
+          "rejected": 12
+        },
+        "esc50/drinking_sipping": {
+          "rejected": 9
+        },
+        "esc50/engine": {
+          "rejected": 8
+        },
+        "esc50/fireworks": {
+          "rejected": 1
+        },
+        "esc50/footsteps": {
+          "rejected": 16,
+          "accepted": 1
+        },
+        "esc50/frog": {
+          "rejected": 11
+        },
+        "esc50/glass_breaking": {
+          "rejected": 7
+        },
+        "esc50/hand_saw": {
+          "rejected": 8
+        },
+        "esc50/helicopter": {
+          "rejected": 11
+        },
+        "esc50/hen": {
+          "rejected": 7
+        },
+        "esc50/insects": {
+          "rejected": 10
+        },
+        "esc50/keyboard_typing": {
+          "rejected": 11,
+          "accepted": 1
+        },
+        "esc50/laughing": {
+          "rejected": 8
+        },
+        "esc50/mouse_click": {
+          "rejected": 10
+        },
+        "esc50/pig": {
+          "rejected": 10
+        },
+        "esc50/pouring_water": {
+          "rejected": 14
+        },
+        "esc50/rain": {
+          "rejected": 13
+        },
+        "esc50/rooster": {
+          "rejected": 11
+        },
+        "esc50/sea_waves": {
+          "rejected": 15
+        },
+        "esc50/sheep": {
+          "rejected": 9
+        },
+        "esc50/siren": {
+          "rejected": 10
+        },
+        "esc50/sneezing": {
+          "rejected": 12
+        },
+        "esc50/snoring": {
+          "rejected": 9
+        },
+        "esc50/thunderstorm": {
+          "rejected": 6,
+          "uncertain": 1
+        },
+        "esc50/toilet_flush": {
+          "rejected": 7
+        },
+        "esc50/train": {
+          "rejected": 24
+        },
+        "esc50/vacuum_cleaner": {
+          "rejected": 10
+        },
+        "esc50/washing_machine": {
+          "rejected": 12
+        },
+        "esc50/water_drops": {
+          "rejected": 8
+        },
+        "esc50/wind": {
+          "rejected": 11
+        },
+        "librispeech/speech": {
+          "rejected": 50
+        },
+        "physionet2016/all": {
+          "accepted": 811
+        }
+      }
+    }
+  },
+  "selected_model": {
+    "model": "features_boosted_trees",
+    "activated": false
+  },
+  "limitations": [
+    "PhysioNet 2016 publishes no subject identity; each record is treated as its own subject."
+  ]
+}

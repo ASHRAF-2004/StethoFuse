@@ -1,0 +1,248 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v2",
+    "protocol_sha256": "edb98829d1cf6b36c942ab3c99b3f0f6279da0c3cc561283566f7782286c5324",
+    "run_utc": "2026-11-20T05:07:47+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "evaluated",
+  "target": {
+    "organ": "heart",
+    "title": "Aortic regurgitation",
+    "dataset": "bmdhs",
+    "label": "AR",
+    "positive": [
+      "1"
+    ],
+    "negative": [
+      "0"
+    ],
+    "supported_population": [
+      "adolescent",
+      "adult",
+      "older_adult"
+    ],
+    "title_ar": "\u0642\u0644\u0633 \u0627\u0644\u0635\u0645\u0627\u0645 \u0627\u0644\u0623\u0628\u0647\u0631\u064a"
+  },
+  "missing_datasets": {},
+  "test_unit": "subject",
+  "cohort": {
+    "recordings": 864,
+    "subjects": 108,
+    "positive_subjects": 43,
+    "negative_subjects": 65
+  },
+  "train_subjects": 81,
+  "test_subjects": 27,
+  "results": {
+    "prior": {
+      "test": {
+        "subjects": 27,
+        "positive_subjects": 11,
+        "negative_subjects": 16,
+        "auroc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.5,
+        "expected_calibration_error": 0.012338469575158106,
+        "threshold": 0.3950689378322493
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5,
+        "auroc_ci_high": 0.5,
+        "delta_vs_baseline_ci_low": 0.0,
+        "delta_vs_baseline_ci_high": 0.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 23,
+          "positive_subjects": 8,
+          "negative_subjects": 15,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.047242850875727604,
+          "threshold": 0.3950689378322493
+        },
+        "unknown": {
+          "subjects": 4,
+          "positive_subjects": 3,
+          "negative_subjects": 1,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.3549310621677507,
+          "threshold": 0.3950689378322493
+        }
+      }
+    },
+    "features_logreg": {
+      "test": {
+        "subjects": 27,
+        "positive_subjects": 11,
+        "negative_subjects": 16,
+        "auroc": 0.8579545454545454,
+        "sensitivity": 1.0,
+        "specificity": 0.625,
+        "balanced_accuracy": 0.8125,
+        "expected_calibration_error": 0.2362252724748449,
+        "threshold": 0.3270266507018217
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.6988636363636364,
+        "auroc_ci_high": 0.9772727272727273,
+        "delta_vs_baseline_ci_low": 0.19886363636363635,
+        "delta_vs_baseline_ci_high": 0.4772727272727273
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 23,
+          "positive_subjects": 8,
+          "negative_subjects": 15,
+          "auroc": 0.8500000000000001,
+          "sensitivity": 1.0,
+          "specificity": 0.6,
+          "balanced_accuracy": 0.8,
+          "expected_calibration_error": 0.21000353041291855,
+          "threshold": 0.3270266507018217
+        },
+        "unknown": {
+          "subjects": 4,
+          "positive_subjects": 3,
+          "negative_subjects": 1,
+          "auroc": 1.0,
+          "sensitivity": 1.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 1.0,
+          "expected_calibration_error": 0.38700028933092134,
+          "threshold": 0.3270266507018217
+        }
+      }
+    },
+    "features_boosted_trees": {
+      "test": {
+        "subjects": 27,
+        "positive_subjects": 11,
+        "negative_subjects": 16,
+        "auroc": 0.875,
+        "sensitivity": 1.0,
+        "specificity": 0.5,
+        "balanced_accuracy": 0.75,
+        "expected_calibration_error": 0.2166142960290698,
+        "threshold": 0.3475298886984274
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.7272727272727273,
+        "auroc_ci_high": 0.9772727272727273,
+        "delta_vs_baseline_ci_low": 0.2272727272727273,
+        "delta_vs_baseline_ci_high": 0.4772727272727273
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "specificity",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 23,
+          "positive_subjects": 8,
+          "negative_subjects": 15,
+          "auroc": 0.8500000000000001,
+          "sensitivity": 1.0,
+          "specificity": 0.4666666666666667,
+          "balanced_accuracy": 0.7333333333333334,
+          "expected_calibration_error": 0.17835758898582116,
+          "threshold": 0.3475298886984274
+        },
+        "unknown": {
+          "subjects": 4,
+          "positive_subjects": 3,
+          "negative_subjects": 1,
+          "auroc": 1.0,
+          "sensitivity": 1.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 1.0,
+          "expected_calibration_error": 0.4365903615277498,
+          "threshold": 0.3475298886984274
+        }
+      }
+    },
+    "panns_logreg": {
+      "test": {
+        "subjects": 27,
+        "positive_subjects": 11,
+        "negative_subjects": 16,
+        "auroc": 0.7954545454545454,
+        "sensitivity": 0.9090909090909091,
+        "specificity": 0.5,
+        "balanced_accuracy": 0.7045454545454546,
+        "expected_calibration_error": 0.21262296727871074,
+        "threshold": 0.3322557367527728
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.6136363636363636,
+        "auroc_ci_high": 0.9488636363636364,
+        "delta_vs_baseline_ci_low": 0.11363636363636365,
+        "delta_vs_baseline_ci_high": 0.44886363636363635
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "specificity",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 23,
+          "positive_subjects": 8,
+          "negative_subjects": 15,
+          "auroc": 0.7583333333333333,
+          "sensitivity": 0.875,
+          "specificity": 0.4666666666666667,
+          "balanced_accuracy": 0.6708333333333334,
+          "expected_calibration_error": 0.18795283708965593,
+          "threshold": 0.3322557367527728
+        },
+        "unknown": {
+          "subjects": 4,
+          "positive_subjects": 3,
+          "negative_subjects": 1,
+          "auroc": 1.0,
+          "sensitivity": 1.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 1.0,
+          "expected_calibration_error": 0.3544762158657757,
+          "threshold": 0.3322557367527728
+        }
+      }
+    }
+  },
+  "selected_model": {
+    "model": "features_boosted_trees",
+    "activated": false
+  }
+}

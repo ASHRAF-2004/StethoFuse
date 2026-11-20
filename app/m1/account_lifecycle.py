@@ -79,6 +79,7 @@ class AccountLifecycleStore:
             db.execute(f"DELETE FROM m1_results WHERE recording_id IN ({own})",ids)
             db.execute(f"DELETE FROM m1_jobs WHERE recording_id IN ({own})",ids)
             db.execute(f"DELETE FROM m1_files WHERE resource_id IN (SELECT id FROM af_resources WHERE recording_id IN ({own}))",ids)
+            db.execute(f"DELETE FROM m1_case_context WHERE recording_id IN ({own})",ids)
             db.execute(f"DELETE FROM m1_recording_data WHERE recording_id IN ({own})",ids)
             db.execute(f"DELETE FROM af_grants WHERE recording_id IN ({own})",ids)
             db.execute(f"DELETE FROM af_resources WHERE recording_id IN ({own})",ids)

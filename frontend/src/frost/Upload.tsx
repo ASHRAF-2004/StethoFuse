@@ -2,7 +2,8 @@ import {lt} from '../studio/locale';
 import {tx} from '../studio/locale';
 import {useMemo,useRef,useState,type FormEvent} from 'react';
 import {Link,useNavigate} from 'react-router-dom';
-import {ArrowRight,Microphone,UploadSimple} from '@phosphor-icons/react';
+import {ArrowRight,LockSimple,UploadSimple} from '@phosphor-icons/react';
+import recordingLock from './assets/recording-locked-v1.png';
 import {useLive} from '../data/live';
 import type {LiveRecording} from '../data/liveTypes';
 import {Button,GlassPanel,Notice,SectionHeading} from './primitives';
@@ -11,7 +12,10 @@ import {errorMessage} from './data';
 import {UnsavedGuard} from '../components/ui';
 
 
-export function NewRecording(){return <><header className="sf-page-heading"><div><h1>{tx("Start with a sound.")}</h1><p>{tx("Bring an existing recording, or capture a new one. Your original stays unchanged.")}</p></div></header><div className="sf-create-grid"><GlassPanel className="sf-create-upload"><span className="sf-create-symbol"><UploadSimple size={29}/></span><h2>{tx("Upload a recording")}</h2><p>{tx("Have a file ready? Review your WAV and save it to your private Library.")}</p><Link className="sf-button sf-button--primary" to="/app/recordings/new/upload">{tx("Choose a WAV")}<ArrowRight size={18}/></Link><span className="sf-create-format">{tx("PCM WAV · up to 25 MiB · up to two minutes")}</span></GlassPanel><GlassPanel className="sf-create-record"><span className="sf-create-symbol"><Microphone size={29}/></span><h2>{tx("Record a new sound")}</h2><p>{tx("Use your microphone or connected audio input. Listen back before saving anything.")}</p><Link className="sf-button sf-button--secondary" to="/app/recordings/new/record">{tx("Open recorder")}<ArrowRight size={18}/></Link><span className="sf-create-format">{tx("Permission requested only when you start")}</span></GlassPanel></div><Notice>{tx("Use only audio you are authorized to record or upload. Sound separation is not a diagnosis.")}</Notice></>;}
+// Live capture waits for a qualified USB/Type-C digital stethoscope (owner decision 20 Nov 2026).
+function RecordingLock(){return <div className="sf-recording-lock" aria-label={tx("Recording coming soon")}><img src={recordingLock} alt="" width={160} height={160}/><span className="sf-soon-badge"><LockSimple size={14}/>{tx("Soon!")}</span></div>;}
+export function RecordingComingSoon(){return <><header className="sf-page-heading"><div><h1>{tx("Live recording is coming soon.")}</h1><p>{tx("Live chest recording needs a digital stethoscope connected by USB or Type-C.")}</p></div></header><GlassPanel className="sf-recording-soon"><RecordingLock/><h2>{tx("Start with a file today.")}</h2><p>{tx("Upload an existing WAV to use separation and analysis. No microphone is activated here.")}</p><Link className="sf-button sf-button--primary" to="/app/recordings/new/upload">{tx("Choose a WAV")}<ArrowRight size={18}/></Link><Link className="sf-text-link" to="/app/library">{tx("Back to Library")}</Link></GlassPanel></>;}
+export function NewRecording(){return <><header className="sf-page-heading"><div><h1>{tx("Start with a sound.")}</h1><p>{tx("Bring an existing recording, or capture a new one. Your original stays unchanged.")}</p></div></header><div className="sf-create-grid"><GlassPanel className="sf-create-upload"><span className="sf-create-symbol"><UploadSimple size={29}/></span><h2>{tx("Upload a recording")}</h2><p>{tx("Have a file ready? Review your WAV and save it to your private Library.")}</p><Link className="sf-button sf-button--primary" to="/app/recordings/new/upload">{tx("Choose a WAV")}<ArrowRight size={18}/></Link><span className="sf-create-format">{tx("PCM WAV · up to 25 MiB · up to two minutes")}</span></GlassPanel><GlassPanel className="sf-create-locked"><RecordingLock/><h2>{tx("Record a new sound")}</h2><p>{tx("Live chest recording needs a digital stethoscope connected by USB or Type-C.")}</p><span className="sf-subtle">{tx("Upload an existing WAV for now.")}</span></GlassPanel></div><Notice>{tx("Use only audio you are authorized to upload. Sound separation is not a diagnosis.")}</Notice></>;}
 export function Upload(){
   const {api}=useLive(),navigate=useNavigate();
   const [file,setFile]=useState<File|null>(null),[title,setTitle]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState('');

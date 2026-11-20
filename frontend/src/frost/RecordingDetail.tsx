@@ -12,6 +12,7 @@ import {Progress,RequestState} from './WorkspaceViews';
 import {TechnicalDetails} from './TechnicalDetails';
 import {OwnerReviewFeedback} from './OwnerReviewFeedback';
 import {AcousticAnalysis} from './AcousticAnalysis';
+import {PatientBoard} from './PatientBoard';
 import {useLocale} from '../studio/locale';
 export function RecordingDetail({id,ownerTools}:{id:string;ownerTools?:(record:LiveRecording)=>ReactNode}){
   const {api,session}=useLive(),record=useResource<LiveRecording>(`/recordings/${id}`),library=useLibrary();
@@ -37,6 +38,7 @@ export function RecordingDetail({id,ownerTools}:{id:string;ownerTools?:(record:L
     {record.value.is_owner&&!session?.capabilities.separation&&<Notice>{tx("Separation is temporarily unavailable. Your original is saved.")}</Notice>}
     {library.error&&<Notice danger>{tx("Processing status unavailable. ")}{lt(library.error)}</Notice>}
     {jobData.error&&<Notice danger>{lt(jobData.error)}</Notice>}{resultData.error&&<Notice danger>{lt(resultData.error)}</Notice>}
+    <PatientBoard recordingId={id}/>
     {result&&session?.capabilities.analysis&&<AcousticAnalysis key={result.id} resultId={result.id} isOwner={record.value.is_owner} resources={resources}/>}
     <AudioWorkspace workspaceId={result?.id} key={`${id}:${session!.user.uid}:${resources.map(r=>r.id).join(':')}`} resources={resources} provider={api} filenames={{original:record.value.original_filename||'original.wav',heart:'heart.wav',lung:'lung.wav'}}/>
     <TechnicalDetails record={record.value} result={result} job={job}/>

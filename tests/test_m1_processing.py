@@ -19,7 +19,7 @@ from fastapi.testclient import TestClient
 from app.m1.api import create_app
 from app.m1.config import PROJECT_ROOT
 from app.m1.ml_contract import CHECKPOINT_SHA256, SPEC_SHA256, ProcessingError
-from app.m1.store import M1Store
+from app.m1.store import SCHEMA_VERSION, M1Store
 from app.m1.worker import Worker
 from test_m1_api import env, auth, grant
 
@@ -229,7 +229,7 @@ def test_v1_migration_is_transactional_and_preserves_existing_data(tmp_path):
         db.execute("INSERT INTO m1_preferences VALUES ('existing',?)", ('{"appearance":{"snow":false}}',))
     store=M1Store(path);store.initialize();store.initialize()
     with store._connection() as db:
-        assert db.execute("SELECT version FROM m1_meta").fetchone()[0]==3
+        assert db.execute("SELECT version FROM m1_meta").fetchone()[0]==SCHEMA_VERSION
         assert "provenance_json" in {r[1] for r in db.execute("PRAGMA table_info(m1_results)")}
         assert db.execute("SELECT display_name FROM af_users WHERE id='existing'").fetchone()[0]=='Preserve me'
         assert db.execute("SELECT preferences_json FROM m1_preferences WHERE user_id='existing'").fetchone()[0]=='{"appearance":{"snow":false}}'

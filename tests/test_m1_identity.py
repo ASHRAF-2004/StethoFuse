@@ -13,7 +13,7 @@ import pytest
 from app.access_foundation import AccessDenied
 from app.m1.config import PROJECT_ROOT
 from app.m1.public_identity import IdentityError, handle_candidate, normalize_handle, public_reference
-from app.m1.store import M1Store
+from app.m1.store import SCHEMA_VERSION, M1Store
 from test_m1_api import auth, env, grant, upload
 
 
@@ -156,7 +156,7 @@ def test_v2_migration_preserves_internal_keys_grants_and_preferences(tmp_path):
     store = M1Store(path)
     store.initialize()
     with sqlite3.connect(path) as db:
-        assert db.execute("SELECT version FROM m1_meta").fetchone() == (3,)
+        assert db.execute("SELECT version FROM m1_meta").fetchone() == (SCHEMA_VERSION,)
         assert db.execute("PRAGMA foreign_key_check").fetchall() == []
         assert db.execute("SELECT id,provider_uid,display_name FROM af_users WHERE id='owner'").fetchone() == ("owner", "uid-owner", "Old name")
         assert db.execute("SELECT resource_id,recipient_id,status FROM af_grants").fetchone() == ("original", "analyst", "active")

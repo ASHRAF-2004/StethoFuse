@@ -1,0 +1,401 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v2",
+    "protocol_sha256": "9bd351b43885485d89488ebe733b554de5c9045ece55c136e8c646e628b171f4",
+    "run_utc": "2026-11-20T05:45:42+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "evaluated",
+  "target": {
+    "organ": "heart",
+    "title": "Abnormal heart (cardiologist screen)",
+    "dataset": "circor",
+    "label": "outcome",
+    "positive": [
+      "Abnormal"
+    ],
+    "negative": [
+      "Normal"
+    ],
+    "external_test_dataset": "physionet2016",
+    "supported_population": [
+      "infant",
+      "child",
+      "adolescent",
+      "adult"
+    ],
+    "title_ar": "\u0642\u0644\u0628 \u063a\u064a\u0631 \u0637\u0628\u064a\u0639\u064a (\u0641\u062d\u0635 \u0637\u0628\u064a\u0628 \u0627\u0644\u0642\u0644\u0628)"
+  },
+  "missing_datasets": {},
+  "test_unit": "subject",
+  "cohort": {
+    "recordings": 3163,
+    "subjects": 942,
+    "positive_subjects": 456,
+    "negative_subjects": 486
+  },
+  "train_subjects": 707,
+  "test_subjects": 235,
+  "results": {
+    "prior": {
+      "test": {
+        "subjects": 235,
+        "positive_subjects": 113,
+        "negative_subjects": 122,
+        "auroc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.5,
+        "expected_calibration_error": 0.004297687397835759,
+        "threshold": 0.4851487512276229
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5,
+        "auroc_ci_high": 0.5,
+        "delta_vs_baseline_ci_low": 0.0,
+        "delta_vs_baseline_ci_high": 0.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 15,
+          "positive_subjects": 9,
+          "negative_subjects": 6,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.11485124877237707,
+          "threshold": 0.4851487512276229
+        },
+        "child": {
+          "subjects": 173,
+          "positive_subjects": 84,
+          "negative_subjects": 89,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.00040038172035383734,
+          "threshold": 0.4851487512276229
+        },
+        "infant": {
+          "subjects": 28,
+          "positive_subjects": 17,
+          "negative_subjects": 11,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.12199410591523419,
+          "threshold": 0.4851487512276229
+        },
+        "unknown": {
+          "subjects": 19,
+          "positive_subjects": 3,
+          "negative_subjects": 16,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.32725401438551766,
+          "threshold": 0.4851487512276229
+        }
+      },
+      "external_test": {
+        "status": "evaluated",
+        "dataset": "physionet2016",
+        "unit": "record (no subject identity published)",
+        "metrics": {
+          "subjects": 3240,
+          "positive_subjects": 665,
+          "negative_subjects": 2575,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.2799018376473761,
+          "threshold": 0.4851487512276229
+        }
+      }
+    },
+    "features_logreg": {
+      "test": {
+        "subjects": 235,
+        "positive_subjects": 113,
+        "negative_subjects": 122,
+        "auroc": 0.6883069780937182,
+        "sensitivity": 0.8495575221238938,
+        "specificity": 0.319672131147541,
+        "balanced_accuracy": 0.5846148266357174,
+        "expected_calibration_error": 0.07959855126458114,
+        "threshold": 0.4131854551883863
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.6195324967358189,
+        "auroc_ci_high": 0.7576545045698534,
+        "delta_vs_baseline_ci_low": 0.11953249673581895,
+        "delta_vs_baseline_ci_high": 0.2576545045698534
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 15,
+          "positive_subjects": 9,
+          "negative_subjects": 6,
+          "auroc": 0.8333333333333334,
+          "sensitivity": 0.5555555555555556,
+          "specificity": 0.8333333333333334,
+          "balanced_accuracy": 0.6944444444444444,
+          "expected_calibration_error": 0.3686144368081308,
+          "threshold": 0.4131854551883863
+        },
+        "child": {
+          "subjects": 173,
+          "positive_subjects": 84,
+          "negative_subjects": 89,
+          "auroc": 0.689673622257892,
+          "sensitivity": 0.8571428571428571,
+          "specificity": 0.2696629213483146,
+          "balanced_accuracy": 0.5634028892455858,
+          "expected_calibration_error": 0.11617009748608574,
+          "threshold": 0.4131854551883863
+        },
+        "infant": {
+          "subjects": 28,
+          "positive_subjects": 17,
+          "negative_subjects": 11,
+          "auroc": 0.7486631016042781,
+          "sensitivity": 0.9411764705882353,
+          "specificity": 0.2727272727272727,
+          "balanced_accuracy": 0.606951871657754,
+          "expected_calibration_error": 0.09895980282291833,
+          "threshold": 0.4131854551883863
+        },
+        "unknown": {
+          "subjects": 19,
+          "positive_subjects": 3,
+          "negative_subjects": 16,
+          "auroc": 0.7916666666666667,
+          "sensitivity": 1.0,
+          "specificity": 0.4375,
+          "balanced_accuracy": 0.71875,
+          "expected_calibration_error": 0.31996073753648957,
+          "threshold": 0.4131854551883863
+        }
+      },
+      "external_test": {
+        "status": "evaluated",
+        "dataset": "physionet2016",
+        "unit": "record (no subject identity published)",
+        "metrics": {
+          "subjects": 3240,
+          "positive_subjects": 665,
+          "negative_subjects": 2575,
+          "auroc": 0.3629064895247829,
+          "sensitivity": 0.8541353383458646,
+          "specificity": 0.10174757281553398,
+          "balanced_accuracy": 0.47794145558069934,
+          "expected_calibration_error": 0.4271648526314492,
+          "threshold": 0.4131854551883863
+        }
+      }
+    },
+    "features_boosted_trees": {
+      "test": {
+        "subjects": 235,
+        "positive_subjects": 113,
+        "negative_subjects": 122,
+        "auroc": 0.6563180037719425,
+        "sensitivity": 0.7964601769911505,
+        "specificity": 0.319672131147541,
+        "balanced_accuracy": 0.5580661540693457,
+        "expected_calibration_error": 0.07791036277396715,
+        "threshold": 0.42264618732825593
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5868235891484114,
+        "auroc_ci_high": 0.7276222254461047,
+        "delta_vs_baseline_ci_low": 0.08682358914841139,
+        "delta_vs_baseline_ci_high": 0.22762222544610466
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 15,
+          "positive_subjects": 9,
+          "negative_subjects": 6,
+          "auroc": 0.7777777777777778,
+          "sensitivity": 0.5555555555555556,
+          "specificity": 0.6666666666666666,
+          "balanced_accuracy": 0.6111111111111112,
+          "expected_calibration_error": 0.21319448149962156,
+          "threshold": 0.42264618732825593
+        },
+        "child": {
+          "subjects": 173,
+          "positive_subjects": 84,
+          "negative_subjects": 89,
+          "auroc": 0.6626538255751737,
+          "sensitivity": 0.7976190476190477,
+          "specificity": 0.3146067415730337,
+          "balanced_accuracy": 0.5561128945960407,
+          "expected_calibration_error": 0.11827736062995563,
+          "threshold": 0.42264618732825593
+        },
+        "infant": {
+          "subjects": 28,
+          "positive_subjects": 17,
+          "negative_subjects": 11,
+          "auroc": 0.6417112299465241,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.12497177081018168,
+          "threshold": 0.42264618732825593
+        },
+        "unknown": {
+          "subjects": 19,
+          "positive_subjects": 3,
+          "negative_subjects": 16,
+          "auroc": 0.5208333333333333,
+          "sensitivity": 0.3333333333333333,
+          "specificity": 0.4375,
+          "balanced_accuracy": 0.38541666666666663,
+          "expected_calibration_error": 0.30815240233546237,
+          "threshold": 0.42264618732825593
+        }
+      },
+      "external_test": {
+        "status": "evaluated",
+        "dataset": "physionet2016",
+        "unit": "record (no subject identity published)",
+        "metrics": {
+          "subjects": 3240,
+          "positive_subjects": 665,
+          "negative_subjects": 2575,
+          "auroc": 0.5606307029710198,
+          "sensitivity": 0.3097744360902256,
+          "specificity": 0.7401941747572816,
+          "balanced_accuracy": 0.5249843054237535,
+          "expected_calibration_error": 0.16315290464434526,
+          "threshold": 0.42264618732825593
+        }
+      }
+    },
+    "panns_logreg": {
+      "test": {
+        "subjects": 235,
+        "positive_subjects": 113,
+        "negative_subjects": 122,
+        "auroc": 0.6920063832873931,
+        "sensitivity": 0.8584070796460177,
+        "specificity": 0.36065573770491804,
+        "balanced_accuracy": 0.6095314086754678,
+        "expected_calibration_error": 0.03297662271980048,
+        "threshold": 0.39679173719422994
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.6240134919483534,
+        "auroc_ci_high": 0.7557993616712605,
+        "delta_vs_baseline_ci_low": 0.12401349194835344,
+        "delta_vs_baseline_ci_high": 0.25579936167126044
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 15,
+          "positive_subjects": 9,
+          "negative_subjects": 6,
+          "auroc": 0.6481481481481481,
+          "sensitivity": 0.5555555555555556,
+          "specificity": 0.5,
+          "balanced_accuracy": 0.5277777777777778,
+          "expected_calibration_error": 0.21566811991644977,
+          "threshold": 0.39679173719422994
+        },
+        "child": {
+          "subjects": 173,
+          "positive_subjects": 84,
+          "negative_subjects": 89,
+          "auroc": 0.7169609416800428,
+          "sensitivity": 0.8928571428571429,
+          "specificity": 0.34831460674157305,
+          "balanced_accuracy": 0.620585874799358,
+          "expected_calibration_error": 0.048993793850940354,
+          "threshold": 0.39679173719422994
+        },
+        "infant": {
+          "subjects": 28,
+          "positive_subjects": 17,
+          "negative_subjects": 11,
+          "auroc": 0.5080213903743316,
+          "sensitivity": 0.8823529411764706,
+          "specificity": 0.09090909090909091,
+          "balanced_accuracy": 0.48663101604278075,
+          "expected_calibration_error": 0.1875228811788783,
+          "threshold": 0.39679173719422994
+        },
+        "unknown": {
+          "subjects": 19,
+          "positive_subjects": 3,
+          "negative_subjects": 16,
+          "auroc": 0.6666666666666666,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 0.5625,
+          "balanced_accuracy": 0.6145833333333333,
+          "expected_calibration_error": 0.27756931985267513,
+          "threshold": 0.39679173719422994
+        }
+      },
+      "external_test": {
+        "status": "evaluated",
+        "dataset": "physionet2016",
+        "unit": "record (no subject identity published)",
+        "metrics": {
+          "subjects": 3240,
+          "positive_subjects": 665,
+          "negative_subjects": 2575,
+          "auroc": 0.5796595371924959,
+          "sensitivity": 0.724812030075188,
+          "specificity": 0.3662135922330097,
+          "balanced_accuracy": 0.5455128111540989,
+          "expected_calibration_error": 0.38504592019979766,
+          "threshold": 0.39679173719422994
+        }
+      }
+    }
+  },
+  "selected_model": {
+    "model": "panns_logreg",
+    "activated": false
+  }
+}

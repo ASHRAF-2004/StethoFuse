@@ -1,5 +1,6 @@
 """TEST ONLY: isolated real API + fictional identities; optional worker pause for UI observation."""
 import json
+import os
 import socket
 import sys
 from pathlib import Path
@@ -57,9 +58,11 @@ elif __name__ == "__main__":
                              confirmed_target_id=analyst_id, role=Role.AUDIO_ANALYST)
         app = create_app(settings, verifier=verifier)
         with socket.socket() as listener:
-            listener.bind(("127.0.0.1", 0))
+            # Container runs bind all interfaces inside the container; publish the port to host loopback only.
+            host = os.environ.get("STETHOFUSE_FIXTURE_HOST", "127.0.0.1")
+            listener.bind((host, int(os.environ.get("STETHOFUSE_FIXTURE_PORT", "0"))))
             print(json.dumps({"port":listener.getsockname()[1],"database":str(settings.database),
                               "privateStorage":str(settings.private_storage),"analystId":analyst_id,
-                              "host":"127.0.0.1", "workerLock":str(settings.database)+".worker.lock",
+                              "host":host, "workerLock":str(settings.database)+".worker.lock",
                               "identityMode":"TEST ONLY verifier injection + browser SDK stand-in"}),flush=True)
             uvicorn.Server(uvicorn.Config(app, access_log=False, log_level="warning")).run(sockets=[listener])

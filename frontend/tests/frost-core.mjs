@@ -268,19 +268,10 @@ try{
     const after=await page.evaluate(()=>window.__frostUrls);assert.equal(after.revoked,after.created);
     await signIn(page,'alice');
   });
-  await check('FAKE MICROPHONE, REAL AudioWorklet/PCM upload, original stored sample rate is not device-resampled analysis',async()=>{
-    await page.goto(base+'/app/recordings/new/record');await page.getByRole('button',{name:'Start recording',exact:true}).click();
-    await page.getByRole('button',{name:'Stop recording',exact:true}).waitFor();await page.waitForFunction(()=>/Recording · [1-9]/.test(document.body.innerText));
-    await page.getByRole('button',{name:'Stop recording',exact:true}).click();await page.getByRole('button',{name:'Save recording',exact:true}).waitFor();
-    await page.getByLabel('Recording title',{exact:true}).fill('Synthetic device capture — fake microphone, not hardware qualification');
-    await readyPlayers(page,1);await shot('15-device-capture-review.png',page);
-    await page.getByRole('button',{name:'Save recording',exact:true}).click();
-    await page.waitForURL(url=>/^\/app\/recordings\/[^/]+$/.test(url.pathname));
-    await page.getByRole('heading',{name:'Synthetic device capture — fake microphone, not hardware qualification',exact:true}).waitFor();
-    await readyPlayers(page,1);
-    const captured=(await(await fetch(api+'/api/recordings',{headers:headers('alice')})).json()).items.find(r=>r.title.startsWith('Synthetic device capture'));
-    assert(captured);assert(captured.duration_sec>=1);assert.equal(captured.channels,1);
-    assert.match(await page.locator('.sf-analysis-panel .sf-subtle').innerText(),new RegExp(captured.sample_rate_hz.toLocaleString()+' Hz stored WAV'));
+  await check('REAL recorder route shows Soon! until a qualified USB/Type-C stethoscope; no microphone is opened',async()=>{
+    await page.goto(base+'/app/recordings/new/record');await page.getByRole('heading',{name:'Live recording is coming soon.',exact:true}).waitFor();
+    assert.equal(await page.getByRole('button',{name:'Start recording',exact:true}).count(),0);
+    assert.equal(await page.locator('.sf-soon-badge',{hasText:'Soon!'}).count(),1);
   });
   await check('REAL durable failed job presentation; TEST-ONLY inference exception, no fallback/retry claim',async()=>{
     const candidate=(await(await fetch(api+'/api/recordings',{headers:headers('alice')})).json()).items.find(r=>r.title==='Synthetic reference 2');

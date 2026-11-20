@@ -76,13 +76,14 @@ try{
   });
   await check('REAL recording card and direct recording route are coming-soon; upload remains available',async()=>{
     await page.goto(base+'/app/recordings/new');
-    await page.getByRole('heading',{name:'Record audio',exact:true}).waitFor();
-    assert.equal(await page.getByRole('link',{name:'Record audio',exact:true}).count(),0);
-    assert.equal(await page.getByRole('link',{name:'Upload WAV',exact:true}).count(),1);
+    await page.getByRole('heading',{name:'Record a new sound',exact:true}).waitFor();
+    assert.equal(await page.getByRole('link',{name:'Open recorder',exact:true}).count(),0);
+    assert.equal(await page.getByRole('link',{name:'Choose a WAV',exact:true}).count(),1);
+    assert.equal(await page.locator('.sf-soon-badge',{hasText:'Soon!'}).count(),1);
     await page.waitForFunction(()=>document.querySelector('.sf-recording-lock img')?.complete);
     await shot('05-new-recording-coming-soon-desktop.png');
     await page.setViewportSize({width:390,height:844});await noOverflow();await shot('06-new-recording-coming-soon-mobile.png');
-    await page.goto(base+'/app/recordings/new/record');await page.getByRole('heading',{name:'Live sound, a little later.'}).waitFor();
+    await page.goto(base+'/app/recordings/new/record');await page.getByRole('heading',{name:'Live recording is coming soon.',exact:true}).waitFor();
     assert.equal(await page.getByRole('button',{name:'Start recording',exact:true}).count(),0);
     await page.setViewportSize({width:1440,height:900});
   });

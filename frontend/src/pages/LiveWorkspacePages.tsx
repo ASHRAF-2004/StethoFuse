@@ -6,8 +6,7 @@ import {Link,Navigate,useLocation,useNavigate,useSearchParams} from 'react-route
 import {ArrowRight,Plus,UploadSimple} from '@phosphor-icons/react';
 import Shell from '../frost/Shell';
 import {Overview as FrostOverview,Library as FrostLibrary} from '../frost/WorkspaceViews';
-import {NewRecording as FrostNewRecording,Upload as FrostUpload} from '../frost/Upload';
-import LiveCapture from '../components/LiveCapture';
+import {NewRecording as FrostNewRecording,RecordingComingSoon,Upload as FrostUpload} from '../frost/Upload';
 import {RecordingDetail as FrostRecordingDetail,ResultDetail as FrostResultDetail,MediaDetail,LegacyJob} from '../frost/RecordingDetail';
 import FrostAccount from '../frost/Account';
 import {Sharing} from '../frost/Sharing';
@@ -66,7 +65,7 @@ function LiveRoute(){
  if(pathname==='/app/insights')return <Insights/>;
  if(pathname==='/app/recordings/new')return <FrostNewRecording/>;
  if(pathname==='/app/recordings/new/upload')return <FrostUpload/>;
- if(pathname==='/app/recordings/new/record')return <LiveCapture/>;
+ if(pathname==='/app/recordings/new/record')return <RecordingComingSoon/>;
  if(/^\/app\/recordings\/[^/]+$/.test(pathname))return <FrostRecordingDetail id={pathname.split('/')[3]} ownerTools={record=><Sharing record={record}/>}/>;
  if(pathname==='/app/processing')return <Navigate replace to="/app/library?filter=processing"/>;
  if(pathname==='/app/history')return <Navigate replace to="/app/library"/>;

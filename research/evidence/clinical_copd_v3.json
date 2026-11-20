@@ -1,0 +1,529 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v3",
+    "protocol_sha256": "3e7b311e78fbfb59d97add547ffb611cab19daa950b88b7fe4bbcbee48d3661b",
+    "run_utc": "2026-11-20T09:10:31+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "evaluated",
+  "target": {
+    "organ": "lung",
+    "title": "COPD",
+    "supported_population": [
+      "adult",
+      "older_adult"
+    ],
+    "title_ar": "\u0645\u0631\u0636 \u0627\u0644\u0627\u0646\u0633\u062f\u0627\u062f \u0627\u0644\u0631\u0626\u0648\u064a \u0627\u0644\u0645\u0632\u0645\u0646",
+    "restrict_to_supported_population": true,
+    "require_both_classes_per_dataset": true,
+    "baseline_model": "site_prior",
+    "extra_models": {
+      "site_prior": {
+        "features": "site",
+        "classifier": "logreg"
+      }
+    },
+    "sources": [
+      {
+        "dataset": "icbhi",
+        "label": "diagnosis",
+        "positive": [
+          "COPD"
+        ],
+        "negative": [
+          "Healthy"
+        ]
+      },
+      {
+        "dataset": "kauh",
+        "label": "diagnosis",
+        "positive": [
+          "copd"
+        ],
+        "negative": [
+          "healthy"
+        ]
+      },
+      {
+        "dataset": "respiratorydatabase_tr",
+        "label": "diagnosis",
+        "positive": [
+          "COPD1",
+          "COPD2",
+          "COPD3",
+          "COPD4"
+        ],
+        "negative": [
+          "COPD0"
+        ]
+      }
+    ]
+  },
+  "missing_datasets": {},
+  "recordings_excluded_outside_supported_age": 41,
+  "datasets_dropped_single_class": [
+    "icbhi"
+  ],
+  "test_unit": "subject",
+  "baseline_model": "site_prior",
+  "cohort": {
+    "recordings": 548,
+    "subjects": 86,
+    "positive_subjects": 45,
+    "negative_subjects": 41,
+    "by_dataset": {
+      "kauh": {
+        "recordings": 44,
+        "subjects": 44,
+        "positive_subjects": 9,
+        "negative_subjects": 35
+      },
+      "respiratorydatabase_tr": {
+        "recordings": 504,
+        "subjects": 42,
+        "positive_subjects": 36,
+        "negative_subjects": 6
+      }
+    }
+  },
+  "train_subjects": 63,
+  "test_subjects": 23,
+  "results": {
+    "prior": {
+      "test": {
+        "subjects": 23,
+        "positive_subjects": 12,
+        "negative_subjects": 11,
+        "auroc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.5,
+        "expected_calibration_error": 0.0020695331132598582,
+        "threshold": 0.5238086635480427
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5,
+        "auroc_ci_high": 0.5,
+        "delta_vs_baseline_ci_low": -0.4545454545454545,
+        "delta_vs_baseline_ci_high": -0.10984848484848486
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 10,
+          "positive_subjects": 3,
+          "negative_subjects": 7,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.2238086635480428,
+          "threshold": 0.5238086635480427
+        },
+        "older_adult": {
+          "subjects": 2,
+          "positive_subjects": 0,
+          "negative_subjects": 2,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 0.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.5238086635480427,
+          "threshold": 0.5238086635480427
+        },
+        "unknown": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.29437315463377545,
+          "threshold": 0.5238086635480427
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 12,
+          "positive_subjects": 3,
+          "negative_subjects": 9,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.2738086635480428,
+          "threshold": 0.5238086635480427
+        },
+        "respiratorydatabase_tr": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.29437315463377545,
+          "threshold": 0.5238086635480427
+        }
+      }
+    },
+    "features_logreg": {
+      "test": {
+        "subjects": 23,
+        "positive_subjects": 12,
+        "negative_subjects": 11,
+        "auroc": 0.7878787878787878,
+        "sensitivity": 0.75,
+        "specificity": 0.7272727272727273,
+        "balanced_accuracy": 0.7386363636363636,
+        "expected_calibration_error": 0.2210559065183684,
+        "threshold": 0.5803421052055824
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5757575757575758,
+        "auroc_ci_high": 0.9545454545454546,
+        "delta_vs_baseline_ci_low": -0.09848484848484851,
+        "delta_vs_baseline_ci_high": 0.11363636363636376
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 10,
+          "positive_subjects": 3,
+          "negative_subjects": 7,
+          "auroc": 0.5238095238095238,
+          "sensitivity": 0.0,
+          "specificity": 0.8571428571428571,
+          "balanced_accuracy": 0.42857142857142855,
+          "expected_calibration_error": 0.33919347529844035,
+          "threshold": 0.5803421052055824
+        },
+        "older_adult": {
+          "subjects": 2,
+          "positive_subjects": 0,
+          "negative_subjects": 2,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.04044545159535644,
+          "threshold": 0.5803421052055824
+        },
+        "unknown": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.38888888888888884,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.16120381819352567,
+          "threshold": 0.5803421052055824
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 12,
+          "positive_subjects": 3,
+          "negative_subjects": 9,
+          "auroc": 0.5925925925925926,
+          "sensitivity": 0.0,
+          "specificity": 0.8888888888888888,
+          "balanced_accuracy": 0.4444444444444444,
+          "expected_calibration_error": 0.2759203208161409,
+          "threshold": 0.5803421052055824
+        },
+        "respiratorydatabase_tr": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.38888888888888884,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.16120381819352567,
+          "threshold": 0.5803421052055824
+        }
+      }
+    },
+    "features_boosted_trees": {
+      "test": {
+        "subjects": 23,
+        "positive_subjects": 12,
+        "negative_subjects": 11,
+        "auroc": 0.8636363636363635,
+        "sensitivity": 0.6666666666666666,
+        "specificity": 0.8181818181818182,
+        "balanced_accuracy": 0.7424242424242424,
+        "expected_calibration_error": 0.17167804597215774,
+        "threshold": 0.5833914392936509
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.6818181818181819,
+        "auroc_ci_high": 1.0,
+        "delta_vs_baseline_ci_low": -0.02272727272727271,
+        "delta_vs_baseline_ci_high": 0.189488636363636
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "sensitivity",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 10,
+          "positive_subjects": 3,
+          "negative_subjects": 7,
+          "auroc": 0.8571428571428571,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.19637206224514853,
+          "threshold": 0.5833914392936509
+        },
+        "older_adult": {
+          "subjects": 2,
+          "positive_subjects": 0,
+          "negative_subjects": 2,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.07149690366563861,
+          "threshold": 0.5833914392936509
+        },
+        "unknown": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5555555555555556,
+          "sensitivity": 0.8888888888888888,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.4444444444444444,
+          "expected_calibration_error": 0.17278276678945745,
+          "threshold": 0.5833914392936509
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 12,
+          "positive_subjects": 3,
+          "negative_subjects": 9,
+          "auroc": 0.8518518518518519,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.17066538522296637,
+          "threshold": 0.5833914392936509
+        },
+        "respiratorydatabase_tr": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5555555555555556,
+          "sensitivity": 0.8888888888888888,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.4444444444444444,
+          "expected_calibration_error": 0.17278276678945745,
+          "threshold": 0.5833914392936509
+        }
+      }
+    },
+    "panns_logreg": {
+      "test": {
+        "subjects": 23,
+        "positive_subjects": 12,
+        "negative_subjects": 11,
+        "auroc": 0.8863636363636362,
+        "sensitivity": 0.75,
+        "specificity": 0.8181818181818182,
+        "balanced_accuracy": 0.7840909090909092,
+        "expected_calibration_error": 0.22124227491682522,
+        "threshold": 0.6033638737133017
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.7272727272727273,
+        "auroc_ci_high": 1.0,
+        "delta_vs_baseline_ci_low": -0.00757575757575768,
+        "delta_vs_baseline_ci_high": 0.23484848484848486
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "beats_baseline",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 10,
+          "positive_subjects": 3,
+          "negative_subjects": 7,
+          "auroc": 0.8571428571428571,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.8333333333333333,
+          "expected_calibration_error": 0.22418685198896635,
+          "threshold": 0.6033638737133017
+        },
+        "older_adult": {
+          "subjects": 2,
+          "positive_subjects": 0,
+          "negative_subjects": 2,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.12622272281947514,
+          "threshold": 0.6033638737133017
+        },
+        "unknown": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5555555555555556,
+          "sensitivity": 0.7777777777777778,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.3888888888888889,
+          "expected_calibration_error": 0.27322736487111593,
+          "threshold": 0.6033638737133017
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 12,
+          "positive_subjects": 3,
+          "negative_subjects": 9,
+          "auroc": 0.888888888888889,
+          "sensitivity": 0.6666666666666666,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.8333333333333333,
+          "expected_calibration_error": 0.17358927579205866,
+          "threshold": 0.6033638737133017
+        },
+        "respiratorydatabase_tr": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5555555555555556,
+          "sensitivity": 0.7777777777777778,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.3888888888888889,
+          "expected_calibration_error": 0.27322736487111593,
+          "threshold": 0.6033638737133017
+        }
+      }
+    },
+    "site_prior": {
+      "test": {
+        "subjects": 23,
+        "positive_subjects": 12,
+        "negative_subjects": 11,
+        "auroc": 0.784090909090909,
+        "sensitivity": 0.75,
+        "specificity": 0.8181818181818182,
+        "balanced_accuracy": 0.7840909090909092,
+        "expected_calibration_error": 0.03682832968405052,
+        "threshold": 0.7589457087310588
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.6098484848484849,
+        "auroc_ci_high": 0.9545454545454545,
+        "delta_vs_baseline_ci_low": 0.0,
+        "delta_vs_baseline_ci_high": 0.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 10,
+          "positive_subjects": 3,
+          "negative_subjects": 7,
+          "auroc": 0.5,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.09004104146871275,
+          "threshold": 0.7589457087310588
+        },
+        "older_adult": {
+          "subjects": 2,
+          "positive_subjects": 0,
+          "negative_subjects": 2,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.20995895853128724,
+          "threshold": 0.7589457087310588
+        },
+        "unknown": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.03332355319169167,
+          "threshold": 0.7589457087310588
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 12,
+          "positive_subjects": 3,
+          "negative_subjects": 9,
+          "auroc": 0.5,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.04004104146871279,
+          "threshold": 0.7589457087310588
+        },
+        "respiratorydatabase_tr": {
+          "subjects": 11,
+          "positive_subjects": 9,
+          "negative_subjects": 2,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.03332355319169167,
+          "threshold": 0.7589457087310588
+        }
+      }
+    }
+  },
+  "selected_model": {
+    "model": "panns_logreg",
+    "activated": false
+  }
+}
