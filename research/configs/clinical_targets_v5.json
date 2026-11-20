@@ -1,0 +1,431 @@
+{
+  "version": "stethofuse-clinical-targets-v5",
+  "declared_utc": "2026-11-20",
+  "declaration": "v5 keeps every v4 setting and adds ZCHSound (Jia et al. 2024, IEEE TBME 71(8):2278-2286; article CC BY 4.0), declared before any v5 result. ZCHSound has one recording per child (ChildCare G-100 stethoscope, 8000 Hz, supine, left sternal border at the 2nd-3rd rib), with the diagnosis confirmed by echocardiography and reviewed by cardiac surgeons, from three Chinese children's hospitals. The authors split it into a clean set (941 children, 2 days to 14 years) and a noisy set (318 newborns aged 0-6 days). (1) New target congenital_heart_disease on the clean set only: VSD, ASD or PDA versus NORMAL. PFO (patent foramen ovale) is excluded from both classes, because a small PFO is a common normal finding in children. The noisy set is not used for this target: in the first days of life an open duct or foramen can be normal transitional circulation, and the recordings are noisy. Single dataset, so the usual class-rate baseline applies. (2) The chest-sound gate adds both ZCHSound sets as chest recordings, a new device and hospital group for the gate; a noisy chest recording is still a chest recording.",
+  "data_root_env": "STETHOFUSE_CLINICAL_DATA",
+  "default_data_root": "../../OwnerRelease/clinical-data-20261120/extracted",
+  "cache_dir_env": "STETHOFUSE_CLINICAL_CACHE",
+  "default_cache_dir": "../../OwnerRelease/clinical-data-20261120/features",
+  "audio": {
+    "sample_rate_hz": 4000,
+    "window_sec": 5.0,
+    "hop_sec": 2.5,
+    "min_sec": 2.0,
+    "max_windows_per_recording": 24,
+    "n_fft": 512,
+    "hop_samples": 80,
+    "n_mels": 48,
+    "fmin_hz": 20.0,
+    "fmax_hz": 1900.0
+  },
+  "split": {
+    "seed": 20261120,
+    "test_fraction": 0.25,
+    "cv_folds": 5
+  },
+  "bootstrap": {
+    "resamples": 2000,
+    "confidence": 0.95
+  },
+  "models": {
+    "prior": {
+      "features": "handcrafted",
+      "classifier": "prior"
+    },
+    "features_logreg": {
+      "features": "handcrafted",
+      "classifier": "logreg"
+    },
+    "features_boosted_trees": {
+      "features": "handcrafted",
+      "classifier": "boosted_trees"
+    },
+    "panns_logreg": {
+      "features": "panns_cnn14_16k",
+      "classifier": "logreg"
+    }
+  },
+  "baseline_model": "prior",
+  "gate": {
+    "positive_datasets": [
+      "circor",
+      "physionet2016",
+      "icbhi",
+      "sprsound",
+      "zchsound",
+      "zchsound_noisy"
+    ],
+    "negative_datasets": [
+      "librispeech",
+      "esc50",
+      "musan"
+    ],
+    "uncertain_band": [
+      0.2,
+      0.8
+    ],
+    "pass_bar": {
+      "max_chest_false_rejection": 0.02,
+      "max_chest_false_rejection_ci_high": 0.05,
+      "max_unrelated_false_acceptance": 0.02,
+      "max_unrelated_false_acceptance_ci_high": 0.05,
+      "max_uncertain_fraction": 0.1
+    },
+    "max_recordings_per_subject": 5
+  },
+  "targets": {
+    "copd": {
+      "organ": "lung",
+      "title": "COPD",
+      "supported_population": [
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "مرض الانسداد الرئوي المزمن",
+      "restrict_to_supported_population": true,
+      "require_both_classes_per_dataset": true,
+      "baseline_model": "site_prior",
+      "extra_models": {
+        "site_prior": {
+          "features": "site",
+          "classifier": "logreg"
+        }
+      },
+      "sources": [
+        {
+          "dataset": "icbhi",
+          "label": "diagnosis",
+          "positive": [
+            "COPD"
+          ],
+          "negative": [
+            "Healthy"
+          ]
+        },
+        {
+          "dataset": "kauh",
+          "label": "diagnosis",
+          "positive": [
+            "copd"
+          ],
+          "negative": [
+            "healthy"
+          ]
+        },
+        {
+          "dataset": "respiratorydatabase_tr",
+          "label": "diagnosis",
+          "positive": [
+            "COPD1",
+            "COPD2",
+            "COPD3",
+            "COPD4"
+          ],
+          "negative": [
+            "COPD0"
+          ]
+        },
+        {
+          "dataset": "bracets_thessaloniki",
+          "label": "diagnosis",
+          "positive": [
+            "copd"
+          ],
+          "negative": [
+            "healthy"
+          ]
+        },
+        {
+          "dataset": "bracets_aveiro",
+          "label": "diagnosis",
+          "positive": [
+            "copd"
+          ],
+          "negative": [
+            "healthy"
+          ]
+        }
+      ]
+    },
+    "pneumonia": {
+      "organ": "lung",
+      "title": "Pneumonia",
+      "supported_population": [
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "الالتهاب الرئوي",
+      "restrict_to_supported_population": true,
+      "require_both_classes_per_dataset": true,
+      "baseline_model": "site_prior",
+      "extra_models": {
+        "site_prior": {
+          "features": "site",
+          "classifier": "logreg"
+        }
+      },
+      "sources": [
+        {
+          "dataset": "icbhi",
+          "label": "diagnosis",
+          "positive": [
+            "Pneumonia"
+          ],
+          "negative": [
+            "Healthy"
+          ]
+        },
+        {
+          "dataset": "kauh",
+          "label": "diagnosis",
+          "positive": [
+            "pneumonia"
+          ],
+          "negative": [
+            "healthy"
+          ]
+        }
+      ]
+    },
+    "abnormal_heart": {
+      "organ": "heart",
+      "title": "Abnormal heart (cardiologist screen)",
+      "dataset": "circor",
+      "label": "outcome",
+      "positive": [
+        "Abnormal"
+      ],
+      "negative": [
+        "Normal"
+      ],
+      "external_test_dataset": "physionet2016",
+      "supported_population": [
+        "infant",
+        "child",
+        "adolescent",
+        "adult"
+      ],
+      "title_ar": "قلب غير طبيعي (فحص طبيب القلب)"
+    },
+    "aortic_stenosis": {
+      "organ": "heart",
+      "title": "Aortic stenosis",
+      "dataset": "bmdhs",
+      "label": "AS",
+      "positive": [
+        "1"
+      ],
+      "negative": [
+        "0"
+      ],
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "تضيّق الصمام الأبهري"
+    },
+    "aortic_regurgitation": {
+      "organ": "heart",
+      "title": "Aortic regurgitation",
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "قلس الصمام الأبهري",
+      "restrict_to_supported_population": true,
+      "require_both_classes_per_dataset": true,
+      "baseline_model": "site_prior",
+      "extra_models": {
+        "site_prior": {
+          "features": "site",
+          "classifier": "logreg"
+        }
+      },
+      "sources": [
+        {
+          "dataset": "bmdhs",
+          "label": "AR",
+          "positive": [
+            "1"
+          ],
+          "negative": [
+            "0"
+          ]
+        },
+        {
+          "dataset": "heart_regurgitation",
+          "label": "ar",
+          "positive": [
+            "present"
+          ],
+          "negative": [
+            "absent"
+          ]
+        }
+      ]
+    },
+    "mitral_regurgitation": {
+      "organ": "heart",
+      "title": "Mitral regurgitation",
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "قلس الصمام التاجي",
+      "restrict_to_supported_population": true,
+      "require_both_classes_per_dataset": true,
+      "baseline_model": "site_prior",
+      "extra_models": {
+        "site_prior": {
+          "features": "site",
+          "classifier": "logreg"
+        }
+      },
+      "sources": [
+        {
+          "dataset": "bmdhs",
+          "label": "MR",
+          "positive": [
+            "1"
+          ],
+          "negative": [
+            "0"
+          ]
+        },
+        {
+          "dataset": "heart_regurgitation",
+          "label": "mr",
+          "positive": [
+            "present"
+          ],
+          "negative": [
+            "absent"
+          ]
+        }
+      ]
+    },
+    "mitral_stenosis": {
+      "organ": "heart",
+      "title": "Mitral stenosis",
+      "dataset": "bmdhs",
+      "label": "MS",
+      "positive": [
+        "1"
+      ],
+      "negative": [
+        "0"
+      ],
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "تضيّق الصمام التاجي"
+    },
+    "congenital_heart_disease": {
+      "organ": "heart",
+      "title": "Congenital heart disease (VSD, ASD or PDA)",
+      "title_ar": "أمراض القلب الخلقية (ثقب بين البطينين أو الأذينين أو قناة شريانية مفتوحة)",
+      "dataset": "zchsound",
+      "label": "diagnosis",
+      "positive": [
+        "VSD",
+        "ASD",
+        "PDA"
+      ],
+      "negative": [
+        "NORMAL"
+      ],
+      "supported_population": [
+        "infant",
+        "child",
+        "adolescent"
+      ],
+      "restrict_to_supported_population": true
+    }
+  },
+  "target_pass_bar": {
+    "unit": "subject",
+    "min_test_positive_subjects": 10,
+    "min_test_negative_subjects": 10,
+    "min_auroc_ci_low": 0.7,
+    "must_beat_baseline_auroc_ci_low": 0.0,
+    "threshold_policy": "out-of-fold training sensitivity target",
+    "target_sensitivity": 0.8,
+    "min_test_sensitivity": 0.7,
+    "min_test_specificity": 0.6,
+    "max_expected_calibration_error": 0.15
+  },
+  "age_groups": {
+    "infant": [
+      0,
+      1
+    ],
+    "child": [
+      1,
+      12
+    ],
+    "adolescent": [
+      12,
+      18
+    ],
+    "adult": [
+      18,
+      65
+    ],
+    "older_adult": [
+      65,
+      200
+    ]
+  },
+  "feature_sets": {
+    "handcrafted": {},
+    "panns_cnn14_16k": {
+      "checkpoint": "../../OwnerRelease/clinical-data-20261120/panns/Cnn14_16k_mAP=0.438.pth",
+      "checkpoint_sha256": "e2ee543a27919542c2ea03eabaa70b24dcd4e6c8e05621de6b67a94e4c5058e6",
+      "source": "https://zenodo.org/records/3987831",
+      "licence": "MIT",
+      "sample_rate_hz": 16000,
+      "window_size": 512,
+      "hop_size": 160,
+      "mel_bins": 64,
+      "fmin": 50,
+      "fmax": 8000,
+      "batch_size": 32
+    }
+  },
+  "publish": {
+    "status_file": "app/m1/clinical_targets_status.json",
+    "live": [],
+    "live_note": "Names (\"gate\" or a target key) whose passed model the worker actually runs. A passed model not listed here is published as \"passed\", never \"activated\"."
+  },
+  "dataset_options": {
+    "kauh": {
+      "filter": "E",
+      "note": "Extended-range export (20-1000 Hz); one export per patient."
+    },
+    "respiratorydatabase_tr": {
+      "published_age_years": [
+        38,
+        68
+      ],
+      "note": "Altan et al. 2017, Natural and Engineering Sciences 2(3):59-72: 'patients aged 38 to 68'."
+    },
+    "bracets_thessaloniki": {
+      "export": "EXTD",
+      "note": "Extended-range export, as for KAUH."
+    },
+    "bracets_aveiro": {
+      "export": "EXTD",
+      "note": "Extended-range export, as for KAUH."
+    }
+  },
+  "revisions": [
+    {
+      "change": "Declared protocol v5 before any v5 result."
+    }
+  ]
+}

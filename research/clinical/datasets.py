@@ -179,6 +179,35 @@ def load_heart_regurgitation(root: Path, groups: AgeGroups) -> list[Recording]:
     return rows
 
 
+ZCHSOUND_SUBSETS = {"clean": ("clean Heartsound Data", "Clean Heartsound Data Details.csv"),
+                    "noisy": ("Noise Heartsound Data Details", "Noise Heartsound Data Details.csv")}
+
+
+def load_zchsound(root: Path, groups: AgeGroups, subset: str = "clean") -> list[Recording]:
+    """ZCHSound (Jia et al. 2024): one recording per child, echo-confirmed diagnosis, age in days.
+
+    The authors publish a clean set and a noisy set, each with its own folder and label file
+    (comma- and semicolon-separated respectively).
+    """
+    base = _single_child(root, "zchsound")
+    folder, label_file = ZCHSOUND_SUBSETS[subset]
+    lines = _find_one(base, label_file, "zchsound").read_text(encoding="utf-8-sig").splitlines()
+    delimiter = ";" if lines and lines[0].count(";") > lines[0].count(",") else ","
+    audio = _find_one(base, folder, "zchsound")
+    name = "zchsound" if subset == "clean" else f"zchsound_{subset}"
+    rows = []
+    for meta in csv.DictReader(lines, delimiter=delimiter):
+        wav = audio / meta["fileName"].strip()
+        if not wav.exists():
+            continue
+        days = meta["age(days)"].strip()
+        rows.append(Recording(name, wav.stem, f"zchsound:{wav.stem}", wav, {"diagnosis": meta["diagnosis"].strip().upper()},
+                              age_group_from_years(float(days) / 365.25 if days else None, groups)))
+    if not rows:
+        raise DatasetMissing(f"{name}: no labelled WAV files found")
+    return rows
+
+
 # ----- lung ------------------------------------------------------------------
 
 def load_icbhi(root: Path, groups: AgeGroups) -> list[Recording]:
@@ -330,6 +359,8 @@ LOADERS: dict[str, Callable[[Path, AgeGroups], list[Recording]]] = {
     "bracets_aveiro": partial(load_bracets, place="Aveiro"),
     "bracets_thessaloniki": partial(load_bracets, place="Thessaloniki"),
     "heart_regurgitation": load_heart_regurgitation,
+    "zchsound": partial(load_zchsound, subset="clean"),
+    "zchsound_noisy": partial(load_zchsound, subset="noisy"),
     "respiratorydatabase_tr": load_respiratorydatabase_tr,
     "sprsound": load_sprsound,
     "esc50": load_esc50,

@@ -9,9 +9,10 @@ frontend-design skills. Details and device requirements are in
 
 Built in source: case details (schema v4), the patient board, and the condition
 evaluation. Measured results are in `docs/CLINICAL_EVALUATION.md`, which is
-generated from the evidence (protocol v4). No condition passed its bar: with
-more hospitals added, COPD does not beat a hospital-only baseline and the valve
-models do not transfer to a second device. The chest-sound gate passed on
+generated from the evidence (protocol v5). Congenital heart disease (ZCHSound)
+passed its bar but does not transfer to other data, so nothing is switched on.
+With more hospitals added, COPD does not beat a hospital-only baseline and the
+valve models do not transfer to a second device. The chest-sound gate passed on
 research audio but is not wired into the worker yet. Data stays in
 `OwnerRelease/clinical-data-20261120` (not in Git).
 Not yet committed or deployed.

@@ -65,14 +65,15 @@ be shown until a model is separately evaluated (see the sequence below).
   explain in plain English/Arabic what is still needed. Motion uses `animejs`
   and is skipped under reduced motion.
 - **Condition evaluation** (`research/clinical/`, protocol
-  `research/configs/clinical_targets_v4.json`; v1-v3 kept): pass bars declared before
+  `research/configs/clinical_targets_v5.json`; v1-v4 kept): pass bars declared before
   results; patients split so no patient is in both training and test.
   Results are generated into `docs/CLINICAL_EVALUATION.md` by
   `python -m research.clinical.report` and published to the app as
   `app/m1/clinical_targets_status.json` by `python -m research.clinical.publish`.
 
-Measured outcome (20 November 2026, protocols v2-v4): **no condition passed its
-bar, so no disease prediction is switched on.** The valve diseases (BMD-HS) score
+Measured outcome (20 November 2026, protocols v2-v5): **one condition passed its
+bar (congenital heart disease, v5) but does not hold outside its own dataset, so
+no disease prediction is switched on.** The valve diseases (BMD-HS) score
 high (aortic stenosis AUROC 0.99) but the test set has only 9 patients per disease
 and calibration fails. Abnormal heart (CirCor) reaches AUROC 0.69 with a lower
 bound of 0.62 and fails on the second dataset (PhysioNet 2016, 0.36–0.58).
@@ -91,8 +92,22 @@ to 0.63, and on the new set alone it is below chance (0.33). The BMD-HS models d
 not transfer to another device and hospital. This is the main finding: high
 single-dataset scores are not evidence of a working detector.
 
+v5 adds ZCHSound (941 children, echo-confirmed, one stethoscope model, three
+Chinese children's hospitals). Congenital heart disease (VSD, ASD or PDA versus
+normal; PFO excluded) passes every declared check: AUROC 0.97 (95% CI 0.95-0.99),
+sensitivity 0.81 and specificity 0.97 on 218 held-out children, and it stays at
+0.96-0.97 inside infants and inside children, so age alone does not explain it.
+An exploratory check, run after the result and outside the pass bar
+(`python -m research.clinical.transfer_check congenital_heart_disease`), shows it
+does not transfer: on CirCor children with versus without a murmur it scores
+0.47-0.69, and on ZCHSound's own noisy newborn recordings 0.55-0.57. ZCHSound
+also numbers its normal and CHD files as separate blocks, so a recording-batch
+difference cannot be ruled out. Its status is `passed`, not `activated`.
+
 To unlock any condition: many more patients per condition from several sites,
-recorded with one device, and recordings from the chosen stethoscope.
+recorded with one device, and recordings from the chosen stethoscope. A passed
+condition also needs a declared external check on a second dataset before it is
+added to `publish.live`.
 
 The **automatic chest-sound gate passed** its bar with all seven declared
 datasets present (CirCor, PhysioNet 2016, ICBHI, SPRSound as chest sound;

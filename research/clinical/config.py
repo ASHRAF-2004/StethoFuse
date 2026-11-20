@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_CONFIG = REPO_ROOT / "research" / "configs" / "clinical_targets_v4.json"
+DEFAULT_CONFIG = REPO_ROOT / "research" / "configs" / "clinical_targets_v5.json"
 # v1 listed model names only; they map onto (feature set, classifier) pairs.
 V1_MODELS = {"prior": ("handcrafted", "prior"), "features_logreg": ("handcrafted", "logreg"),
              "features_boosted_trees": ("handcrafted", "boosted_trees")}

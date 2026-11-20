@@ -78,6 +78,23 @@ def pooled_detail(protocol, suffix: str) -> list[str]:
     return out
 
 
+def transfer_detail(protocol, suffix: str) -> list[str]:
+    """Exploratory transfer checks (``research.clinical.transfer_check``) for targets that passed."""
+    out = []
+    for name, target in protocol.raw["targets"].items():
+        evidence = _load(name, f"{suffix}_transfer")
+        if not evidence:
+            continue
+        out += [f"### {target['title']}: does it hold outside its own dataset?", "", f"Exploratory: {evidence['note']}", "",
+                f"Age group alone separates the classes with AUROC {_f(evidence['age_group_only_auroc'])}.", "",
+                "| Model | Check | Patients (with) | AUROC |", "|---|---|---|---|"]
+        for model, checks in evidence["models"].items():
+            for check, m in checks.items():
+                out.append(f"| {model} | {check} | {m['subjects']} ({m['positive_subjects']}) | {_f(m['auroc'])} |")
+        out.append("")
+    return out
+
+
 def gate_table(suffix: str) -> list[str]:
     evidence = _load("gate", suffix)
     if not evidence or evidence.get("status") != "evaluated":
@@ -114,6 +131,7 @@ def build() -> str:
         f"error ≤ {bar['max_expected_calibration_error']}.", "",
         "## Condition results", "", *target_table(protocol, suffix), "",
         *pooled_detail(protocol, suffix),
+        *transfer_detail(protocol, suffix),
         "## Automatic chest-sound gate", "",
         f"Pass bar: chest false rejection ≤ {gate_bar['max_chest_false_rejection']} (upper CI ≤ {gate_bar['max_chest_false_rejection_ci_high']}), "
         f"unrelated false acceptance ≤ {gate_bar['max_unrelated_false_acceptance']} (upper CI ≤ {gate_bar['max_unrelated_false_acceptance_ci_high']}), "
@@ -131,7 +149,9 @@ def build() -> str:
         "and heart sounds inside its normal class.",
         "- BRACETS (Aveiro and Thessaloniki) and the heart-regurgitation set (Littmann 3200, echo-confirmed) are CC BY 4.0. "
         "BRACETS Aveiro has no healthy subjects, so it is dropped for COPD.",
-        "- ZCHSound, HeartWave, Zhou et al. 2024 and the long-term-care pneumonia study were not used: recordings not obtained or "
+        "- ZCHSound (children, three Chinese hospitals, one stethoscope model, echo-confirmed) has one recording per child. "
+        "Its noisy newborn set is used only by the chest-sound gate; patent foramen ovale is in neither class.",
+        "- HeartWave, Zhou et al. 2024 and the long-term-care pneumonia study were not used: recordings not obtained or "
         "available only on request.",
         "- No healthcare professional has reviewed these outputs.",
     ]

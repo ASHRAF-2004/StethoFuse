@@ -127,7 +127,7 @@ function EvidenceTrack({target,say}:{target:ClinicalTarget;say:Say}){
 
 function UnlockDetail({target,say}:{target:ClinicalTarget;say:Say}){
  const t=target.test,b=target.bar;
- if(target.status==='passed')return <p>{say('Passed testing on patients it never trained on. Waiting to be switched on in processing.','اجتاز الاختبار على مرضى لم يُدرَّب عليهم. بانتظار تشغيله في المعالجة.')}</p>;
+ if(target.status==='passed')return <p>{say('Passed testing on new patients from its own research dataset. Not switched on: it has not yet held up on recordings from another hospital or device.','اجتاز الاختبار على مرضى جدد من مجموعة بياناته البحثية. غير مُشغَّل: لم يثبت بعد على تسجيلات من مستشفى أو جهاز آخر.')}</p>;
  if(target.status==='not_run')return <p>{say('This model has not been tested yet','لم يُختبر هذا النموذج بعد')}{target.missing_datasets?.length?say(`: waiting for ${target.missing_datasets.join(', ')} data.`,`: بانتظار بيانات ${target.missing_datasets.join('، ')}.`):'.'}</p>;
  const checks:Record<string,string>={
   enough_test_positive_subjects:say(`Needs more test patients with the condition: ${t?.positive_subjects} of ${b.min_test_positive_subjects}.`,`يحتاج إلى مزيد من مرضى الاختبار المصابين: ${t?.positive_subjects} من ${b.min_test_positive_subjects}.`),

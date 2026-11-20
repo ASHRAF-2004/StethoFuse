@@ -48,8 +48,8 @@ def condition_section(context, locale):
         elif target["status"] == "activated":
             state = "غير مُقيَّم لهذه الفئة العمرية" if ar else "Not assessed for this age group"
         elif target["status"] == "passed":
-            state = ("غير مُقيَّم: اجتاز النموذج الاختبار لكنه غير مُشغَّل في المعالجة بعد" if ar
-                     else "Not assessed: model passed testing but is not switched on in processing yet")
+            state = ("غير مُقيَّم: اجتاز النموذج الاختبار على بياناته البحثية فقط ولم يثبت بعد على تسجيلات أخرى" if ar
+                     else "Not assessed: model passed testing on its own research data only and has not held up on other recordings yet")
         elif target["status"] == "not_activated":
             test = target["test"]
             low = test.get("auroc_ci_low")

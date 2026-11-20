@@ -171,7 +171,7 @@ def test_passing_model_is_activated_only_when_the_worker_runs_it():
 def test_every_evidence_file_ran_under_a_recorded_protocol_revision():
     from research.clinical.config import REPO_ROOT
     import hashlib
-    for version in ("v1", "v2", "v3"):
+    for version in ("v1", "v2", "v3", "v4"):
         path = REPO_ROOT / "research" / "configs" / f"clinical_targets_{version}.json"
         protocol = load_protocol(path)
         # Earlier file states are listed in "revisions"; the current file state is also valid.
@@ -257,3 +257,22 @@ def test_bracets_loader_splits_hospitals(tmp_path):
         soundfile.write(folder / f"{subject}_01_PBL.wav", np.zeros(4000, dtype=np.float32), 4000)
     rows = load_bracets(tmp_path, GROUPS, place="Thessaloniki")
     assert [(r.dataset, r.subject, r.labels["diagnosis"]) for r in rows] == [("bracets_thessaloniki", "bracets:02", "healthy")]
+
+
+def test_zchsound_loader_reads_both_label_formats(tmp_path):
+    from research.clinical.datasets import load_zchsound
+    base = tmp_path / "zchsound"
+    (base / "clean Heartsound Data").mkdir(parents=True)
+    (base / "Noise Heartsound Data Details").mkdir()
+    (base / "Clean Heartsound Data Details.csv").write_text(
+        "fileName,gender,age(days),diagnosis\nZCH0001.wav,M,2310,NORMAL\nZCH0002.wav,F,40,vsd\nZCH0003.wav,F,10,ASD\n", encoding="utf-8")
+    (base / "Noise Heartsound Data Details.csv").write_text(
+        "﻿fileName;gender;age(days);diagnosis\nZCH0942.wav;M;1;PFO\n", encoding="utf-8")
+    for folder, name in (("clean Heartsound Data", "ZCH0001"), ("clean Heartsound Data", "ZCH0002"), ("Noise Heartsound Data Details", "ZCH0942")):
+        soundfile.write(base / folder / f"{name}.wav", np.zeros(4000, dtype=np.float32), 4000)
+    clean = load_zchsound(tmp_path, GROUPS)
+    assert [(r.dataset, r.subject, r.labels["diagnosis"], r.age_group) for r in clean] == [
+        ("zchsound", "zchsound:ZCH0001", "NORMAL", age_group_from_years(2310 / 365.25, GROUPS)),
+        ("zchsound", "zchsound:ZCH0002", "VSD", age_group_from_years(40 / 365.25, GROUPS))]
+    noisy = load_zchsound(tmp_path, GROUPS, subset="noisy")
+    assert [(r.dataset, r.labels["diagnosis"], r.age_group) for r in noisy] == [("zchsound_noisy", "PFO", age_group_from_years(1 / 365.25, GROUPS))]

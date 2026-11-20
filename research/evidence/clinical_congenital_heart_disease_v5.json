@@ -1,0 +1,347 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v5",
+    "protocol_sha256": "161af387d25be8a74e85f2b9bc4e5f6391b5611e1c7553b4f40f3c3e32e9673d",
+    "run_utc": "2026-11-20T12:16:07+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "evaluated",
+  "target": {
+    "organ": "heart",
+    "title": "Congenital heart disease (VSD, ASD or PDA)",
+    "title_ar": "\u0623\u0645\u0631\u0627\u0636 \u0627\u0644\u0642\u0644\u0628 \u0627\u0644\u062e\u0644\u0642\u064a\u0629 (\u062b\u0642\u0628 \u0628\u064a\u0646 \u0627\u0644\u0628\u0637\u064a\u0646\u064a\u0646 \u0623\u0648 \u0627\u0644\u0623\u0630\u064a\u0646\u064a\u0646 \u0623\u0648 \u0642\u0646\u0627\u0629 \u0634\u0631\u064a\u0627\u0646\u064a\u0629 \u0645\u0641\u062a\u0648\u062d\u0629)",
+    "dataset": "zchsound",
+    "label": "diagnosis",
+    "positive": [
+      "VSD",
+      "ASD",
+      "PDA"
+    ],
+    "negative": [
+      "NORMAL"
+    ],
+    "supported_population": [
+      "infant",
+      "child",
+      "adolescent"
+    ],
+    "restrict_to_supported_population": true
+  },
+  "missing_datasets": {},
+  "recordings_excluded_outside_supported_age": 0,
+  "test_unit": "subject",
+  "baseline_model": "prior",
+  "cohort": {
+    "recordings": 871,
+    "subjects": 871,
+    "positive_subjects": 338,
+    "negative_subjects": 533,
+    "by_dataset": {
+      "zchsound": {
+        "recordings": 871,
+        "subjects": 871,
+        "positive_subjects": 338,
+        "negative_subjects": 533
+      }
+    }
+  },
+  "train_subjects": 653,
+  "test_subjects": 218,
+  "results": {
+    "prior": {
+      "test": {
+        "subjects": 218,
+        "positive_subjects": 85,
+        "negative_subjects": 133,
+        "auroc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.5,
+        "expected_calibration_error": 0.11009174311926606,
+        "threshold": 0.5
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5,
+        "auroc_ci_high": 0.5,
+        "delta_vs_baseline_ci_low": 0.0,
+        "delta_vs_baseline_ci_high": 0.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 4,
+          "positive_subjects": 1,
+          "negative_subjects": 3,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.25,
+          "threshold": 0.5
+        },
+        "child": {
+          "subjects": 153,
+          "positive_subjects": 43,
+          "negative_subjects": 110,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.21895424836601307,
+          "threshold": 0.5
+        },
+        "infant": {
+          "subjects": 61,
+          "positive_subjects": 41,
+          "negative_subjects": 20,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.17213114754098358,
+          "threshold": 0.5
+        }
+      },
+      "by_dataset": {
+        "zchsound": {
+          "subjects": 218,
+          "positive_subjects": 85,
+          "negative_subjects": 133,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.11009174311926606,
+          "threshold": 0.5
+        }
+      }
+    },
+    "features_logreg": {
+      "test": {
+        "subjects": 218,
+        "positive_subjects": 85,
+        "negative_subjects": 133,
+        "auroc": 0.9646174259177355,
+        "sensitivity": 0.8352941176470589,
+        "specificity": 0.9699248120300752,
+        "balanced_accuracy": 0.902609464838567,
+        "expected_calibration_error": 0.04444009795548737,
+        "threshold": 0.5252741580323427
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.9393188854489164,
+        "auroc_ci_high": 0.9845223352498894,
+        "delta_vs_baseline_ci_low": 0.4393188854489164,
+        "delta_vs_baseline_ci_high": 0.48452233524988947
+      },
+      "decision": {
+        "passed": true,
+        "failed_checks": []
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 4,
+          "positive_subjects": 1,
+          "negative_subjects": 3,
+          "auroc": 0.33333333333333337,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.22051589822260573,
+          "threshold": 0.5252741580323427
+        },
+        "child": {
+          "subjects": 153,
+          "positive_subjects": 43,
+          "negative_subjects": 110,
+          "auroc": 0.9680761099365751,
+          "sensitivity": 0.8372093023255814,
+          "specificity": 0.9727272727272728,
+          "balanced_accuracy": 0.9049682875264271,
+          "expected_calibration_error": 0.04733609881828856,
+          "threshold": 0.5252741580323427
+        },
+        "infant": {
+          "subjects": 61,
+          "positive_subjects": 41,
+          "negative_subjects": 20,
+          "auroc": 0.9682926829268292,
+          "sensitivity": 0.8536585365853658,
+          "specificity": 0.95,
+          "balanced_accuracy": 0.901829268292683,
+          "expected_calibration_error": 0.12779403728864222,
+          "threshold": 0.5252741580323427
+        }
+      },
+      "by_dataset": {
+        "zchsound": {
+          "subjects": 218,
+          "positive_subjects": 85,
+          "negative_subjects": 133,
+          "auroc": 0.9646174259177355,
+          "sensitivity": 0.8352941176470589,
+          "specificity": 0.9699248120300752,
+          "balanced_accuracy": 0.902609464838567,
+          "expected_calibration_error": 0.04444009795548737,
+          "threshold": 0.5252741580323427
+        }
+      }
+    },
+    "features_boosted_trees": {
+      "test": {
+        "subjects": 218,
+        "positive_subjects": 85,
+        "negative_subjects": 133,
+        "auroc": 0.9710747456877488,
+        "sensitivity": 0.8117647058823529,
+        "specificity": 0.9699248120300752,
+        "balanced_accuracy": 0.8908447589562141,
+        "expected_calibration_error": 0.04950049947249315,
+        "threshold": 0.5626187814486181
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.950108359133127,
+        "auroc_ci_high": 0.9869969040247678,
+        "delta_vs_baseline_ci_low": 0.4501083591331269,
+        "delta_vs_baseline_ci_high": 0.4869969040247678
+      },
+      "decision": {
+        "passed": true,
+        "failed_checks": []
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 4,
+          "positive_subjects": 1,
+          "negative_subjects": 3,
+          "auroc": 1.0,
+          "sensitivity": 1.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 1.0,
+          "expected_calibration_error": 0.074515042790117,
+          "threshold": 0.5626187814486181
+        },
+        "child": {
+          "subjects": 153,
+          "positive_subjects": 43,
+          "negative_subjects": 110,
+          "auroc": 0.9691331923890063,
+          "sensitivity": 0.7906976744186046,
+          "specificity": 0.9727272727272728,
+          "balanced_accuracy": 0.8817124735729387,
+          "expected_calibration_error": 0.051247803166124144,
+          "threshold": 0.5626187814486181
+        },
+        "infant": {
+          "subjects": 61,
+          "positive_subjects": 41,
+          "negative_subjects": 20,
+          "auroc": 0.9621951219512195,
+          "sensitivity": 0.8292682926829268,
+          "specificity": 0.95,
+          "balanced_accuracy": 0.8896341463414634,
+          "expected_calibration_error": 0.13845714885738003,
+          "threshold": 0.5626187814486181
+        }
+      },
+      "by_dataset": {
+        "zchsound": {
+          "subjects": 218,
+          "positive_subjects": 85,
+          "negative_subjects": 133,
+          "auroc": 0.9710747456877488,
+          "sensitivity": 0.8117647058823529,
+          "specificity": 0.9699248120300752,
+          "balanced_accuracy": 0.8908447589562141,
+          "expected_calibration_error": 0.04950049947249315,
+          "threshold": 0.5626187814486181
+        }
+      }
+    },
+    "panns_logreg": {
+      "test": {
+        "subjects": 218,
+        "positive_subjects": 85,
+        "negative_subjects": 133,
+        "auroc": 0.9384343210968599,
+        "sensitivity": 0.7764705882352941,
+        "specificity": 0.9473684210526315,
+        "balanced_accuracy": 0.8619195046439628,
+        "expected_calibration_error": 0.05196930484052506,
+        "threshold": 0.5261055324271281
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.9034918177797435,
+        "auroc_ci_high": 0.968421052631579,
+        "delta_vs_baseline_ci_low": 0.4034918177797436,
+        "delta_vs_baseline_ci_high": 0.46842105263157896
+      },
+      "decision": {
+        "passed": true,
+        "failed_checks": []
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 4,
+          "positive_subjects": 1,
+          "negative_subjects": 3,
+          "auroc": 1.0,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.2080765861940362,
+          "threshold": 0.5261055324271281
+        },
+        "child": {
+          "subjects": 153,
+          "positive_subjects": 43,
+          "negative_subjects": 110,
+          "auroc": 0.9084566596194503,
+          "sensitivity": 0.7441860465116279,
+          "specificity": 0.9636363636363636,
+          "balanced_accuracy": 0.8539112050739958,
+          "expected_calibration_error": 0.07914663733195498,
+          "threshold": 0.5261055324271281
+        },
+        "infant": {
+          "subjects": 61,
+          "positive_subjects": 41,
+          "negative_subjects": 20,
+          "auroc": 0.9585365853658536,
+          "sensitivity": 0.8292682926829268,
+          "specificity": 0.85,
+          "balanced_accuracy": 0.8396341463414634,
+          "expected_calibration_error": 0.13121152002872555,
+          "threshold": 0.5261055324271281
+        }
+      },
+      "by_dataset": {
+        "zchsound": {
+          "subjects": 218,
+          "positive_subjects": 85,
+          "negative_subjects": 133,
+          "auroc": 0.9384343210968599,
+          "sensitivity": 0.7764705882352941,
+          "specificity": 0.9473684210526315,
+          "balanced_accuracy": 0.8619195046439628,
+          "expected_calibration_error": 0.05196930484052506,
+          "threshold": 0.5261055324271281
+        }
+      }
+    }
+  },
+  "selected_model": {
+    "model": "features_boosted_trees",
+    "activated": true
+  }
+}
