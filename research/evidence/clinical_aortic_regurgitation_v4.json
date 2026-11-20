@@ -1,0 +1,514 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v4",
+    "protocol_sha256": "4828ce713470bea5c2ebc67b37e017d966bb3ca62790e2a4c0ead6588ee7ba88",
+    "run_utc": "2026-11-20T10:10:01+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "evaluated",
+  "target": {
+    "organ": "heart",
+    "title": "Aortic regurgitation",
+    "supported_population": [
+      "adolescent",
+      "adult",
+      "older_adult"
+    ],
+    "title_ar": "\u0642\u0644\u0633 \u0627\u0644\u0635\u0645\u0627\u0645 \u0627\u0644\u0623\u0628\u0647\u0631\u064a",
+    "restrict_to_supported_population": true,
+    "require_both_classes_per_dataset": true,
+    "baseline_model": "site_prior",
+    "extra_models": {
+      "site_prior": {
+        "features": "site",
+        "classifier": "logreg"
+      }
+    },
+    "sources": [
+      {
+        "dataset": "bmdhs",
+        "label": "AR",
+        "positive": [
+          "1"
+        ],
+        "negative": [
+          "0"
+        ]
+      },
+      {
+        "dataset": "heart_regurgitation",
+        "label": "ar",
+        "positive": [
+          "present"
+        ],
+        "negative": [
+          "absent"
+        ]
+      }
+    ]
+  },
+  "missing_datasets": {},
+  "recordings_excluded_outside_supported_age": 72,
+  "datasets_dropped_single_class": [],
+  "test_unit": "subject",
+  "baseline_model": "site_prior",
+  "cohort": {
+    "recordings": 1148,
+    "subjects": 188,
+    "positive_subjects": 45,
+    "negative_subjects": 143,
+    "by_dataset": {
+      "bmdhs": {
+        "recordings": 792,
+        "subjects": 99,
+        "positive_subjects": 37,
+        "negative_subjects": 62
+      },
+      "heart_regurgitation": {
+        "recordings": 356,
+        "subjects": 89,
+        "positive_subjects": 8,
+        "negative_subjects": 81
+      }
+    }
+  },
+  "train_subjects": 141,
+  "test_subjects": 47,
+  "results": {
+    "prior": {
+      "test": {
+        "subjects": 47,
+        "positive_subjects": 11,
+        "negative_subjects": 36,
+        "auroc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.5,
+        "expected_calibration_error": 0.007093346488937113,
+        "threshold": 0.24113589968042656
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5,
+        "auroc_ci_high": 0.5,
+        "delta_vs_baseline_ci_low": -0.31565656565656575,
+        "delta_vs_baseline_ci_high": -0.04040404040404033
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 1,
+          "positive_subjects": 0,
+          "negative_subjects": 1,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 0.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.24113589968042656,
+          "threshold": 0.24113589968042656
+        },
+        "adult": {
+          "subjects": 45,
+          "positive_subjects": 10,
+          "negative_subjects": 35,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.018913677458204298,
+          "threshold": 0.24113589968042656
+        },
+        "older_adult": {
+          "subjects": 1,
+          "positive_subjects": 1,
+          "negative_subjects": 0,
+          "auroc": null,
+          "sensitivity": 1.0,
+          "specificity": null,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.7588641003195734,
+          "threshold": 0.24113589968042656
+        }
+      },
+      "by_dataset": {
+        "bmdhs": {
+          "subjects": 25,
+          "positive_subjects": 9,
+          "negative_subjects": 16,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.11886410031957342,
+          "threshold": 0.24113589968042656
+        },
+        "heart_regurgitation": {
+          "subjects": 22,
+          "positive_subjects": 2,
+          "negative_subjects": 20,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.15022680877133573,
+          "threshold": 0.24113589968042656
+        }
+      }
+    },
+    "features_logreg": {
+      "test": {
+        "subjects": 47,
+        "positive_subjects": 11,
+        "negative_subjects": 36,
+        "auroc": 0.7878787878787878,
+        "sensitivity": 0.8181818181818182,
+        "specificity": 0.6666666666666666,
+        "balanced_accuracy": 0.7424242424242424,
+        "expected_calibration_error": 0.09698775156583124,
+        "threshold": 0.2396801515032782
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5908459595959598,
+        "auroc_ci_high": 0.9419191919191919,
+        "delta_vs_baseline_ci_low": -0.012626262626262652,
+        "delta_vs_baseline_ci_high": 0.20959595959595956
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 1,
+          "positive_subjects": 0,
+          "negative_subjects": 1,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.051330370988070695,
+          "threshold": 0.2396801515032782
+        },
+        "adult": {
+          "subjects": 45,
+          "positive_subjects": 10,
+          "negative_subjects": 35,
+          "auroc": 0.8114285714285715,
+          "sensitivity": 0.9,
+          "specificity": 0.6571428571428571,
+          "balanced_accuracy": 0.7785714285714286,
+          "expected_calibration_error": 0.12142695339596224,
+          "threshold": 0.2396801515032782
+        },
+        "older_adult": {
+          "subjects": 1,
+          "positive_subjects": 1,
+          "negative_subjects": 0,
+          "auroc": null,
+          "sensitivity": 0.0,
+          "specificity": null,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.8544582082361628,
+          "threshold": 0.2396801515032782
+        }
+      },
+      "by_dataset": {
+        "bmdhs": {
+          "subjects": 25,
+          "positive_subjects": 9,
+          "negative_subjects": 16,
+          "auroc": 0.7847222222222222,
+          "sensitivity": 1.0,
+          "specificity": 0.3125,
+          "balanced_accuracy": 0.65625,
+          "expected_calibration_error": 0.18015457155703013,
+          "threshold": 0.2396801515032782
+        },
+        "heart_regurgitation": {
+          "subjects": 22,
+          "positive_subjects": 2,
+          "negative_subjects": 20,
+          "auroc": 0.45,
+          "sensitivity": 0.0,
+          "specificity": 0.95,
+          "balanced_accuracy": 0.475,
+          "expected_calibration_error": 0.039479125994229404,
+          "threshold": 0.2396801515032782
+        }
+      }
+    },
+    "features_boosted_trees": {
+      "test": {
+        "subjects": 47,
+        "positive_subjects": 11,
+        "negative_subjects": 36,
+        "auroc": 0.7146464646464646,
+        "sensitivity": 0.8181818181818182,
+        "specificity": 0.5833333333333334,
+        "balanced_accuracy": 0.7007575757575758,
+        "expected_calibration_error": 0.10918151976291189,
+        "threshold": 0.21173015089175926
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5277146464646466,
+        "auroc_ci_high": 0.8813762626262623,
+        "delta_vs_baseline_ci_low": -0.09343434343434354,
+        "delta_vs_baseline_ci_high": 0.14393939393939392
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 1,
+          "positive_subjects": 0,
+          "negative_subjects": 1,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.0781560007128237,
+          "threshold": 0.21173015089175926
+        },
+        "adult": {
+          "subjects": 45,
+          "positive_subjects": 10,
+          "negative_subjects": 35,
+          "auroc": 0.7342857142857144,
+          "sensitivity": 0.9,
+          "specificity": 0.5714285714285714,
+          "balanced_accuracy": 0.7357142857142858,
+          "expected_calibration_error": 0.09534957209290715,
+          "threshold": 0.21173015089175926
+        },
+        "older_adult": {
+          "subjects": 1,
+          "positive_subjects": 1,
+          "negative_subjects": 0,
+          "auroc": null,
+          "sensitivity": 0.0,
+          "specificity": null,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.9189566853888613,
+          "threshold": 0.21173015089175926
+        }
+      },
+      "by_dataset": {
+        "bmdhs": {
+          "subjects": 25,
+          "positive_subjects": 9,
+          "negative_subjects": 16,
+          "auroc": 0.6666666666666666,
+          "sensitivity": 1.0,
+          "specificity": 0.1875,
+          "balanced_accuracy": 0.59375,
+          "expected_calibration_error": 0.13344610338349253,
+          "threshold": 0.21173015089175926
+        },
+        "heart_regurgitation": {
+          "subjects": 22,
+          "positive_subjects": 2,
+          "negative_subjects": 20,
+          "auroc": 0.4,
+          "sensitivity": 0.0,
+          "specificity": 0.9,
+          "balanced_accuracy": 0.45,
+          "expected_calibration_error": 0.10824894690910856,
+          "threshold": 0.21173015089175926
+        }
+      }
+    },
+    "panns_logreg": {
+      "test": {
+        "subjects": 47,
+        "positive_subjects": 11,
+        "negative_subjects": 36,
+        "auroc": 0.7601010101010102,
+        "sensitivity": 0.8181818181818182,
+        "specificity": 0.6666666666666666,
+        "balanced_accuracy": 0.7424242424242424,
+        "expected_calibration_error": 0.07645128749567405,
+        "threshold": 0.2841043685909475
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5984848484848485,
+        "auroc_ci_high": 0.9065656565656566,
+        "delta_vs_baseline_ci_low": -0.03914141414141403,
+        "delta_vs_baseline_ci_high": 0.18942550505050493
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 1,
+          "positive_subjects": 0,
+          "negative_subjects": 1,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.13078234469853434,
+          "threshold": 0.2841043685909475
+        },
+        "adult": {
+          "subjects": 45,
+          "positive_subjects": 10,
+          "negative_subjects": 35,
+          "auroc": 0.7742857142857142,
+          "sensitivity": 0.9,
+          "specificity": 0.6571428571428571,
+          "balanced_accuracy": 0.7785714285714286,
+          "expected_calibration_error": 0.09451899192441034,
+          "threshold": 0.2841043685909475
+        },
+        "older_adult": {
+          "subjects": 1,
+          "positive_subjects": 1,
+          "negative_subjects": 0,
+          "auroc": null,
+          "sensitivity": 0.0,
+          "specificity": null,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.7909264690003194,
+          "threshold": 0.2841043685909475
+        }
+      },
+      "by_dataset": {
+        "bmdhs": {
+          "subjects": 25,
+          "positive_subjects": 9,
+          "negative_subjects": 16,
+          "auroc": 0.7083333333333333,
+          "sensitivity": 1.0,
+          "specificity": 0.375,
+          "balanced_accuracy": 0.6875,
+          "expected_calibration_error": 0.114830479467662,
+          "threshold": 0.2841043685909475
+        },
+        "heart_regurgitation": {
+          "subjects": 22,
+          "positive_subjects": 2,
+          "negative_subjects": 20,
+          "auroc": 0.6,
+          "sensitivity": 0.0,
+          "specificity": 0.9,
+          "balanced_accuracy": 0.45,
+          "expected_calibration_error": 0.08888712220574274,
+          "threshold": 0.2841043685909475
+        }
+      }
+    },
+    "site_prior": {
+      "test": {
+        "subjects": 47,
+        "positive_subjects": 11,
+        "negative_subjects": 36,
+        "auroc": 0.6868686868686869,
+        "sensitivity": 0.8181818181818182,
+        "specificity": 0.5555555555555556,
+        "balanced_accuracy": 0.6868686868686869,
+        "expected_calibration_error": 0.009515272949884154,
+        "threshold": 0.36271633417031296
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5404040404040403,
+        "auroc_ci_high": 0.8156565656565657,
+        "delta_vs_baseline_ci_low": 0.0,
+        "delta_vs_baseline_ci_high": 0.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adolescent": {
+          "subjects": 1,
+          "positive_subjects": 0,
+          "negative_subjects": 1,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 1.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.09620370591817876,
+          "threshold": 0.36271633417031296
+        },
+        "adult": {
+          "subjects": 45,
+          "positive_subjects": 10,
+          "negative_subjects": 35,
+          "auroc": 0.7214285714285715,
+          "sensitivity": 0.9,
+          "specificity": 0.5428571428571428,
+          "balanced_accuracy": 0.7214285714285714,
+          "expected_calibration_error": 0.027884675929071068,
+          "threshold": 0.36271633417031296
+        },
+        "older_adult": {
+          "subjects": 1,
+          "positive_subjects": 1,
+          "negative_subjects": 0,
+          "auroc": null,
+          "sensitivity": 0.0,
+          "specificity": null,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.9037962940818213,
+          "threshold": 0.36271633417031296
+        }
+      },
+      "by_dataset": {
+        "bmdhs": {
+          "subjects": 25,
+          "positive_subjects": 9,
+          "negative_subjects": 16,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.013229451937784908,
+          "threshold": 0.36271633417031296
+        },
+        "heart_regurgitation": {
+          "subjects": 22,
+          "positive_subjects": 2,
+          "negative_subjects": 20,
+          "auroc": 0.5,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.005294615009087844,
+          "threshold": 0.36271633417031296
+        }
+      }
+    }
+  },
+  "selected_model": {
+    "model": "features_logreg",
+    "activated": false
+  }
+}

@@ -21,12 +21,22 @@ from .profile_store import ProfileStore, PRIVATE_PREFERENCES
 from .account_lifecycle import AccountLifecycleStore
 from .notifications import NotificationStore
 from .analysis_store import AnalysisStore
+from .case_context import CaseContextStore
 
 M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
-             "m1_result_files", "m1_reviews", "m1_preferences"}
+             "m1_result_files", "m1_reviews", "m1_preferences", "m1_case_context"}
+# Applied in order from a stored version to the next; the last target is current.
+MIGRATIONS = {1: "002_processing.sql", 2: "003_public_identity.sql", 3: "004_case_context.sql"}
+SCHEMA_VERSION = max(MIGRATIONS) + 1
+TABLES_ADDED_AT = {4: {"m1_case_context"}}
 
 
-class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProfileStore, AccountLifecycleStore, NotificationStore, AnalysisStore, ProcessingStore, DevelopmentAccessStore):
+def expected_tables(version: int) -> set[str]:
+    later = set().union(*(tables for added, tables in TABLES_ADDED_AT.items() if added > version))
+    return (TABLES | M1_TABLES) - later
+
+
+class M1Store(CaseContextStore, PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProfileStore, AccountLifecycleStore, NotificationStore, AnalysisStore, ProcessingStore, DevelopmentAccessStore):
     def _account_change_allowed(self,db,target):
         if self._settings(db,target["id"]).get("account_lifecycle"):
             raise AccessDenied("Deleted accounts cannot be reactivated.")
@@ -34,9 +44,11 @@ class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProfileSt
     @staticmethod
     def _check_schema(db, *, allow_v1=False):
         names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
-        if names != TABLES | M1_TABLES:
+        version = [r[0] for r in db.execute("SELECT version FROM m1_meta")] if "m1_meta" in names else []
+        if not version or names != expected_tables(version[0]):
             raise ValueError("Not an isolated M1 database; legacy data is quarantined.")
-        if [r[0] for r in db.execute("SELECT version FROM af_meta")] != [1] or [r[0] for r in db.execute("SELECT version FROM m1_meta")] not in ([[1], [2], [3]] if allow_v1 else [[3]]):
+        allowed = [[v] for v in range(1, SCHEMA_VERSION + 1)] if allow_v1 else [[SCHEMA_VERSION]]
+        if [r[0] for r in db.execute("SELECT version FROM af_meta")] != [1] or version not in allowed:
             raise ValueError("Unsupported M1 schema.")
 
     def initialize(self):
@@ -54,13 +66,8 @@ class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProfileSt
                     for statement in schema.read_text().split(";"):
                         if statement.strip():
                             db.execute(statement)
-            if db.execute("SELECT version FROM m1_meta").fetchone()[0] == 1:
-                migration = Path(__file__).with_name("migrations") / "002_processing.sql"
-                for statement in migration.read_text().split(";"):
-                    if statement.strip():
-                        db.execute(statement)
-            if db.execute("SELECT version FROM m1_meta").fetchone()[0] == 2:
-                migration = Path(__file__).with_name("migrations") / "003_public_identity.sql"
+            while (version := db.execute("SELECT version FROM m1_meta").fetchone()[0]) < SCHEMA_VERSION:
+                migration = Path(__file__).with_name("migrations") / MIGRATIONS[version]
                 for statement in migration.read_text().split(";"):
                     if statement.strip():
                         db.execute(statement)

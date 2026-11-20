@@ -1,0 +1,98 @@
+{
+  "version": "stethofuse-case-context-v1",
+  "policy": "Optional, pseudonymous case details. No names, identity numbers, contact details or birth dates. Free text is limited to short device and reference codes.",
+  "fields": [
+    {
+      "key": "case_reference",
+      "type": "code",
+      "max_length": 40,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,39}$",
+      "label": {"en": "Case reference code", "ar": "رمز الحالة"},
+      "help": {"en": "Your own pseudonymous code. Do not enter names or ID numbers.", "ar": "رمز مستعار خاص بك. لا تُدخل أسماء أو أرقام هوية."}
+    },
+    {
+      "key": "age_group",
+      "type": "choice",
+      "label": {"en": "Age group", "ar": "الفئة العمرية"},
+      "options": [
+        {"value": "infant", "label": {"en": "Infant (under 1)", "ar": "رضيع (أقل من سنة)"}},
+        {"value": "child", "label": {"en": "Child (1–11)", "ar": "طفل (١–١١)"}},
+        {"value": "adolescent", "label": {"en": "Adolescent (12–17)", "ar": "مراهق (١٢–١٧)"}},
+        {"value": "adult", "label": {"en": "Adult (18–64)", "ar": "بالغ (١٨–٦٤)"}},
+        {"value": "older_adult", "label": {"en": "Older adult (65+)", "ar": "كبير السن (٦٥+)"}}
+      ]
+    },
+    {
+      "key": "sex",
+      "type": "choice",
+      "label": {"en": "Sex", "ar": "الجنس"},
+      "options": [
+        {"value": "female", "label": {"en": "Female", "ar": "أنثى"}},
+        {"value": "male", "label": {"en": "Male", "ar": "ذكر"}},
+        {"value": "not_stated", "label": {"en": "Not stated", "ar": "غير مذكور"}}
+      ]
+    },
+    {
+      "key": "reason",
+      "type": "choice",
+      "label": {"en": "Reason for recording", "ar": "سبب التسجيل"},
+      "options": [
+        {"value": "routine_check", "label": {"en": "Routine check", "ar": "فحص روتيني"}},
+        {"value": "symptoms", "label": {"en": "Current symptoms", "ar": "أعراض حالية"}},
+        {"value": "follow_up", "label": {"en": "Follow-up", "ar": "متابعة"}},
+        {"value": "teaching_research", "label": {"en": "Teaching or research", "ar": "تعليم أو بحث"}},
+        {"value": "other", "label": {"en": "Other", "ar": "أخرى"}}
+      ]
+    },
+    {
+      "key": "symptoms",
+      "type": "multi_choice",
+      "label": {"en": "Symptoms", "ar": "الأعراض"},
+      "options": [
+        {"value": "cough", "label": {"en": "Cough", "ar": "سعال"}},
+        {"value": "shortness_of_breath", "label": {"en": "Shortness of breath", "ar": "ضيق في التنفس"}},
+        {"value": "wheezing", "label": {"en": "Audible wheezing", "ar": "أزيز مسموع"}},
+        {"value": "chest_pain", "label": {"en": "Chest pain", "ar": "ألم في الصدر"}},
+        {"value": "fever", "label": {"en": "Fever", "ar": "حمّى"}},
+        {"value": "palpitations", "label": {"en": "Palpitations", "ar": "خفقان"}},
+        {"value": "fatigue", "label": {"en": "Fatigue", "ar": "إرهاق"}},
+        {"value": "fainting", "label": {"en": "Fainting", "ar": "إغماء"}},
+        {"value": "swelling", "label": {"en": "Leg or ankle swelling", "ar": "تورّم الساقين أو الكاحلين"}},
+        {"value": "none", "label": {"en": "No symptoms reported", "ar": "لا أعراض مُبلّغ عنها"}}
+      ]
+    },
+    {
+      "key": "chest_location",
+      "type": "choice",
+      "label": {"en": "Chest location", "ar": "موضع التسجيل على الصدر"},
+      "options": [
+        {"value": "aortic", "label": {"en": "Aortic area", "ar": "المنطقة الأبهرية"}},
+        {"value": "pulmonic", "label": {"en": "Pulmonic area", "ar": "المنطقة الرئوية للقلب"}},
+        {"value": "tricuspid", "label": {"en": "Tricuspid area", "ar": "منطقة الصمام ثلاثي الشرف"}},
+        {"value": "mitral", "label": {"en": "Mitral area (apex)", "ar": "المنطقة التاجية (القمة)"}},
+        {"value": "anterior_chest", "label": {"en": "Front of chest (lungs)", "ar": "مقدمة الصدر (الرئتان)"}},
+        {"value": "posterior_chest", "label": {"en": "Back (lungs)", "ar": "الظهر (الرئتان)"}},
+        {"value": "lateral_chest", "label": {"en": "Side of chest (lungs)", "ar": "جانب الصدر (الرئتان)"}},
+        {"value": "other", "label": {"en": "Other", "ar": "أخرى"}}
+      ]
+    },
+    {
+      "key": "position",
+      "type": "choice",
+      "label": {"en": "Body position", "ar": "وضعية الجسم"},
+      "options": [
+        {"value": "sitting", "label": {"en": "Sitting", "ar": "جالس"}},
+        {"value": "supine", "label": {"en": "Lying on back", "ar": "مستلقٍ على الظهر"}},
+        {"value": "standing", "label": {"en": "Standing", "ar": "واقف"}}
+      ]
+    },
+    {
+      "key": "device",
+      "type": "code",
+      "max_length": 60,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9 ._()+-]{0,59}$",
+      "label": {"en": "Recording device", "ar": "جهاز التسجيل"},
+      "help": {"en": "Model name, for example a digital stethoscope.", "ar": "اسم الطراز، مثل سمّاعة طبية رقمية."}
+    }
+  ]
+}

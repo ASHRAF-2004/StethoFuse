@@ -1,0 +1,412 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v3",
+    "protocol_sha256": "3e7b311e78fbfb59d97add547ffb611cab19daa950b88b7fe4bbcbee48d3661b",
+    "run_utc": "2026-11-20T09:10:50+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "evaluated",
+  "target": {
+    "organ": "lung",
+    "title": "Pneumonia",
+    "supported_population": [
+      "adult",
+      "older_adult"
+    ],
+    "title_ar": "\u0627\u0644\u0627\u0644\u062a\u0647\u0627\u0628 \u0627\u0644\u0631\u0626\u0648\u064a",
+    "restrict_to_supported_population": true,
+    "require_both_classes_per_dataset": true,
+    "baseline_model": "site_prior",
+    "extra_models": {
+      "site_prior": {
+        "features": "site",
+        "classifier": "logreg"
+      }
+    },
+    "sources": [
+      {
+        "dataset": "icbhi",
+        "label": "diagnosis",
+        "positive": [
+          "Pneumonia"
+        ],
+        "negative": [
+          "Healthy"
+        ]
+      },
+      {
+        "dataset": "kauh",
+        "label": "diagnosis",
+        "positive": [
+          "pneumonia"
+        ],
+        "negative": [
+          "healthy"
+        ]
+      }
+    ]
+  },
+  "missing_datasets": {},
+  "recordings_excluded_outside_supported_age": 38,
+  "datasets_dropped_single_class": [
+    "icbhi"
+  ],
+  "test_unit": "subject",
+  "baseline_model": "site_prior",
+  "cohort": {
+    "recordings": 40,
+    "subjects": 40,
+    "positive_subjects": 5,
+    "negative_subjects": 35,
+    "by_dataset": {
+      "kauh": {
+        "recordings": 40,
+        "subjects": 40,
+        "positive_subjects": 5,
+        "negative_subjects": 35
+      }
+    }
+  },
+  "train_subjects": 30,
+  "test_subjects": 10,
+  "results": {
+    "prior": {
+      "test": {
+        "subjects": 10,
+        "positive_subjects": 1,
+        "negative_subjects": 9,
+        "auroc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.5,
+        "expected_calibration_error": 0.033352337798697756,
+        "threshold": 0.13335233779869773
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5,
+        "auroc_ci_high": 0.5,
+        "delta_vs_baseline_ci_low": 0.0,
+        "delta_vs_baseline_ci_high": 0.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "enough_test_positive_subjects",
+          "enough_test_negative_subjects",
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 7,
+          "positive_subjects": 1,
+          "negative_subjects": 6,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.009504805058445115,
+          "threshold": 0.13335233779869773
+        },
+        "older_adult": {
+          "subjects": 3,
+          "positive_subjects": 0,
+          "negative_subjects": 3,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 0.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.13335233779869773,
+          "threshold": 0.13335233779869773
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 10,
+          "positive_subjects": 1,
+          "negative_subjects": 9,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.033352337798697756,
+          "threshold": 0.13335233779869773
+        }
+      }
+    },
+    "features_logreg": {
+      "test": {
+        "subjects": 10,
+        "positive_subjects": 1,
+        "negative_subjects": 9,
+        "auroc": 1.0,
+        "sensitivity": 1.0,
+        "specificity": 0.4444444444444444,
+        "balanced_accuracy": 0.7222222222222222,
+        "expected_calibration_error": 0.13605667183910564,
+        "threshold": 0.10392522373333343
+      },
+      "bootstrap": {
+        "auroc_ci_low": 1.0,
+        "auroc_ci_high": 1.0,
+        "delta_vs_baseline_ci_low": 0.5,
+        "delta_vs_baseline_ci_high": 0.5
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "enough_test_positive_subjects",
+          "enough_test_negative_subjects",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 7,
+          "positive_subjects": 1,
+          "negative_subjects": 6,
+          "auroc": 1.0,
+          "sensitivity": 1.0,
+          "specificity": 0.3333333333333333,
+          "balanced_accuracy": 0.6666666666666666,
+          "expected_calibration_error": 0.14522001124640677,
+          "threshold": 0.10392522373333343
+        },
+        "older_adult": {
+          "subjects": 3,
+          "positive_subjects": 0,
+          "negative_subjects": 3,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 0.6666666666666666,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.11467554655540287,
+          "threshold": 0.10392522373333343
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 10,
+          "positive_subjects": 1,
+          "negative_subjects": 9,
+          "auroc": 1.0,
+          "sensitivity": 1.0,
+          "specificity": 0.4444444444444444,
+          "balanced_accuracy": 0.7222222222222222,
+          "expected_calibration_error": 0.13605667183910564,
+          "threshold": 0.10392522373333343
+        }
+      }
+    },
+    "features_boosted_trees": {
+      "test": {
+        "subjects": 10,
+        "positive_subjects": 1,
+        "negative_subjects": 9,
+        "auroc": 0.2222222222222222,
+        "sensitivity": 1.0,
+        "specificity": 0.2222222222222222,
+        "balanced_accuracy": 0.6111111111111112,
+        "expected_calibration_error": 0.02945568593381137,
+        "threshold": 0.1138831452858669
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.0,
+        "auroc_ci_high": 0.5555555555555556,
+        "delta_vs_baseline_ci_low": -0.5,
+        "delta_vs_baseline_ci_high": 0.05555555555555558
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "enough_test_positive_subjects",
+          "enough_test_negative_subjects",
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 7,
+          "positive_subjects": 1,
+          "negative_subjects": 6,
+          "auroc": 0.33333333333333337,
+          "sensitivity": 1.0,
+          "specificity": 0.3333333333333333,
+          "balanced_accuracy": 0.6666666666666666,
+          "expected_calibration_error": 0.01541307046705287,
+          "threshold": 0.1138831452858669
+        },
+        "older_adult": {
+          "subjects": 3,
+          "positive_subjects": 0,
+          "negative_subjects": 3,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 0.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.13414945086916133,
+          "threshold": 0.1138831452858669
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 10,
+          "positive_subjects": 1,
+          "negative_subjects": 9,
+          "auroc": 0.2222222222222222,
+          "sensitivity": 1.0,
+          "specificity": 0.2222222222222222,
+          "balanced_accuracy": 0.6111111111111112,
+          "expected_calibration_error": 0.02945568593381137,
+          "threshold": 0.1138831452858669
+        }
+      }
+    },
+    "panns_logreg": {
+      "test": {
+        "subjects": 10,
+        "positive_subjects": 1,
+        "negative_subjects": 9,
+        "auroc": 0.0,
+        "sensitivity": 0.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.0,
+        "expected_calibration_error": 0.15579161562007127,
+        "threshold": 0.08906238061519069
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.0,
+        "auroc_ci_high": 0.0,
+        "delta_vs_baseline_ci_low": -0.5,
+        "delta_vs_baseline_ci_high": -0.5
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "enough_test_positive_subjects",
+          "enough_test_negative_subjects",
+          "auroc_ci_low",
+          "beats_baseline",
+          "sensitivity",
+          "specificity",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 7,
+          "positive_subjects": 1,
+          "negative_subjects": 6,
+          "auroc": 0.0,
+          "sensitivity": 0.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.0,
+          "expected_calibration_error": 0.20394588532839134,
+          "threshold": 0.08906238061519069
+        },
+        "older_adult": {
+          "subjects": 3,
+          "positive_subjects": 0,
+          "negative_subjects": 3,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 0.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.10939683130613256,
+          "threshold": 0.08906238061519069
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 10,
+          "positive_subjects": 1,
+          "negative_subjects": 9,
+          "auroc": 0.0,
+          "sensitivity": 0.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.0,
+          "expected_calibration_error": 0.15579161562007127,
+          "threshold": 0.08906238061519069
+        }
+      }
+    },
+    "site_prior": {
+      "test": {
+        "subjects": 10,
+        "positive_subjects": 1,
+        "negative_subjects": 9,
+        "auroc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "balanced_accuracy": 0.5,
+        "expected_calibration_error": 0.4,
+        "threshold": 0.5
+      },
+      "bootstrap": {
+        "auroc_ci_low": 0.5,
+        "auroc_ci_high": 0.5,
+        "delta_vs_baseline_ci_low": 0.0,
+        "delta_vs_baseline_ci_high": 0.0
+      },
+      "decision": {
+        "passed": false,
+        "failed_checks": [
+          "enough_test_positive_subjects",
+          "enough_test_negative_subjects",
+          "auroc_ci_low",
+          "beats_baseline",
+          "specificity",
+          "calibration"
+        ]
+      },
+      "by_age_group": {
+        "adult": {
+          "subjects": 7,
+          "positive_subjects": 1,
+          "negative_subjects": 6,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.35714285714285715,
+          "threshold": 0.5
+        },
+        "older_adult": {
+          "subjects": 3,
+          "positive_subjects": 0,
+          "negative_subjects": 3,
+          "auroc": null,
+          "sensitivity": null,
+          "specificity": 0.0,
+          "balanced_accuracy": null,
+          "expected_calibration_error": 0.5,
+          "threshold": 0.5
+        }
+      },
+      "by_dataset": {
+        "kauh": {
+          "subjects": 10,
+          "positive_subjects": 1,
+          "negative_subjects": 9,
+          "auroc": 0.5,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "balanced_accuracy": 0.5,
+          "expected_calibration_error": 0.4,
+          "threshold": 0.5
+        }
+      }
+    }
+  },
+  "selected_model": {
+    "model": "features_logreg",
+    "activated": false
+  }
+}

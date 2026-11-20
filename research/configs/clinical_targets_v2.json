@@ -1,0 +1,272 @@
+{
+  "version": "stethofuse-clinical-targets-v2",
+  "declared_utc": "2026-11-20",
+  "declaration": "v2 adds a frozen PANNs CNN14 embedding arm and the rule that the gate cannot activate while any declared dataset is missing. Pass bars, split seed, test fraction and targets are unchanged from v1. Declared before any v2 result was computed. v1 evidence remains as recorded. Added before any COPD or pneumonia result: those cohorts keep only patients in the supported age groups, because ICBHI's healthy group includes children while COPD patients are adults (age would otherwise be a shortcut).",
+  "data_root_env": "STETHOFUSE_CLINICAL_DATA",
+  "default_data_root": "../../OwnerRelease/clinical-data-20261120/extracted",
+  "cache_dir_env": "STETHOFUSE_CLINICAL_CACHE",
+  "default_cache_dir": "../../OwnerRelease/clinical-data-20261120/features",
+  "audio": {
+    "sample_rate_hz": 4000,
+    "window_sec": 5.0,
+    "hop_sec": 2.5,
+    "min_sec": 2.0,
+    "max_windows_per_recording": 24,
+    "n_fft": 512,
+    "hop_samples": 80,
+    "n_mels": 48,
+    "fmin_hz": 20.0,
+    "fmax_hz": 1900.0
+  },
+  "split": {
+    "seed": 20261120,
+    "test_fraction": 0.25,
+    "cv_folds": 5
+  },
+  "bootstrap": {
+    "resamples": 2000,
+    "confidence": 0.95
+  },
+  "models": {
+    "prior": {
+      "features": "handcrafted",
+      "classifier": "prior"
+    },
+    "features_logreg": {
+      "features": "handcrafted",
+      "classifier": "logreg"
+    },
+    "features_boosted_trees": {
+      "features": "handcrafted",
+      "classifier": "boosted_trees"
+    },
+    "panns_logreg": {
+      "features": "panns_cnn14_16k",
+      "classifier": "logreg"
+    }
+  },
+  "baseline_model": "prior",
+  "gate": {
+    "positive_datasets": [
+      "circor",
+      "physionet2016",
+      "icbhi",
+      "sprsound"
+    ],
+    "negative_datasets": [
+      "librispeech",
+      "esc50",
+      "musan"
+    ],
+    "uncertain_band": [
+      0.2,
+      0.8
+    ],
+    "pass_bar": {
+      "max_chest_false_rejection": 0.02,
+      "max_chest_false_rejection_ci_high": 0.05,
+      "max_unrelated_false_acceptance": 0.02,
+      "max_unrelated_false_acceptance_ci_high": 0.05,
+      "max_uncertain_fraction": 0.1
+    },
+    "max_recordings_per_subject": 5
+  },
+  "targets": {
+    "copd": {
+      "organ": "lung",
+      "title": "COPD",
+      "dataset": "icbhi",
+      "label": "diagnosis",
+      "positive": [
+        "COPD"
+      ],
+      "negative": [
+        "Healthy"
+      ],
+      "supported_population": [
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "مرض الانسداد الرئوي المزمن",
+      "restrict_to_supported_population": true
+    },
+    "pneumonia": {
+      "organ": "lung",
+      "title": "Pneumonia",
+      "dataset": "icbhi",
+      "label": "diagnosis",
+      "positive": [
+        "Pneumonia"
+      ],
+      "negative": [
+        "Healthy"
+      ],
+      "supported_population": [
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "الالتهاب الرئوي",
+      "restrict_to_supported_population": true
+    },
+    "abnormal_heart": {
+      "organ": "heart",
+      "title": "Abnormal heart (cardiologist screen)",
+      "dataset": "circor",
+      "label": "outcome",
+      "positive": [
+        "Abnormal"
+      ],
+      "negative": [
+        "Normal"
+      ],
+      "external_test_dataset": "physionet2016",
+      "supported_population": [
+        "infant",
+        "child",
+        "adolescent",
+        "adult"
+      ],
+      "title_ar": "قلب غير طبيعي (فحص طبيب القلب)"
+    },
+    "aortic_stenosis": {
+      "organ": "heart",
+      "title": "Aortic stenosis",
+      "dataset": "bmdhs",
+      "label": "AS",
+      "positive": [
+        "1"
+      ],
+      "negative": [
+        "0"
+      ],
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "تضيّق الصمام الأبهري"
+    },
+    "aortic_regurgitation": {
+      "organ": "heart",
+      "title": "Aortic regurgitation",
+      "dataset": "bmdhs",
+      "label": "AR",
+      "positive": [
+        "1"
+      ],
+      "negative": [
+        "0"
+      ],
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "قلس الصمام الأبهري"
+    },
+    "mitral_regurgitation": {
+      "organ": "heart",
+      "title": "Mitral regurgitation",
+      "dataset": "bmdhs",
+      "label": "MR",
+      "positive": [
+        "1"
+      ],
+      "negative": [
+        "0"
+      ],
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "قلس الصمام التاجي"
+    },
+    "mitral_stenosis": {
+      "organ": "heart",
+      "title": "Mitral stenosis",
+      "dataset": "bmdhs",
+      "label": "MS",
+      "positive": [
+        "1"
+      ],
+      "negative": [
+        "0"
+      ],
+      "supported_population": [
+        "adolescent",
+        "adult",
+        "older_adult"
+      ],
+      "title_ar": "تضيّق الصمام التاجي"
+    }
+  },
+  "target_pass_bar": {
+    "unit": "subject",
+    "min_test_positive_subjects": 10,
+    "min_test_negative_subjects": 10,
+    "min_auroc_ci_low": 0.7,
+    "must_beat_baseline_auroc_ci_low": 0.0,
+    "threshold_policy": "out-of-fold training sensitivity target",
+    "target_sensitivity": 0.8,
+    "min_test_sensitivity": 0.7,
+    "min_test_specificity": 0.6,
+    "max_expected_calibration_error": 0.15
+  },
+  "age_groups": {
+    "infant": [
+      0,
+      1
+    ],
+    "child": [
+      1,
+      12
+    ],
+    "adolescent": [
+      12,
+      18
+    ],
+    "adult": [
+      18,
+      65
+    ],
+    "older_adult": [
+      65,
+      200
+    ]
+  },
+  "feature_sets": {
+    "handcrafted": {},
+    "panns_cnn14_16k": {
+      "checkpoint": "../../OwnerRelease/clinical-data-20261120/panns/Cnn14_16k_mAP=0.438.pth",
+      "checkpoint_sha256": "e2ee543a27919542c2ea03eabaa70b24dcd4e6c8e05621de6b67a94e4c5058e6",
+      "source": "https://zenodo.org/records/3987831",
+      "licence": "MIT",
+      "sample_rate_hz": 16000,
+      "window_size": 512,
+      "hop_size": 160,
+      "mel_bins": 64,
+      "fmin": 50,
+      "fmax": 8000,
+      "batch_size": 32
+    }
+  },
+  "publish": {
+    "status_file": "app/m1/clinical_targets_status.json",
+    "live": [],
+    "live_note": "Names (\"gate\" or a target key) whose passed model the worker actually runs. A passed model not listed here is published as \"passed\", never \"activated\"."
+  },
+  "revisions": [
+    {
+      "sha256": "edb98829d1cf6b36c942ab3c99b3f0f6279da0c3cc561283566f7782286c5324",
+      "change": "Declared protocol v2; the four BMD-HS valve evidence files ran under this file."
+    },
+    {
+      "sha256": "9bd351b43885485d89488ebe733b554de5c9045ece55c136e8c646e628b171f4",
+      "change": "Before any COPD or pneumonia result: age restriction for those two targets and its declaration sentence. Abnormal heart, COPD, pneumonia and gate evidence ran under this file."
+    },
+    {
+      "change": "Local data paths made relative to the repository root; publish.live added; revisions list added. No protocol change."
+    }
+  ]
+}

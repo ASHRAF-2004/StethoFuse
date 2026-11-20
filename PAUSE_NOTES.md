@@ -1,4 +1,70 @@
-# Current homepage correction — 9 November 2026
+# Owner update — 20 November 2026
+
+Live recording is flagged **Soon!** in source (card badge and coming-soon route;
+no microphone opens). Open task: the owner finds and buys a USB / Type-C digital
+stethoscope for heart and lung sounds. Disease prediction and the patient-focused
+report must be visual and game-like, with motion, using the taste and
+frontend-design skills. Details and device requirements are in
+`docs/NEXT_IMPROVEMENT_GAPS.md` under "Owner direction — 20 November 2026".
+
+Built in source: case details (schema v4), the patient board, and the condition
+evaluation. Measured results are in `docs/CLINICAL_EVALUATION.md`, which is
+generated from the evidence (protocol v5). Congenital heart disease (ZCHSound)
+passed its bar but does not transfer to other data, so nothing is switched on.
+With more hospitals added, COPD does not beat a hospital-only baseline and the
+valve models do not transfer to a second device. The chest-sound gate passed on
+research audio but is not wired into the worker yet. Data stays in
+`OwnerRelease/clinical-data-20261120` (not in Git).
+Not yet committed or deployed.
+
+# Current discussion and report preparation — 9 November 2026
+
+The owner now requests a patient-focused report, real adult/child recordings,
+automatic rejection of unrelated audio and the final FYP2 academic report.
+Population confirmed: **adults and children**. The owner currently has **no
+healthcare testers**. Record the missing intended-user evaluation honestly.
+
+Patient-status scope is now confirmed: **both understandable sound assessment
+and prediction of specific diseases**. Do not ask the owner to choose between
+them again. Current sound findings are live; new disease models are planned and
+must be selected/evaluated on suitable clinically labelled adult/child data.
+Keep both outputs in one report and preserve the short user flow. Do not infer
+a disease from a sound-label lookup or imply disease models are deployed.
+
+The owner explicitly asked to record the next-work plan. The agreed sequence is
+real-data/cohort audit and automatic chest-source recognition, patient-focused
+report context/findings, separately evaluated specific disease predictions, then
+whole-pipeline validation, qualified integration/deployment and evidence-based
+FYP2 writing. Keep **Upload → Separate and analyze → Results and report** with no
+extra mandatory user steps. The next concrete deliverable is an offline-tested
+chest-source recognition and analysis prototype. The ordered plan and acceptance
+evidence are saved in `docs/NEXT_IMPROVEMENT_GAPS.md` under "Confirmed next
+implementation sequence". Recording this plan does not claim new implementation,
+clinical validation or deployment.
+
+See the new owner-direction section in `docs/NEXT_IMPROVEMENT_GAPS.md`. In the
+separate documentation repository, `report/FYP2 report.docx` is a byte-identical
+initial copy of the authoritative revised FYP1 (SHA1d9ba76c..., all73OOXMLparts).
+FYP1 remains untouched. The new `fyp2/FINAL_REPORT_PREPARATION_20261109.md` maps the
+handbook's seven application-based chapters and the planned focused updates.
+`fyp2/PATIENT_REPORT_REAL_DATA_AND_INPUT_GATE_20261109.md` records primary sources,
+patient-report context, population limits and automatic input-recognition design.
+Do not rewrite unagreed chapters or silently replace the literature review.
+
+Three SPRSound training WAV/JSON pairs were downloaded from publisher commit
+bca1e51422a42a042441010081519610ef3845d0 and verified against Git blob hashes and
+WAV decoding (infant/child/adolescent; 442,500 audio bytes). Existing9CirCor and
+18ICBHI source examples were reverified. No new inference, training, official test
+audio or T9 use occurred. Task evidence and data are outside Git under
+`OwnerRelease/patient-report-data-20261109/`. No production or model change was
+made for this preparation. Gate/patient-case report are planned, not deployed.
+
+The latest homepage release remains20261109T045852Z-ed7d2ebdfa86, website source
+f5d9c9acb1e975991a9cd23f24ff0c49355c2332. Main at3d14f6e before these uncommitted
+planning notes. Working changes in this discussion are draft notes plus the
+separate FYP2 copy; no new GitHub publication or deployment is claimed.
+
+## Completed homepage correction — 9 November 2026
 
 The homepage now describes the deployed recording → separation and analysis →
 review/report workflow in English and Arabic. Its footer describes the product;

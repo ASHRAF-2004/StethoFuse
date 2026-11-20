@@ -26,3 +26,9 @@ def test_runtime_context_explicitly_includes_all_required_migrations():
         include = "!" + migration.relative_to(root).as_posix()
         assert include in rules, f"Runtime context is missing {migration.name}"
         assert rules.index(include) > rules.index("app/m1/migrations/*")
+
+
+def test_runtime_context_includes_case_context_spec():
+    rules = (Path(__file__).parents[1] / ".dockerignore").read_text().splitlines()
+    assert rules.index("!app/m1/case_context_fields.json") > rules.index("app/m1/*")
+    assert rules.index("!app/m1/clinical_targets_status.json") > rules.index("app/m1/*")

@@ -73,6 +73,11 @@ jobs:
           tests/test_m1_workspace_completion.py tests/test_m1_user_readiness.py
           tests/test_m1_analysis.py
           tests/test_m1_analysis_worker.py
+          tests/test_m1_case_context.py
+      - name: Clinical evaluation protocol, loaders and evidence (no patient data)
+        run: |
+          python -m pip install scikit-learn==1.9.1 soundfile==0.14.0 openpyxl==3.1.5
+          python -m pytest -q tests/test_clinical_research.py
       - name: Documentation links
         run: python tools/check-doc-links.py
 

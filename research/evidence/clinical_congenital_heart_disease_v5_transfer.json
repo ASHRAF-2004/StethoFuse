@@ -1,0 +1,69 @@
+{
+  "status": "exploratory",
+  "note": "Not declared before results and not part of any pass bar. It is recorded so a passed result that holds only inside one dataset is visible next to the pass. The checks are listed in research/clinical/transfer_check.py.",
+  "protocol_version": "stethofuse-clinical-targets-v5",
+  "target": "congenital_heart_disease",
+  "age_group_only_auroc": 0.67,
+  "models": {
+    "features_boosted_trees": {
+      "circor_murmur_all_sites": {
+        "dataset": "circor",
+        "subjects": 874,
+        "positive_subjects": 179,
+        "auroc": 0.693
+      },
+      "circor_murmur_pulmonary_site": {
+        "dataset": "circor",
+        "subjects": 729,
+        "positive_subjects": 143,
+        "auroc": 0.621
+      },
+      "zchsound_noisy_newborns": {
+        "dataset": "zchsound_noisy",
+        "subjects": 283,
+        "positive_subjects": 123,
+        "auroc": 0.563
+      }
+    },
+    "features_logreg": {
+      "circor_murmur_all_sites": {
+        "dataset": "circor",
+        "subjects": 874,
+        "positive_subjects": 179,
+        "auroc": 0.51
+      },
+      "circor_murmur_pulmonary_site": {
+        "dataset": "circor",
+        "subjects": 729,
+        "positive_subjects": 143,
+        "auroc": 0.465
+      },
+      "zchsound_noisy_newborns": {
+        "dataset": "zchsound_noisy",
+        "subjects": 283,
+        "positive_subjects": 123,
+        "auroc": 0.545
+      }
+    },
+    "panns_logreg": {
+      "circor_murmur_all_sites": {
+        "dataset": "circor",
+        "subjects": 874,
+        "positive_subjects": 179,
+        "auroc": 0.517
+      },
+      "circor_murmur_pulmonary_site": {
+        "dataset": "circor",
+        "subjects": 729,
+        "positive_subjects": 143,
+        "auroc": 0.53
+      },
+      "zchsound_noisy_newborns": {
+        "dataset": "zchsound_noisy",
+        "subjects": 283,
+        "positive_subjects": 123,
+        "auroc": 0.574
+      }
+    }
+  }
+}

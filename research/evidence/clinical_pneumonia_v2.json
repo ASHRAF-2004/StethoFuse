@@ -1,0 +1,19 @@
+{
+  "provenance": {
+    "protocol_version": "stethofuse-clinical-targets-v2",
+    "protocol_sha256": "9bd351b43885485d89488ebe733b554de5c9045ece55c136e8c646e628b171f4",
+    "run_utc": "2026-11-20T05:45:48+00:00",
+    "python": "3.12.10",
+    "numpy": "2.5.5",
+    "scikit_learn": "1.9.1",
+    "data_root": "../../OwnerRelease/clinical-data-20261120/extracted"
+  },
+  "status": "not_run",
+  "cohort": {
+    "recordings": 34,
+    "subjects": 5,
+    "positive_subjects": 5,
+    "negative_subjects": 0
+  },
+  "reason": "fewer than 4 subjects in a class; cannot split by subject"
+}

@@ -17,10 +17,13 @@ app/access_foundation/*
 app/m1/*
 !app/m1/*.py
 !app/m1/schema.sql
+!app/m1/case_context_fields.json
+!app/m1/clinical_targets_status.json
 !app/m1/migrations/
 app/m1/migrations/*
 !app/m1/migrations/002_processing.sql
 !app/m1/migrations/003_public_identity.sql
+!app/m1/migrations/004_case_context.sql
 !app/ml/
 app/ml/*
 !app/ml/stethofuse_tcn.py
